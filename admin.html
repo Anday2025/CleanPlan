@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cleaning App - Admin</title>
+
+    <link
+            rel="stylesheet"
+            href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <span class="brand-icon">
+            🧹
+        </span>
+
+        <span>
+            Cleaning App
+        </span>
+
+    </div>
+
+
+    <div class="topbar-right">
+
+        <span id="adminName">
+            Anday
+        </span>
+
+        <button
+                id="logoutButton"
+                class="logout-button"
+        >
+            Logg ut
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="dashboard">
+
+    <section class="welcome-section">
+
+        <p class="eyebrow">
+            ADMINISTRATOR
+        </p>
+
+        <h1 id="welcomeTitle">
+            Velkommen
+        </h1>
+
+        <p class="welcome-text">
+            Administrer boliger, beboere og rengjøringsplaner.
+        </p>
+
+    </section>
+
+
+    <section class="dashboard-grid">
+
+
+        <!-- BOLIGER -->
+
+        <article class="dashboard-card">
+
+            <div class="card-icon">
+                🏠
+            </div>
+
+            <h2>
+                Boliger
+            </h2>
+
+            <p>
+                Opprett og administrer boliger
+                og etasjer.
+            </p>
+
+            <button
+                    class="primary-button"
+                    id="propertiesButton"
+            >
+                Åpne →
+            </button>
+
+        </article>
+
+
+        <!-- BEBOERE -->
+
+        <article class="dashboard-card">
+
+            <div class="card-icon">
+                👥
+            </div>
+
+            <h2>
+                Beboere
+            </h2>
+
+            <p>
+                Administrer beboere og deres
+                tilknytning til boliger.
+            </p>
+
+            <button
+                    class="primary-button"
+                    id="residentsButton"
+            >
+                Åpne →
+            </button>
+
+        </article>
+
+
+        <!-- RENGJØRINGSPLAN -->
+
+        <article class="dashboard-card dashboard-card-wide">
+
+            <div class="card-icon">
+                🧹
+            </div>
+
+            <h2>
+                Rengjøringsplan
+            </h2>
+
+            <p>
+                Opprett oppgaver, velg beboere
+                og administrer den ukentlige
+                rotasjonen.
+            </p>
+
+            <button
+                    class="primary-button"
+                    id="cleaningPlanButton"
+            >
+                Åpne rengjøringsplan →
+            </button>
+
+        </article>
+
+
+        <!-- BRUKERE -->
+        <!-- Kun synlig for superadmin -->
+
+        <article
+                class="dashboard-card"
+                id="usersCard"
+                hidden
+        >
+
+            <div class="card-icon">
+                👤
+            </div>
+
+            <h2>
+                Brukere
+            </h2>
+
+            <p>
+                Opprett og administrer brukere
+                og roller.
+            </p>
+
+            <button
+                    class="primary-button"
+                    id="usersButton"
+            >
+                Åpne →
+            </button>
+
+        </article>
+
+
+    </section>
+
+</main>
+
+
+<script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+<script src="js/config.js"></script>
+
+<script src="js/admin.js"></script>
+
+</body>
+
+</html>
+

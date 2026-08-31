@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Cleaning App - Brukere</title>
+
+  <link
+          rel="stylesheet"
+          href="css/style.css"
+  >
+
+</head>
+
+
+<body>
+
+
+<!-- ============================================================
+     TOPBAR
+     ============================================================ -->
+
+<header class="topbar">
+
+  <div class="brand">
+
+        <span class="brand-icon">
+            🧹
+        </span>
+
+    <span>
+            Cleaning App
+        </span>
+
+  </div>
+
+
+  <div class="topbar-right">
+
+        <span id="adminName">
+            Anday
+        </span>
+
+    <button
+            id="logoutButton"
+            class="logout-button"
+            type="button"
+    >
+      Logg ut
+    </button>
+
+  </div>
+
+</header>
+
+
+
+<!-- ============================================================
+     MAIN
+     ============================================================ -->
+
+<main class="dashboard">
+
+
+  <!-- ========================================================
+       PAGE HEADER
+       ======================================================== -->
+
+  <div class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        ADMINISTRATOR
+      </p>
+
+      <h1>
+        👤 Brukere
+      </h1>
+
+      <p class="welcome-text">
+        Opprett og administrer brukere og roller.
+      </p>
+
+    </div>
+
+
+    <button
+            id="backButton"
+            class="secondary-button"
+            type="button"
+    >
+      ← Dashboard
+    </button>
+
+  </div>
+
+
+
+  <!-- ========================================================
+       CREATE USER
+       ======================================================== -->
+
+  <section class="dashboard-card">
+
+    <h2>
+      Opprett bruker
+    </h2>
+
+    <p>
+      Opprett en ny bruker for Cleaning App.
+      Brukeren mottar en sikker lenke på e-post
+      for å sette sitt eget passord.
+    </p>
+
+
+    <form id="userForm">
+
+
+      <div class="form-grid">
+
+
+        <!-- ==================================================
+             NAME
+             ================================================== -->
+
+        <div class="form-group">
+
+          <label for="fullName">
+            Navn
+          </label>
+
+          <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="For eksempel Ola Nordmann"
+                  autocomplete="name"
+                  required
+          >
+
+        </div>
+
+
+
+        <!-- ==================================================
+             EMAIL
+             ================================================== -->
+
+        <div class="form-group">
+
+          <label for="email">
+            E-post
+          </label>
+
+          <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="fornavn@example.com"
+                  autocomplete="email"
+                  required
+          >
+
+        </div>
+
+
+
+        <!-- ==================================================
+             ROLE
+             ================================================== -->
+
+        <div class="form-group">
+
+          <label for="role">
+            Rolle
+          </label>
+
+          <!--
+              Rollealternativene fylles inn av users.js.
+
+              Superadmin:
+              → Admin
+              → Resident
+
+              Admin:
+              → Resident
+
+              Ingen:
+              → Superadmin
+          -->
+
+          <select
+                  id="role"
+                  name="role"
+                  required
+          >
+
+            <option
+                    value=""
+                    selected
+                    disabled
+            >
+              Velg rolle
+            </option>
+
+          </select>
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- ====================================================
+           CREATE BUTTON
+           ==================================================== -->
+
+      <button
+              type="submit"
+              class="primary-button"
+              id="createUserButton"
+      >
+        Opprett bruker
+      </button>
+
+
+
+      <!-- ====================================================
+           MESSAGE
+           ==================================================== -->
+
+      <p
+              id="userMessage"
+              class="message"
+              role="alert"
+              aria-live="polite"
+      ></p>
+
+
+    </form>
+
+  </section>
+
+
+
+  <!-- ========================================================
+       USER LIST
+       ======================================================== -->
+
+  <section class="dashboard-card">
+
+    <div class="section-header">
+
+      <div>
+
+        <h2>
+          Brukere
+        </h2>
+
+        <p>
+          Registrerte brukerprofiler
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div id="userList">
+
+      <p class="empty-state">
+        Laster brukere...
+      </p>
+
+    </div>
+
+  </section>
+
+
+</main>
+
+
+
+<!-- ============================================================
+     SUPABASE
+     ============================================================ -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+
+<!-- ============================================================
+     SUPABASE CONFIG
+     ============================================================ -->
+
+<script src="js/config.js"></script>
+
+
+
+<!-- ============================================================
+     USER MANAGEMENT
+     ============================================================ -->
+
+<script src="js/users.js"></script>
+
+
+</body>
+
+</html>
+

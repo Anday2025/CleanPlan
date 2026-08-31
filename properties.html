@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Cleaning App - Boliger</title>
+
+  <link
+          rel="stylesheet"
+          href="css/style.css"
+  >
+
+</head>
+
+
+<body>
+
+<header class="topbar">
+
+  <div class="brand">
+
+        <span class="brand-icon">
+            🧹
+        </span>
+
+    <span>
+            Cleaning App
+        </span>
+
+  </div>
+
+
+  <div class="topbar-right">
+
+        <span id="adminName">
+            Anday
+        </span>
+
+    <button
+            id="logoutButton"
+            class="logout-button"
+    >
+      Logg ut
+    </button>
+
+  </div>
+
+</header>
+
+
+<main class="dashboard">
+
+
+  <div class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        ADMINISTRATOR
+      </p>
+
+      <h1>
+        🏠 Boliger
+      </h1>
+
+      <p class="welcome-text">
+        Administrer boliger og etasjer.
+      </p>
+
+    </div>
+
+
+    <button
+            id="backButton"
+            class="secondary-button"
+    >
+      ← Dashboard
+    </button>
+
+  </div>
+
+
+  <!-- ADD PROPERTY -->
+
+  <section class="dashboard-card">
+
+    <h2>
+      Legg til bolig
+    </h2>
+
+    <p>
+      Opprett en ny bolig som skal brukes
+      i Cleaning App.
+    </p>
+
+
+    <form id="propertyForm">
+
+
+      <div class="form-grid">
+
+
+        <div class="form-group">
+
+          <label for="propertyName">
+            Bolignavn
+          </label>
+
+          <input
+                  type="text"
+                  id="propertyName"
+                  placeholder="For eksempel Hovedbolig"
+                  required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="propertyAddress">
+            Adresse
+          </label>
+
+          <input
+                  type="text"
+                  id="propertyAddress"
+                  placeholder="For eksempel Nye Sandviksveien 46"
+                  required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="floorCount">
+            Antall etasjer
+          </label>
+
+          <input
+                  type="number"
+                  id="floorCount"
+                  min="1"
+                  max="100"
+                  value="1"
+                  required
+          >
+
+        </div>
+
+
+      </div>
+
+
+      <button
+              type="submit"
+              class="primary-button"
+              id="savePropertyButton"
+      >
+        Lagre bolig
+      </button>
+
+
+      <p
+              id="propertyMessage"
+              class="message"
+      ></p>
+
+    </form>
+
+  </section>
+
+
+  <!-- PROPERTY LIST -->
+
+  <section class="dashboard-card property-list-card">
+
+    <div class="section-header">
+
+      <div>
+
+        <h2>
+          Boliger
+        </h2>
+
+        <p>
+          Registrerte boliger
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div id="propertyList">
+
+      <p class="empty-state">
+        Laster boliger...
+      </p>
+
+    </div>
+
+  </section>
+
+
+</main>
+
+
+<script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+<script src="js/config.js"></script>
+
+<script src="js/properties.js"></script>
+
+</body>
+
+</html>

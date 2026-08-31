@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cleaning App - Logg inn</title>
+
+    <link
+            rel="stylesheet"
+            href="css/style.css"
+    >
+
+</head>
+
+
+<body class="landing-body">
+
+
+<!-- ============================================================
+     LANDING PAGE
+     ============================================================ -->
+
+<main class="landing-page">
+
+
+    <!-- ========================================================
+         TOP BAR
+         ======================================================== -->
+
+    <header class="landing-header">
+
+        <div class="landing-brand">
+
+            <span class="landing-brand-icon">
+                🧹
+            </span>
+
+            <span>
+                Cleaning App
+            </span>
+
+        </div>
+
+
+        <button
+                type="button"
+                class="language-button"
+                id="languageButton"
+        >
+            🌐 Norsk ▾
+        </button>
+
+    </header>
+
+
+
+    <!-- ========================================================
+         CONTENT
+         ======================================================== -->
+
+    <section class="landing-content">
+
+
+        <!-- ====================================================
+             LEFT SIDE
+             ==================================================== -->
+
+        <div class="landing-info">
+
+
+            <h1>
+                Hold rengjøringen
+                <br>
+                enkel og oversiktlig
+            </h1>
+
+
+            <p class="landing-description">
+                Felles rengjøringsplan for boliger,
+                administratorer og beboere.
+            </p>
+
+
+
+            <!-- =================================================
+                 BENEFITS
+                 ================================================= -->
+
+            <div class="landing-benefits">
+
+
+                <div class="benefit-item">
+
+                    <span class="benefit-check">
+                        ✓
+                    </span>
+
+                    <span>
+                        Se din rengjøringsplan
+                    </span>
+
+                </div>
+
+
+                <div class="benefit-item">
+
+                    <span class="benefit-check">
+                        ✓
+                    </span>
+
+                    <span>
+                        Dokumenter utført rengjøring
+                    </span>
+
+                </div>
+
+
+                <div class="benefit-item">
+
+                    <span class="benefit-check">
+                        ✓
+                    </span>
+
+                    <span>
+                        Samarbeid med andre beboere
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FEATURE CARDS
+                 ================================================= -->
+
+            <div class="landing-features">
+
+
+                <div class="feature-card">
+
+                    <span class="feature-icon">
+                        🏠
+                    </span>
+
+                    <span class="feature-label">
+                        Boliger
+                    </span>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <span class="feature-icon">
+                        🧹
+                    </span>
+
+                    <span class="feature-label">
+                        Rengjøringsplan
+                    </span>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <span class="feature-icon">
+                        📷
+                    </span>
+
+                    <span class="feature-label">
+                        Dokumentasjon
+                    </span>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <span class="feature-icon">
+                        🔄
+                    </span>
+
+                    <span class="feature-label">
+                        Bytte oppgaver
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ====================================================
+             LOGIN CARD
+             ==================================================== -->
+
+        <section class="landing-login-card">
+
+
+            <h2>
+                Logg inn
+            </h2>
+
+
+
+            <form id="loginForm">
+
+
+                <!-- =================================================
+                     EMAIL
+                     ================================================= -->
+
+                <div class="landing-form-group">
+
+                    <label for="email">
+                        E-post
+                    </label>
+
+
+                    <div class="landing-input-wrapper">
+
+                        <span class="landing-input-icon">
+                            ✉
+                        </span>
+
+                        <input
+                                type="email"
+                                id="email"
+                                placeholder="din@epost.no"
+                                autocomplete="email"
+                                required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     PASSWORD
+                     ================================================= -->
+
+                <div class="landing-form-group">
+
+                    <label for="password">
+                        Passord
+                    </label>
+
+
+                    <div class="landing-input-wrapper">
+
+                        <span class="landing-input-icon">
+                            🔒
+                        </span>
+
+                        <input
+                                type="password"
+                                id="password"
+                                placeholder="Ditt passord"
+                                autocomplete="current-password"
+                                required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     LOGIN BUTTON
+                     ================================================= -->
+
+                <button
+                        type="submit"
+                        class="landing-login-button"
+                        id="loginButton"
+                >
+                    LOGG INN
+                </button>
+
+
+            </form>
+
+
+
+            <!-- =================================================
+                 DIVIDER
+                 ================================================= -->
+
+            <div class="login-divider">
+
+                <span></span>
+
+                <span class="login-divider-text">
+                    eller
+                </span>
+
+                <span></span>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FORGOT PASSWORD
+                 ================================================= -->
+
+            <button
+                    type="button"
+                    class="landing-forgot-button"
+                    id="forgotPasswordButton"
+            >
+                Glemt passord?
+            </button>
+
+
+
+            <!-- =================================================
+                 MESSAGE
+                 ================================================= -->
+
+            <p
+                    id="loginMessage"
+                    class="message"
+                    role="alert"
+                    aria-live="polite"
+            ></p>
+
+
+        </section>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- ============================================================
+     SUPABASE
+     ============================================================ -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+<!-- ============================================================
+     SUPABASE CONFIG
+     ============================================================ -->
+
+<script src="js/config.js"></script>
+
+
+<!-- ============================================================
+     AUTH
+     ============================================================ -->
+
+<script src="js/auth.js"></script>
+
+
+</body>
+
+</html>
