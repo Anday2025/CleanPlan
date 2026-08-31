@@ -106,7 +106,7 @@ async function redirectByRole(userId) {
         case "resident":
 
             window.location.href =
-                "residents.html";
+                "resident.html";
 
             break;
 

@@ -238,7 +238,7 @@ if (residentsButton) {
         function () {
 
             window.location.href =
-                "admin-residents.html";
+                "admin-resident.html";
 
         }
     );
