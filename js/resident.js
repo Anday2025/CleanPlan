@@ -70,14 +70,78 @@ const floorName =
 
 
 // ============================================================
+// CLEANING PLAN ELEMENTS
+// ============================================================
+
+const cleaningPlanSubtitle =
+    document.getElementById(
+        "cleaningPlanSubtitle"
+    );
+
+const noCleaningPlanState =
+    document.getElementById(
+        "noCleaningPlanState"
+    );
+
+const cleaningPlanContent =
+    document.getElementById(
+        "cleaningPlanContent"
+    );
+
+const cleaningPropertyName =
+    document.getElementById(
+        "cleaningPropertyName"
+    );
+
+const cleaningFloorName =
+    document.getElementById(
+        "cleaningFloorName"
+    );
+
+const cleaningPlanName =
+    document.getElementById(
+        "cleaningPlanName"
+    );
+
+const noCleaningTasksState =
+    document.getElementById(
+        "noCleaningTasksState"
+    );
+
+const cleaningTasksWrapper =
+    document.getElementById(
+        "cleaningTasksWrapper"
+    );
+
+const cleaningTaskList =
+    document.getElementById(
+        "cleaningTaskList"
+    );
+
+const cleaningTaskCount =
+    document.getElementById(
+        "cleaningTaskCount"
+    );
+
+
+// ============================================================
 // CURRENT USER
 // ============================================================
 
-let currentSession = null;
+let currentSession =
+    null;
 
-let currentProfile = null;
+let currentProfile =
+    null;
 
-let currentResident = null;
+let currentResident =
+    null;
+
+let currentCleaningPlan =
+    null;
+
+let currentCleaningTasks =
+    [];
 
 
 // ============================================================
@@ -206,6 +270,48 @@ function showWaitingState() {
 
 
 // ============================================================
+// DISPLAY FLOOR NAME
+// ============================================================
+
+function getFloorDisplayName(
+    floor
+) {
+
+    if (!floor) {
+
+        return "Ikke registrert";
+
+    }
+
+
+    if (floor.name) {
+
+        return floor.name;
+
+    }
+
+
+    if (
+        floor.floor_number !==
+        null &&
+        floor.floor_number !==
+        undefined
+    ) {
+
+        return (
+            floor.floor_number +
+            ". etasje"
+        );
+
+    }
+
+
+    return "Ikke registrert";
+
+}
+
+
+// ============================================================
 // SHOW RESIDENT DASHBOARD
 // ============================================================
 
@@ -259,30 +365,11 @@ function showResidentDashboard(
 
     if (floorName) {
 
-        let displayFloor =
-            "Ikke registrert";
-
-
-        if (floor) {
-
-            displayFloor =
-                floor.name ||
-                (
-                    floor.floor_number !==
-                    null &&
-                    floor.floor_number !==
-                    undefined
-                        ? floor.floor_number +
-                        ". etasje"
-                        : "Ikke registrert"
-                );
-
-        }
-
-
         floorName.textContent =
             "Etasje: " +
-            displayFloor;
+            getFloorDisplayName(
+                floor
+            );
 
     }
 
@@ -458,13 +545,11 @@ async function checkResidentAccess() {
         "resident"
     ) {
 
-        // ----------------------------------------------------
-        // ADMIN / SUPERADMIN
-        // ----------------------------------------------------
-
         if (
-            profile.role === "admin" ||
-            profile.role === "superadmin"
+            profile.role ===
+            "admin" ||
+            profile.role ===
+            "superadmin"
         ) {
 
             window.location.href =
@@ -474,10 +559,6 @@ async function checkResidentAccess() {
 
         }
 
-
-        // ----------------------------------------------------
-        // UNKNOWN ROLE
-        // ----------------------------------------------------
 
         await supabaseClient.auth.signOut();
 
@@ -589,17 +670,7 @@ async function loadResidentAssociation(
 
 
     // ========================================================
-    // NO ASSOCIATION YET
-    // ========================================================
-    //
-    // IMPORTANT:
-    //
-    // This is NOT an authentication error.
-    //
-    // The Resident account exists and remains logged in.
-    // The administrator simply has not connected the profile
-    // to a property and floor yet.
-    //
+    // NO ASSOCIATION
     // ========================================================
 
     if (!data) {
@@ -641,13 +712,596 @@ async function loadResidentAssociation(
 
 
 // ============================================================
+// RESET CLEANING PLAN
+// ============================================================
+
+function resetCleaningPlanDisplay() {
+
+    currentCleaningPlan =
+        null;
+
+    currentCleaningTasks =
+        [];
+
+
+    if (noCleaningPlanState) {
+
+        noCleaningPlanState.hidden =
+            true;
+
+    }
+
+
+    if (cleaningPlanContent) {
+
+        cleaningPlanContent.hidden =
+            true;
+
+    }
+
+
+    if (noCleaningTasksState) {
+
+        noCleaningTasksState.hidden =
+            true;
+
+    }
+
+
+    if (cleaningTasksWrapper) {
+
+        cleaningTasksWrapper.hidden =
+            true;
+
+    }
+
+
+    if (cleaningTaskCount) {
+
+        cleaningTaskCount.hidden =
+            true;
+
+    }
+
+
+    if (cleaningTaskList) {
+
+        cleaningTaskList.innerHTML =
+            "";
+
+    }
+
+}
+
+
+// ============================================================
+// LOAD CLEANING PLAN
+// ============================================================
+
+async function loadCleaningPlan() {
+
+    resetCleaningPlanDisplay();
+
+
+    if (!currentResident) {
+
+        return;
+
+    }
+
+
+    if (
+        !currentResident.property_id ||
+        !currentResident.floor_id
+    ) {
+
+        if (noCleaningPlanState) {
+
+            noCleaningPlanState.hidden =
+                false;
+
+        }
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // LOAD PLAN FOR EXACT PROPERTY + FLOOR
+    // ========================================================
+
+    const {
+        data: plan,
+        error
+    } =
+        await supabaseClient
+            .from("cleaning_plans")
+            .select(
+                `
+                id,
+                property_id,
+                floor_id,
+                name,
+                start_date,
+                is_active
+                `
+            )
+            .eq(
+                "property_id",
+                currentResident.property_id
+            )
+            .eq(
+                "floor_id",
+                currentResident.floor_id
+            )
+            .eq(
+                "is_active",
+                true
+            )
+            .maybeSingle();
+
+
+    if (error) {
+
+        console.error(
+            "LOAD CLEANING PLAN ERROR:",
+            error
+        );
+
+
+        showPageError(
+            "Kunne ikke hente rengjøringsplanen."
+        );
+
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // NO CLEANING PLAN
+    // ========================================================
+
+    if (!plan) {
+
+        if (noCleaningPlanState) {
+
+            noCleaningPlanState.hidden =
+                false;
+
+        }
+
+
+        if (cleaningPlanSubtitle) {
+
+            cleaningPlanSubtitle.textContent =
+                "Ingen aktiv rengjøringsplan er opprettet ennå.";
+
+        }
+
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // PLAN FOUND
+    // ========================================================
+
+    currentCleaningPlan =
+        plan;
+
+
+    if (noCleaningPlanState) {
+
+        noCleaningPlanState.hidden =
+            true;
+
+    }
+
+
+    if (cleaningPlanContent) {
+
+        cleaningPlanContent.hidden =
+            false;
+
+    }
+
+
+    renderCleaningPlanInformation();
+
+
+    await loadCleaningTasks();
+
+}
+
+
+// ============================================================
+// RENDER CLEANING PLAN INFORMATION
+// ============================================================
+
+function renderCleaningPlanInformation() {
+
+    if (!currentCleaningPlan) {
+
+        return;
+
+    }
+
+
+    const property =
+        currentResident?.properties;
+
+    const floor =
+        currentResident?.floors;
+
+
+    if (cleaningPropertyName) {
+
+        cleaningPropertyName.textContent =
+            property?.name ||
+            "-";
+
+    }
+
+
+    if (cleaningFloorName) {
+
+        cleaningFloorName.textContent =
+            getFloorDisplayName(
+                floor
+            );
+
+    }
+
+
+    if (cleaningPlanName) {
+
+        cleaningPlanName.textContent =
+            currentCleaningPlan.name ||
+            "Rengjøringsplan";
+
+    }
+
+
+    if (cleaningPlanSubtitle) {
+
+        cleaningPlanSubtitle.textContent =
+            "Oppgavene for " +
+            (
+                property?.name ||
+                "boligen"
+            ) +
+            " • " +
+            getFloorDisplayName(
+                floor
+            );
+
+    }
+
+}
+
+
+// ============================================================
+// LOAD CLEANING TASKS
+// ============================================================
+
+async function loadCleaningTasks() {
+
+    if (!currentCleaningPlan) {
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from(
+                "cleaning_plan_items"
+            )
+            .select(`
+                id,
+                plan_id,
+                task_id,
+                sort_order,
+
+                cleaning_tasks (
+                    id,
+                    property_id,
+                    floor_id,
+                    name,
+                    description,
+                    sort_order,
+                    is_active
+                )
+            `)
+            .eq(
+                "plan_id",
+                currentCleaningPlan.id
+            )
+            .order(
+                "sort_order",
+                {
+                    ascending: true
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            "LOAD CLEANING TASKS ERROR:",
+            error
+        );
+
+
+        showPageError(
+            "Kunne ikke hente rengjøringsoppgavene."
+        );
+
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // ONLY ACTIVE TASKS
+    // ========================================================
+
+    currentCleaningTasks =
+        (data || [])
+            .filter(
+                function (item) {
+
+                    return (
+                        item.cleaning_tasks &&
+                        item.cleaning_tasks.is_active
+                    );
+
+                }
+            );
+
+
+    renderCleaningTasks();
+
+}
+
+
+// ============================================================
+// RENDER CLEANING TASKS
+// ============================================================
+
+function renderCleaningTasks() {
+
+    if (cleaningTaskList) {
+
+        cleaningTaskList.innerHTML =
+            "";
+
+    }
+
+
+    // ========================================================
+    // NO TASKS
+    // ========================================================
+
+    if (
+        currentCleaningTasks.length ===
+        0
+    ) {
+
+        if (noCleaningTasksState) {
+
+            noCleaningTasksState.hidden =
+                false;
+
+        }
+
+
+        if (cleaningTasksWrapper) {
+
+            cleaningTasksWrapper.hidden =
+                true;
+
+        }
+
+
+        if (cleaningTaskCount) {
+
+            cleaningTaskCount.hidden =
+                true;
+
+        }
+
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // TASKS FOUND
+    // ========================================================
+
+    if (noCleaningTasksState) {
+
+        noCleaningTasksState.hidden =
+            true;
+
+    }
+
+
+    if (cleaningTasksWrapper) {
+
+        cleaningTasksWrapper.hidden =
+            false;
+
+    }
+
+
+    currentCleaningTasks.forEach(
+        function (
+            item,
+            index
+        ) {
+
+            const task =
+                item.cleaning_tasks;
+
+
+            const taskRow =
+                document.createElement(
+                    "div"
+                );
+
+
+            taskRow.className =
+                "resident-cleaning-task-row";
+
+
+            // =================================================
+            // CHECKBOX
+            // =================================================
+            //
+            // Disabled for now.
+            //
+            // In the next step this becomes interactive only
+            // for the resident responsible for the selected week.
+            //
+            // =================================================
+
+            const checkbox =
+                document.createElement(
+                    "input"
+                );
+
+
+            checkbox.type =
+                "checkbox";
+
+
+            checkbox.disabled =
+                true;
+
+
+            checkbox.className =
+                "resident-cleaning-checkbox";
+
+
+            // =================================================
+            // CONTENT
+            // =================================================
+
+            const content =
+                document.createElement(
+                    "div"
+                );
+
+
+            content.className =
+                "resident-cleaning-task-content";
+
+
+            const title =
+                document.createElement(
+                    "div"
+                );
+
+
+            title.className =
+                "resident-cleaning-task-title";
+
+
+            title.textContent =
+                task.name;
+
+
+            content.appendChild(
+                title
+            );
+
+
+            if (task.description) {
+
+                const description =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                description.className =
+                    "resident-cleaning-task-description";
+
+
+                description.textContent =
+                    task.description;
+
+
+                content.appendChild(
+                    description
+                );
+
+            }
+
+
+            taskRow.appendChild(
+                checkbox
+            );
+
+
+            taskRow.appendChild(
+                content
+            );
+
+
+            cleaningTaskList.appendChild(
+                taskRow
+            );
+
+        }
+    );
+
+
+    // ========================================================
+    // COUNT
+    // ========================================================
+
+    if (cleaningTaskCount) {
+
+        cleaningTaskCount.textContent =
+            currentCleaningTasks.length +
+            (
+                currentCleaningTasks.length ===
+                1
+                    ? " oppgave"
+                    : " oppgaver"
+            );
+
+
+        cleaningTaskCount.hidden =
+            false;
+
+    }
+
+}
+
+
+// ============================================================
 // INITIALIZE RESIDENT PAGE
 // ============================================================
 
 async function initResidentPage() {
 
     // ========================================================
-    // START WITH LOADING STATE
+    // LOADING
     // ========================================================
 
     hideContentSections();
@@ -680,9 +1334,40 @@ async function initResidentPage() {
     // RESIDENT ASSOCIATION
     // ========================================================
 
-    await loadResidentAssociation(
-        result.profile.id
-    );
+    const associationResult =
+        await loadResidentAssociation(
+            result.profile.id
+        );
+
+
+    if (
+        !associationResult ||
+        !associationResult.success
+    ) {
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // NO PROPERTY / FLOOR YET
+    // ========================================================
+
+    if (
+        !associationResult.resident
+    ) {
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // CLEANING PLAN
+    // ========================================================
+
+    await loadCleaningPlan();
 
 }
 

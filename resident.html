@@ -31,22 +31,22 @@
 
   <div class="brand">
 
-        <span class="brand-icon">
-            🧹
-        </span>
+    <span class="brand-icon">
+      🧹
+    </span>
 
     <span>
-            Cleaning App
-        </span>
+      Cleaning App
+    </span>
 
   </div>
 
 
   <div class="topbar-right">
 
-        <span id="residentName">
-            Beboer
-        </span>
+    <span id="residentName">
+      Beboer
+    </span>
 
     <button
             id="logoutButton"
@@ -205,13 +205,13 @@
 
         <div class="property-meta">
 
-                    <span id="floorName">
-                        Etasje: -
-                    </span>
+          <span id="floorName">
+            Etasje: -
+          </span>
 
           <span class="status-active">
-                        Aktiv
-                    </span>
+            Aktiv
+          </span>
 
         </div>
 
@@ -240,8 +240,8 @@
           🧹 Rengjøringsplan
         </h2>
 
-        <p>
-          Din rengjøringsplan kommer her.
+        <p id="cleaningPlanSubtitle">
+          Oppgavene for din bolig og etasje.
         </p>
 
       </div>
@@ -249,12 +249,154 @@
     </div>
 
 
-    <div class="empty-state">
+    <!-- ===================================================
+         NO PLAN
+         =================================================== -->
+
+    <div
+            id="noCleaningPlanState"
+            class="empty-state"
+            hidden
+    >
+
+      <h3>
+        Ingen rengjøringsplan ennå
+      </h3>
 
       <p>
-        Rengjøringsplanen blir koblet til boligen
-        og etasjen din i neste steg.
+        Administrator har ikke opprettet en
+        rengjøringsplan for etasjen din ennå.
       </p>
+
+    </div>
+
+
+    <!-- ===================================================
+         CLEANING PLAN CONTENT
+         =================================================== -->
+
+    <div
+            id="cleaningPlanContent"
+            hidden
+    >
+
+
+      <!-- ===============================================
+           PLAN INFORMATION
+           =============================================== -->
+
+      <div class="resident-cleaning-current-week">
+
+        <h3>
+          Denne rengjøringsplanen
+        </h3>
+
+
+        <div class="resident-cleaning-info-grid">
+
+          <div>
+
+            <span class="resident-cleaning-label">
+              Bolig
+            </span>
+
+            <strong id="cleaningPropertyName">
+              -
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span class="resident-cleaning-label">
+              Etasje
+            </span>
+
+            <strong id="cleaningFloorName">
+              -
+            </strong>
+
+          </div>
+
+
+          <div>
+
+            <span class="resident-cleaning-label">
+              Plan
+            </span>
+
+            <strong id="cleaningPlanName">
+              -
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===============================================
+           TASKS
+           =============================================== -->
+
+      <div class="resident-cleaning-task-card">
+
+        <div class="section-header">
+
+          <div>
+
+            <h3>
+              Rengjøringsoppgaver
+            </h3>
+
+            <p>
+              Oppgavene er opprettet av administrator.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div
+                id="noCleaningTasksState"
+                class="empty-state"
+                hidden
+        >
+
+          <p>
+            Det er ingen rengjøringsoppgaver
+            registrert ennå.
+          </p>
+
+        </div>
+
+
+        <div
+                id="cleaningTasksWrapper"
+                class="resident-cleaning-task-list"
+                hidden
+        >
+
+          <div id="cleaningTaskList">
+
+          </div>
+
+        </div>
+
+
+        <div
+                id="cleaningTaskCount"
+                class="resident-cleaning-progress"
+                hidden
+        >
+          0 oppgaver
+        </div>
+
+      </div>
+
 
     </div>
 
@@ -298,7 +440,7 @@
 
 <script src="js/config.js"></script>
 
-<script src="js/resident.js"></script>
+<script src="js/resident.js?v=2"></script>
 
 
 </body>
