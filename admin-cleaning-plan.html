@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Cleaning App - Rengjøringsplan</title>
+
+  <link
+          rel="stylesheet"
+          href="css/style.css"
+  >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     TOPBAR
+     ========================================================= -->
+
+<header class="topbar">
+
+  <div class="brand">
+
+        <span class="brand-icon">
+            🧹
+        </span>
+
+    <span>
+            Cleaning App
+        </span>
+
+  </div>
+
+
+  <div class="topbar-right">
+
+        <span id="adminName">
+            Administrator
+        </span>
+
+    <button
+            id="backButton"
+            class="secondary-button"
+            type="button"
+    >
+      ← Dashboard
+    </button>
+
+    <button
+            id="logoutButton"
+            class="logout-button"
+            type="button"
+    >
+      Logg ut
+    </button>
+
+  </div>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
+
+<main class="dashboard">
+
+
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
+
+  <section class="welcome-section">
+
+    <p class="eyebrow">
+      ADMINISTRATOR
+    </p>
+
+    <h1>
+      🧹 Rengjøringsplan
+    </h1>
+
+    <p class="welcome-text">
+      Lag og administrer rengjøringsoppgaver
+      for hver bolig og etasje.
+    </p>
+
+  </section>
+
+
+  <!-- =====================================================
+       PROPERTY / FLOOR
+       ===================================================== -->
+
+  <section class="dashboard-card">
+
+    <div class="section-header">
+
+      <div>
+
+        <h2>
+          Velg bolig og etasje
+        </h2>
+
+        <p>
+          Oppgavene du lager vises for alle aktive
+          beboere på den valgte etasjen.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="cleaning-admin-selection">
+
+
+      <div class="form-group">
+
+        <label for="propertySelect">
+          Bolig
+        </label>
+
+        <select id="propertySelect">
+
+          <option value="">
+            Velg bolig
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="floorSelect">
+          Etasje
+        </label>
+
+        <select
+                id="floorSelect"
+                disabled
+        >
+
+          <option value="">
+            Velg etasje
+          </option>
+
+        </select>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       TASK MANAGEMENT
+       ===================================================== -->
+
+  <section
+          id="taskManagementSection"
+          class="dashboard-card"
+          hidden
+  >
+
+
+    <div class="cleaning-admin-layout">
+
+
+      <!-- =================================================
+           ADD / EDIT TASK
+           ================================================= -->
+
+      <div class="cleaning-task-form-panel">
+
+        <h2 id="taskFormTitle">
+          Legg til ny oppgave
+        </h2>
+
+
+        <form id="taskForm">
+
+
+          <div class="form-group">
+
+            <label for="taskName">
+              Oppgave
+            </label>
+
+            <input
+                    id="taskName"
+                    type="text"
+                    maxlength="200"
+                    placeholder="Skriv inn oppgaven her..."
+                    required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="taskDescription">
+              Beskrivelse
+              <span class="optional-label">
+                                (valgfritt)
+                            </span>
+            </label>
+
+            <textarea
+                    id="taskDescription"
+                    rows="4"
+                    maxlength="1000"
+                    placeholder="Eventuell ekstra informasjon..."
+            ></textarea>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="taskOrder">
+              Rekkefølge
+            </label>
+
+            <input
+                    id="taskOrder"
+                    type="number"
+                    min="1"
+                    value="1"
+                    required
+            >
+
+            <small>
+              Lavere tall vises først.
+            </small>
+
+          </div>
+
+
+          <button
+                  id="saveTaskButton"
+                  class="primary-button"
+                  type="submit"
+          >
+            + Legg til oppgave
+          </button>
+
+
+          <button
+                  id="cancelEditButton"
+                  class="secondary-button"
+                  type="button"
+                  hidden
+          >
+            Avbryt redigering
+          </button>
+
+
+        </form>
+
+
+        <p
+                id="taskMessage"
+                class="message"
+        ></p>
+
+      </div>
+
+
+      <!-- =================================================
+           TASK LIST
+           ================================================= -->
+
+      <div class="cleaning-task-list-panel">
+
+
+        <div class="section-header">
+
+          <div>
+
+            <h2>
+              Rengjøringsoppgaver
+              (<span id="taskCount">0</span>)
+            </h2>
+
+            <p id="selectedLocationText">
+              -
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div
+                id="taskEmptyState"
+                class="empty-state"
+        >
+
+          <p>
+            Ingen oppgaver er opprettet for
+            denne etasjen ennå.
+          </p>
+
+        </div>
+
+
+        <div
+                id="taskTableWrapper"
+                class="table-wrapper"
+                hidden
+        >
+
+          <table class="cleaning-task-table">
+
+            <thead>
+
+            <tr>
+
+              <th>
+                #
+              </th>
+
+              <th>
+                Oppgave
+              </th>
+
+              <th>
+                Handlinger
+              </th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody id="taskList">
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+</main>
+
+
+<!-- =========================================================
+     SUPABASE
+     ========================================================= -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+<script src="js/config.js"></script>
+
+<script src="js/admin-cleaning-plan.js"></script>
+
+
+</body>
+
+</html>

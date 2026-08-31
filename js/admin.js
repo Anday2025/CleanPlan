@@ -256,15 +256,13 @@ if (cleaningPlanButton) {
         "click",
         function () {
 
-            alert(
-                "Rengjøringsplan kommer i neste steg."
-            );
+            window.location.href =
+                "admin-cleaning-plan.html";
 
         }
     );
 
 }
-
 
 // ============================================================
 // USERS NAVIGATION
