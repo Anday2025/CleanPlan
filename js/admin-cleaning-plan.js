@@ -433,7 +433,6 @@ async function loadFloors(
 
     }
 
-
     const {
         data,
         error
@@ -441,15 +440,11 @@ async function loadFloors(
         await supabaseClient
             .from("floors")
             .select(
-                "id, property_id, floor_number, name, is_active"
+                "id, property_id, floor_number, name"
             )
             .eq(
                 "property_id",
                 propertyId
-            )
-            .eq(
-                "is_active",
-                true
             )
             .order(
                 "floor_number",
@@ -457,7 +452,6 @@ async function loadFloors(
                     ascending: true
                 }
             );
-
 
     if (error) {
 
