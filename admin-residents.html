@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cleaning App - Beboere</title>
+
+    <link
+            rel="stylesheet"
+            href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <span class="brand-icon">
+            🧹
+        </span>
+
+        <span>
+            Cleaning App
+        </span>
+
+    </div>
+
+
+    <div class="topbar-right">
+
+        <span id="adminName">
+            Anday
+        </span>
+
+        <button
+                id="logoutButton"
+                class="logout-button"
+        >
+            Logg ut
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="dashboard">
+
+
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
+
+    <div class="page-header">
+
+        <div>
+
+            <p class="eyebrow">
+                ADMINISTRATOR
+            </p>
+
+            <h1>
+                👥 Beboere
+            </h1>
+
+            <p class="welcome-text">
+                Administrer beboere og deres tilknytning
+                til boliger og etasjer.
+            </p>
+
+        </div>
+
+
+        <button
+                id="backButton"
+                class="secondary-button"
+        >
+            ← Dashboard
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         ADD RESIDENT
+         ===================================================== -->
+
+    <section class="dashboard-card">
+
+        <h2>
+            Legg til beboer
+        </h2>
+
+        <p>
+            Koble en brukerprofil til en bolig og etasje.
+        </p>
+
+
+        <form id="residentForm">
+
+
+            <div class="form-grid">
+
+
+                <!-- USER PROFILE -->
+
+                <div class="form-group">
+
+                    <label for="residentProfile">
+
+                        Brukerprofil
+
+                    </label>
+
+
+                    <select
+                            id="residentProfile"
+                            required
+                    >
+
+                        <option value="">
+                            Velg brukerprofil
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PROPERTY -->
+
+                <div class="form-group">
+
+                    <label for="residentProperty">
+
+                        Bolig
+
+                    </label>
+
+
+                    <select
+                            id="residentProperty"
+                            required
+                    >
+
+                        <option value="">
+                            Velg bolig
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- FLOOR -->
+
+                <div class="form-group">
+
+                    <label for="residentFloor">
+
+                        Etasje
+
+                    </label>
+
+
+                    <select
+                            id="residentFloor"
+                            required
+                            disabled
+                    >
+
+                        <option value="">
+                            Velg bolig først
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                    type="submit"
+                    class="primary-button"
+                    id="saveResidentButton"
+            >
+
+                Opprett beboer
+
+            </button>
+
+
+            <p
+                    id="residentMessage"
+                    class="message"
+            ></p>
+
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         RESIDENT LIST
+         ===================================================== -->
+
+    <section class="dashboard-card property-list-card">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    Beboere
+                </h2>
+
+                <p>
+                    Registrerte beboere
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="residentList">
+
+            <p class="empty-state">
+                Laster beboere...
+            </p>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =========================================================
+     SUPABASE
+     ========================================================= -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+<script src="js/config.js"></script>
+
+<script src="js/admin-residents.js"></script>
+
+</body>
+
+</html>

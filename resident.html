@@ -3,249 +3,286 @@
 
 <head>
 
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-    <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0"
-    >
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+  >
 
-    <title>Cleaning App - Beboere</title>
+  <title>Cleaning App - Min side</title>
 
-    <link
-            rel="stylesheet"
-            href="css/style.css"
-    >
+  <link
+          rel="stylesheet"
+          href="css/style.css"
+  >
 
 </head>
 
 
 <body>
 
+
+<!-- =========================================================
+     TOPBAR
+     ========================================================= -->
+
 <header class="topbar">
 
-    <div class="brand">
+  <div class="brand">
 
         <span class="brand-icon">
             🧹
         </span>
 
-        <span>
+    <span>
             Cleaning App
         </span>
 
-    </div>
+  </div>
 
 
-    <div class="topbar-right">
+  <div class="topbar-right">
 
-        <span id="adminName">
-            Anday
+        <span id="residentName">
+            Beboer
         </span>
 
-        <button
-                id="logoutButton"
-                class="logout-button"
-        >
-            Logg ut
-        </button>
+    <button
+            id="logoutButton"
+            class="logout-button"
+            type="button"
+    >
+      Logg ut
+    </button>
 
-    </div>
+  </div>
 
 </header>
 
 
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
+
 <main class="dashboard">
 
 
-    <!-- =====================================================
-         PAGE HEADER
-         ===================================================== -->
+  <!-- =====================================================
+       PAGE HEADER
+       ===================================================== -->
 
-    <div class="page-header">
+  <div class="page-header">
 
-        <div>
+    <div>
 
-            <p class="eyebrow">
-                ADMINISTRATOR
-            </p>
+      <p class="eyebrow">
+        BEBOER
+      </p>
 
-            <h1>
-                👥 Beboere
-            </h1>
+      <h1 id="welcomeTitle">
+        Velkommen
+      </h1>
 
-            <p class="welcome-text">
-                Administrer beboere og deres tilknytning
-                til boliger og etasjer.
-            </p>
+      <p class="welcome-text">
+        Her finner du informasjon om boligen din
+        og rengjøringsplanen din.
+      </p>
 
-        </div>
+    </div>
+
+  </div>
 
 
-        <button
-                id="backButton"
-                class="secondary-button"
-        >
-            ← Dashboard
-        </button>
+  <!-- =====================================================
+       LOADING
+       ===================================================== -->
+
+  <section
+          id="loadingSection"
+          class="dashboard-card"
+  >
+
+    <h2>
+      Laster...
+    </h2>
+
+    <p>
+      Henter kontoen og boligtilknytningen din.
+    </p>
+
+  </section>
+
+
+  <!-- =====================================================
+       WAITING FOR PROPERTY ASSIGNMENT
+       ===================================================== -->
+
+  <section
+          id="waitingSection"
+          class="dashboard-card"
+          hidden
+  >
+
+    <div class="section-header">
+
+      <div>
+
+        <h2>
+          🏠 Boligtilknytning
+        </h2>
+
+        <p>
+          Kontoen din er aktiv.
+        </p>
+
+      </div>
 
     </div>
 
 
-    <!-- =====================================================
-         ADD RESIDENT
-         ===================================================== -->
+    <div class="empty-state">
 
-    <section class="dashboard-card">
+      <h3>
+        Du er ikke tilknyttet en bolig ennå
+      </h3>
+
+      <p>
+        Kontoen din er opprettet og klar til bruk,
+        men administrator har ikke koblet deg til
+        en bolig og etasje ennå.
+      </p>
+
+      <p>
+        Kontakt administrator dersom du mener at
+        boligtilknytningen allerede skulle vært registrert.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       RESIDENT INFORMATION
+       ===================================================== -->
+
+  <section
+          id="residentSection"
+          class="dashboard-card"
+          hidden
+  >
+
+    <div class="section-header">
+
+      <div>
 
         <h2>
-            Legg til beboer
+          🏠 Min bolig
         </h2>
 
         <p>
-            Koble en brukerprofil til en bolig og etasje.
+          Din registrerte bolig og etasje.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="property-row">
+
+      <div>
+
+        <h3 id="propertyName">
+          Bolig
+        </h3>
+
+        <p id="propertyAddress">
+          -
         </p>
 
 
-        <form id="residentForm">
+        <div class="property-meta">
 
+                    <span id="floorName">
+                        Etasje: -
+                    </span>
 
-            <div class="form-grid">
-
-
-                <!-- USER PROFILE -->
-
-                <div class="form-group">
-
-                    <label for="residentProfile">
-
-                        Brukerprofil
-
-                    </label>
-
-
-                    <select
-                            id="residentProfile"
-                            required
-                    >
-
-                        <option value="">
-                            Velg brukerprofil
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- PROPERTY -->
-
-                <div class="form-group">
-
-                    <label for="residentProperty">
-
-                        Bolig
-
-                    </label>
-
-
-                    <select
-                            id="residentProperty"
-                            required
-                    >
-
-                        <option value="">
-                            Velg bolig
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- FLOOR -->
-
-                <div class="form-group">
-
-                    <label for="residentFloor">
-
-                        Etasje
-
-                    </label>
-
-
-                    <select
-                            id="residentFloor"
-                            required
-                            disabled
-                    >
-
-                        <option value="">
-                            Velg bolig først
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-            </div>
-
-
-            <button
-                    type="submit"
-                    class="primary-button"
-                    id="saveResidentButton"
-            >
-
-                Opprett beboer
-
-            </button>
-
-
-            <p
-                    id="residentMessage"
-                    class="message"
-            ></p>
-
-
-        </form>
-
-    </section>
-
-
-    <!-- =====================================================
-         RESIDENT LIST
-         ===================================================== -->
-
-    <section class="dashboard-card property-list-card">
-
-        <div class="section-header">
-
-            <div>
-
-                <h2>
-                    Beboere
-                </h2>
-
-                <p>
-                    Registrerte beboere
-                </p>
-
-            </div>
+          <span class="status-active">
+                        Aktiv
+                    </span>
 
         </div>
 
+      </div>
 
-        <div id="residentList">
+    </div>
 
-            <p class="empty-state">
-                Laster beboere...
-            </p>
+  </section>
 
-        </div>
 
-    </section>
+  <!-- =====================================================
+       CLEANING PLAN
+       ===================================================== -->
+
+  <section
+          id="cleaningSection"
+          class="dashboard-card"
+          hidden
+  >
+
+    <div class="section-header">
+
+      <div>
+
+        <h2>
+          🧹 Rengjøringsplan
+        </h2>
+
+        <p>
+          Din rengjøringsplan kommer her.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="empty-state">
+
+      <p>
+        Rengjøringsplanen blir koblet til boligen
+        og etasjen din i neste steg.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       ERROR
+       ===================================================== -->
+
+  <section
+          id="errorSection"
+          class="dashboard-card"
+          hidden
+  >
+
+    <h2>
+      Kunne ikke laste siden
+    </h2>
+
+    <p
+            id="residentPageMessage"
+            class="message error"
+    >
+      Det oppstod en feil.
+    </p>
+
+  </section>
 
 
 </main>
@@ -261,7 +298,8 @@
 
 <script src="js/config.js"></script>
 
-<script src="js/residents.js"></script>
+<script src="js/resident.js"></script>
+
 
 </body>
 
