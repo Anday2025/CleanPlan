@@ -1,4 +1,3 @@
-
 // ============================================================
 // CLEANING APP
 // RESIDENT DASHBOARD
@@ -6,7 +5,7 @@
 
 
 // ============================================================
-// ELEMENTS
+// DOM ELEMENTS
 // ============================================================
 
 const logoutButton =
@@ -69,11 +68,6 @@ const floorName =
         "floorName"
     );
 
-
-// ============================================================
-// CLEANING PLAN ELEMENTS
-// ============================================================
-
 const cleaningPlanSubtitle =
     document.getElementById(
         "cleaningPlanSubtitle"
@@ -88,11 +82,6 @@ const cleaningPlanContent =
     document.getElementById(
         "cleaningPlanContent"
     );
-
-
-// ============================================================
-// CURRENT WEEK ELEMENTS
-// ============================================================
 
 const currentWeekHeading =
     document.getElementById(
@@ -119,11 +108,6 @@ const currentWeekFloor =
         "currentWeekFloor"
     );
 
-
-// ============================================================
-// WEEK NAVIGATION ELEMENTS
-// ============================================================
-
 const previousWeekButton =
     document.getElementById(
         "previousWeekButton"
@@ -144,6 +128,11 @@ const selectedWeekYear =
         "selectedWeekYear"
     );
 
+const weekPreviewList =
+    document.getElementById(
+        "weekPreviewList"
+    );
+
 const selectedWeekDate =
     document.getElementById(
         "selectedWeekDate"
@@ -159,26 +148,6 @@ const selectedWeekStatus =
         "selectedWeekStatus"
     );
 
-const weekPreviewList =
-    document.getElementById(
-        "weekPreviewList"
-    );
-
-
-// ============================================================
-// TASK ELEMENTS
-// ============================================================
-
-const cleaningTaskList =
-    document.getElementById(
-        "cleaningTaskList"
-    );
-
-const cleaningTasksWrapper =
-    document.getElementById(
-        "cleaningTasksWrapper"
-    );
-
 const cleaningTaskCount =
     document.getElementById(
         "cleaningTaskCount"
@@ -189,20 +158,30 @@ const noCleaningTasksState =
         "noCleaningTasksState"
     );
 
+const cleaningTasksWrapper =
+    document.getElementById(
+        "cleaningTasksWrapper"
+    );
+
+const cleaningTaskList =
+    document.getElementById(
+        "cleaningTaskList"
+    );
+
 const taskPermissionMessage =
     document.getElementById(
         "taskPermissionMessage"
+    );
+
+const cleaningPermissionNotice =
+    document.getElementById(
+        "cleaningPermissionNotice"
     );
 
 const cleaningPermissionText =
     document.getElementById(
         "cleaningPermissionText"
     );
-
-
-// ============================================================
-// CAMERA ELEMENTS
-// ============================================================
 
 const cameraInput =
     document.getElementById(
@@ -223,11 +202,6 @@ const photoCount =
     document.getElementById(
         "photoCount"
     );
-
-
-// ============================================================
-// CONFIRM ELEMENTS
-// ============================================================
 
 const signedByName =
     document.getElementById(
@@ -254,9 +228,6 @@ const responsibleOnlyMessage =
 // STATE
 // ============================================================
 
-let currentSession =
-    null;
-
 let currentProfile =
     null;
 
@@ -269,41 +240,14 @@ let currentCleaningPlan =
 let currentCleaningTasks =
     [];
 
-let currentPlanMembers =
+let currentCleaningMembers =
     [];
-
-
-// ============================================================
-// WEEK ASSIGNMENTS
-// ============================================================
-
-/*
- * Lagrede uke-tildelinger fra cleaning_week_assignments.
- *
- * Disse skal være første kilde til hvem som faktisk
- * er ansvarlig for en bestemt uke.
- *
- * Rotasjonen i cleaning_plan_members brukes som fallback
- * dersom en uke ennå ikke har en lagret assignment.
- */
 
 let currentWeekAssignments =
-    [];
-
-
-// ============================================================
-// CLEANING COMPLETIONS
-// ============================================================
-
-/*
- * Fullførte oppgaver for den valgte uken.
- * Data hentes fra cleaning_completions og brukes til å
- * gjenopprette checkbox-status etter refresh/ukebytte.
- */
+    {};
 
 let currentCleaningCompletions =
     [];
-
 
 let currentWeekFriday =
     null;
@@ -317,6 +261,9 @@ let selectedResponsibleMember =
 let selectedPhotos =
     [];
 
+let isSavingTaskCompletion =
+    false;
+
 
 // ============================================================
 // CONSTANTS
@@ -327,28 +274,143 @@ const MAX_PHOTOS =
 
 
 // ============================================================
-// LOGOUT
+// TRANSLATION HELPERS
 // ============================================================
 
-if (logoutButton) {
+function t(
+    key,
+    params
+) {
 
-    logoutButton.addEventListener(
-        "click",
-        async function () {
+    if (
+        window.CleanPlanI18n &&
+        typeof window.CleanPlanI18n.t ===
+        "function"
+    ) {
 
-            await supabaseClient.auth.signOut();
+        return window.CleanPlanI18n.t(
+            key,
+            params
+        );
 
-            window.location.href =
-                "index.html";
+    }
 
-        }
+
+    /*
+     * This fallback should normally never be needed,
+     * because language.js is loaded before resident.js.
+     */
+
+    return key;
+
+}
+
+
+function getCurrentLanguageCode() {
+
+    if (
+        window.CleanPlanI18n &&
+        typeof window.CleanPlanI18n.getLanguage ===
+        "function"
+    ) {
+
+        return window.CleanPlanI18n
+            .getLanguage();
+
+    }
+
+
+    return (
+        localStorage.getItem(
+            "cleaningAppLanguage"
+        ) ||
+        "no"
     );
 
 }
 
 
+function getCurrentDateLocale() {
+
+    const languageCode =
+        getCurrentLanguageCode();
+
+
+    if (
+        languageCode ===
+        "en"
+    ) {
+
+        return "en-GB";
+
+    }
+
+
+    return "nb-NO";
+
+}
+
+
 // ============================================================
-// HIDE CONTENT
+// SHOW ERROR
+// ============================================================
+
+function showError(
+    message
+) {
+
+    if (loadingSection) {
+
+        loadingSection.hidden =
+            true;
+
+    }
+
+
+    if (waitingSection) {
+
+        waitingSection.hidden =
+            true;
+
+    }
+
+
+    if (residentSection) {
+
+        residentSection.hidden =
+            true;
+
+    }
+
+
+    if (cleaningSection) {
+
+        cleaningSection.hidden =
+            true;
+
+    }
+
+
+    if (errorSection) {
+
+        errorSection.hidden =
+            false;
+
+    }
+
+
+    if (residentPageMessage) {
+
+        residentPageMessage.textContent =
+            message;
+
+    }
+
+}
+
+
+// ============================================================
+// HIDE CONTENT SECTIONS
 // ============================================================
 
 function hideContentSections() {
@@ -388,71 +450,7 @@ function hideContentSections() {
 
 
 // ============================================================
-// ERROR
-// ============================================================
-
-function showPageError(
-    message
-) {
-
-    if (loadingSection) {
-
-        loadingSection.hidden =
-            true;
-
-    }
-
-
-    hideContentSections();
-
-
-    if (residentPageMessage) {
-
-        residentPageMessage.textContent =
-            message;
-
-    }
-
-
-    if (errorSection) {
-
-        errorSection.hidden =
-            false;
-
-    }
-
-}
-
-
-// ============================================================
-// WAITING STATE
-// ============================================================
-
-function showWaitingState() {
-
-    if (loadingSection) {
-
-        loadingSection.hidden =
-            true;
-
-    }
-
-
-    hideContentSections();
-
-
-    if (waitingSection) {
-
-        waitingSection.hidden =
-            false;
-
-    }
-
-}
-
-
-// ============================================================
-// FLOOR NAME
+// GET FLOOR DISPLAY NAME
 // ============================================================
 
 function getFloorDisplayName(
@@ -461,7 +459,9 @@ function getFloorDisplayName(
 
     if (!floor) {
 
-        return "Ikke registrert";
+        return t(
+            "notRegistered"
+        );
 
     }
 
@@ -480,15 +480,20 @@ function getFloorDisplayName(
         undefined
     ) {
 
-        return (
-            floor.floor_number +
-            ". etasje"
+        return t(
+            "floorNumber",
+            {
+                floor:
+                floor.floor_number
+            }
         );
 
     }
 
 
-    return "Ikke registrert";
+    return t(
+        "notRegistered"
+    );
 
 }
 
@@ -497,22 +502,139 @@ function getFloorDisplayName(
 // DATE HELPERS
 // ============================================================
 
-function createLocalDateFromIso(
-    isoDate
+function normalizeDate(
+    value
 ) {
 
+    if (!value) {
+
+        return null;
+
+    }
+
+
+    if (
+        value instanceof Date
+    ) {
+
+        return new Date(
+            value.getFullYear(),
+            value.getMonth(),
+            value.getDate()
+        );
+
+    }
+
+
     const parts =
-        isoDate.split("-");
+        String(value)
+            .split("-");
+
+
+    if (
+        parts.length ===
+        3
+    ) {
+
+        return new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            Number(parts[2])
+        );
+
+    }
+
+
+    const parsed =
+        new Date(value);
+
+
+    if (
+        Number.isNaN(
+            parsed.getTime()
+        )
+    ) {
+
+        return null;
+
+    }
 
 
     return new Date(
-        Number(parts[0]),
-        Number(parts[1]) - 1,
-        Number(parts[2]),
-        12,
-        0,
-        0,
-        0
+        parsed.getFullYear(),
+        parsed.getMonth(),
+        parsed.getDate()
+    );
+
+}
+
+
+// ============================================================
+// FORMAT DATE
+// ============================================================
+
+function formatDisplayDate(
+    date
+) {
+
+    if (!date) {
+
+        return "-";
+
+    }
+
+
+    return new Intl.DateTimeFormat(
+        getCurrentDateLocale(),
+        {
+            weekday:
+                "long",
+
+            day:
+                "2-digit",
+
+            month:
+                "2-digit",
+
+            year:
+                "numeric"
+        }
+    ).format(
+        date
+    );
+
+}
+
+
+// ============================================================
+// FORMAT SHORT DATE
+// ============================================================
+
+function formatShortDate(
+    date
+) {
+
+    if (!date) {
+
+        return "-";
+
+    }
+
+
+    return new Intl.DateTimeFormat(
+        getCurrentDateLocale(),
+        {
+            day:
+                "2-digit",
+
+            month:
+                "2-digit",
+
+            year:
+                "numeric"
+        }
+    ).format(
+        date
     );
 
 }
@@ -526,18 +648,24 @@ function dateToIso(
     date
 ) {
 
+    if (!date) {
+
+        return null;
+
+    }
+
+
     const year =
         date.getFullYear();
 
-
     const month =
         String(
-            date.getMonth() + 1
+            date.getMonth() +
+            1
         ).padStart(
             2,
             "0"
         );
-
 
     const day =
         String(
@@ -560,27 +688,6 @@ function dateToIso(
 
 
 // ============================================================
-// CLONE DATE
-// ============================================================
-
-function cloneDate(
-    date
-) {
-
-    return new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        12,
-        0,
-        0,
-        0
-    );
-
-}
-
-
-// ============================================================
 // ADD DAYS
 // ============================================================
 
@@ -590,8 +697,10 @@ function addDays(
 ) {
 
     const result =
-        cloneDate(
-            date
+        new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate()
         );
 
 
@@ -607,29 +716,36 @@ function addDays(
 
 
 // ============================================================
-// GET FRIDAY FOR CURRENT CLEANING WEEK
+// GET FRIDAY FOR DATE
 // ============================================================
 
-function getCurrentCleaningFriday() {
+function getFridayForDate(
+    date
+) {
 
-    const now =
-        new Date();
-
-
-    const date =
+    const result =
         new Date(
-            now.getFullYear(),
-            now.getMonth(),
-            now.getDate(),
-            12,
-            0,
-            0,
-            0
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate()
         );
 
 
     const day =
-        date.getDay();
+        result.getDay();
+
+
+    /*
+     * JavaScript:
+     *
+     * Sunday    = 0
+     * Monday    = 1
+     * Tuesday   = 2
+     * Wednesday = 3
+     * Thursday  = 4
+     * Friday    = 5
+     * Saturday  = 6
+     */
 
 
     let difference =
@@ -639,80 +755,44 @@ function getCurrentCleaningFriday() {
 
     if (
         day ===
+        0
+    ) {
+
+        difference =
+            -2;
+
+    }
+    else if (
+        day ===
         6
     ) {
 
         difference =
-            6;
+            -1;
 
     }
 
 
-    date.setDate(
-        date.getDate() +
+    result.setDate(
+        result.getDate() +
         difference
     );
 
 
-    return date;
+    return result;
 
 }
 
 
 // ============================================================
-// DISPLAY DATE
-// ============================================================
-
-function formatDisplayDate(
-    date
-) {
-
-    return new Intl.DateTimeFormat(
-        "nb-NO",
-        {
-            weekday: "long",
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric"
-        }
-    ).format(
-        date
-    );
-
-}
-
-
-// ============================================================
-// SHORT DATE
-// ============================================================
-
-function formatShortDate(
-    date
-) {
-
-    return new Intl.DateTimeFormat(
-        "nb-NO",
-        {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric"
-        }
-    ).format(
-        date
-    );
-
-}
-
-
-// ============================================================
-// ISO WEEK NUMBER
+// GET ISO WEEK INFORMATION
 // ============================================================
 
 function getIsoWeekInfo(
     date
 ) {
 
-    const temp =
+    const target =
         new Date(
             Date.UTC(
                 date.getFullYear(),
@@ -723,12 +803,12 @@ function getIsoWeekInfo(
 
 
     const dayNumber =
-        temp.getUTCDay() ||
+        target.getUTCDay() ||
         7;
 
 
-    temp.setUTCDate(
-        temp.getUTCDate() +
+    target.setUTCDate(
+        target.getUTCDate() +
         4 -
         dayNumber
     );
@@ -737,7 +817,7 @@ function getIsoWeekInfo(
     const yearStart =
         new Date(
             Date.UTC(
-                temp.getUTCFullYear(),
+                target.getUTCFullYear(),
                 0,
                 1
             )
@@ -748,7 +828,7 @@ function getIsoWeekInfo(
         Math.ceil(
             (
                 (
-                    temp -
+                    target -
                     yearStart
                 ) /
                 86400000 +
@@ -759,38 +839,14 @@ function getIsoWeekInfo(
 
 
     return {
+
+        week:
         week,
+
         year:
-            temp.getUTCFullYear()
+            target.getUTCFullYear()
+
     };
-
-}
-
-
-// ============================================================
-// WEEK DIFFERENCE
-// ============================================================
-
-function getWeekDifference(
-    startFriday,
-    targetFriday
-) {
-
-    const milliseconds =
-        targetFriday.getTime() -
-        startFriday.getTime();
-
-
-    return Math.floor(
-        milliseconds /
-        (
-            7 *
-            24 *
-            60 *
-            60 *
-            1000
-        )
-    );
 
 }
 
@@ -799,43 +855,168 @@ function getWeekDifference(
 // SAME DATE
 // ============================================================
 
-function isSameCalendarDate(
-    dateA,
-    dateB
+function isSameDate(
+    firstDate,
+    secondDate
 ) {
 
+    if (
+        !firstDate ||
+        !secondDate
+    ) {
+
+        return false;
+
+    }
+
+
     return (
-        dateA.getFullYear() ===
-        dateB.getFullYear() &&
+        firstDate.getFullYear() ===
+        secondDate.getFullYear() &&
 
-        dateA.getMonth() ===
-        dateB.getMonth() &&
+        firstDate.getMonth() ===
+        secondDate.getMonth() &&
 
-        dateA.getDate() ===
-        dateB.getDate()
+        firstDate.getDate() ===
+        secondDate.getDate()
     );
 
 }
 
 
 // ============================================================
-// SESSION
+// START OF DAY
+// ============================================================
+
+function startOfDay(
+    date
+) {
+
+    return new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+    );
+
+}
+
+
+// ============================================================
+// CURRENT WEEK FRIDAY
+// ============================================================
+
+function getCurrentWeekFriday() {
+
+    return getFridayForDate(
+        new Date()
+    );
+
+}
+
+
+// ============================================================
+// IS CURRENT SELECTED WEEK
+// ============================================================
+
+function isSelectedCurrentWeek() {
+
+    if (
+        !selectedFriday ||
+        !currentWeekFriday
+    ) {
+
+        return false;
+
+    }
+
+
+    return isSameDate(
+        selectedFriday,
+        currentWeekFriday
+    );
+
+}
+
+
+// ============================================================
+// GET CLEANING WINDOW STATE
+// ============================================================
+
+function getCleaningWindowState() {
+
+    const today =
+        startOfDay(
+            new Date()
+        );
+
+
+    const currentFriday =
+        getCurrentWeekFriday();
+
+
+    if (
+        !selectedFriday ||
+        !isSameDate(
+            selectedFriday,
+            currentFriday
+        )
+    ) {
+
+        return "not-current-week";
+
+    }
+
+
+    const day =
+        today.getDay();
+
+
+    if (
+        day >=
+        1 &&
+        day <=
+        3
+    ) {
+
+        return "not-open-yet";
+
+    }
+
+
+    if (
+        day ===
+        4 ||
+        day ===
+        5
+    ) {
+
+        return "open";
+
+    }
+
+
+    return "deadline-passed";
+
+}
+
+// ============================================================
+// AUTHENTICATION / SESSION
 // ============================================================
 
 async function loadSession() {
 
     const {
-        data: {
-            session
-        },
+        data,
         error
     } =
-        await supabaseClient.auth.getSession();
+        await supabaseClient.auth
+            .getSession();
 
 
     if (
         error ||
-        !session
+        !data ||
+        !data.session
     ) {
 
         window.location.href =
@@ -846,17 +1027,13 @@ async function loadSession() {
     }
 
 
-    currentSession =
-        session;
-
-
-    return session;
+    return data.session;
 
 }
 
 
 // ============================================================
-// PROFILE
+// LOAD PROFILE
 // ============================================================
 
 async function loadProfile(
@@ -864,7 +1041,7 @@ async function loadProfile(
 ) {
 
     const {
-        data: profile,
+        data,
         error
     } =
         await supabaseClient
@@ -872,7 +1049,13 @@ async function loadProfile(
                 "profiles"
             )
             .select(
-                "id, full_name, email, role, is_active"
+                `
+                id,
+                full_name,
+                email,
+                role,
+                is_active
+                `
             )
             .eq(
                 "id",
@@ -883,7 +1066,7 @@ async function loadProfile(
 
     if (
         error ||
-        !profile
+        !data
     ) {
 
         console.error(
@@ -891,23 +1074,18 @@ async function loadProfile(
             error
         );
 
-
         return null;
 
     }
 
 
-    currentProfile =
-        profile;
-
-
-    return profile;
+    return data;
 
 }
 
 
 // ============================================================
-// ACCESS
+// CHECK RESIDENT ACCESS
 // ============================================================
 
 async function checkResidentAccess() {
@@ -931,7 +1109,9 @@ async function checkResidentAccess() {
 
     if (!profile) {
 
-        await supabaseClient.auth.signOut();
+        await supabaseClient.auth
+            .signOut();
+
 
         window.location.href =
             "index.html";
@@ -941,9 +1121,13 @@ async function checkResidentAccess() {
     }
 
 
-    if (!profile.is_active) {
+    if (
+        !profile.is_active
+    ) {
 
-        await supabaseClient.auth.signOut();
+        await supabaseClient.auth
+            .signOut();
+
 
         window.location.href =
             "index.html";
@@ -973,7 +1157,9 @@ async function checkResidentAccess() {
         }
 
 
-        await supabaseClient.auth.signOut();
+        await supabaseClient.auth
+            .signOut();
+
 
         window.location.href =
             "index.html";
@@ -981,6 +1167,10 @@ async function checkResidentAccess() {
         return null;
 
     }
+
+
+    currentProfile =
+        profile;
 
 
     if (residentName) {
@@ -994,24 +1184,55 @@ async function checkResidentAccess() {
     if (welcomeTitle) {
 
         welcomeTitle.textContent =
-            "Velkommen, " +
-            profile.full_name;
+            t(
+                "welcomeUser",
+                {
+                    name:
+                    profile.full_name
+                }
+            );
 
     }
 
 
-
-
     return {
+
+        session:
         session,
+
+        profile:
         profile
+
     };
 
 }
 
 
 // ============================================================
-// RESIDENT ASSOCIATION
+// LOGOUT
+// ============================================================
+
+if (logoutButton) {
+
+    logoutButton.addEventListener(
+        "click",
+        async function () {
+
+            await supabaseClient.auth
+                .signOut();
+
+
+            window.location.href =
+                "index.html";
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// LOAD RESIDENT ASSOCIATION
 // ============================================================
 
 async function loadResidentAssociation(
@@ -1026,26 +1247,28 @@ async function loadResidentAssociation(
             .from(
                 "residents"
             )
-            .select(`
-id,
-    profile_id,
-    property_id,
-    floor_id,
-    is_active,
-    created_at,
+            .select(
+                `
+                id,
+                profile_id,
+                property_id,
+                floor_id,
+                is_active,
+                created_at,
 
-    properties (
-        id,
-        name,
-        address
-    ),
+                properties (
+                    id,
+                    name,
+                    address
+                ),
 
-    floors (
-        id,
-        floor_number,
-        name
-    )
-        `)
+                floors (
+                    id,
+                    floor_number,
+                    name
+                )
+                `
+            )
             .eq(
                 "profile_id",
                 profileId
@@ -1065,14 +1288,21 @@ id,
         );
 
 
-        showPageError(
-            "Kunne ikke hente boligtilknytningen din."
+        showError(
+            t(
+                "couldNotFetchPropertyAssociation"
+            )
         );
 
 
         return {
-            success: false,
-            resident: null
+
+            success:
+                false,
+
+            resident:
+                null
+
         };
 
     }
@@ -1084,12 +1314,33 @@ id,
             null;
 
 
-        showWaitingState();
+        if (loadingSection) {
+
+            loadingSection.hidden =
+                true;
+
+        }
+
+
+        hideContentSections();
+
+
+        if (waitingSection) {
+
+            waitingSection.hidden =
+                false;
+
+        }
 
 
         return {
-            success: true,
-            resident: null
+
+            success:
+                true,
+
+            resident:
+                null
+
         };
 
     }
@@ -1105,15 +1356,20 @@ id,
 
 
     return {
-        success: true,
-        resident: data
+
+        success:
+            true,
+
+        resident:
+        data
+
     };
 
 }
 
 
 // ============================================================
-// SHOW DASHBOARD
+// SHOW RESIDENT DASHBOARD
 // ============================================================
 
 function showResidentDashboard(
@@ -1142,7 +1398,9 @@ function showResidentDashboard(
 
         propertyName.textContent =
             property?.name ||
-            "Bolig";
+            t(
+                "propertyFallbackName"
+            );
 
     }
 
@@ -1151,7 +1409,9 @@ function showResidentDashboard(
 
         propertyAddress.textContent =
             property?.address ||
-            "Ingen adresse registrert";
+            t(
+                "noAddressRegistered"
+            );
 
     }
 
@@ -1159,9 +1419,14 @@ function showResidentDashboard(
     if (floorName) {
 
         floorName.textContent =
-            "Etasje: " +
-            getFloorDisplayName(
-                floor
+            t(
+                "floorPrefix",
+                {
+                    floor:
+                        getFloorDisplayName(
+                            floor
+                        )
+                }
             );
 
     }
@@ -1196,7 +1461,7 @@ function showResidentDashboard(
 
 
 // ============================================================
-// RESET PLAN DISPLAY
+// RESET CLEANING PLAN DISPLAY
 // ============================================================
 
 function resetCleaningPlanDisplay() {
@@ -1207,11 +1472,11 @@ function resetCleaningPlanDisplay() {
     currentCleaningTasks =
         [];
 
-    currentPlanMembers =
+    currentCleaningMembers =
         [];
 
     currentWeekAssignments =
-        [];
+        {};
 
     currentCleaningCompletions =
         [];
@@ -1256,10 +1521,8 @@ function resetCleaningPlanDisplay() {
 
 }
 
+
 // ============================================================
-
-
-
 // LOAD CLEANING PLAN
 // ============================================================
 
@@ -1294,21 +1557,23 @@ async function loadCleaningPlan() {
 
 
     const {
-        data: plan,
+        data,
         error
     } =
         await supabaseClient
             .from(
                 "cleaning_plans"
             )
-            .select(`
+            .select(
+                `
                 id,
                 property_id,
                 floor_id,
                 name,
                 start_date,
                 is_active
-            `)
+                `
+            )
             .eq(
                 "property_id",
                 currentResident.property_id
@@ -1332,8 +1597,10 @@ async function loadCleaningPlan() {
         );
 
 
-        showPageError(
-            "Kunne ikke hente rengjøringsplanen."
+        showError(
+            t(
+                "couldNotFetchCleaningPlan"
+            )
         );
 
 
@@ -1342,7 +1609,7 @@ async function loadCleaningPlan() {
     }
 
 
-    if (!plan) {
+    if (!data) {
 
         if (noCleaningPlanState) {
 
@@ -1355,7 +1622,9 @@ async function loadCleaningPlan() {
         if (cleaningPlanSubtitle) {
 
             cleaningPlanSubtitle.textContent =
-                "Ingen aktiv rengjøringsplan er opprettet ennå.";
+                t(
+                    "noActiveCleaningPlan"
+                );
 
         }
 
@@ -1366,7 +1635,7 @@ async function loadCleaningPlan() {
 
 
     currentCleaningPlan =
-        plan;
+        data;
 
 
     if (noCleaningPlanState) {
@@ -1389,35 +1658,43 @@ async function loadCleaningPlan() {
 
         cleaningPlanSubtitle.textContent =
             (
-                currentResident.properties?.name ||
-                "Bolig"
+                currentResident
+                    .properties
+                    ?.name ||
+                t(
+                    "propertyFallbackName"
+                )
             ) +
             " • " +
             getFloorDisplayName(
-                currentResident.floors
+                currentResident
+                    .floors
             );
 
     }
 
 
-    // ========================================================
-    // LOAD EVERYTHING NEEDED FOR THE SCHEDULE
-    // ========================================================
-
     await loadCleaningTasks();
 
-    await loadPlanMembers();
+    await loadCleaningMembers();
 
     await loadWeekAssignments();
 
 
     currentWeekFriday =
-        getCurrentCleaningFriday();
+        getCurrentWeekFriday();
 
 
     selectedFriday =
-        cloneDate(
+        new Date(
             currentWeekFriday
+                .getFullYear(),
+
+            currentWeekFriday
+                .getMonth(),
+
+            currentWeekFriday
+                .getDate()
         );
 
 
@@ -1427,7 +1704,7 @@ async function loadCleaningPlan() {
 
 
 // ============================================================
-// LOAD TASKS
+// LOAD CLEANING TASKS
 // ============================================================
 
 async function loadCleaningTasks() {
@@ -1447,7 +1724,8 @@ async function loadCleaningTasks() {
             .from(
                 "cleaning_plan_items"
             )
-            .select(`
+            .select(
+                `
                 id,
                 plan_id,
                 task_id,
@@ -1462,7 +1740,8 @@ async function loadCleaningTasks() {
                     sort_order,
                     is_active
                 )
-            `)
+                `
+            )
             .eq(
                 "plan_id",
                 currentCleaningPlan.id
@@ -1470,7 +1749,8 @@ async function loadCleaningTasks() {
             .order(
                 "sort_order",
                 {
-                    ascending: true
+                    ascending:
+                        true
                 }
             );
 
@@ -1483,8 +1763,10 @@ async function loadCleaningTasks() {
         );
 
 
-        showPageError(
-            "Kunne ikke hente rengjøringsoppgavene."
+        showError(
+            t(
+                "couldNotFetchCleaningTasks"
+            )
         );
 
 
@@ -1494,26 +1776,29 @@ async function loadCleaningTasks() {
 
 
     currentCleaningTasks =
-        (data || [])
-            .filter(
-                function (item) {
+        (
+            data ||
+            []
+        ).filter(
+            function (item) {
 
-                    return (
-                        item.cleaning_tasks &&
-                        item.cleaning_tasks.is_active
-                    );
+                return (
+                    item.cleaning_tasks &&
+                    item.cleaning_tasks
+                        .is_active
+                );
 
-                }
-            );
+            }
+        );
 
 }
 
 
 // ============================================================
-// LOAD ROTATION MEMBERS
+// LOAD CLEANING MEMBERS
 // ============================================================
 
-async function loadPlanMembers() {
+async function loadCleaningMembers() {
 
     if (!currentCleaningPlan) {
 
@@ -1530,7 +1815,8 @@ async function loadPlanMembers() {
             .from(
                 "cleaning_plan_members"
             )
-            .select(`
+            .select(
+                `
                 id,
                 plan_id,
                 resident_id,
@@ -1548,7 +1834,8 @@ async function loadPlanMembers() {
                         full_name
                     )
                 )
-            `)
+                `
+            )
             .eq(
                 "plan_id",
                 currentCleaningPlan.id
@@ -1556,7 +1843,8 @@ async function loadPlanMembers() {
             .order(
                 "rotation_order",
                 {
-                    ascending: true
+                    ascending:
+                        true
                 }
             );
 
@@ -1569,8 +1857,10 @@ async function loadPlanMembers() {
         );
 
 
-        showPageError(
-            "Kunne ikke hente rengjøringsrotasjonen."
+        showError(
+            t(
+                "couldNotFetchCleaningRotation"
+            )
         );
 
 
@@ -1579,18 +1869,21 @@ async function loadPlanMembers() {
     }
 
 
-    currentPlanMembers =
-        (data || [])
-            .filter(
-                function (member) {
+    currentCleaningMembers =
+        (
+            data ||
+            []
+        ).filter(
+            function (member) {
 
-                    return (
-                        member.residents &&
-                        member.residents.is_active
-                    );
+                return (
+                    member.residents &&
+                    member.residents
+                        .is_active
+                );
 
-                }
-            );
+            }
+        );
 
 }
 
@@ -1601,95 +1894,33 @@ async function loadPlanMembers() {
 
 async function loadWeekAssignments() {
 
-    currentWeekAssignments = [];
+    currentWeekAssignments =
+        {};
+
 
     if (!currentCleaningPlan) {
+
         return;
+
     }
 
 
-    const planStart =
-        createLocalDateFromIso(
-            currentCleaningPlan.start_date
+    const currentFriday =
+        getCurrentWeekFriday();
+
+
+    const rangeStart =
+        addDays(
+            currentFriday,
+            -56
         );
 
 
-    const baseFriday =
-        getCurrentCleaningFriday();
-
-
-    const fridays = [];
-
-
-    for (
-        let offset = -2;
-        offset <= 8;
-        offset++
-    ) {
-
-        const friday =
-            cloneDate(
-                baseFriday
-            );
-
-        friday.setDate(
-            friday.getDate() +
-            (offset * 7)
+    const rangeEnd =
+        addDays(
+            currentFriday,
+            112
         );
-
-
-        if (
-            friday >=
-            planStart
-        ) {
-
-            fridays.push(
-                friday
-            );
-
-        }
-
-    }
-
-
-    for (
-        const friday
-        of fridays
-        ) {
-
-        const weekStart =
-            dateToIso(
-                friday
-            );
-
-
-        const {
-            error
-        } =
-            await supabaseClient
-                .rpc(
-                    "get_or_create_cleaning_week_assignment",
-                    {
-                        p_plan_id:
-                        currentCleaningPlan.id,
-
-                        p_week_start:
-                        weekStart
-                    }
-                );
-
-
-        if (error) {
-
-            console.error(
-                "CREATE WEEK ASSIGNMENT ERROR:",
-                weekStart,
-                error
-            );
-
-        }
-
-    }
 
 
     const {
@@ -1700,7 +1931,8 @@ async function loadWeekAssignments() {
             .from(
                 "cleaning_week_assignments"
             )
-            .select(`
+            .select(
+                `
                 id,
                 plan_id,
                 week_start,
@@ -1719,15 +1951,29 @@ async function loadWeekAssignments() {
                         full_name
                     )
                 )
-            `)
+                `
+            )
             .eq(
                 "plan_id",
                 currentCleaningPlan.id
             )
+            .gte(
+                "week_start",
+                dateToIso(
+                    rangeStart
+                )
+            )
+            .lte(
+                "week_start",
+                dateToIso(
+                    rangeEnd
+                )
+            )
             .order(
                 "week_start",
                 {
-                    ascending: true
+                    ascending:
+                        true
                 }
             );
 
@@ -1739,273 +1985,181 @@ async function loadWeekAssignments() {
             error
         );
 
+
         currentWeekAssignments =
-            [];
+            {};
 
         return;
 
     }
 
 
-    currentWeekAssignments =
-        (data || []).filter(
-            function (
-                assignment
+    (
+        data ||
+        []
+    ).forEach(
+        function (assignment) {
+
+            if (
+                !assignment.week_start
             ) {
 
-                return (
-                    assignment.resident_id &&
-                    assignment.residents &&
-                    assignment.residents.is_active
-                );
+                return;
 
             }
-        );
-
-}
-// ============================================================
-// LOAD COMPLETIONS FOR SELECTED WEEK
-// ============================================================
-
-async function loadSelectedWeekCompletions() {
-
-    currentCleaningCompletions =
-        [];
 
 
-    if (
-        !currentCleaningPlan ||
-        !selectedFriday
-    ) {
-
-        return;
-
-    }
-
-
-    const weekStart =
-        dateToIso(
-            selectedFriday
-        );
-
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from(
-                "cleaning_completions"
-            )
-            .select(`
-                id,
-                plan_id,
-                task_id,
-                resident_id,
-                week_start,
-                completed_at
-            `)
-            .eq(
-                "plan_id",
-                currentCleaningPlan.id
-            )
-            .eq(
-                "week_start",
-                weekStart
-            );
-
-
-    if (error) {
-
-        console.error(
-            "LOAD CLEANING COMPLETIONS ERROR:",
-            error
-        );
-
-        currentCleaningCompletions =
-            [];
-
-        return;
-
-    }
-
-
-    currentCleaningCompletions =
-        data || [];
-
-}
-
-
-// ============================================================
-// TASK COMPLETION CHECK
-// ============================================================
-
-function isTaskCompleted(
-    taskId
-) {
-
-    return currentCleaningCompletions.some(
-        function (completion) {
-
-            return (
-                completion.task_id ===
-                taskId
-            );
+            currentWeekAssignments[
+                assignment.week_start
+                ] =
+                assignment;
 
         }
     );
 
 }
 
-
 // ============================================================
-// SAVE TASK COMPLETION
+// GET MEMBER NAME
 // ============================================================
 
-async function saveTaskCompletion(
-    taskId
+function getMemberName(
+    member
 ) {
 
     if (
-        !currentCleaningPlan ||
-        !currentResident ||
-        !selectedFriday
+        !member ||
+        !member.residents
     ) {
 
-        return {
-            success: false
-        };
+        return t(
+            "notAssigned"
+        );
 
     }
 
 
-    const weekStart =
-        dateToIso(
-            selectedFriday
-        );
-
-
-    const {
-        error
-    } =
-        await supabaseClient
-            .from(
-                "cleaning_completions"
-            )
-            .insert({
-                plan_id:
-                currentCleaningPlan.id,
-
-                task_id:
-                taskId,
-
-                resident_id:
-                currentResident.id,
-
-                week_start:
-                weekStart
-            });
-
-
-    if (error) {
-
-        console.error(
-            "SAVE CLEANING COMPLETION ERROR:",
-            error
-        );
-
-        return {
-            success: false,
-            error
-        };
-
-    }
-
-
-    await loadSelectedWeekCompletions();
-
-
-    return {
-        success: true
-    };
+    return (
+        member.residents
+            .profiles
+            ?.full_name ||
+        t(
+            "notAssigned"
+        )
+    );
 
 }
 
 
 // ============================================================
-// DELETE TASK COMPLETION
+// GET MEMBER RESIDENT ID
 // ============================================================
 
-async function deleteTaskCompletion(
-    taskId
+function getMemberResidentId(
+    member
 ) {
 
     if (
-        !currentCleaningPlan ||
-        !currentResident ||
-        !selectedFriday
+        !member ||
+        !member.residents
     ) {
 
-        return {
-            success: false
-        };
+        return null;
 
     }
 
 
-    const weekStart =
-        dateToIso(
-            selectedFriday
-        );
+    return (
+        member.residents.id ||
+        null
+    );
+
+}
 
 
-    const {
-        error
-    } =
-        await supabaseClient
-            .from(
-                "cleaning_completions"
-            )
-            .delete()
-            .eq(
-                "plan_id",
-                currentCleaningPlan.id
-            )
-            .eq(
-                "task_id",
-                taskId
-            )
-            .eq(
-                "resident_id",
-                currentResident.id
-            )
-            .eq(
-                "week_start",
-                weekStart
-            );
+// ============================================================
+// GET ASSIGNMENT RESIDENT ID
+// ============================================================
 
+function getAssignmentResidentId(
+    assignment
+) {
 
-    if (error) {
+    if (!assignment) {
 
-        console.error(
-            "DELETE CLEANING COMPLETION ERROR:",
-            error
-        );
-
-        return {
-            success: false,
-            error
-        };
+        return null;
 
     }
 
 
-    await loadSelectedWeekCompletions();
+    return (
+        assignment.resident_id ||
+        assignment.residents?.id ||
+        null
+    );
+
+}
 
 
-    return {
-        success: true
-    };
+// ============================================================
+// GET ASSIGNMENT NAME
+// ============================================================
+
+function getAssignmentName(
+    assignment
+) {
+
+    if (!assignment) {
+
+        return t(
+            "notAssigned"
+        );
+
+    }
+
+
+    return (
+        assignment.residents
+            ?.profiles
+            ?.full_name ||
+        t(
+            "notAssigned"
+        )
+    );
+
+}
+
+
+// ============================================================
+// FIND MEMBER BY RESIDENT ID
+// ============================================================
+
+function findMemberByResidentId(
+    residentId
+) {
+
+    if (!residentId) {
+
+        return null;
+
+    }
+
+
+    return (
+        currentCleaningMembers.find(
+            function (member) {
+
+                return (
+                    getMemberResidentId(
+                        member
+                    ) ===
+                    residentId
+                );
+
+            }
+        ) ||
+        null
+    );
 
 }
 
@@ -2018,10 +2172,259 @@ function getStoredAssignmentForFriday(
     friday
 ) {
 
+    if (!friday) {
+
+        return null;
+
+    }
+
+
+    return (
+        currentWeekAssignments[
+            dateToIso(
+                friday
+            )
+            ] ||
+        null
+    );
+
+}
+
+
+// ============================================================
+// GET ROTATION INDEX FOR FRIDAY
+// ============================================================
+
+function getRotationIndexForFriday(
+    friday
+) {
+
     if (
         !friday ||
-        currentWeekAssignments.length ===
+        !currentCleaningPlan ||
+        !currentCleaningPlan.start_date ||
+        currentCleaningMembers.length ===
         0
+    ) {
+
+        return -1;
+
+    }
+
+
+    const planStart =
+        normalizeDate(
+            currentCleaningPlan.start_date
+        );
+
+
+    if (!planStart) {
+
+        return -1;
+
+    }
+
+
+    const planStartFriday =
+        getFridayForDate(
+            planStart
+        );
+
+
+    const differenceMilliseconds =
+        startOfDay(
+            friday
+        ).getTime() -
+        startOfDay(
+            planStartFriday
+        ).getTime();
+
+
+    const differenceWeeks =
+        Math.floor(
+            differenceMilliseconds /
+            (
+                7 *
+                24 *
+                60 *
+                60 *
+                1000
+            )
+        );
+
+
+    if (
+        differenceWeeks <
+        0
+    ) {
+
+        return -1;
+
+    }
+
+
+    return (
+        differenceWeeks %
+        currentCleaningMembers.length
+    );
+
+}
+
+
+// ============================================================
+// GET FALLBACK RESPONSIBLE MEMBER
+// ============================================================
+
+function getFallbackResponsibleMember(
+    friday
+) {
+
+    const rotationIndex =
+        getRotationIndexForFriday(
+            friday
+        );
+
+
+    if (
+        rotationIndex <
+        0 ||
+        rotationIndex >=
+        currentCleaningMembers.length
+    ) {
+
+        return null;
+
+    }
+
+
+    return (
+        currentCleaningMembers[
+            rotationIndex
+            ] ||
+        null
+    );
+
+}
+
+
+// ============================================================
+// GET RESPONSIBLE MEMBER FOR FRIDAY
+// ============================================================
+
+function getResponsibleMemberForFriday(
+    friday
+) {
+
+    const storedAssignment =
+        getStoredAssignmentForFriday(
+            friday
+        );
+
+
+    if (storedAssignment) {
+
+        const residentId =
+            getAssignmentResidentId(
+                storedAssignment
+            );
+
+
+        const matchingMember =
+            findMemberByResidentId(
+                residentId
+            );
+
+
+        if (matchingMember) {
+
+            return matchingMember;
+
+        }
+
+
+        if (
+            storedAssignment.residents
+        ) {
+
+            return {
+
+                resident_id:
+                residentId,
+
+                residents:
+                storedAssignment
+                    .residents
+
+            };
+
+        }
+
+    }
+
+
+    return getFallbackResponsibleMember(
+        friday
+    );
+
+}
+
+
+// ============================================================
+// GET RESPONSIBLE NAME FOR FRIDAY
+// ============================================================
+
+function getResponsibleNameForFriday(
+    friday
+) {
+
+    const storedAssignment =
+        getStoredAssignmentForFriday(
+            friday
+        );
+
+
+    if (storedAssignment) {
+
+        const assignmentName =
+            getAssignmentName(
+                storedAssignment
+            );
+
+
+        if (
+            assignmentName !==
+            t(
+                "notAssigned"
+            )
+        ) {
+
+            return assignmentName;
+
+        }
+
+    }
+
+
+    return getMemberName(
+        getResponsibleMemberForFriday(
+            friday
+        )
+    );
+
+}
+
+
+// ============================================================
+// GET OR CREATE WEEK ASSIGNMENT
+// ============================================================
+
+async function ensureWeekAssignment(
+    friday
+) {
+
+    if (
+        !currentCleaningPlan ||
+        !friday
     ) {
 
         return null;
@@ -2035,329 +2438,157 @@ function getStoredAssignmentForFriday(
         );
 
 
-    return (
-        currentWeekAssignments.find(
-            function (assignment) {
+    if (
+        currentWeekAssignments[
+            fridayIso
+            ]
+    ) {
 
-                return (
-                    assignment.week_start ===
-                    fridayIso
-                );
+        return (
+            currentWeekAssignments[
+                fridayIso
+                ]
+        );
 
+    }
+
+
+    /*
+     * The database function is responsible for creating
+     * a stable assignment when one does not already exist.
+     *
+     * RLS and the database function remain the source
+     * of truth for access and assignment security.
+     */
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.rpc(
+            "get_or_create_cleaning_week_assignment",
+            {
+                p_plan_id:
+                currentCleaningPlan.id,
+
+                p_week_start:
+                fridayIso
             }
-        ) ||
-        null
-    );
-
-}
+        );
 
 
-// ============================================================
-// GET FALLBACK ROTATION MEMBER
-// ============================================================
+    if (error) {
 
-function getRotationMemberForFriday(
-    friday
-) {
+        console.error(
+            "GET OR CREATE WEEK ASSIGNMENT ERROR:",
+            error
+        );
 
-    if (
-        !currentCleaningPlan ||
-        currentPlanMembers.length ===
-        0
-    ) {
 
         return null;
 
     }
 
 
-    const planStart =
-        createLocalDateFromIso(
-            currentCleaningPlan.start_date
-        );
+    /*
+     * The RPC can return either one row or an array,
+     * depending on the PostgreSQL return definition.
+     */
+
+    let assignment =
+        null;
 
 
-    const weekDifference =
-        getWeekDifference(
-            planStart,
-            friday
-        );
+    if (
+        Array.isArray(
+            data
+        )
+    ) {
+
+        assignment =
+            data[0] ||
+            null;
+
+    }
+    else {
+
+        assignment =
+            data ||
+            null;
+
+    }
 
 
-    const count =
-        currentPlanMembers.length;
+    /*
+     * Reload the stored assignments so nested resident/profile
+     * information is available for rendering.
+     */
 
-
-    const normalizedIndex =
-        (
-            (
-                weekDifference %
-                count
-            ) +
-            count
-        ) %
-        count;
+    await loadWeekAssignments();
 
 
     return (
-        currentPlanMembers[
-            normalizedIndex
+        currentWeekAssignments[
+            fridayIso
             ] ||
-        null
+        assignment
     );
 
 }
 
 
 // ============================================================
-// RESPONSIBLE MEMBER
-// ============================================================
-
-function getResponsibleMemberForFriday(
-    friday
-) {
-
-    /*
-     * PRIORITET 1:
-     *
-     * Bruk den faktiske lagrede uke-tildelingen.
-     */
-
-    const assignment =
-        getStoredAssignmentForFriday(
-            friday
-        );
-
-
-    if (assignment) {
-
-        /*
-         * Vi returnerer samme grunnstruktur som resten av
-         * Resident-koden allerede forventer:
-         *
-         * {
-         *     resident_id,
-         *     residents: {
-         *         profiles: {
-         *             full_name
-         *         }
-         *     }
-         * }
-         *
-         * Dermed trenger vi ikke bygge om resten av UI-et.
-         */
-
-        return {
-
-            id:
-            assignment.id,
-
-            plan_id:
-            assignment.plan_id,
-
-            resident_id:
-            assignment.resident_id,
-
-            residents:
-            assignment.residents,
-
-            assignment:
-            assignment,
-
-            assignment_status:
-            assignment.status,
-
-            source:
-                "assignment"
-
-        };
-
-    }
-
-
-    /*
-     * PRIORITET 2:
-     *
-     * Ingen lagret assignment finnes.
-     *
-     * Da bruker vi den eksisterende matematiske rotasjonen
-     * slik at planen fortsatt kan vises.
-     */
-
-    const rotationMember =
-        getRotationMemberForFriday(
-            friday
-        );
-
-
-    if (!rotationMember) {
-
-        return null;
-
-    }
-
-
-    return {
-
-        ...rotationMember,
-
-        assignment:
-            null,
-
-        assignment_status:
-            null,
-
-        source:
-            "rotation"
-
-    };
-
-}
-
-
-// ============================================================
-// MEMBER NAME
-// ============================================================
-
-function getMemberName(
-    member
-) {
-
-    return (
-        member?.
-            residents?.
-            profiles?.
-            full_name ||
-        "Ikke tildelt"
-    );
-
-}
-
-
-// ============================================================
-// CURRENT USER RESPONSIBLE
-// ============================================================
-
-function isCurrentResidentResponsible() {
-
-    if (
-        !selectedResponsibleMember ||
-        !currentResident
-    ) {
-
-        return false;
-
-    }
-
-
-    return (
-        selectedResponsibleMember.resident_id ===
-        currentResident.id
-    );
-
-}
-
-
-// ============================================================
-// SELECTED CURRENT WEEK
-// ============================================================
-
-function isSelectedCurrentWeek() {
-
-    if (
-        !selectedFriday ||
-        !currentWeekFriday
-    ) {
-
-        return false;
-
-    }
-
-
-    return isSameCalendarDate(
-        selectedFriday,
-        currentWeekFriday
-    );
-
-}
-
-
-// ============================================================
-// COMPLETION WINDOW
-// ============================================================
-
-function isCompletionWindowOpen() {
-
-    if (!isSelectedCurrentWeek()) {
-
-        return false;
-
-    }
-
-
-    const now =
-        new Date();
-
-
-    const day =
-        now.getDay();
-
-
-    return (
-        day ===
-        4 ||
-        day ===
-        5
-    );
-
-}
-
-
-// ============================================================
-// CAN COMPLETE
-// ============================================================
-
-function canCurrentUserComplete() {
-
-    return (
-        isCurrentResidentResponsible() &&
-        isCompletionWindowOpen()
-    );
-
-}
-
-
-// ============================================================
-// WEEK STATUS
+// GET WEEK STATUS TEXT
 // ============================================================
 
 function getWeekStatusText(
     friday
 ) {
 
-    if (!currentWeekFriday) {
+    if (
+        !friday ||
+        !currentWeekFriday
+    ) {
 
-        return "Planlagt";
+        return t(
+            "scheduled"
+        );
+
+    }
+
+
+    const fridayTime =
+        startOfDay(
+            friday
+        ).getTime();
+
+
+    const currentFridayTime =
+        startOfDay(
+            currentWeekFriday
+        ).getTime();
+
+
+    if (
+        fridayTime <
+        currentFridayTime
+    ) {
+
+        return t(
+            "previousWeekStatus"
+        );
 
     }
 
 
     if (
-        friday.getTime() <
-        currentWeekFriday.getTime()
+        fridayTime >
+        currentFridayTime
     ) {
 
-        return "Tidligere uke";
-
-    }
-
-
-    if (
-        friday.getTime() >
-        currentWeekFriday.getTime()
-    ) {
-
-        return "Kommende";
+        return t(
+            "upcoming"
+        );
 
     }
 
@@ -2366,83 +2597,166 @@ function getWeekStatusText(
         new Date();
 
 
+    const day =
+        today.getDay();
+
+
     if (
-        today.getDay() <=
+        day >=
+        1 &&
+        day <=
         3
     ) {
 
-        return "Ikke tilgjengelig ennå";
+        return t(
+            "notAvailableYet"
+        );
 
     }
 
 
     if (
-        today.getDay() ===
+        day ===
         4 ||
-        today.getDay() ===
+        day ===
         5
     ) {
 
-        return "Åpen";
+        return t(
+            "open"
+        );
 
     }
 
 
-    return "Frist utløpt";
+    return t(
+        "deadlinePassed"
+    );
 
 }
 
 
 // ============================================================
-// RENDER SELECTED WEEK
+// GET WEEK STATUS CLASS
 // ============================================================
 
-async function renderCleaningSchedule() {
+function getWeekStatusClass(
+    friday
+) {
 
     if (
-        !currentCleaningPlan ||
-        !selectedFriday
+        !friday ||
+        !currentWeekFriday
     ) {
+
+        return "planned";
+
+    }
+
+
+    const fridayTime =
+        startOfDay(
+            friday
+        ).getTime();
+
+
+    const currentFridayTime =
+        startOfDay(
+            currentWeekFriday
+        ).getTime();
+
+
+    if (
+        fridayTime <
+        currentFridayTime
+    ) {
+
+        return "previous";
+
+    }
+
+
+    if (
+        fridayTime >
+        currentFridayTime
+    ) {
+
+        return "upcoming";
+
+    }
+
+
+    const day =
+        new Date()
+            .getDay();
+
+
+    if (
+        day >=
+        1 &&
+        day <=
+        3
+    ) {
+
+        return "not-available";
+
+    }
+
+
+    if (
+        day ===
+        4 ||
+        day ===
+        5
+    ) {
+
+        return "open";
+
+    }
+
+
+    return "deadline-passed";
+
+}
+
+
+// ============================================================
+// APPLY WEEK STATUS CLASS
+// ============================================================
+
+function applyWeekStatusClass(
+    element,
+    friday
+) {
+
+    if (!element) {
 
         return;
 
     }
 
 
-    /*
-     * Denne funksjonen bruker nå:
-     *
-     * cleaning_week_assignments først
-     *             ↓
-     * cleaning_plan_members som fallback
-     */
-
-    selectedResponsibleMember =
-        getResponsibleMemberForFriday(
-            selectedFriday
-        );
+    element.classList.remove(
+        "planned",
+        "previous",
+        "upcoming",
+        "not-available",
+        "open",
+        "deadline-passed"
+    );
 
 
-    await loadSelectedWeekCompletions();
-
-
-    renderCurrentWeekCard();
-
-    renderSelectedWeek();
-
-    renderWeekPreview();
-
-    renderCleaningTasks();
-
-    updateCompletionControls();
-
-    updateConfirmButtonState();
+    element.classList.add(
+        getWeekStatusClass(
+            friday
+        )
+    );
 
 }
 
 
 // ============================================================
-// CURRENT WEEK CARD
+// RENDER CURRENT WEEK CARD
 // ============================================================
 
 function renderCurrentWeekCard() {
@@ -2454,14 +2768,20 @@ function renderCurrentWeekCard() {
     }
 
 
-    const member =
+    const weekInfo =
+        getIsoWeekInfo(
+            currentWeekFriday
+        );
+
+
+    const responsibleMember =
         getResponsibleMemberForFriday(
             currentWeekFriday
         );
 
 
-    const weekInfo =
-        getIsoWeekInfo(
+    const responsibleName =
+        getResponsibleNameForFriday(
             currentWeekFriday
         );
 
@@ -2469,8 +2789,29 @@ function renderCurrentWeekCard() {
     if (currentWeekHeading) {
 
         currentWeekHeading.textContent =
-            "Rengjøring • Uke " +
-            weekInfo.week;
+            t(
+                "cleaningWeekHeading",
+                {
+                    week:
+                    weekInfo.week
+                }
+            );
+
+    }
+
+
+    if (currentWeekStatus) {
+
+        currentWeekStatus.textContent =
+            getWeekStatusText(
+                currentWeekFriday
+            );
+
+
+        applyWeekStatusClass(
+            currentWeekStatus,
+            currentWeekFriday
+        );
 
     }
 
@@ -2488,9 +2829,7 @@ function renderCurrentWeekCard() {
     if (currentWeekResponsible) {
 
         currentWeekResponsible.textContent =
-            getMemberName(
-                member
-            );
+            responsibleName;
 
     }
 
@@ -2499,18 +2838,28 @@ function renderCurrentWeekCard() {
 
         currentWeekFloor.textContent =
             getFloorDisplayName(
-                currentResident?.floors
+                currentResident
+                    ?.floors
             );
 
     }
 
 
-    if (currentWeekStatus) {
+    /*
+     * Keep this reference available when the selected
+     * week is also the current week.
+     */
 
-        currentWeekStatus.textContent =
-            getWeekStatusText(
-                currentWeekFriday
-            );
+    if (
+        selectedFriday &&
+        isSameDate(
+            selectedFriday,
+            currentWeekFriday
+        )
+    ) {
+
+        selectedResponsibleMember =
+            responsibleMember;
 
     }
 
@@ -2518,10 +2867,17 @@ function renderCurrentWeekCard() {
 
 
 // ============================================================
-// SELECTED WEEK INFORMATION
+// RENDER SELECTED WEEK
 // ============================================================
 
 function renderSelectedWeek() {
+
+    if (!selectedFriday) {
+
+        return;
+
+    }
+
 
     const weekInfo =
         getIsoWeekInfo(
@@ -2529,11 +2885,28 @@ function renderSelectedWeek() {
         );
 
 
+    selectedResponsibleMember =
+        getResponsibleMemberForFriday(
+            selectedFriday
+        );
+
+
+    const responsibleName =
+        getResponsibleNameForFriday(
+            selectedFriday
+        );
+
+
     if (selectedWeekNumber) {
 
         selectedWeekNumber.textContent =
-            "Uke " +
-            weekInfo.week;
+            t(
+                "weekLabel",
+                {
+                    week:
+                    weekInfo.week
+                }
+            );
 
     }
 
@@ -2541,7 +2914,9 @@ function renderSelectedWeek() {
     if (selectedWeekYear) {
 
         selectedWeekYear.textContent =
-            weekInfo.year;
+            String(
+                weekInfo.year
+            );
 
     }
 
@@ -2559,9 +2934,7 @@ function renderSelectedWeek() {
     if (selectedWeekResponsible) {
 
         selectedWeekResponsible.textContent =
-            getMemberName(
-                selectedResponsibleMember
-            );
+            responsibleName;
 
     }
 
@@ -2573,22 +2946,29 @@ function renderSelectedWeek() {
                 selectedFriday
             );
 
+
+        applyWeekStatusClass(
+            selectedWeekStatus,
+            selectedFriday
+        );
+
     }
+
 
     if (signedByName) {
 
         signedByName.textContent =
-            getMemberName(
-                selectedResponsibleMember
-            );
+            responsibleName;
 
     }
+
 
     if (confirmWeekNumber) {
 
         confirmWeekNumber.textContent =
-            "Uke " +
-            weekInfo.week;
+            String(
+                weekInfo.week
+            );
 
     }
 
@@ -2596,12 +2976,211 @@ function renderSelectedWeek() {
 
 
 // ============================================================
-// WEEK PREVIEW
+// CREATE WEEK PREVIEW ITEM
+// ============================================================
+
+function createWeekPreviewItem(
+    friday
+) {
+
+    const weekInfo =
+        getIsoWeekInfo(
+            friday
+        );
+
+
+    const responsibleName =
+        getResponsibleNameForFriday(
+            friday
+        );
+
+
+    const item =
+        document.createElement(
+            "button"
+        );
+
+
+    item.type =
+        "button";
+
+    item.className =
+        "resident-week-preview-item";
+
+
+    if (
+        selectedFriday &&
+        isSameDate(
+            friday,
+            selectedFriday
+        )
+    ) {
+
+        item.classList.add(
+            "active"
+        );
+
+    }
+
+
+    if (
+        currentWeekFriday &&
+        isSameDate(
+            friday,
+            currentWeekFriday
+        )
+    ) {
+
+        item.classList.add(
+            "current"
+        );
+
+    }
+
+
+    const weekColumn =
+        document.createElement(
+            "div"
+        );
+
+
+    weekColumn.className =
+        "resident-week-preview-week";
+
+
+    const weekLabel =
+        document.createElement(
+            "strong"
+        );
+
+
+    weekLabel.textContent =
+        t(
+            "weekLabel",
+            {
+                week:
+                weekInfo.week
+            }
+        );
+
+
+    const dateLabel =
+        document.createElement(
+            "span"
+        );
+
+
+    dateLabel.textContent =
+        formatShortDate(
+            friday
+        );
+
+
+    weekColumn.appendChild(
+        weekLabel
+    );
+
+    weekColumn.appendChild(
+        dateLabel
+    );
+
+
+    const responsibleColumn =
+        document.createElement(
+            "div"
+        );
+
+
+    responsibleColumn.className =
+        "resident-week-preview-responsible";
+
+
+    const responsibleLabel =
+        document.createElement(
+            "strong"
+        );
+
+
+    responsibleLabel.textContent =
+        responsibleName;
+
+
+    const statusLabel =
+        document.createElement(
+            "span"
+        );
+
+
+    statusLabel.textContent =
+        getWeekStatusText(
+            friday
+        );
+
+
+    responsibleColumn.appendChild(
+        responsibleLabel
+    );
+
+    responsibleColumn.appendChild(
+        statusLabel
+    );
+
+
+    item.appendChild(
+        weekColumn
+    );
+
+    item.appendChild(
+        responsibleColumn
+    );
+
+
+    item.addEventListener(
+        "click",
+        async function () {
+
+            selectedFriday =
+                new Date(
+                    friday.getFullYear(),
+                    friday.getMonth(),
+                    friday.getDate()
+                );
+
+
+            resetSelectedPhotos();
+
+
+            /*
+             * Ensure the selected week has a stable
+             * assignment in the database.
+             */
+
+            await ensureWeekAssignment(
+                selectedFriday
+            );
+
+
+            await renderCleaningSchedule();
+
+        }
+    );
+
+
+    return item;
+
+}
+
+
+// ============================================================
+// RENDER WEEK PREVIEW
 // ============================================================
 
 function renderWeekPreview() {
 
-    if (!weekPreviewList) {
+    if (
+        !weekPreviewList ||
+        !selectedFriday
+    ) {
 
         return;
 
@@ -2612,568 +3191,33 @@ function renderWeekPreview() {
         "";
 
 
-    const offsets =
-        [
-            -2,
-            -1,
-            0,
-            1,
-            2
-        ];
+    /*
+     * Show five weeks:
+     *
+     * - two before selected week
+     * - selected week
+     * - two after selected week
+     */
 
-
-    offsets.forEach(
-        function (offset) {
-
-            const friday =
-                addDays(
-                    selectedFriday,
-                    offset * 7
-                );
-
-
-            const weekInfo =
-                getIsoWeekInfo(
-                    friday
-                );
-
-
-            const member =
-                getResponsibleMemberForFriday(
-                    friday
-                );
-
-
-            const item =
-                document.createElement(
-                    "button"
-                );
-
-
-            item.type =
-                "button";
-
-
-            item.className =
-                "resident-week-preview-item";
-
-
-            if (
-                offset ===
-                0
-            ) {
-
-                item.classList.add(
-                    "active"
-                );
-
-            }
-
-
-            const week =
-                document.createElement(
-                    "strong"
-                );
-
-
-            week.textContent =
-                "Uke " +
-                weekInfo.week;
-
-
-            const responsible =
-                document.createElement(
-                    "span"
-                );
-
-
-            responsible.textContent =
-                getMemberName(
-                    member
-                );
-
-
-            const date =
-                document.createElement(
-                    "small"
-                );
-
-
-            date.textContent =
-                formatShortDate(
-                    friday
-                );
-
-
-            item.appendChild(
-                week
-            );
-
-
-            item.appendChild(
-                responsible
-            );
-
-
-            item.appendChild(
-                date
-            );
-
-
-            item.addEventListener(
-                "click",
-                async function () {
-
-                    selectedFriday =
-                        cloneDate(
-                            friday
-                        );
-
-
-                    resetSelectedPhotos();
-
-
-                    await renderCleaningSchedule();
-
-                }
-            );
-
-
-            weekPreviewList.appendChild(
-                item
-            );
-
-        }
-    );
-
-}
-
-// ============================================================
-
-
-// RENDER TASKS
-// ============================================================
-
-function renderCleaningTasks() {
-
-    if (cleaningTaskList) {
-
-        cleaningTaskList.innerHTML =
-            "";
-
-    }
-
-
-    if (
-        currentCleaningTasks.length ===
-        0
+    for (
+        let offset = -2;
+        offset <= 2;
+        offset++
     ) {
 
-        if (noCleaningTasksState) {
-
-            noCleaningTasksState.hidden =
-                false;
-
-        }
-
-
-        if (cleaningTasksWrapper) {
-
-            cleaningTasksWrapper.hidden =
-                true;
-
-        }
-
-
-        if (cleaningTaskCount) {
-
-            cleaningTaskCount.textContent =
-                "0 oppgaver";
-
-        }
-
-
-        return;
-
-    }
-
-
-    if (noCleaningTasksState) {
-
-        noCleaningTasksState.hidden =
-            true;
-
-    }
-
-
-    if (cleaningTasksWrapper) {
-
-        cleaningTasksWrapper.hidden =
-            false;
-
-    }
-
-
-    const canComplete =
-        canCurrentUserComplete();
-
-
-    currentCleaningTasks.forEach(
-        function (
-            item,
-            index
-        ) {
-
-            const task =
-                item.cleaning_tasks;
-
-
-            const taskRow =
-                document.createElement(
-                    "label"
-                );
-
-
-            taskRow.className =
-                "resident-cleaning-task-row";
-
-
-            if (!canComplete) {
-
-                taskRow.classList.add(
-                    "locked"
-                );
-
-            }
-
-
-            const checkbox =
-                document.createElement(
-                    "input"
-                );
-
-
-            checkbox.type =
-                "checkbox";
-
-
-            checkbox.className =
-                "resident-cleaning-checkbox";
-
-
-            checkbox.dataset.taskId =
-                task.id;
-
-
-            checkbox.checked =
-                isTaskCompleted(
-                    task.id
-                );
-
-
-            checkbox.disabled =
-                !canComplete;
-
-
-            const content =
-                document.createElement(
-                    "div"
-                );
-
-
-            content.className =
-                "resident-cleaning-task-content";
-
-
-            const number =
-                document.createElement(
-                    "span"
-                );
-
-
-            number.className =
-                "resident-cleaning-task-number";
-
-
-            number.textContent =
-                String(
-                    index + 1
-                );
-
-
-            const textWrapper =
-                document.createElement(
-                    "div"
-                );
-
-
-            const title =
-                document.createElement(
-                    "div"
-                );
-
-
-            title.className =
-                "resident-cleaning-task-title";
-
-
-            title.textContent =
-                task.name;
-
-
-            textWrapper.appendChild(
-                title
+        const friday =
+            addDays(
+                selectedFriday,
+                offset *
+                7
             );
 
 
-            if (task.description) {
-
-                const description =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                description.className =
-                    "resident-cleaning-task-description";
-
-
-                description.textContent =
-                    task.description;
-
-
-                textWrapper.appendChild(
-                    description
-                );
-
-            }
-
-
-            content.appendChild(
-                number
-            );
-
-
-            content.appendChild(
-                textWrapper
-            );
-
-
-            taskRow.appendChild(
-                checkbox
-            );
-
-
-            taskRow.appendChild(
-                content
-            );
-
-
-            cleaningTaskList.appendChild(
-                taskRow
-            );
-
-        }
-    );
-
-
-    if (cleaningTaskCount) {
-
-        cleaningTaskCount.textContent =
-            currentCleaningTasks.length +
-            (
-                currentCleaningTasks.length ===
-                1
-                    ? " oppgave"
-                    : " oppgaver"
-            );
-
-    }
-
-}
-
-
-// ============================================================
-// UPDATE CONTROLS
-// ============================================================
-
-function updateCompletionControls() {
-
-    const responsible =
-        isCurrentResidentResponsible();
-
-    const currentWeek =
-        isSelectedCurrentWeek();
-
-    const windowOpen =
-        isCompletionWindowOpen();
-
-    const canComplete =
-        canCurrentUserComplete();
-
-
-    if (cameraButton) {
-
-        cameraButton.disabled =
-            !canComplete;
-
-    }
-
-
-    if (!responsible) {
-
-        if (taskPermissionMessage) {
-
-            taskPermissionMessage.textContent =
-                "Du kan se oppgavene, men bare ukens ansvarlige kan fullføre dem.";
-
-        }
-
-
-        if (cleaningPermissionText) {
-
-            cleaningPermissionText.textContent =
-                "Kun " +
-                getMemberName(
-                    selectedResponsibleMember
-                ) +
-                " kan fullføre denne uken.";
-
-        }
-
-
-        if (responsibleOnlyMessage) {
-
-            responsibleOnlyMessage.textContent =
-                "🔒 Kun ukens ansvarlige kan bekrefte rengjøringen.";
-
-        }
-
-
-        return;
-
-    }
-
-
-    if (!currentWeek) {
-
-        if (taskPermissionMessage) {
-
-            taskPermissionMessage.textContent =
-                "Dette er ikke den aktive rengjøringsuken.";
-
-        }
-
-
-        if (cleaningPermissionText) {
-
-            cleaningPermissionText.textContent =
-                "Oppgaver kan bare fullføres i den aktuelle uken.";
-
-        }
-
-
-        if (responsibleOnlyMessage) {
-
-            responsibleOnlyMessage.textContent =
-                "🔒 Velg den aktuelle uken for å utføre rengjøringen.";
-
-        }
-
-
-        return;
-
-    }
-
-
-    if (!windowOpen) {
-
-        const today =
-            new Date();
-
-
-        if (
-            today.getDay() <=
-            3
-        ) {
-
-            if (taskPermissionMessage) {
-
-                taskPermissionMessage.textContent =
-                    "Rengjøringen blir tilgjengelig torsdag.";
-
-            }
-
-
-            if (cleaningPermissionText) {
-
-                cleaningPermissionText.textContent =
-                    "Ikke tilgjengelig ennå. Rengjøring kan registreres torsdag eller fredag.";
-
-            }
-
-
-            if (responsibleOnlyMessage) {
-
-                responsibleOnlyMessage.textContent =
-                    "🔒 Bekreftelse åpnes torsdag.";
-
-            }
-
-        }
-        else {
-
-            if (taskPermissionMessage) {
-
-                taskPermissionMessage.textContent =
-                    "Fristen for denne uken er utløpt.";
-
-            }
-
-
-            if (cleaningPermissionText) {
-
-                cleaningPermissionText.textContent =
-                    "Rengjøringen kan ikke lenger registreres for denne uken.";
-
-            }
-
-
-            if (responsibleOnlyMessage) {
-
-                responsibleOnlyMessage.textContent =
-                    "🔒 Fristen er utløpt.";
-
-            }
-
-        }
-
-
-        return;
-
-    }
-
-
-    if (taskPermissionMessage) {
-
-        taskPermissionMessage.textContent =
-            "Du er ansvarlig denne uken. Huk av oppgavene etter hvert som de utføres.";
-
-    }
-
-
-    if (cleaningPermissionText) {
-
-        cleaningPermissionText.textContent =
-            "Du er ansvarlig for denne uken.";
-
-    }
-
-
-    if (responsibleOnlyMessage) {
-
-        responsibleOnlyMessage.textContent =
-            "Fullfør alle oppgaver og ta minst ett nytt bilde før du signerer.";
+        weekPreviewList.appendChild(
+            createWeekPreviewItem(
+                friday
+            )
+        );
 
     }
 
@@ -3205,6 +3249,11 @@ if (previousWeekButton) {
 
 
             resetSelectedPhotos();
+
+
+            await ensureWeekAssignment(
+                selectedFriday
+            );
 
 
             await renderCleaningSchedule();
@@ -3242,10 +3291,1513 @@ if (nextWeekButton) {
             resetSelectedPhotos();
 
 
+            await ensureWeekAssignment(
+                selectedFriday
+            );
+
+
             await renderCleaningSchedule();
 
         }
     );
+
+}
+
+
+// ============================================================
+// RENDER CLEANING SCHEDULE
+// ============================================================
+
+async function renderCleaningSchedule() {
+
+    if (
+        !currentCleaningPlan ||
+        !selectedFriday
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * Make sure current and selected weeks have stable
+     * database assignments before rendering.
+     */
+
+    if (currentWeekFriday) {
+
+        await ensureWeekAssignment(
+            currentWeekFriday
+        );
+
+    }
+
+
+    await ensureWeekAssignment(
+        selectedFriday
+    );
+
+
+    renderCurrentWeekCard();
+
+    renderSelectedWeek();
+
+    renderWeekPreview();
+
+
+    await loadCleaningCompletionsForSelectedWeek();
+
+
+    await renderCleaningTasks();
+
+
+    updateCompletionControls();
+
+    renderPhotoPreviews();
+
+    updateConfirmButtonState();
+
+}
+// ============================================================
+// LOAD CLEANING COMPLETIONS FOR SELECTED WEEK
+// ============================================================
+
+async function loadCleaningCompletionsForSelectedWeek() {
+
+    currentCleaningCompletions =
+        [];
+
+
+    if (
+        !currentCleaningPlan ||
+        !selectedFriday
+    ) {
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from(
+                "cleaning_completions"
+            )
+            .select(
+                `
+                id,
+                plan_id,
+                task_id,
+                resident_id,
+                week_start,
+                completed_at
+                `
+            )
+            .eq(
+                "plan_id",
+                currentCleaningPlan.id
+            )
+            .eq(
+                "week_start",
+                dateToIso(
+                    selectedFriday
+                )
+            );
+
+
+    if (error) {
+
+        console.error(
+            "LOAD CLEANING COMPLETIONS ERROR:",
+            error
+        );
+
+
+        currentCleaningCompletions =
+            [];
+
+        return;
+
+    }
+
+
+    currentCleaningCompletions =
+        data ||
+        [];
+
+}
+
+
+// ============================================================
+// GET TASK FROM PLAN ITEM
+// ============================================================
+
+function getTaskFromPlanItem(
+    planItem
+) {
+
+    if (!planItem) {
+
+        return null;
+
+    }
+
+
+    return (
+        planItem.cleaning_tasks ||
+        null
+    );
+
+}
+
+
+// ============================================================
+// GET TASK ID FROM PLAN ITEM
+// ============================================================
+
+function getTaskIdFromPlanItem(
+    planItem
+) {
+
+    const task =
+        getTaskFromPlanItem(
+            planItem
+        );
+
+
+    return (
+        task?.id ||
+        planItem?.task_id ||
+        null
+    );
+
+}
+
+
+// ============================================================
+// FIND TASK COMPLETION
+// ============================================================
+
+function findTaskCompletion(
+    taskId
+) {
+
+    if (!taskId) {
+
+        return null;
+
+    }
+
+
+    return (
+        currentCleaningCompletions.find(
+            function (completion) {
+
+                return (
+                    completion.task_id ===
+                    taskId
+                );
+
+            }
+        ) ||
+        null
+    );
+
+}
+
+
+// ============================================================
+// IS TASK COMPLETED
+// ============================================================
+
+function isTaskCompleted(
+    taskId
+) {
+
+    return Boolean(
+        findTaskCompletion(
+            taskId
+        )
+    );
+
+}
+
+
+// ============================================================
+// GET CURRENT RESIDENT ID
+// ============================================================
+
+function getCurrentResidentId() {
+
+    return (
+        currentResident?.id ||
+        null
+    );
+
+}
+
+
+// ============================================================
+// GET SELECTED RESPONSIBLE RESIDENT ID
+// ============================================================
+
+function getSelectedResponsibleResidentId() {
+
+    return getMemberResidentId(
+        selectedResponsibleMember
+    );
+
+}
+
+
+// ============================================================
+// IS CURRENT USER RESPONSIBLE
+// ============================================================
+
+function isCurrentUserResponsible() {
+
+    const currentResidentId =
+        getCurrentResidentId();
+
+
+    const responsibleResidentId =
+        getSelectedResponsibleResidentId();
+
+
+    if (
+        !currentResidentId ||
+        !responsibleResidentId
+    ) {
+
+        return false;
+
+    }
+
+
+    return (
+        currentResidentId ===
+        responsibleResidentId
+    );
+
+}
+
+
+// ============================================================
+// CAN CURRENT USER COMPLETE
+// ============================================================
+
+function canCurrentUserComplete() {
+
+    if (
+        !currentResident ||
+        !currentCleaningPlan ||
+        !selectedFriday
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        !isCurrentUserResponsible()
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        !isSelectedCurrentWeek()
+    ) {
+
+        return false;
+
+    }
+
+
+    return (
+        getCleaningWindowState() ===
+        "open"
+    );
+
+}
+
+
+// ============================================================
+// SAVE TASK COMPLETION
+// ============================================================
+
+async function saveTaskCompletion(
+    taskId
+) {
+
+    if (
+        !taskId ||
+        !currentCleaningPlan ||
+        !currentResident ||
+        !selectedFriday
+    ) {
+
+        return {
+
+            success:
+                false,
+
+            data:
+                null
+
+        };
+
+    }
+
+
+    /*
+     * Frontend permission check is only for UI behavior.
+     *
+     * Supabase RLS / can_complete_cleaning_task remains
+     * the security authority.
+     */
+
+    if (
+        !canCurrentUserComplete()
+    ) {
+
+        return {
+
+            success:
+                false,
+
+            data:
+                null
+
+        };
+
+    }
+
+
+    const payload = {
+
+        plan_id:
+        currentCleaningPlan.id,
+
+        task_id:
+        taskId,
+
+        resident_id:
+        currentResident.id,
+
+        week_start:
+            dateToIso(
+                selectedFriday
+            )
+
+    };
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from(
+                "cleaning_completions"
+            )
+            .insert(
+                payload
+            )
+            .select(
+                `
+                id,
+                plan_id,
+                task_id,
+                resident_id,
+                week_start,
+                completed_at
+                `
+            )
+            .single();
+
+
+    if (error) {
+
+        console.error(
+            "SAVE TASK COMPLETION ERROR:",
+            error
+        );
+
+
+        return {
+
+            success:
+                false,
+
+            data:
+                null
+
+        };
+
+    }
+
+
+    currentCleaningCompletions =
+        currentCleaningCompletions.filter(
+            function (completion) {
+
+                return (
+                    completion.task_id !==
+                    taskId
+                );
+
+            }
+        );
+
+
+    currentCleaningCompletions.push(
+        data
+    );
+
+
+    return {
+
+        success:
+            true,
+
+        data:
+        data
+
+    };
+
+}
+
+
+// ============================================================
+// DELETE TASK COMPLETION
+// ============================================================
+
+async function deleteTaskCompletion(
+    taskId
+) {
+
+    if (
+        !taskId ||
+        !currentCleaningPlan ||
+        !currentResident ||
+        !selectedFriday
+    ) {
+
+        return {
+
+            success:
+                false
+
+        };
+
+    }
+
+
+    if (
+        !canCurrentUserComplete()
+    ) {
+
+        return {
+
+            success:
+                false
+
+        };
+
+    }
+
+
+    const existingCompletion =
+        findTaskCompletion(
+            taskId
+        );
+
+
+    if (!existingCompletion) {
+
+        return {
+
+            success:
+                true
+
+        };
+
+    }
+
+
+    const {
+        error
+    } =
+        await supabaseClient
+            .from(
+                "cleaning_completions"
+            )
+            .delete()
+            .eq(
+                "id",
+                existingCompletion.id
+            );
+
+
+    if (error) {
+
+        console.error(
+            "DELETE TASK COMPLETION ERROR:",
+            error
+        );
+
+
+        return {
+
+            success:
+                false
+
+        };
+
+    }
+
+
+    currentCleaningCompletions =
+        currentCleaningCompletions.filter(
+            function (completion) {
+
+                return (
+                    completion.id !==
+                    existingCompletion.id
+                );
+
+            }
+        );
+
+
+    return {
+
+        success:
+            true
+
+    };
+
+}
+
+
+// ============================================================
+// HANDLE TASK CHECKBOX CHANGE
+// ============================================================
+
+async function handleTaskCheckboxChange(
+    checkbox,
+    taskId
+) {
+
+    if (
+        !checkbox ||
+        !taskId
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        isSavingTaskCompletion
+    ) {
+
+        checkbox.checked =
+            isTaskCompleted(
+                taskId
+            );
+
+        return;
+
+    }
+
+
+    const previousCheckedState =
+        isTaskCompleted(
+            taskId
+        );
+
+
+    const wantedCheckedState =
+        checkbox.checked;
+
+
+    if (
+        !canCurrentUserComplete()
+    ) {
+
+        checkbox.checked =
+            previousCheckedState;
+
+        updateConfirmButtonState();
+
+        return;
+
+    }
+
+
+    isSavingTaskCompletion =
+        true;
+
+
+    checkbox.disabled =
+        true;
+
+
+    let result;
+
+
+    if (
+        wantedCheckedState
+    ) {
+
+        result =
+            await saveTaskCompletion(
+                taskId
+            );
+
+    }
+    else {
+
+        result =
+            await deleteTaskCompletion(
+                taskId
+            );
+
+    }
+
+
+    if (
+        !result ||
+        !result.success
+    ) {
+
+        checkbox.checked =
+            previousCheckedState;
+
+
+        window.alert(
+            wantedCheckedState
+                ? t(
+                    "couldNotSaveTaskCompletion"
+                )
+                : t(
+                    "couldNotRemoveTaskCompletion"
+                )
+        );
+
+    }
+    else {
+
+        checkbox.checked =
+            wantedCheckedState;
+
+    }
+
+
+    isSavingTaskCompletion =
+        false;
+
+
+    checkbox.disabled =
+        !canCurrentUserComplete();
+
+
+    updateConfirmButtonState();
+
+}
+
+
+// ============================================================
+// CREATE CLEANING TASK ITEM
+// ============================================================
+
+function createCleaningTaskItem(
+    planItem,
+    index
+) {
+
+    const task =
+        getTaskFromPlanItem(
+            planItem
+        );
+
+
+    if (!task) {
+
+        return null;
+
+    }
+
+
+    const taskId =
+        getTaskIdFromPlanItem(
+            planItem
+        );
+
+
+    if (!taskId) {
+
+        return null;
+
+    }
+
+
+    const item =
+        document.createElement(
+            "div"
+        );
+
+
+    item.className =
+        "resident-cleaning-task-item";
+
+
+    const checkboxWrapper =
+        document.createElement(
+            "label"
+        );
+
+
+    checkboxWrapper.className =
+        "resident-cleaning-checkbox-wrapper";
+
+
+    const checkbox =
+        document.createElement(
+            "input"
+        );
+
+
+    checkbox.type =
+        "checkbox";
+
+    checkbox.className =
+        "resident-cleaning-checkbox";
+
+    checkbox.dataset.taskId =
+        taskId;
+
+
+    checkbox.checked =
+        isTaskCompleted(
+            taskId
+        );
+
+
+    checkbox.disabled =
+        !canCurrentUserComplete();
+
+
+    const customCheckbox =
+        document.createElement(
+            "span"
+        );
+
+
+    customCheckbox.className =
+        "resident-cleaning-checkbox-custom";
+
+
+    checkboxWrapper.appendChild(
+        checkbox
+    );
+
+    checkboxWrapper.appendChild(
+        customCheckbox
+    );
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+
+    content.className =
+        "resident-cleaning-task-content";
+
+
+    const title =
+        document.createElement(
+            "strong"
+        );
+
+
+    title.className =
+        "resident-cleaning-task-title";
+
+
+    title.textContent =
+        task.name ||
+        "";
+
+
+    content.appendChild(
+        title
+    );
+
+
+    if (
+        task.description
+    ) {
+
+        const description =
+            document.createElement(
+                "p"
+            );
+
+
+        description.className =
+            "resident-cleaning-task-description";
+
+
+        description.textContent =
+            task.description;
+
+
+        content.appendChild(
+            description
+        );
+
+    }
+
+
+    const number =
+        document.createElement(
+            "span"
+        );
+
+
+    number.className =
+        "resident-cleaning-task-number";
+
+
+    number.textContent =
+        String(
+            index +
+            1
+        );
+
+
+    item.appendChild(
+        checkboxWrapper
+    );
+
+    item.appendChild(
+        content
+    );
+
+    item.appendChild(
+        number
+    );
+
+
+    checkbox.addEventListener(
+        "change",
+        async function () {
+
+            await handleTaskCheckboxChange(
+                checkbox,
+                taskId
+            );
+
+        }
+    );
+
+
+    return item;
+
+}
+
+
+// ============================================================
+// RENDER CLEANING TASKS
+// ============================================================
+
+async function renderCleaningTasks() {
+
+    if (!cleaningTaskList) {
+
+        return;
+
+    }
+
+
+    cleaningTaskList.innerHTML =
+        "";
+
+
+    if (
+        currentCleaningTasks.length ===
+        0
+    ) {
+
+        if (cleaningTaskCount) {
+
+            cleaningTaskCount.textContent =
+                t(
+                    "zeroTasks"
+                );
+
+        }
+
+
+        if (noCleaningTasksState) {
+
+            noCleaningTasksState.hidden =
+                false;
+
+        }
+
+
+        if (cleaningTasksWrapper) {
+
+            cleaningTasksWrapper.hidden =
+                true;
+
+        }
+
+
+        return;
+
+    }
+
+
+    if (noCleaningTasksState) {
+
+        noCleaningTasksState.hidden =
+            true;
+
+    }
+
+
+    if (cleaningTasksWrapper) {
+
+        cleaningTasksWrapper.hidden =
+            false;
+
+    }
+
+
+    if (cleaningTaskCount) {
+
+        cleaningTaskCount.textContent =
+            t(
+                currentCleaningTasks.length ===
+                1
+                    ? "oneTask"
+                    : "multipleTasks",
+                {
+                    count:
+                    currentCleaningTasks
+                        .length
+                }
+            );
+
+    }
+
+
+    currentCleaningTasks.forEach(
+        function (
+            planItem,
+            index
+        ) {
+
+            const taskItem =
+                createCleaningTaskItem(
+                    planItem,
+                    index
+                );
+
+
+            if (taskItem) {
+
+                cleaningTaskList.appendChild(
+                    taskItem
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// SET TASK CHECKBOXES DISABLED
+// ============================================================
+
+function setTaskCheckboxesDisabled(
+    disabled
+) {
+
+    if (!cleaningTaskList) {
+
+        return;
+
+    }
+
+
+    const checkboxes =
+        cleaningTaskList
+            .querySelectorAll(
+                ".resident-cleaning-checkbox"
+            );
+
+
+    checkboxes.forEach(
+        function (checkbox) {
+
+            checkbox.disabled =
+                disabled;
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// UPDATE COMPLETION CONTROLS
+// ============================================================
+
+function updateCompletionControls() {
+
+    if (
+        !currentCleaningPlan ||
+        !selectedFriday
+    ) {
+
+        setTaskCheckboxesDisabled(
+            true
+        );
+
+
+        if (confirmCleaningButton) {
+
+            confirmCleaningButton.disabled =
+                true;
+
+        }
+
+
+        return;
+
+    }
+
+
+    const responsibleName =
+        getResponsibleNameForFriday(
+            selectedFriday
+        );
+
+
+    const isResponsible =
+        isCurrentUserResponsible();
+
+
+    const isCurrentWeek =
+        isSelectedCurrentWeek();
+
+
+    const cleaningWindowState =
+        getCleaningWindowState();
+
+
+    // --------------------------------------------------------
+    // NOT RESPONSIBLE
+    // --------------------------------------------------------
+
+    if (!isResponsible) {
+
+        setTaskCheckboxesDisabled(
+            true
+        );
+
+
+        if (taskPermissionMessage) {
+
+            taskPermissionMessage.textContent =
+                t(
+                    "tasksVisibleOnlyResponsibleCanComplete"
+                );
+
+        }
+
+
+        if (cleaningPermissionNotice) {
+
+            cleaningPermissionNotice.hidden =
+                false;
+
+        }
+
+
+        if (cleaningPermissionText) {
+
+            cleaningPermissionText.textContent =
+                t(
+                    "onlyNameCanComplete",
+                    {
+                        name:
+                        responsibleName
+                    }
+                );
+
+        }
+
+
+        if (responsibleOnlyMessage) {
+
+            responsibleOnlyMessage.textContent =
+                t(
+                    "onlyResponsibleCanConfirm"
+                );
+
+        }
+
+
+        if (confirmCleaningButton) {
+
+            confirmCleaningButton.disabled =
+                true;
+
+        }
+
+
+        return;
+
+    }
+
+
+    // --------------------------------------------------------
+    // RESPONSIBLE, BUT NOT SELECTED CURRENT WEEK
+    // --------------------------------------------------------
+
+    if (!isCurrentWeek) {
+
+        setTaskCheckboxesDisabled(
+            true
+        );
+
+
+        if (taskPermissionMessage) {
+
+            taskPermissionMessage.textContent =
+                t(
+                    "notActiveCleaningWeek"
+                );
+
+        }
+
+
+        if (cleaningPermissionNotice) {
+
+            cleaningPermissionNotice.hidden =
+                false;
+
+        }
+
+
+        if (cleaningPermissionText) {
+
+            cleaningPermissionText.textContent =
+                t(
+                    "tasksOnlyCurrentWeek"
+                );
+
+        }
+
+
+        if (responsibleOnlyMessage) {
+
+            responsibleOnlyMessage.textContent =
+                t(
+                    "selectCurrentWeekToClean"
+                );
+
+        }
+
+
+        if (confirmCleaningButton) {
+
+            confirmCleaningButton.disabled =
+                true;
+
+        }
+
+
+        return;
+
+    }
+
+
+    // --------------------------------------------------------
+    // RESPONSIBLE, CURRENT WEEK, BEFORE THURSDAY
+    // --------------------------------------------------------
+
+    if (
+        cleaningWindowState ===
+        "not-open-yet"
+    ) {
+
+        setTaskCheckboxesDisabled(
+            true
+        );
+
+
+        if (taskPermissionMessage) {
+
+            taskPermissionMessage.textContent =
+                t(
+                    "cleaningAvailableThursday"
+                );
+
+        }
+
+
+        if (cleaningPermissionNotice) {
+
+            cleaningPermissionNotice.hidden =
+                false;
+
+        }
+
+
+        if (cleaningPermissionText) {
+
+            cleaningPermissionText.textContent =
+                t(
+                    "notAvailableThursdayFriday"
+                );
+
+        }
+
+
+        if (responsibleOnlyMessage) {
+
+            responsibleOnlyMessage.textContent =
+                t(
+                    "confirmationOpensThursday"
+                );
+
+        }
+
+
+        if (confirmCleaningButton) {
+
+            confirmCleaningButton.disabled =
+                true;
+
+        }
+
+
+        return;
+
+    }
+
+
+    // --------------------------------------------------------
+    // RESPONSIBLE, CURRENT WEEK, DEADLINE PASSED
+    // --------------------------------------------------------
+
+    if (
+        cleaningWindowState ===
+        "deadline-passed"
+    ) {
+
+        setTaskCheckboxesDisabled(
+            true
+        );
+
+
+        if (taskPermissionMessage) {
+
+            taskPermissionMessage.textContent =
+                t(
+                    "deadlineExpiredForWeek"
+                );
+
+        }
+
+
+        if (cleaningPermissionNotice) {
+
+            cleaningPermissionNotice.hidden =
+                false;
+
+        }
+
+
+        if (cleaningPermissionText) {
+
+            cleaningPermissionText.textContent =
+                t(
+                    "cleaningCannotBeRegistered"
+                );
+
+        }
+
+
+        if (responsibleOnlyMessage) {
+
+            responsibleOnlyMessage.textContent =
+                t(
+                    "deadlineExpiredLocked"
+                );
+
+        }
+
+
+        if (confirmCleaningButton) {
+
+            confirmCleaningButton.disabled =
+                true;
+
+        }
+
+
+        return;
+
+    }
+
+
+    // --------------------------------------------------------
+    // RESPONSIBLE + CURRENT WEEK + THURSDAY/FRIDAY
+    // --------------------------------------------------------
+
+    setTaskCheckboxesDisabled(
+        false
+    );
+
+
+    if (taskPermissionMessage) {
+
+        taskPermissionMessage.textContent =
+            t(
+                "responsibleThisWeekCheckTasks"
+            );
+
+    }
+
+
+    if (cleaningPermissionNotice) {
+
+        cleaningPermissionNotice.hidden =
+            false;
+
+    }
+
+
+    if (cleaningPermissionText) {
+
+        cleaningPermissionText.textContent =
+            t(
+                "responsibleForThisWeek"
+            );
+
+    }
+
+
+    if (responsibleOnlyMessage) {
+
+        responsibleOnlyMessage.textContent =
+            t(
+                "completeTasksAndPhotoBeforeSign"
+            );
+
+    }
+
+
+    updateConfirmButtonState();
+
+}
+
+// ============================================================
+// RESET SELECTED PHOTOS
+// ============================================================
+
+function resetSelectedPhotos() {
+
+    selectedPhotos =
+        [];
+
+
+    renderPhotoPreviews();
+
+}
+
+
+// ============================================================
+// ADD CAMERA PHOTO
+// ============================================================
+
+function addCameraPhoto(
+    fileList
+) {
+
+    if (
+        !fileList ||
+        fileList.length ===
+        0
+    ) {
+
+        return;
+
+    }
+
+
+    const file =
+        fileList[0];
+
+
+    if (
+        !file ||
+        !file.type ||
+        !file.type.startsWith(
+            "image/"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        selectedPhotos.length >=
+        MAX_PHOTOS
+    ) {
+
+        window.alert(
+            t(
+                "maxSixPhotosAlert"
+            )
+        );
+
+
+        return;
+
+    }
+
+
+    selectedPhotos.push(
+        file
+    );
+
+
+    renderPhotoPreviews();
 
 }
 
@@ -3275,7 +4827,9 @@ if (cameraButton) {
             ) {
 
                 window.alert(
-                    "Du kan legge til maksimalt 6 bilder."
+                    t(
+                        "maxSixPhotosAlert"
+                    )
                 );
 
 
@@ -3321,80 +4875,6 @@ if (cameraInput) {
 
 
 // ============================================================
-// ADD CAMERA PHOTO
-// ============================================================
-
-function addCameraPhoto(
-    fileList
-) {
-
-    if (
-        !fileList ||
-        fileList.length ===
-        0
-    ) {
-
-        return;
-
-    }
-
-
-    const file =
-        fileList[0];
-
-
-    if (
-        !file.type.startsWith(
-            "image/"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        selectedPhotos.length >=
-        MAX_PHOTOS
-    ) {
-
-        window.alert(
-            "Du kan legge til maksimalt 6 bilder."
-        );
-
-
-        return;
-
-    }
-
-
-    selectedPhotos.push(
-        file
-    );
-
-
-    renderPhotoPreviews();
-
-}
-
-
-// ============================================================
-// RESET PHOTOS
-// ============================================================
-
-function resetSelectedPhotos() {
-
-    selectedPhotos =
-        [];
-
-
-    renderPhotoPreviews();
-
-}
-
-
-// ============================================================
 // RENDER PHOTO PREVIEWS
 // ============================================================
 
@@ -3411,11 +4891,13 @@ function renderPhotoPreviews() {
     if (photoCount) {
 
         photoCount.textContent =
-            "Bilder (" +
-            selectedPhotos.length +
-            "/" +
-            MAX_PHOTOS +
-            ")";
+            t(
+                "photosCount",
+                {
+                    count:
+                    selectedPhotos.length
+                }
+            );
 
     }
 
@@ -3453,7 +4935,9 @@ function renderPhotoPreviews() {
 
 
             image.alt =
-                "Dokumentasjonsbilde";
+                t(
+                    "documentationPhotoAlt"
+                );
 
 
             image.addEventListener(
@@ -3488,7 +4972,9 @@ function renderPhotoPreviews() {
 
             removeButton.setAttribute(
                 "aria-label",
-                "Fjern bilde"
+                t(
+                    "removePhotoAria"
+                )
             );
 
 
@@ -3518,9 +5004,13 @@ function renderPhotoPreviews() {
             );
 
 
-            photoPreviewGrid.appendChild(
-                wrapper
-            );
+            if (photoPreviewGrid) {
+
+                photoPreviewGrid.appendChild(
+                    wrapper
+                );
+
+            }
 
         }
     );
@@ -3531,8 +5021,12 @@ function renderPhotoPreviews() {
         cameraButton.textContent =
             selectedPhotos.length >=
             MAX_PHOTOS
-                ? "✓ Maks antall bilder tatt"
-                : "📷 Ta bilde";
+                ? t(
+                    "maxPhotosTaken"
+                )
+                : t(
+                    "takePhotoWithIcon"
+                );
 
 
         cameraButton.disabled =
@@ -3551,112 +5045,54 @@ function renderPhotoPreviews() {
 
 
 // ============================================================
-// TASK CHECKBOX CHANGE
+// GET TASK CHECKBOXES
 // ============================================================
 
-if (cleaningTaskList) {
+function getTaskCheckboxes() {
 
-    cleaningTaskList.addEventListener(
-        "change",
-        async function (event) {
+    if (!cleaningTaskList) {
 
-            const checkbox =
-                event.target;
+        return [];
 
-
-            if (
-                !checkbox.matches(
-                    ".resident-cleaning-checkbox"
-                )
-            ) {
-
-                return;
-
-            }
+    }
 
 
-            if (
-                !canCurrentUserComplete()
-            ) {
+    return Array.from(
+        cleaningTaskList.querySelectorAll(
+            ".resident-cleaning-checkbox"
+        )
+    );
 
-                checkbox.checked =
-                    !checkbox.checked;
-
-                return;
-
-            }
+}
 
 
-            const taskId =
-                checkbox.dataset.taskId;
+// ============================================================
+// ARE ALL TASKS COMPLETED
+// ============================================================
+
+function areAllTasksCompleted() {
+
+    const checkboxes =
+        getTaskCheckboxes();
 
 
-            if (!taskId) {
+    if (
+        checkboxes.length ===
+        0
+    ) {
 
-                checkbox.checked =
-                    !checkbox.checked;
+        return false;
 
-                return;
-
-            }
-
-
-            const wantedCheckedState =
-                checkbox.checked;
+    }
 
 
-            checkbox.disabled =
-                true;
+    return checkboxes.every(
+        function (checkbox) {
 
-
-            let result;
-
-
-            if (wantedCheckedState) {
-
-                result =
-                    await saveTaskCompletion(
-                        taskId
-                    );
-
-            }
-            else {
-
-                result =
-                    await deleteTaskCompletion(
-                        taskId
-                    );
-
-            }
-
-
-            if (!result.success) {
-
-                checkbox.checked =
-                    !wantedCheckedState;
-
-                window.alert(
-                    wantedCheckedState
-                        ? "Kunne ikke lagre oppgaven som fullført."
-                        : "Kunne ikke fjerne fullføringen av oppgaven."
-                );
-
-            }
-            else {
-
-                checkbox.checked =
-                    isTaskCompleted(
-                        taskId
-                    );
-
-            }
-
-
-            checkbox.disabled =
-                !canCurrentUserComplete();
-
-
-            updateConfirmButtonState();
+            return (
+                checkbox.checked ===
+                true
+            );
 
         }
     );
@@ -3665,7 +5101,21 @@ if (cleaningTaskList) {
 
 
 // ============================================================
-// CONFIRM BUTTON STATE
+// HAS REQUIRED PHOTO
+// ============================================================
+
+function hasRequiredPhoto() {
+
+    return (
+        selectedPhotos.length >
+        0
+    );
+
+}
+
+
+// ============================================================
+// UPDATE CONFIRM BUTTON STATE
 // ============================================================
 
 function updateConfirmButtonState() {
@@ -3677,7 +5127,9 @@ function updateConfirmButtonState() {
     }
 
 
-    if (!canCurrentUserComplete()) {
+    if (
+        !canCurrentUserComplete()
+    ) {
 
         confirmCleaningButton.disabled =
             true;
@@ -3688,36 +5140,17 @@ function updateConfirmButtonState() {
     }
 
 
-    const checkboxes =
-        cleaningTaskList
-            ? Array.from(
-                cleaningTaskList.querySelectorAll(
-                    ".resident-cleaning-checkbox"
-                )
-            )
-            : [];
-
-
-    const allTasksChecked =
-        checkboxes.length >
-        0 &&
-        checkboxes.every(
-            function (checkbox) {
-
-                return checkbox.checked;
-
-            }
-        );
+    const allTasksCompleted =
+        areAllTasksCompleted();
 
 
     const hasPhoto =
-        selectedPhotos.length >
-        0;
+        hasRequiredPhoto();
 
 
     confirmCleaningButton.disabled =
         !(
-            allTasksChecked &&
+            allTasksCompleted &&
             hasPhoto
         );
 
@@ -3725,7 +5158,7 @@ function updateConfirmButtonState() {
 
 
 // ============================================================
-// CONFIRM
+// CONFIRM CLEANING
 // ============================================================
 
 if (confirmCleaningButton) {
@@ -3747,13 +5180,14 @@ if (confirmCleaningButton) {
              * Supabase Storage and secure final signing
              * will be connected in the next database step.
              *
-             * Nothing is marked completed in localStorage
-             * or only in the browser.
+             * Nothing is marked finally signed only
+             * in the browser.
              */
 
             window.alert(
-                "Alle oppgaver er fullført og dokumentasjonen er klar. " +
-                "Neste steg er å lagre bildene og signeringen sikkert i Supabase."
+                t(
+                    "completionReadyForSupabase"
+                )
             );
 
         }
@@ -3763,7 +5197,292 @@ if (confirmCleaningButton) {
 
 
 // ============================================================
-// INITIALIZE
+// REFRESH PROFILE LANGUAGE
+// ============================================================
+
+function refreshProfileLanguage() {
+
+    if (
+        currentProfile &&
+        welcomeTitle
+    ) {
+
+        welcomeTitle.textContent =
+            t(
+                "welcomeUser",
+                {
+                    name:
+                    currentProfile.full_name
+                }
+            );
+
+    }
+
+
+    if (
+        currentProfile &&
+        residentName
+    ) {
+
+        residentName.textContent =
+            currentProfile.full_name;
+
+    }
+
+}
+
+
+// ============================================================
+// REFRESH PROPERTY LANGUAGE
+// ============================================================
+
+function refreshPropertyLanguage() {
+
+    if (!currentResident) {
+
+        return;
+
+    }
+
+
+    const property =
+        currentResident.properties;
+
+    const floor =
+        currentResident.floors;
+
+
+    if (propertyName) {
+
+        propertyName.textContent =
+            property?.name ||
+            t(
+                "propertyFallbackName"
+            );
+
+    }
+
+
+    if (propertyAddress) {
+
+        propertyAddress.textContent =
+            property?.address ||
+            t(
+                "noAddressRegistered"
+            );
+
+    }
+
+
+    if (floorName) {
+
+        floorName.textContent =
+            t(
+                "floorPrefix",
+                {
+                    floor:
+                        getFloorDisplayName(
+                            floor
+                        )
+                }
+            );
+
+    }
+
+
+    if (currentWeekFloor) {
+
+        currentWeekFloor.textContent =
+            getFloorDisplayName(
+                floor
+            );
+
+    }
+
+
+    if (cleaningPlanSubtitle) {
+
+        if (currentCleaningPlan) {
+
+            cleaningPlanSubtitle.textContent =
+                (
+                    property?.name ||
+                    t(
+                        "propertyFallbackName"
+                    )
+                ) +
+                " • " +
+                getFloorDisplayName(
+                    floor
+                );
+
+        }
+        else {
+
+            cleaningPlanSubtitle.textContent =
+                t(
+                    "noActiveCleaningPlan"
+                );
+
+        }
+
+    }
+
+}
+
+
+// ============================================================
+// REFRESH CLEANING LANGUAGE
+// ============================================================
+
+function refreshCleaningLanguage() {
+
+    if (
+        !currentCleaningPlan ||
+        !selectedFriday
+    ) {
+
+        return;
+
+    }
+
+
+    renderCurrentWeekCard();
+
+    renderSelectedWeek();
+
+    renderWeekPreview();
+
+    renderCleaningTasks();
+
+    updateCompletionControls();
+
+    renderPhotoPreviews();
+
+    updateConfirmButtonState();
+
+}
+
+
+// ============================================================
+// REFRESH ALL RESIDENT LANGUAGE
+// ============================================================
+
+function refreshResidentLanguage() {
+
+    /*
+     * First translate all static HTML elements
+     * that use data-i18n attributes.
+     */
+
+    if (
+        window.CleanPlanI18n &&
+        typeof window.CleanPlanI18n
+            .applyTranslations ===
+        "function"
+    ) {
+
+        window.CleanPlanI18n
+            .applyTranslations();
+
+    }
+
+
+    /*
+     * Then rerender dynamic JavaScript content.
+     */
+
+    refreshProfileLanguage();
+
+    refreshPropertyLanguage();
+
+    refreshCleaningLanguage();
+
+}
+
+
+// ============================================================
+// LANGUAGE CHANGE EVENT
+// ============================================================
+
+window.addEventListener(
+    "cleanplan:languagechange",
+    function () {
+
+        refreshResidentLanguage();
+
+    }
+);
+
+
+// ============================================================
+// SHOW WAITING STATE
+// ============================================================
+
+function showWaitingState() {
+
+    if (loadingSection) {
+
+        loadingSection.hidden =
+            true;
+
+    }
+
+
+    hideContentSections();
+
+
+    if (waitingSection) {
+
+        waitingSection.hidden =
+            false;
+
+    }
+
+}
+
+
+// ============================================================
+// SHOW PAGE ERROR
+// ============================================================
+
+function showPageError(
+    message
+) {
+
+    if (loadingSection) {
+
+        loadingSection.hidden =
+            true;
+
+    }
+
+
+    hideContentSections();
+
+
+    if (residentPageMessage) {
+
+        residentPageMessage.textContent =
+            message ||
+            t(
+                "errorOccurred"
+            );
+
+    }
+
+
+    if (errorSection) {
+
+        errorSection.hidden =
+            false;
+
+    }
+
+}
+
+// ============================================================
+// INITIALIZE RESIDENT PAGE
 // ============================================================
 
 async function initResidentPage() {
@@ -3779,11 +5498,28 @@ async function initResidentPage() {
     }
 
 
-    const result =
+    /*
+     * Make sure the static translations are applied first.
+     */
+
+    if (
+        window.CleanPlanI18n &&
+        typeof window.CleanPlanI18n
+            .applyTranslations ===
+        "function"
+    ) {
+
+        window.CleanPlanI18n
+            .applyTranslations();
+
+    }
+
+
+    const accessResult =
         await checkResidentAccess();
 
 
-    if (!result) {
+    if (!accessResult) {
 
         return;
 
@@ -3792,7 +5528,7 @@ async function initResidentPage() {
 
     const associationResult =
         await loadResidentAssociation(
-            result.profile.id
+            accessResult.profile.id
         );
 
 
@@ -3806,7 +5542,9 @@ async function initResidentPage() {
     }
 
 
-    if (!associationResult.resident) {
+    if (
+        !associationResult.resident
+    ) {
 
         return;
 
@@ -3815,11 +5553,33 @@ async function initResidentPage() {
 
     await loadCleaningPlan();
 
+
+    refreshResidentLanguage();
+
 }
 
 
 // ============================================================
-// START
+// START PAGE
 // ============================================================
 
-initResidentPage();
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            initResidentPage();
+
+        }
+    );
+
+}
+else {
+
+    initResidentPage();
+
+}

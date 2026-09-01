@@ -73,9 +73,10 @@
                     aria-controls="loginModal"
                     aria-expanded="false"
             >
-                Logg inn
+                <span data-i18n="login">
+                    Logg inn
+                </span>
             </button>
-
 
 
             <!-- =================================================
@@ -101,7 +102,7 @@
                     </span>
 
                     <span id="selectedLanguageName">
-                        Norsk
+                        NO
                     </span>
 
                     <span class="language-button-chevron">
@@ -109,7 +110,6 @@
                     </span>
 
                 </button>
-
 
 
                 <!-- =================================================
@@ -143,8 +143,10 @@
                                     id="languageSearchInput"
                                     class="language-search-input"
                                     placeholder="Søk etter språk..."
+                                    data-i18n-placeholder="languageSearchPlaceholder"
                                     autocomplete="off"
                                     aria-label="Søk etter språk"
+                                    data-i18n-aria-label="languageSearchAriaLabel"
                             >
 
 
@@ -153,6 +155,7 @@
                                     id="clearLanguageSearchButton"
                                     class="language-search-clear"
                                     aria-label="Tøm søk"
+                                    data-i18n-aria-label="clearLanguageSearch"
                                     hidden
                             >
                                 ×
@@ -160,7 +163,6 @@
 
 
                         </div>
-
 
 
                         <!-- =========================================
@@ -176,7 +178,6 @@
                         </div>
 
 
-
                         <!-- =========================================
                              LANGUAGE LIST
                              ========================================= -->
@@ -186,6 +187,7 @@
                                 class="language-list"
                                 role="listbox"
                                 aria-label="Tilgjengelige språk"
+                                data-i18n-aria-label="availableLanguages"
                         >
 
 
@@ -195,7 +197,7 @@
                                     🌐
                                 </span>
 
-                                <p>
+                                <p data-i18n="loadingAvailableLanguages">
                                     Laster tilgjengelige språk...
                                 </p>
 
@@ -203,7 +205,6 @@
 
 
                         </div>
-
 
 
                         <!-- =========================================
@@ -222,12 +223,12 @@
                             </div>
 
 
-                            <h3>
+                            <h3 data-i18n="noLanguagesFound">
                                 Ingen språk funnet
                             </h3>
 
 
-                            <p>
+                            <p data-i18n="tryAnotherSearch">
                                 Prøv et annet søk.
                             </p>
 
@@ -250,7 +251,6 @@
     </header>
 
 
-
     <!-- ========================================================
          CONTENT
          ======================================================== -->
@@ -266,17 +266,27 @@
 
 
             <h1>
-                Hold rengjøringen
+
+                <span data-i18n="landingTitleLine1">
+                    Hold rengjøringen
+                </span>
+
                 <br>
-                enkel og oversiktlig
+
+                <span data-i18n="landingTitleLine2">
+                    enkel og oversiktlig
+                </span>
+
             </h1>
 
 
             <p class="landing-description">
-                Hold oversikt over oppgaver, ansvar <br>
-                og utført rengjøring – på ett sted.
-            </p>
 
+                <span data-i18n="landingDescription">
+                    Hold oversikt over oppgaver, ansvar og utført rengjøring – på ett sted.
+                </span>
+
+            </p>
 
 
             <!-- =================================================
@@ -292,7 +302,7 @@
                         ✓
                     </span>
 
-                    <span>
+                    <span data-i18n="benefitPlan">
                         Se din rengjøringsplan
                     </span>
 
@@ -305,7 +315,7 @@
                         ✓
                     </span>
 
-                    <span>
+                    <span data-i18n="benefitDocument">
                         Dokumenter utført rengjøring
                     </span>
 
@@ -318,7 +328,7 @@
                         ✓
                     </span>
 
-                    <span>
+                    <span data-i18n="benefitResidents">
                         Samarbeid med andre beboere
                     </span>
 
@@ -326,7 +336,6 @@
 
 
             </div>
-
 
 
             <!-- =================================================
@@ -342,7 +351,10 @@
                         🏠
                     </span>
 
-                    <span class="feature-label">
+                    <span
+                            class="feature-label"
+                            data-i18n="properties"
+                    >
                         Boliger
                     </span>
 
@@ -355,7 +367,10 @@
                         🧹
                     </span>
 
-                    <span class="feature-label">
+                    <span
+                            class="feature-label"
+                            data-i18n="cleaningPlan"
+                    >
                         Rengjøringsplan
                     </span>
 
@@ -368,7 +383,10 @@
                         📷
                     </span>
 
-                    <span class="feature-label">
+                    <span
+                            class="feature-label"
+                            data-i18n="documentation"
+                    >
                         Dokumentasjon
                     </span>
 
@@ -381,7 +399,10 @@
                         🔄
                     </span>
 
-                    <span class="feature-label">
+                    <span
+                            class="feature-label"
+                            data-i18n="swapTasks"
+                    >
                         Bytte oppgaver
                     </span>
 
@@ -398,7 +419,6 @@
 
 
 </main>
-
 
 
 <!-- ============================================================
@@ -425,7 +445,6 @@
     ></div>
 
 
-
     <!-- ========================================================
          LOGIN CARD
          ======================================================== -->
@@ -442,20 +461,22 @@
                 id="closeLoginButton"
                 class="landing-login-modal-close"
                 aria-label="Lukk innlogging"
+                data-i18n-aria-label="closeLogin"
         >
             ×
         </button>
-
 
 
         <!-- ====================================================
              TITLE
              ==================================================== -->
 
-        <h2 id="loginModalTitle">
+        <h2
+                id="loginModalTitle"
+                data-i18n="login"
+        >
             Logg inn
         </h2>
-
 
 
         <!-- ====================================================
@@ -471,7 +492,10 @@
 
             <div class="landing-form-group">
 
-                <label for="email">
+                <label
+                        for="email"
+                        data-i18n="email"
+                >
                     E-post
                 </label>
 
@@ -487,6 +511,7 @@
                             type="email"
                             id="email"
                             placeholder="din@epost.no"
+                            data-i18n-placeholder="emailPlaceholder"
                             autocomplete="email"
                             required
                     >
@@ -496,14 +521,16 @@
             </div>
 
 
-
             <!-- =================================================
                  PASSWORD
                  ================================================= -->
 
             <div class="landing-form-group">
 
-                <label for="password">
+                <label
+                        for="password"
+                        data-i18n="password"
+                >
                     Passord
                 </label>
 
@@ -519,6 +546,7 @@
                             type="password"
                             id="password"
                             placeholder="Ditt passord"
+                            data-i18n-placeholder="passwordPlaceholder"
                             autocomplete="current-password"
                             required
                     >
@@ -526,7 +554,6 @@
                 </div>
 
             </div>
-
 
 
             <!-- =================================================
@@ -537,13 +564,13 @@
                     type="submit"
                     class="landing-login-button"
                     id="loginButton"
+                    data-i18n="loginUppercase"
             >
                 LOGG INN
             </button>
 
 
         </form>
-
 
 
         <!-- =================================================
@@ -555,7 +582,10 @@
             <span></span>
 
 
-            <span class="login-divider-text">
+            <span
+                    class="login-divider-text"
+                    data-i18n="or"
+            >
                 eller
             </span>
 
@@ -563,7 +593,6 @@
             <span></span>
 
         </div>
-
 
 
         <!-- =================================================
@@ -574,10 +603,10 @@
                 type="button"
                 class="landing-forgot-button"
                 id="forgotPasswordButton"
+                data-i18n="forgotPassword"
         >
             Glemt passord?
         </button>
-
 
 
         <!-- =================================================
@@ -598,7 +627,6 @@
 </div>
 
 
-
 <!-- ============================================================
      SUPABASE
      ============================================================ -->
@@ -608,7 +636,6 @@
 ></script>
 
 
-
 <!-- ============================================================
      SUPABASE CONFIG
      ============================================================ -->
@@ -616,13 +643,11 @@
 <script src="js/config.js"></script>
 
 
-
 <!-- ============================================================
      AUTH
      ============================================================ -->
 
 <script src="js/auth.js?v=3"></script>
-
 
 
 <!-- ============================================================

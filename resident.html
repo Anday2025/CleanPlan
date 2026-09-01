@@ -10,7 +10,9 @@
           content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Cleaning App - Min side</title>
+  <title data-i18n-title="residentPageTitle">
+    Cleaning App - Min side
+  </title>
 
   <link
           rel="stylesheet"
@@ -36,7 +38,7 @@
     </span>
 
     <span>
-      Cleaning App
+      CleanPlan
     </span>
 
   </div>
@@ -48,10 +50,141 @@
       Beboer
     </span>
 
+
+    <!-- =====================================================
+         LANGUAGE SELECTOR
+         ===================================================== -->
+
+    <div class="language-selector">
+
+      <button
+              type="button"
+              class="language-button"
+              id="languageButton"
+              aria-haspopup="true"
+              aria-controls="languageModal"
+              aria-expanded="false"
+      >
+
+        <span class="language-button-globe">
+          🌐
+        </span>
+
+        <span id="selectedLanguageName">
+          NO
+        </span>
+
+        <span class="language-button-chevron">
+          ▾
+        </span>
+
+      </button>
+
+
+      <div
+              id="languageModal"
+              class="language-modal"
+              hidden
+      >
+
+        <section class="language-modal-card">
+
+
+          <div class="language-search-wrapper">
+
+            <span class="language-search-icon">
+              🔍
+            </span>
+
+            <input
+                    type="search"
+                    id="languageSearchInput"
+                    class="language-search-input"
+                    placeholder="Søk etter språk..."
+                    data-i18n-placeholder="languageSearchPlaceholder"
+                    autocomplete="off"
+                    aria-label="Søk etter språk"
+                    data-i18n-aria-label="languageSearchAriaLabel"
+            >
+
+            <button
+                    type="button"
+                    id="clearLanguageSearchButton"
+                    class="language-search-clear"
+                    aria-label="Tøm søk"
+                    data-i18n-aria-label="clearLanguageSearch"
+                    hidden
+            >
+              ×
+            </button>
+
+          </div>
+
+
+          <div class="language-list-info">
+
+            <span id="languageResultText">
+              Laster språk...
+            </span>
+
+          </div>
+
+
+          <div
+                  id="languageList"
+                  class="language-list"
+                  role="listbox"
+                  aria-label="Tilgjengelige språk"
+                  data-i18n-aria-label="availableLanguages"
+          >
+
+            <div class="language-loading-state">
+
+              <span class="language-loading-icon">
+                🌐
+              </span>
+
+              <p data-i18n="loadingAvailableLanguages">
+                Laster tilgjengelige språk...
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div
+                  id="languageSearchEmpty"
+                  class="language-search-empty"
+                  hidden
+          >
+
+            <div class="language-search-empty-icon">
+              🔎
+            </div>
+
+            <h3 data-i18n="noLanguagesFound">
+              Ingen språk funnet
+            </h3>
+
+            <p data-i18n="tryAnotherSearch">
+              Prøv et annet søk.
+            </p>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </div>
+
+
     <button
             id="logoutButton"
             class="logout-button"
             type="button"
+            data-i18n="logout"
     >
       Logg ut
     </button>
@@ -76,7 +209,10 @@
 
     <div>
 
-      <p class="eyebrow">
+      <p
+              class="eyebrow"
+              data-i18n="residentRole"
+      >
         BEBOER
       </p>
 
@@ -84,9 +220,11 @@
         Velkommen
       </h1>
 
-      <p class="welcome-text">
-        Her finner du boligen din,
-        rengjøringsplanen og dine kommende rengjøringsuker.
+      <p
+              class="welcome-text"
+              data-i18n="residentWelcomeDescription"
+      >
+        Her finner du boligen din, rengjøringsplanen og dine kommende rengjøringsuker.
       </p>
 
     </div>
@@ -103,11 +241,11 @@
           class="dashboard-card"
   >
 
-    <h2>
+    <h2 data-i18n="loading">
       Laster...
     </h2>
 
-    <p>
+    <p data-i18n="residentLoadingDescription">
       Henter kontoen og rengjøringsplanen din.
     </p>
 
@@ -129,10 +267,13 @@
       <div>
 
         <h2>
-          🏠 Boligtilknytning
+          🏠
+          <span data-i18n="propertyAssociation">
+            Boligtilknytning
+          </span>
         </h2>
 
-        <p>
+        <p data-i18n="accountActive">
           Kontoen din er aktiv.
         </p>
 
@@ -143,19 +284,16 @@
 
     <div class="empty-state">
 
-      <h3>
+      <h3 data-i18n="notAssignedProperty">
         Du er ikke tilknyttet en bolig ennå
       </h3>
 
-      <p>
-        Kontoen din er opprettet og klar til bruk,
-        men administrator har ikke koblet deg til
-        en bolig og etasje ennå.
+      <p data-i18n="notAssignedPropertyDescription">
+        Kontoen din er opprettet og klar til bruk, men administrator har ikke koblet deg til en bolig og etasje ennå.
       </p>
 
-      <p>
-        Kontakt administrator dersom du mener at
-        boligtilknytningen allerede skulle vært registrert.
+      <p data-i18n="contactAdministratorProperty">
+        Kontakt administrator dersom du mener at boligtilknytningen allerede skulle vært registrert.
       </p>
 
     </div>
@@ -178,10 +316,13 @@
       <div>
 
         <h2>
-          🏠 Min bolig
+          🏠
+          <span data-i18n="myProperty">
+            Min bolig
+          </span>
         </h2>
 
-        <p>
+        <p data-i18n="registeredPropertyFloor">
           Din registrerte bolig og etasje.
         </p>
 
@@ -209,7 +350,10 @@
             Etasje: -
           </span>
 
-          <span class="status-active">
+          <span
+                  class="status-active"
+                  data-i18n="active"
+          >
             Aktiv
           </span>
 
@@ -242,7 +386,10 @@
       <div>
 
         <h2>
-          🧹 Rengjøringsplan
+          🧹
+          <span data-i18n="cleaningPlan">
+            Rengjøringsplan
+          </span>
         </h2>
 
         <p id="cleaningPlanSubtitle">
@@ -264,13 +411,12 @@
             hidden
     >
 
-      <h3>
+      <h3 data-i18n="noCleaningPlanYet">
         Ingen rengjøringsplan ennå
       </h3>
 
-      <p>
-        Administrator har ikke opprettet en
-        rengjøringsplan for etasjen din ennå.
+      <p data-i18n="noCleaningPlanDescription">
+        Administrator har ikke opprettet en rengjøringsplan for etasjen din ennå.
       </p>
 
     </div>
@@ -296,7 +442,10 @@
 
           <div>
 
-            <p class="resident-week-eyebrow">
+            <p
+                    class="resident-week-eyebrow"
+                    data-i18n="thisWeek"
+            >
               DENNE UKEN
             </p>
 
@@ -322,7 +471,10 @@
 
           <div class="resident-week-detail">
 
-            <span class="resident-week-detail-label">
+            <span
+                    class="resident-week-detail-label"
+                    data-i18n="date"
+            >
               Dato
             </span>
 
@@ -335,7 +487,10 @@
 
           <div class="resident-week-detail">
 
-            <span class="resident-week-detail-label">
+            <span
+                    class="resident-week-detail-label"
+                    data-i18n="responsible"
+            >
               Ansvarlig
             </span>
 
@@ -348,7 +503,10 @@
 
           <div class="resident-week-detail">
 
-            <span class="resident-week-detail-label">
+            <span
+                    class="resident-week-detail-label"
+                    data-i18n="time"
+            >
               Tid
             </span>
 
@@ -361,7 +519,10 @@
 
           <div class="resident-week-detail">
 
-            <span class="resident-week-detail-label">
+            <span
+                    class="resident-week-detail-label"
+                    data-i18n="floor"
+            >
               Etasje
             </span>
 
@@ -375,9 +536,11 @@
         </div>
 
 
-        <p class="resident-week-warning">
-          Hvis fredag ikke er mulig,
-          skal rengjøringen utføres på torsdag.
+        <p
+                class="resident-week-warning"
+                data-i18n="thursdayFallbackWarning"
+        >
+          Hvis fredag ikke er mulig, skal rengjøringen utføres på torsdag.
         </p>
 
       </section>
@@ -407,11 +570,11 @@
 
               <div>
 
-                <h3>
+                <h3 data-i18n="cleaningPlan">
                   Rengjøringsplan
                 </h3>
 
-                <p>
+                <p data-i18n="viewPreviousUpcomingWeeks">
                   Se tidligere og kommende uker.
                 </p>
 
@@ -427,7 +590,10 @@
                       type="button"
                       class="resident-week-nav-button"
               >
-                ← Forrige
+                ←
+                <span data-i18n="previous">
+                  Forrige
+                </span>
               </button>
 
 
@@ -449,7 +615,10 @@
                       type="button"
                       class="resident-week-nav-button"
               >
-                Neste →
+                <span data-i18n="next">
+                  Neste
+                </span>
+                →
               </button>
 
             </div>
@@ -470,7 +639,7 @@
 
           <section class="dashboard-card resident-selected-week-card">
 
-            <h3>
+            <h3 data-i18n="selectedWeek">
               Valgt uke
             </h3>
 
@@ -479,7 +648,7 @@
 
               <div>
 
-                <span>
+                <span data-i18n="date">
                   Dato
                 </span>
 
@@ -492,7 +661,7 @@
 
               <div>
 
-                <span>
+                <span data-i18n="responsible">
                   Ansvarlig
                 </span>
 
@@ -505,7 +674,7 @@
 
               <div>
 
-                <span>
+                <span data-i18n="status">
                   Status
                 </span>
 
@@ -533,7 +702,7 @@
 
             <div>
 
-              <h3>
+              <h3 data-i18n="cleaningTasks">
                 Rengjøringsoppgaver
               </h3>
 
@@ -564,9 +733,8 @@
                   hidden
           >
 
-            <p>
-              Det er ingen rengjøringsoppgaver
-              registrert ennå.
+            <p data-i18n="noCleaningTasks">
+              Det er ingen rengjøringsoppgaver registrert ennå.
             </p>
 
           </div>
@@ -628,12 +796,14 @@
               <div>
 
                 <h3>
-                  📷 Dokumenter arbeidet
+                  📷
+                  <span data-i18n="documentWork">
+                    Dokumenter arbeidet
+                  </span>
                 </h3>
 
-                <p>
-                  Ta nye bilder med kameraet etter at
-                  rengjøringen er utført.
+                <p data-i18n="documentWorkDescription">
+                  Ta nye bilder med kameraet etter at rengjøringen er utført.
                 </p>
 
               </div>
@@ -664,7 +834,10 @@
                     class="resident-camera-button"
                     disabled
             >
-              📷 Ta bilde
+              📷
+              <span data-i18n="takePhoto">
+                Ta bilde
+              </span>
             </button>
 
 
@@ -681,7 +854,7 @@
                 Bilder (0/6)
               </span>
 
-              <span>
+              <span data-i18n="maxSixPhotos">
                 Maks 6 bilder
               </span>
 
@@ -701,12 +874,14 @@
               <div>
 
                 <h3>
-                  ✓ Bekreft og signer
+                  ✓
+                  <span data-i18n="confirmAndSign">
+                    Bekreft og signer
+                  </span>
                 </h3>
 
-                <p>
-                  Bekreft når alle oppgavene er utført
-                  og dokumentasjonen er lagt til.
+                <p data-i18n="confirmAndSignDescription">
+                  Bekreft når alle oppgavene er utført og dokumentasjonen er lagt til.
                 </p>
 
               </div>
@@ -718,7 +893,7 @@
 
               <div>
 
-                <span>
+                <span data-i18n="signedBy">
                   Signeres av
                 </span>
 
@@ -731,7 +906,7 @@
 
               <div>
 
-                <span>
+                <span data-i18n="week">
                   Uke
                 </span>
 
@@ -750,7 +925,10 @@
                     class="resident-confirm-button"
                     disabled
             >
-              ✓ Bekreft og signer rengjøring utført
+              ✓
+              <span data-i18n="confirmCleaningCompleted">
+                Bekreft og signer rengjøring utført
+              </span>
             </button>
 
 
@@ -758,8 +936,7 @@
                     id="responsibleOnlyMessage"
                     class="resident-confirm-note"
             >
-              🔒 Kun den ansvarlige for denne uken
-              kan fullføre rengjøringen.
+              🔒 Kun den ansvarlige for denne uken kan fullføre rengjøringen.
             </p>
 
           </section>
@@ -786,7 +963,7 @@
           hidden
   >
 
-    <h2>
+    <h2 data-i18n="couldNotLoadPage">
       Kunne ikke laste siden
     </h2>
 
@@ -813,7 +990,8 @@
 
 <script src="js/config.js"></script>
 
-<script src="js/resident.js?v=4"></script>
+<script src="js/language.js?v=6"></script>
+<script src="js/resident.js?v=5"></script>
 
 
 </body>
