@@ -65,14 +65,14 @@
      MAIN
      ========================================================= -->
 
-<main class="dashboard">
+<main class="dashboard resident-dashboard">
 
 
   <!-- =====================================================
        PAGE HEADER
        ===================================================== -->
 
-  <div class="page-header">
+  <div class="page-header resident-page-header">
 
     <div>
 
@@ -85,8 +85,8 @@
       </h1>
 
       <p class="welcome-text">
-        Her finner du informasjon om boligen din
-        og rengjøringsplanen din.
+        Her finner du boligen din,
+        rengjøringsplanen og dine kommende rengjøringsuker.
       </p>
 
     </div>
@@ -108,7 +108,7 @@
     </h2>
 
     <p>
-      Henter kontoen og boligtilknytningen din.
+      Henter kontoen og rengjøringsplanen din.
     </p>
 
   </section>
@@ -169,7 +169,7 @@
 
   <section
           id="residentSection"
-          class="dashboard-card"
+          class="dashboard-card resident-property-card"
           hidden
   >
 
@@ -228,11 +228,16 @@
 
   <section
           id="cleaningSection"
-          class="dashboard-card"
+          class="resident-cleaning-section"
           hidden
   >
 
-    <div class="section-header">
+
+    <!-- ===================================================
+         SECTION HEADER
+         =================================================== -->
+
+    <div class="resident-cleaning-heading">
 
       <div>
 
@@ -255,7 +260,7 @@
 
     <div
             id="noCleaningPlanState"
-            class="empty-state"
+            class="dashboard-card empty-state"
             hidden
     >
 
@@ -281,119 +286,487 @@
     >
 
 
-      <!-- ===============================================
-           PLAN INFORMATION
-           =============================================== -->
+      <!-- =================================================
+           THIS WEEK
+           ================================================= -->
 
-      <div class="resident-cleaning-current-week">
+      <section class="resident-week-card">
 
-        <h3>
-          Denne rengjøringsplanen
-        </h3>
-
-
-        <div class="resident-cleaning-info-grid">
+        <div class="resident-week-card-header">
 
           <div>
 
-            <span class="resident-cleaning-label">
-              Bolig
-            </span>
+            <p class="resident-week-eyebrow">
+              DENNE UKEN
+            </p>
 
-            <strong id="cleaningPropertyName">
-              -
-            </strong>
+            <h2 id="currentWeekHeading">
+              Rengjøring denne uken
+            </h2>
 
           </div>
 
 
-          <div>
-
-            <span class="resident-cleaning-label">
-              Etasje
-            </span>
-
-            <strong id="cleaningFloorName">
-              -
-            </strong>
-
-          </div>
-
-
-          <div>
-
-            <span class="resident-cleaning-label">
-              Plan
-            </span>
-
-            <strong id="cleaningPlanName">
-              -
-            </strong>
-
-          </div>
+          <span
+                  id="currentWeekStatus"
+                  class="resident-week-status"
+          >
+            Planlagt
+          </span>
 
         </div>
 
-      </div>
+
+        <div class="resident-week-details">
 
 
-      <!-- ===============================================
-           TASKS
-           =============================================== -->
+          <div class="resident-week-detail">
 
-      <div class="resident-cleaning-task-card">
+            <span class="resident-week-detail-label">
+              Dato
+            </span>
 
-        <div class="section-header">
+            <strong id="currentWeekDate">
+              -
+            </strong>
 
-          <div>
+          </div>
+
+
+          <div class="resident-week-detail">
+
+            <span class="resident-week-detail-label">
+              Ansvarlig
+            </span>
+
+            <strong id="currentWeekResponsible">
+              -
+            </strong>
+
+          </div>
+
+
+          <div class="resident-week-detail">
+
+            <span class="resident-week-detail-label">
+              Tid
+            </span>
+
+            <strong>
+              08:00–18:00
+            </strong>
+
+          </div>
+
+
+          <div class="resident-week-detail">
+
+            <span class="resident-week-detail-label">
+              Etasje
+            </span>
+
+            <strong id="currentWeekFloor">
+              -
+            </strong>
+
+          </div>
+
+
+        </div>
+
+
+        <p class="resident-week-warning">
+          Hvis fredag ikke er mulig,
+          skal rengjøringen utføres på torsdag.
+        </p>
+
+      </section>
+
+
+      <!-- =================================================
+           MAIN GRID
+           ================================================= -->
+
+      <div class="resident-plan-grid">
+
+
+        <!-- =================================================
+             LEFT COLUMN
+             ================================================= -->
+
+        <div class="resident-plan-left">
+
+
+          <!-- ===============================================
+               WEEK NAVIGATION
+               =============================================== -->
+
+          <section class="dashboard-card resident-week-navigation-card">
+
+            <div class="resident-card-title">
+
+              <div>
+
+                <h3>
+                  Rengjøringsplan
+                </h3>
+
+                <p>
+                  Se tidligere og kommende uker.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="resident-week-navigation">
+
+              <button
+                      id="previousWeekButton"
+                      type="button"
+                      class="resident-week-nav-button"
+              >
+                ← Forrige
+              </button>
+
+
+              <div class="resident-selected-week">
+
+                <strong id="selectedWeekNumber">
+                  Uke -
+                </strong>
+
+                <span id="selectedWeekYear">
+                  -
+                </span>
+
+              </div>
+
+
+              <button
+                      id="nextWeekButton"
+                      type="button"
+                      class="resident-week-nav-button"
+              >
+                Neste →
+              </button>
+
+            </div>
+
+
+            <div
+                    id="weekPreviewList"
+                    class="resident-week-preview-list"
+            >
+            </div>
+
+          </section>
+
+
+          <!-- ===============================================
+               SELECTED WEEK INFORMATION
+               =============================================== -->
+
+          <section class="dashboard-card resident-selected-week-card">
 
             <h3>
-              Rengjøringsoppgaver
+              Valgt uke
             </h3>
 
+
+            <div class="resident-selected-week-info">
+
+              <div>
+
+                <span>
+                  Dato
+                </span>
+
+                <strong id="selectedWeekDate">
+                  -
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                <span>
+                  Ansvarlig
+                </span>
+
+                <strong id="selectedWeekResponsible">
+                  -
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                <span>
+                  Status
+                </span>
+
+                <strong id="selectedWeekStatus">
+                  Planlagt
+                </strong>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+        </div>
+
+
+        <!-- =================================================
+             MIDDLE COLUMN
+             ================================================= -->
+
+        <section class="dashboard-card resident-cleaning-task-card">
+
+          <div class="resident-card-title">
+
+            <div>
+
+              <h3>
+                Rengjøringsoppgaver
+              </h3>
+
+              <p id="taskPermissionMessage">
+                Oppgavene er opprettet av administrator.
+              </p>
+
+            </div>
+
+
+            <span
+                    id="cleaningTaskCount"
+                    class="resident-task-count"
+            >
+              0 oppgaver
+            </span>
+
+          </div>
+
+
+          <!-- ===============================================
+               NO TASKS
+               =============================================== -->
+
+          <div
+                  id="noCleaningTasksState"
+                  class="empty-state"
+                  hidden
+          >
+
             <p>
-              Oppgavene er opprettet av administrator.
+              Det er ingen rengjøringsoppgaver
+              registrert ennå.
             </p>
 
           </div>
 
-        </div>
 
+          <!-- ===============================================
+               TASK LIST
+               =============================================== -->
 
-        <div
-                id="noCleaningTasksState"
-                class="empty-state"
-                hidden
-        >
+          <div
+                  id="cleaningTasksWrapper"
+                  class="resident-cleaning-task-list"
+                  hidden
+          >
 
-          <p>
-            Det er ingen rengjøringsoppgaver
-            registrert ennå.
-          </p>
-
-        </div>
-
-
-        <div
-                id="cleaningTasksWrapper"
-                class="resident-cleaning-task-list"
-                hidden
-        >
-
-          <div id="cleaningTaskList">
+            <div id="cleaningTaskList">
+            </div>
 
           </div>
 
-        </div>
+
+          <!-- ===============================================
+               PERMISSION INFO
+               =============================================== -->
+
+          <div
+                  id="cleaningPermissionNotice"
+                  class="resident-permission-notice"
+          >
+
+            <span>
+              🔒
+            </span>
+
+            <span id="cleaningPermissionText">
+              Kun den ansvarlige beboeren kan fullføre denne uken.
+            </span>
+
+          </div>
+
+        </section>
 
 
-        <div
-                id="cleaningTaskCount"
-                class="resident-cleaning-progress"
-                hidden
-        >
-          0 oppgaver
+        <!-- =================================================
+             RIGHT COLUMN
+             ================================================= -->
+
+        <div class="resident-plan-right">
+
+
+          <!-- ===============================================
+               DOCUMENTATION
+               =============================================== -->
+
+          <section class="dashboard-card resident-document-card">
+
+            <div class="resident-card-title">
+
+              <div>
+
+                <h3>
+                  📷 Dokumenter arbeidet
+                </h3>
+
+                <p>
+                  Ta nye bilder med kameraet etter at
+                  rengjøringen er utført.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <!--
+                Camera only.
+                No gallery upload.
+
+                capture="environment" requests the rear camera
+                on supported mobile browsers.
+            -->
+
+            <input
+                    id="cameraInput"
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    hidden
+            >
+
+
+            <button
+                    id="cameraButton"
+                    type="button"
+                    class="resident-camera-button"
+                    disabled
+            >
+              📷 Ta bilde
+            </button>
+
+
+            <div
+                    id="photoPreviewGrid"
+                    class="resident-photo-preview-grid"
+            >
+            </div>
+
+
+            <div class="resident-photo-footer">
+
+              <span id="photoCount">
+                Bilder (0/6)
+              </span>
+
+              <span>
+                Maks 6 bilder
+              </span>
+
+            </div>
+
+          </section>
+
+
+          <!-- ===============================================
+               CONFIRM AND SIGN
+               =============================================== -->
+
+          <section class="dashboard-card resident-confirm-card">
+
+            <div class="resident-card-title">
+
+              <div>
+
+                <h3>
+                  ✓ Bekreft og signer
+                </h3>
+
+                <p>
+                  Bekreft når alle oppgavene er utført
+                  og dokumentasjonen er lagt til.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="resident-confirm-info">
+
+              <div>
+
+                <span>
+                  Signeres av
+                </span>
+
+                <strong id="signedByName">
+                  -
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                <span>
+                  Uke
+                </span>
+
+                <strong id="confirmWeekNumber">
+                  -
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <button
+                    id="confirmCleaningButton"
+                    type="button"
+                    class="resident-confirm-button"
+                    disabled
+            >
+              ✓ Bekreft og signer rengjøring utført
+            </button>
+
+
+            <p
+                    id="responsibleOnlyMessage"
+                    class="resident-confirm-note"
+            >
+              🔒 Kun den ansvarlige for denne uken
+              kan fullføre rengjøringen.
+            </p>
+
+          </section>
+
+
         </div>
+
 
       </div>
 
@@ -440,7 +813,7 @@
 
 <script src="js/config.js"></script>
 
-<script src="js/resident.js?v=2"></script>
+<script src="js/resident.js?v=4"></script>
 
 
 </body>

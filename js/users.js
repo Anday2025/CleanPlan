@@ -1,4 +1,3 @@
-
 // ============================================================
 // CLEANING APP
 // USER MANAGEMENT
@@ -10,41 +9,130 @@
 // ============================================================
 
 const logoutButton =
-    document.getElementById("logoutButton");
+    document.getElementById(
+        "logoutButton"
+    );
 
 const backButton =
-    document.getElementById("backButton");
+    document.getElementById(
+        "backButton"
+    );
 
 const userForm =
-    document.getElementById("userForm");
+    document.getElementById(
+        "userForm"
+    );
 
 const fullNameInput =
-    document.getElementById("fullName");
+    document.getElementById(
+        "fullName"
+    );
 
 const emailInput =
-    document.getElementById("email");
+    document.getElementById(
+        "email"
+    );
 
 const roleSelect =
-    document.getElementById("role");
+    document.getElementById(
+        "role"
+    );
 
 const createUserButton =
-    document.getElementById("createUserButton");
+    document.getElementById(
+        "createUserButton"
+    );
 
 const userMessage =
-    document.getElementById("userMessage");
+    document.getElementById(
+        "userMessage"
+    );
 
 const userList =
-    document.getElementById("userList");
+    document.getElementById(
+        "userList"
+    );
 
 const adminName =
-    document.getElementById("adminName");
+    document.getElementById(
+        "adminName"
+    );
+
+const adminRole =
+    document.getElementById(
+        "adminRole"
+    );
+
+const adminInitial =
+    document.getElementById(
+        "adminInitial"
+    );
+
+
+// ============================================================
+// USER LIST ELEMENTS
+// ============================================================
+
+const registeredUsersContent =
+    document.getElementById(
+        "registeredUsersContent"
+    );
+
+const toggleUsersButton =
+    document.getElementById(
+        "toggleUsersButton"
+    );
+
+const toggleUsersText =
+    document.getElementById(
+        "toggleUsersText"
+    );
+
+const toggleUsersIcon =
+    document.getElementById(
+        "toggleUsersIcon"
+    );
+
+const userCountBadge =
+    document.getElementById(
+        "userCountBadge"
+    );
+
+const userSearchInput =
+    document.getElementById(
+        "userSearchInput"
+    );
+
+const clearUserSearchButton =
+    document.getElementById(
+        "clearUserSearchButton"
+    );
+
+const userSearchCount =
+    document.getElementById(
+        "userSearchCount"
+    );
+
+const userSearchEmpty =
+    document.getElementById(
+        "userSearchEmpty"
+    );
 
 
 // ============================================================
 // CURRENT PROFILE
 // ============================================================
 
-let currentProfile = null;
+let currentProfile =
+    null;
+
+
+// ============================================================
+// USER LIST STATE
+// ============================================================
+
+let visibleUserCount =
+    0;
 
 
 // ============================================================
@@ -57,7 +145,10 @@ if (logoutButton) {
         "click",
         async function () {
 
-            await supabaseClient.auth.signOut();
+            await supabaseClient
+                .auth
+                .signOut();
+
 
             window.location.href =
                 "index.html";
@@ -97,14 +188,322 @@ function showMessage(
 ) {
 
     if (!userMessage) {
+
         return;
+
     }
+
 
     userMessage.textContent =
         message;
 
+
     userMessage.className =
         "message " + type;
+
+}
+
+
+// ============================================================
+// USER WORD
+// ============================================================
+
+function getUserWord(
+    count
+) {
+
+    return count === 1
+        ? "bruker"
+        : "brukere";
+
+}
+
+
+// ============================================================
+// UPDATE TOGGLE BUTTON
+// ============================================================
+
+function updateUsersToggleButton() {
+
+    if (
+        !toggleUsersButton ||
+        !registeredUsersContent
+    ) {
+
+        return;
+
+    }
+
+
+    const isOpen =
+        !registeredUsersContent.hidden;
+
+
+    if (toggleUsersText) {
+
+        toggleUsersText.textContent =
+            (
+                isOpen
+                    ? "Skjul brukere"
+                    : "Vis brukere"
+            ) +
+            ` (${visibleUserCount})`;
+
+    }
+
+
+    if (toggleUsersIcon) {
+
+        toggleUsersIcon.textContent =
+            isOpen
+                ? "⌃"
+                : "⌄";
+
+    }
+
+
+    toggleUsersButton.setAttribute(
+        "aria-expanded",
+        isOpen
+            ? "true"
+            : "false"
+    );
+
+}
+
+
+// ============================================================
+// OPEN / CLOSE USER LIST
+// ============================================================
+
+function setUserListOpen(
+    shouldOpen
+) {
+
+    if (!registeredUsersContent) {
+
+        return;
+
+    }
+
+
+    registeredUsersContent.hidden =
+        !shouldOpen;
+
+
+    updateUsersToggleButton();
+
+
+    if (
+        shouldOpen &&
+        userSearchInput
+    ) {
+
+        window.setTimeout(
+            function () {
+
+                userSearchInput.focus();
+
+            },
+            50
+        );
+
+    }
+
+}
+
+
+// ============================================================
+// UPDATE SEARCH RESULT COUNT
+// ============================================================
+
+function updateUserSearchCount(
+    count
+) {
+
+    if (!userSearchCount) {
+
+        return;
+
+    }
+
+
+    userSearchCount.textContent =
+        `${count} ${getUserWord(count)} funnet`;
+
+}
+
+
+// ============================================================
+// FILTER USERS
+// ============================================================
+
+function filterUserList() {
+
+    if (!userList) {
+
+        return;
+
+    }
+
+
+    const query =
+        userSearchInput
+            ? userSearchInput
+                .value
+                .trim()
+                .toLocaleLowerCase(
+                    "nb-NO"
+                )
+            : "";
+
+
+    const rows =
+        Array.from(
+            userList.querySelectorAll(
+                ".admin-user-row"
+            )
+        );
+
+
+    let matchingCount =
+        0;
+
+
+    rows.forEach(
+        function (row) {
+
+            const searchableText =
+                (
+                    row.dataset.searchText ||
+                    row.textContent ||
+                    ""
+                )
+                    .toLocaleLowerCase(
+                        "nb-NO"
+                    );
+
+
+            const matches =
+                !query ||
+                searchableText.includes(
+                    query
+                );
+
+
+            row.hidden =
+                !matches;
+
+
+            if (matches) {
+
+                matchingCount +=
+                    1;
+
+            }
+
+        }
+    );
+
+
+    if (clearUserSearchButton) {
+
+        clearUserSearchButton.hidden =
+            query.length === 0;
+
+    }
+
+
+    if (userSearchEmpty) {
+
+        userSearchEmpty.hidden =
+            !(
+                query &&
+                rows.length > 0 &&
+                matchingCount === 0
+            );
+
+    }
+
+
+    updateUserSearchCount(
+        query
+            ? matchingCount
+            : visibleUserCount
+    );
+
+}
+
+
+// ============================================================
+// TOGGLE USER LIST
+// ============================================================
+
+if (toggleUsersButton) {
+
+    toggleUsersButton.addEventListener(
+        "click",
+        function () {
+
+            if (!registeredUsersContent) {
+
+                return;
+
+            }
+
+
+            setUserListOpen(
+                registeredUsersContent.hidden
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// SEARCH USERS
+// ============================================================
+
+if (userSearchInput) {
+
+    userSearchInput.addEventListener(
+        "input",
+        filterUserList
+    );
+
+}
+
+
+// ============================================================
+// CLEAR USER SEARCH
+// ============================================================
+
+if (clearUserSearchButton) {
+
+    clearUserSearchButton.addEventListener(
+        "click",
+        function () {
+
+            if (!userSearchInput) {
+
+                return;
+
+            }
+
+
+            userSearchInput.value =
+                "";
+
+
+            filterUserList();
+
+
+            userSearchInput.focus();
+
+        }
+    );
 
 }
 
@@ -116,10 +515,14 @@ function showMessage(
 async function loadCurrentUser() {
 
     const {
-        data: { session },
+        data: {
+            session
+        },
         error: sessionError
     } =
-        await supabaseClient.auth.getSession();
+        await supabaseClient
+            .auth
+            .getSession();
 
 
     if (
@@ -129,6 +532,7 @@ async function loadCurrentUser() {
 
         window.location.href =
             "index.html";
+
 
         return null;
 
@@ -140,7 +544,9 @@ async function loadCurrentUser() {
         error
     } =
         await supabaseClient
-            .from("profiles")
+            .from(
+                "profiles"
+            )
             .select(
                 "id, full_name, email, role, is_active"
             )
@@ -161,10 +567,15 @@ async function loadCurrentUser() {
             error
         );
 
-        await supabaseClient.auth.signOut();
+
+        await supabaseClient
+            .auth
+            .signOut();
+
 
         window.location.href =
             "index.html";
+
 
         return null;
 
@@ -178,15 +589,21 @@ async function loadCurrentUser() {
     if (
         !profile.is_active ||
         (
-            profile.role !== "superadmin" &&
-            profile.role !== "admin"
+            profile.role !==
+            "superadmin" &&
+            profile.role !==
+            "admin"
         )
     ) {
 
-        await supabaseClient.auth.signOut();
+        await supabaseClient
+            .auth
+            .signOut();
+
 
         window.location.href =
             "index.html";
+
 
         return null;
 
@@ -205,6 +622,30 @@ async function loadCurrentUser() {
 
         adminName.textContent =
             profile.full_name;
+
+    }
+
+
+    if (adminRole) {
+
+        adminRole.textContent =
+            formatRole(
+                profile.role
+            );
+
+    }
+
+
+    if (
+        adminInitial &&
+        profile.full_name
+    ) {
+
+        adminInitial.textContent =
+            profile.full_name
+                .trim()
+                .charAt(0)
+                .toUpperCase();
 
     }
 
@@ -246,7 +687,9 @@ function configureRoleOptions(
 ) {
 
     if (!roleSelect) {
+
         return;
+
     }
 
 
@@ -263,17 +706,22 @@ function configureRoleOptions(
             "option"
         );
 
+
     defaultOption.value =
         "";
+
 
     defaultOption.textContent =
         "Velg rolle";
 
+
     defaultOption.selected =
         true;
 
+
     defaultOption.disabled =
         true;
+
 
     roleSelect.appendChild(
         defaultOption
@@ -294,6 +742,7 @@ function configureRoleOptions(
             "Admin"
         );
 
+
         addRoleOption(
             "resident",
             "Resident"
@@ -302,8 +751,8 @@ function configureRoleOptions(
     }
 
 
-    // --------------------------------------------------------
-    // ADMIN
+        // --------------------------------------------------------
+        // ADMIN
     // --------------------------------------------------------
 
     else if (
@@ -335,11 +784,14 @@ function addRoleOption(
             "option"
         );
 
+
     option.value =
         value;
 
+
     option.textContent =
         text;
+
 
     roleSelect.appendChild(
         option
@@ -372,6 +824,7 @@ if (userForm) {
                     "error"
                 );
 
+
                 return;
 
             }
@@ -383,13 +836,18 @@ if (userForm) {
 
             const fullName =
                 fullNameInput
-                    ? fullNameInput.value.trim()
+                    ? fullNameInput
+                        .value
+                        .trim()
                     : "";
 
 
             const email =
                 emailInput
-                    ? emailInput.value.trim().toLowerCase()
+                    ? emailInput
+                        .value
+                        .trim()
+                        .toLowerCase()
                     : "";
 
 
@@ -414,6 +872,7 @@ if (userForm) {
                     "error"
                 );
 
+
                 return;
 
             }
@@ -428,13 +887,16 @@ if (userForm) {
 
 
             if (
-                !emailPattern.test(email)
+                !emailPattern.test(
+                    email
+                )
             ) {
 
                 showMessage(
                     "Skriv inn en gyldig e-postadresse.",
                     "error"
                 );
+
 
                 return;
 
@@ -445,21 +907,23 @@ if (userForm) {
             // FRONTEND ROLE SECURITY
             // ------------------------------------------------
             //
-            // This is only an additional UI check.
-            // The Edge Function MUST enforce this again.
+            // Additional UI check.
+            // Edge Function also enforces these rules.
             //
             // ------------------------------------------------
 
             if (
                 currentProfile.role ===
                 "admin" &&
-                role !== "resident"
+                role !==
+                "resident"
             ) {
 
                 showMessage(
                     "Admin kan bare opprette Resident-brukere.",
                     "error"
                 );
+
 
                 return;
 
@@ -472,13 +936,16 @@ if (userForm) {
                 ![
                     "admin",
                     "resident"
-                ].includes(role)
+                ].includes(
+                    role
+                )
             ) {
 
                 showMessage(
                     "Superadmin kan bare opprette Admin eller Resident.",
                     "error"
                 );
+
 
                 return;
 
@@ -494,6 +961,7 @@ if (userForm) {
                 createUserButton.disabled =
                     true;
 
+
                 createUserButton.textContent =
                     "Oppretter...";
 
@@ -507,6 +975,7 @@ if (userForm) {
 
 
             try {
+
 
                 // ------------------------------------------------
                 // CREATE USER THROUGH EDGE FUNCTION
@@ -524,13 +993,13 @@ if (userForm) {
                                 body: {
 
                                     full_name:
-                                        fullName,
+                                    fullName,
 
                                     email:
-                                        email,
+                                    email,
 
                                     role:
-                                        role
+                                    role
 
                                 }
                             }
@@ -568,7 +1037,8 @@ if (userForm) {
                         if (response) {
 
                             const errorBody =
-                                await response.json();
+                                await response
+                                    .json();
 
 
                             console.error(
@@ -594,7 +1064,9 @@ if (userForm) {
 
                         }
 
-                    } catch (bodyError) {
+                    } catch (
+                        bodyError
+                        ) {
 
                         console.error(
                             "COULD NOT READ ERROR BODY:",
@@ -622,7 +1094,8 @@ if (userForm) {
 
                 if (
                     !data ||
-                    data.success !== true
+                    data.success !==
+                    true
                 ) {
 
                     showMessage(
@@ -630,6 +1103,7 @@ if (userForm) {
                         "Kunne ikke opprette bruker.",
                         "error"
                     );
+
 
                     return;
 
@@ -670,7 +1144,10 @@ if (userForm) {
 
                 await loadUsers();
 
-            } catch (error) {
+
+            } catch (
+                error
+                ) {
 
                 console.error(
                     "CREATE USER EXCEPTION:",
@@ -690,6 +1167,7 @@ if (userForm) {
                     createUserButton.disabled =
                         false;
 
+
                     createUserButton.textContent =
                         "Opprett bruker";
 
@@ -702,6 +1180,7 @@ if (userForm) {
 
 }
 
+
 // ============================================================
 // LOAD USERS
 // ============================================================
@@ -709,7 +1188,9 @@ if (userForm) {
 async function loadUsers() {
 
     if (!userList) {
+
         return;
+
     }
 
 
@@ -719,16 +1200,34 @@ async function loadUsers() {
 
     if (!currentProfile) {
 
-        userList.innerHTML =
-            '<p class="empty-state">Kunne ikke kontrollere brukerrollen.</p>';
+        visibleUserCount =
+            0;
+
+
+        updateUserListCounters();
+
+
+        userList.innerHTML = `
+
+            <p class="empty-state">
+                Kunne ikke kontrollere brukerrollen.
+            </p>
+
+        `;
+
 
         return;
 
     }
 
 
-    userList.innerHTML =
-        '<p class="empty-state">Laster brukere...</p>';
+    userList.innerHTML = `
+
+        <p class="empty-state">
+            Laster brukere...
+        </p>
+
+    `;
 
 
     // ========================================================
@@ -740,7 +1239,9 @@ async function loadUsers() {
         error
     } =
         await supabaseClient
-            .from("profiles")
+            .from(
+                "profiles"
+            )
             .select(
                 "id, full_name, email, role, is_active"
             )
@@ -764,8 +1265,21 @@ async function loadUsers() {
         );
 
 
-        userList.innerHTML =
-            '<p class="empty-state">Kunne ikke laste brukere.</p>';
+        visibleUserCount =
+            0;
+
+
+        updateUserListCounters();
+
+
+        userList.innerHTML = `
+
+            <p class="empty-state">
+                Kunne ikke laste brukere.
+            </p>
+
+        `;
+
 
         return;
 
@@ -774,16 +1288,6 @@ async function loadUsers() {
 
     // ========================================================
     // FILTER USERS BY CURRENT ROLE
-    // ========================================================
-    //
-    // SUPERADMIN:
-    //     -> sees everyone
-    //
-    // ADMIN:
-    //     -> does NOT see Superadmin
-    //     -> can see Admin
-    //     -> can see Resident
-    //
     // ========================================================
 
     let visibleUsers =
@@ -811,6 +1315,17 @@ async function loadUsers() {
 
 
     // ========================================================
+    // COUNT
+    // ========================================================
+
+    visibleUserCount =
+        visibleUsers.length;
+
+
+    updateUserListCounters();
+
+
+    // ========================================================
     // EMPTY STATE
     // ========================================================
 
@@ -819,8 +1334,22 @@ async function loadUsers() {
         0
     ) {
 
-        userList.innerHTML =
-            '<p class="empty-state">Ingen brukere registrert.</p>';
+        userList.innerHTML = `
+
+            <p class="empty-state">
+                Ingen brukere registrert.
+            </p>
+
+        `;
+
+
+        if (userSearchEmpty) {
+
+            userSearchEmpty.hidden =
+                true;
+
+        }
+
 
         return;
 
@@ -838,17 +1367,69 @@ async function loadUsers() {
     visibleUsers.forEach(
         function (user) {
 
+
             // ------------------------------------------------
-            // CARD
+            // VALUES
             // ------------------------------------------------
 
-            const card =
+            const formattedRole =
+                formatRole(
+                    user.role
+                );
+
+
+            const statusText =
+                user.is_active
+                    ? "Aktiv"
+                    : "Deaktivert";
+
+
+            const searchText =
+                (
+                    (user.full_name || "") +
+                    " " +
+                    (user.email || "") +
+                    " " +
+                    formattedRole +
+                    " " +
+                    statusText
+                )
+                    .trim()
+                    .toLocaleLowerCase(
+                        "nb-NO"
+                    );
+
+
+            // ------------------------------------------------
+            // ROW
+            // ------------------------------------------------
+
+            const row =
                 document.createElement(
                     "div"
                 );
 
-            card.className =
-                "resident-item";
+
+            row.className =
+                "resident-item admin-user-row";
+
+
+            row.dataset.searchText =
+                searchText;
+
+
+            // ------------------------------------------------
+            // CONTENT
+            // ------------------------------------------------
+
+            const content =
+                document.createElement(
+                    "div"
+                );
+
+
+            content.className =
+                "admin-user-row-content";
 
 
             // ------------------------------------------------
@@ -860,9 +1441,13 @@ async function loadUsers() {
                     "h3"
                 );
 
+
             name.textContent =
                 "👤 " +
-                user.full_name;
+                (
+                    user.full_name ||
+                    "Ukjent bruker"
+                );
 
 
             // ------------------------------------------------
@@ -874,72 +1459,161 @@ async function loadUsers() {
                     "p"
                 );
 
+
+            email.className =
+                "admin-user-email";
+
+
             email.textContent =
-                user.email;
+                user.email || "";
+
+
+            // ------------------------------------------------
+            // META
+            // ------------------------------------------------
+
+            const meta =
+                document.createElement(
+                    "div"
+                );
+
+
+            meta.className =
+                "admin-user-meta";
 
 
             // ------------------------------------------------
             // ROLE
             // ------------------------------------------------
 
-            const role =
+            const roleBadge =
                 document.createElement(
-                    "p"
-                );
-
-            role.textContent =
-                "Rolle: " +
-                formatRole(
-                    user.role
+                    "span"
                 );
 
 
-            // ------------------------------------------------
-            // STATUS
-            // ------------------------------------------------
+            roleBadge.className =
+                "admin-user-role-badge";
 
-            const status =
-                document.createElement(
-                    "p"
-                );
 
-            status.textContent =
-                user.is_active
-                    ? "Aktiv"
-                    : "Deaktivert";
+            roleBadge.textContent =
+                formattedRole;
+
+
+            meta.appendChild(
+                roleBadge
+            );
 
 
             // ------------------------------------------------
-            // APPEND
+            // CONTENT APPEND
             // ------------------------------------------------
 
-            card.appendChild(
+            content.appendChild(
                 name
             );
 
-            card.appendChild(
+
+            content.appendChild(
                 email
             );
 
-            card.appendChild(
-                role
+
+            content.appendChild(
+                meta
             );
 
-            card.appendChild(
+
+            // ------------------------------------------------
+            // ACTION / STATUS
+            // ------------------------------------------------
+
+            const actions =
+                document.createElement(
+                    "div"
+                );
+
+
+            actions.className =
+                "admin-user-row-actions";
+
+
+            const status =
+                document.createElement(
+                    "span"
+                );
+
+
+            status.className =
+                user.is_active
+                    ? "status-active"
+                    : "admin-user-status-inactive";
+
+
+            status.textContent =
+                statusText;
+
+
+            actions.appendChild(
                 status
             );
 
 
+            // ------------------------------------------------
+            // ROW APPEND
+            // ------------------------------------------------
+
+            row.appendChild(
+                content
+            );
+
+
+            row.appendChild(
+                actions
+            );
+
+
             userList.appendChild(
-                card
+                row
             );
 
         }
     );
 
+
+    // ========================================================
+    // APPLY CURRENT SEARCH
+    // ========================================================
+
+    filterUserList();
+
 }
 
 
+// ============================================================
+// UPDATE USER LIST COUNTERS
+// ============================================================
+
+function updateUserListCounters() {
+
+    if (userCountBadge) {
+
+        userCountBadge.textContent =
+            String(
+                visibleUserCount
+            );
+
+    }
+
+
+    updateUsersToggleButton();
+
+
+    updateUserSearchCount(
+        visibleUserCount
+    );
+
+}
 
 
 // ============================================================
@@ -953,16 +1627,26 @@ function formatRole(
     switch (role) {
 
         case "superadmin":
+
             return "Superadmin";
 
+
         case "admin":
+
             return "Admin";
 
+
         case "resident":
+
             return "Resident";
 
+
         default:
-            return role || "Ukjent";
+
+            return (
+                role ||
+                "Ukjent"
+            );
 
     }
 
@@ -980,13 +1664,42 @@ async function start() {
 
 
     if (!profile) {
+
         return;
+
     }
 
 
+    // --------------------------------------------------------
+    // LIST CLOSED BY DEFAULT
+    // --------------------------------------------------------
+
+    setUserListOpen(
+        false
+    );
+
+
+    // --------------------------------------------------------
+    // LOAD USERS
+    // --------------------------------------------------------
+
     await loadUsers();
+
+
+    // --------------------------------------------------------
+    // FINAL UI SYNC
+    // --------------------------------------------------------
+
+    updateUsersToggleButton();
+
+
+    filterUserList();
 
 }
 
+
+// ============================================================
+// START PAGE
+// ============================================================
 
 start();

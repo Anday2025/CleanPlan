@@ -128,6 +128,17 @@ let editingTaskId =
 
 
 // ============================================================
+// DRAG AND DROP STATE
+// ============================================================
+
+let draggedTaskId =
+    null;
+
+let isSavingTaskOrder =
+    false;
+
+
+// ============================================================
 // LOGOUT
 // ============================================================
 
@@ -177,7 +188,9 @@ function showTaskMessage(
 ) {
 
     if (!taskMessage) {
+
         return;
+
     }
 
 
@@ -224,7 +237,9 @@ async function checkAdminAccess() {
         error: profileError
     } =
         await supabaseClient
-            .from("profiles")
+            .from(
+                "profiles"
+            )
             .select(
                 "id, full_name, email, role, is_active"
             )
@@ -247,8 +262,10 @@ async function checkAdminAccess() {
 
         await supabaseClient.auth.signOut();
 
+
         window.location.href =
             "index.html";
+
 
         return false;
 
@@ -267,8 +284,10 @@ async function checkAdminAccess() {
 
         await supabaseClient.auth.signOut();
 
+
         window.location.href =
             "index.html";
+
 
         return false;
 
@@ -303,7 +322,9 @@ async function loadProperties() {
         error
     } =
         await supabaseClient
-            .from("properties")
+            .from(
+                "properties"
+            )
             .select(
                 "id, name, address, is_active"
             )
@@ -347,7 +368,9 @@ async function loadProperties() {
 function renderProperties() {
 
     if (!propertySelect) {
+
         return;
+
     }
 
 
@@ -413,6 +436,7 @@ async function loadFloors(
                 </option>
             `;
 
+
         floorSelect.disabled =
             true;
 
@@ -433,12 +457,15 @@ async function loadFloors(
 
     }
 
+
     const {
         data,
         error
     } =
         await supabaseClient
-            .from("floors")
+            .from(
+                "floors"
+            )
             .select(
                 "id, property_id, floor_number, name"
             )
@@ -452,6 +479,7 @@ async function loadFloors(
                     ascending: true
                 }
             );
+
 
     if (error) {
 
@@ -609,7 +637,6 @@ function getCurrentWeekFriday() {
 
 }
 
-
 // ============================================================
 // LOAD OR CREATE CLEANING PLAN
 // ============================================================
@@ -642,7 +669,9 @@ async function getOrCreatePlan() {
         error: planError
     } =
         await supabaseClient
-            .from("cleaning_plans")
+            .from(
+                "cleaning_plans"
+            )
             .select(
                 "id, property_id, floor_id, name, start_date, is_active"
             )
@@ -664,10 +693,12 @@ async function getOrCreatePlan() {
             planError
         );
 
+
         showTaskMessage(
             "Kunne ikke hente rengjøringsplanen.",
             "error"
         );
+
 
         return null;
 
@@ -699,7 +730,9 @@ async function getOrCreatePlan() {
         error: createError
     } =
         await supabaseClient
-            .from("cleaning_plans")
+            .from(
+                "cleaning_plans"
+            )
             .insert({
 
                 property_id:
@@ -733,10 +766,12 @@ async function getOrCreatePlan() {
             createError
         );
 
+
         showTaskMessage(
             "Kunne ikke opprette rengjøringsplanen.",
             "error"
         );
+
 
         return null;
 
@@ -783,7 +818,9 @@ async function loadCurrentPlan() {
         error
     } =
         await supabaseClient
-            .from("cleaning_plans")
+            .from(
+                "cleaning_plans"
+            )
             .select(
                 "id, property_id, floor_id, name, start_date, is_active"
             )
@@ -805,8 +842,10 @@ async function loadCurrentPlan() {
             error
         );
 
+
         currentPlan =
             null;
+
 
         return;
 
@@ -846,7 +885,9 @@ async function loadTasks() {
         error
     } =
         await supabaseClient
-            .from("cleaning_plan_items")
+            .from(
+                "cleaning_plan_items"
+            )
             .select(`
                 id,
                 plan_id,
@@ -882,10 +923,12 @@ async function loadTasks() {
             error
         );
 
+
         showTaskMessage(
             "Kunne ikke hente oppgavene.",
             "error"
         );
+
 
         return;
 
@@ -917,12 +960,15 @@ async function loadTasks() {
 
 function renderTasks() {
 
-    if (taskList) {
+    if (!taskList) {
 
-        taskList.innerHTML =
-            "";
+        return;
 
     }
+
+
+    taskList.innerHTML =
+        "";
 
 
     if (taskCount) {
@@ -932,6 +978,10 @@ function renderTasks() {
 
     }
 
+
+    // ========================================================
+    // NO TASKS
+    // ========================================================
 
     if (
         currentTasks.length ===
@@ -956,11 +1006,14 @@ function renderTasks() {
 
         updateNextOrder();
 
-
         return;
 
     }
 
+
+    // ========================================================
+    // TASKS FOUND
+    // ========================================================
 
     if (taskEmptyState) {
 
@@ -978,6 +1031,26 @@ function renderTasks() {
     }
 
 
+    // ========================================================
+    // SORT TASKS
+    // ========================================================
+
+    currentTasks.sort(
+        function (a, b) {
+
+            return (
+                a.sort_order -
+                b.sort_order
+            );
+
+        }
+    );
+
+
+    // ========================================================
+    // CREATE ROWS
+    // ========================================================
+
     currentTasks.forEach(
         function (
             item,
@@ -988,14 +1061,191 @@ function renderTasks() {
                 item.cleaning_tasks;
 
 
+            if (!task) {
+
+                return;
+
+            }
+
+
             const row =
                 document.createElement(
                     "tr"
                 );
 
 
+            row.dataset.itemId =
+                item.id;
+
+
+            row.className =
+                "admin-cleaning-sortable-row";
+
+
             // =================================================
-            // ORDER
+            // DRAG COLUMN
+            // =================================================
+
+            const dragCell =
+                document.createElement(
+                    "td"
+                );
+
+
+            dragCell.className =
+                "admin-cleaning-drag-cell";
+
+
+            const dragHandle =
+                document.createElement(
+                    "button"
+                );
+
+
+            dragHandle.type =
+                "button";
+
+
+            dragHandle.className =
+                "admin-cleaning-drag-handle";
+
+
+            dragHandle.textContent =
+                "⋮⋮";
+
+
+            dragHandle.title =
+                "Dra for å endre rekkefølgen";
+
+
+            dragHandle.setAttribute(
+                "aria-label",
+                "Dra oppgaven for å endre rekkefølgen"
+            );
+
+
+            /*
+                Håndtaket starter drag-operasjonen.
+
+                Selve raden flyttes i tabellen.
+                Hele raden brukes også som drag-bilde.
+            */
+
+            dragHandle.draggable =
+                true;
+
+
+            // =================================================
+            // DRAG START
+            // =================================================
+
+            dragHandle.addEventListener(
+                "dragstart",
+                function (event) {
+
+                    if (isSavingTaskOrder) {
+
+                        event.preventDefault();
+
+                        return;
+
+                    }
+
+
+                    draggedTaskId =
+                        item.id;
+
+
+                    row.classList.add(
+                        "dragging"
+                    );
+
+
+                    if (event.dataTransfer) {
+
+                        event.dataTransfer.effectAllowed =
+                            "move";
+
+
+                        event.dataTransfer.setData(
+                            "text/plain",
+                            item.id
+                        );
+
+
+                        /*
+                            Selv om drag starter fra ⋮⋮,
+                            skal hele raden vises mens vi drar.
+                        */
+
+                        try {
+
+                            event.dataTransfer.setDragImage(
+                                row,
+                                30,
+                                Math.max(
+                                    1,
+                                    row.offsetHeight / 2
+                                )
+                            );
+
+                        }
+                        catch (error) {
+
+                            console.warn(
+                                "Kunne ikke sette drag-bilde:",
+                                error
+                            );
+
+                        }
+
+                    }
+
+                }
+            );
+
+
+            // =================================================
+            // DRAG END
+            // =================================================
+
+            dragHandle.addEventListener(
+                "dragend",
+                async function () {
+
+                    row.classList.remove(
+                        "dragging"
+                    );
+
+
+                    clearDragOverStates();
+
+
+                    /*
+                        Raden har allerede blitt flyttet i DOM-en
+                        av dragover.
+
+                        Nå lagrer vi den faktiske rekkefølgen.
+                    */
+
+                    await saveTaskOrderFromTable();
+
+                }
+            );
+
+
+            dragCell.appendChild(
+                dragHandle
+            );
+
+
+            row.appendChild(
+                dragCell
+            );
+
+
+            // =================================================
+            // ORDER NUMBER
             // =================================================
 
             const orderCell =
@@ -1004,8 +1254,12 @@ function renderTasks() {
                 );
 
 
+            orderCell.className =
+                "admin-cleaning-order-cell";
+
+
             orderCell.textContent =
-                item.sort_order;
+                index + 1;
 
 
             row.appendChild(
@@ -1021,6 +1275,10 @@ function renderTasks() {
                 document.createElement(
                     "td"
                 );
+
+
+            taskCell.className =
+                "admin-cleaning-task-cell";
 
 
             const taskTitle =
@@ -1076,6 +1334,10 @@ function renderTasks() {
                 );
 
 
+            actionCell.className =
+                "admin-cleaning-actions-cell";
+
+
             const actionWrapper =
                 document.createElement(
                     "div"
@@ -1085,6 +1347,10 @@ function renderTasks() {
             actionWrapper.className =
                 "table-actions";
 
+
+            // =================================================
+            // EDIT BUTTON
+            // =================================================
 
             const editButton =
                 document.createElement(
@@ -1115,6 +1381,10 @@ function renderTasks() {
                 }
             );
 
+
+            // =================================================
+            // DELETE BUTTON
+            // =================================================
 
             const deleteButton =
                 document.createElement(
@@ -1166,6 +1436,167 @@ function renderTasks() {
             );
 
 
+            // =================================================
+            // DRAG OVER
+            // =================================================
+
+            row.addEventListener(
+                "dragover",
+                function (event) {
+
+                    if (
+                        !draggedTaskId ||
+                        draggedTaskId ===
+                        item.id ||
+                        isSavingTaskOrder
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    /*
+                        preventDefault() er nødvendig for at
+                        nettleseren skal tillate dropping her.
+                    */
+
+                    event.preventDefault();
+
+
+                    if (event.dataTransfer) {
+
+                        event.dataTransfer.dropEffect =
+                            "move";
+
+                    }
+
+
+                    // =========================================
+                    // FIND DRAGGED ROW
+                    // =========================================
+
+                    const draggedRow =
+                        Array
+                            .from(
+                                taskList.querySelectorAll(
+                                    ".admin-cleaning-sortable-row"
+                                )
+                            )
+                            .find(
+                                function (currentRow) {
+
+                                    return (
+                                        currentRow.dataset.itemId ===
+                                        draggedTaskId
+                                    );
+
+                                }
+                            );
+
+
+                    if (!draggedRow) {
+
+                        return;
+
+                    }
+
+
+                    const rectangle =
+                        row.getBoundingClientRect();
+
+
+                    const middle =
+                        rectangle.top +
+                        (
+                            rectangle.height /
+                            2
+                        );
+
+
+                    // =========================================
+                    // MOVE ABOVE TARGET
+                    // =========================================
+
+                    if (
+                        event.clientY <
+                        middle
+                    ) {
+
+                        if (
+                            row.previousElementSibling !==
+                            draggedRow
+                        ) {
+
+                            taskList.insertBefore(
+                                draggedRow,
+                                row
+                            );
+
+                        }
+
+                    }
+
+
+                        // =========================================
+                        // MOVE BELOW TARGET
+                    // =========================================
+
+                    else {
+
+                        if (
+                            row.nextElementSibling !==
+                            draggedRow
+                        ) {
+
+                            taskList.insertBefore(
+                                draggedRow,
+                                row.nextElementSibling
+                            );
+
+                        }
+
+                    }
+
+
+                    /*
+                        Oppdater tallene med én gang.
+
+                        Hvis oppgave 9 flyttes til plass 2,
+                        skal skjermen vise 1,2,3... direkte.
+                    */
+
+                    updateVisibleTaskNumbers();
+
+                }
+            );
+
+
+            // =================================================
+            // DROP
+            // =================================================
+
+            row.addEventListener(
+                "drop",
+                function (event) {
+
+                    /*
+                        Ikke lagre her.
+
+                        dragend lagrer rekkefølgen én gang
+                        når brukeren slipper oppgaven.
+                    */
+
+                    event.preventDefault();
+
+                }
+            );
+
+
+            // =================================================
+            // ADD ROW
+            // =================================================
+
             taskList.appendChild(
                 row
             );
@@ -1178,6 +1609,501 @@ function renderTasks() {
 
 }
 
+
+// ============================================================
+// UPDATE VISIBLE TASK NUMBERS
+// ============================================================
+
+function updateVisibleTaskNumbers() {
+
+    if (!taskList) {
+
+        return;
+
+    }
+
+
+    const rows =
+        taskList.querySelectorAll(
+            ".admin-cleaning-sortable-row"
+        );
+
+
+    rows.forEach(
+        function (
+            row,
+            index
+        ) {
+
+            const numberCell =
+                row.querySelector(
+                    ".admin-cleaning-order-cell"
+                );
+
+
+            if (numberCell) {
+
+                numberCell.textContent =
+                    index + 1;
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// CLEAR DRAG STATES
+// ============================================================
+
+function clearDragOverStates() {
+
+    if (!taskList) {
+
+        return;
+
+    }
+
+
+    taskList
+        .querySelectorAll(
+            ".admin-cleaning-sortable-row"
+        )
+        .forEach(
+            function (row) {
+
+                row.classList.remove(
+                    "drag-over-top",
+                    "drag-over-bottom"
+                );
+
+            }
+        );
+
+}
+
+
+// ============================================================
+// SAVE ORDER FROM TABLE
+// ============================================================
+
+async function saveTaskOrderFromTable() {
+
+    if (
+        !taskList ||
+        isSavingTaskOrder
+    ) {
+
+        return;
+
+    }
+
+
+    const rows =
+        Array.from(
+            taskList.querySelectorAll(
+                ".admin-cleaning-sortable-row"
+            )
+        );
+
+
+    if (
+        rows.length ===
+        0
+    ) {
+
+        draggedTaskId =
+            null;
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // BUILD ORDER FROM CURRENT DOM
+    // ========================================================
+
+    const orderedItems =
+        [];
+
+
+    for (
+        let index = 0;
+        index < rows.length;
+        index++
+    ) {
+
+        const itemId =
+            rows[index].dataset.itemId;
+
+
+        const item =
+            currentTasks.find(
+                function (currentItem) {
+
+                    return (
+                        currentItem.id ===
+                        itemId
+                    );
+
+                }
+            );
+
+
+        if (!item) {
+
+            continue;
+
+        }
+
+
+        orderedItems.push({
+
+            ...item,
+
+            sort_order:
+                index + 1
+
+        });
+
+    }
+
+
+    if (
+        orderedItems.length !==
+        currentTasks.length
+    ) {
+
+        console.error(
+            "TASK ORDER ERROR: Kunne ikke finne alle oppgavene."
+        );
+
+
+        draggedTaskId =
+            null;
+
+
+        await loadTasks();
+
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // CHECK IF ORDER CHANGED
+    // ========================================================
+
+    const oldOrder =
+        [...currentTasks]
+            .sort(
+                function (a, b) {
+
+                    return (
+                        a.sort_order -
+                        b.sort_order
+                    );
+
+                }
+            )
+            .map(
+                function (item) {
+
+                    return item.id;
+
+                }
+            );
+
+
+    const newOrder =
+        orderedItems.map(
+            function (item) {
+
+                return item.id;
+
+            }
+        );
+
+
+    const changed =
+        newOrder.some(
+            function (
+                itemId,
+                index
+            ) {
+
+                return (
+                    itemId !==
+                    oldOrder[index]
+                );
+
+            }
+        );
+
+
+    draggedTaskId =
+        null;
+
+
+    if (!changed) {
+
+        updateVisibleTaskNumbers();
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // SAVE
+    // ========================================================
+
+    isSavingTaskOrder =
+        true;
+
+
+    showTaskMessage(
+        "Lagrer ny rekkefølge...",
+        "info"
+    );
+
+
+    const saved =
+        await saveDraggedTaskOrder(
+            orderedItems
+        );
+
+
+    isSavingTaskOrder =
+        false;
+
+
+    if (!saved) {
+
+        showTaskMessage(
+            "Kunne ikke lagre den nye rekkefølgen.",
+            "error"
+        );
+
+
+        await loadTasks();
+
+
+        return;
+
+    }
+
+
+    currentTasks =
+        orderedItems;
+
+
+    showTaskMessage(
+        "Rekkefølgen ble lagret.",
+        "success"
+    );
+
+
+    await loadTasks();
+
+}
+
+
+// ============================================================
+// SAVE DRAGGED TASK ORDER
+// ============================================================
+
+async function saveDraggedTaskOrder(
+    orderedItems
+) {
+
+    if (
+        !orderedItems ||
+        orderedItems.length ===
+        0
+    ) {
+
+        return true;
+
+    }
+
+
+    // ========================================================
+    // STEP 1
+    // TEMPORARY SORT ORDERS
+    //
+    // cleaning_plan_items has unique:
+    // plan_id + sort_order
+    //
+    // Therefore all rows are moved temporarily first.
+    // ========================================================
+
+    for (
+        let index = 0;
+        index < orderedItems.length;
+        index++
+    ) {
+
+        const item =
+            orderedItems[index];
+
+
+        const temporaryOrder =
+            1000000 +
+            index;
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from(
+                    "cleaning_plan_items"
+                )
+                .update({
+
+                    sort_order:
+                    temporaryOrder
+
+                })
+                .eq(
+                    "id",
+                    item.id
+                );
+
+
+        if (error) {
+
+            console.error(
+                "TEMPORARY TASK ORDER ERROR:",
+                error
+            );
+
+
+            return false;
+
+        }
+
+    }
+
+
+    // ========================================================
+    // STEP 2
+    // SAVE FINAL PLAN ORDER
+    // ========================================================
+
+    for (
+        let index = 0;
+        index < orderedItems.length;
+        index++
+    ) {
+
+        const item =
+            orderedItems[index];
+
+
+        const newOrder =
+            index + 1;
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from(
+                    "cleaning_plan_items"
+                )
+                .update({
+
+                    sort_order:
+                    newOrder
+
+                })
+                .eq(
+                    "id",
+                    item.id
+                );
+
+
+        if (error) {
+
+            console.error(
+                "SAVE TASK ORDER ERROR:",
+                error
+            );
+
+
+            return false;
+
+        }
+
+    }
+
+
+    // ========================================================
+    // STEP 3
+    // KEEP CLEANING_TASKS SORT_ORDER SYNCHRONIZED
+    // ========================================================
+
+    for (
+        let index = 0;
+        index < orderedItems.length;
+        index++
+    ) {
+
+        const item =
+            orderedItems[index];
+
+
+        const newOrder =
+            index + 1;
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from(
+                    "cleaning_tasks"
+                )
+                .update({
+
+                    sort_order:
+                    newOrder,
+
+                    updated_at:
+                        new Date()
+                            .toISOString()
+
+                })
+                .eq(
+                    "id",
+                    item.task_id
+                );
+
+
+        if (error) {
+
+            console.error(
+                "SAVE CLEANING TASK ORDER ERROR:",
+                error
+            );
+
+
+            return false;
+
+        }
+
+    }
+
+
+    return true;
+
+}
 
 // ============================================================
 // NEXT ORDER
@@ -1358,6 +2284,7 @@ if (cancelEditButton) {
 
             resetTaskForm();
 
+
             showTaskMessage(
                 ""
             );
@@ -1398,6 +2325,7 @@ if (taskForm) {
                     "error"
                 );
 
+
                 return;
 
             }
@@ -1422,6 +2350,7 @@ if (taskForm) {
                     "error"
                 );
 
+
                 return;
 
             }
@@ -1436,6 +2365,7 @@ if (taskForm) {
                     "Rekkefølgen må være 1 eller høyere.",
                     "error"
                 );
+
 
                 return;
 
@@ -1558,7 +2488,9 @@ async function createTask(
                 error
             } =
                 await supabaseClient
-                    .from("cleaning_plan_items")
+                    .from(
+                        "cleaning_plan_items"
+                    )
                     .update({
 
                         sort_order:
@@ -1579,10 +2511,12 @@ async function createTask(
                     error
                 );
 
+
                 showTaskMessage(
                     "Kunne ikke oppdatere rekkefølgen.",
                     "error"
                 );
+
 
                 return;
 
@@ -1602,7 +2536,9 @@ async function createTask(
         error: taskError
     } =
         await supabaseClient
-            .from("cleaning_tasks")
+            .from(
+                "cleaning_tasks"
+            )
             .insert({
 
                 property_id:
@@ -1662,6 +2598,7 @@ async function createTask(
 
         await loadTasks();
 
+
         return;
 
     }
@@ -1675,7 +2612,9 @@ async function createTask(
         error: itemError
     } =
         await supabaseClient
-            .from("cleaning_plan_items")
+            .from(
+                "cleaning_plan_items"
+            )
             .insert({
 
                 plan_id:
@@ -1699,7 +2638,9 @@ async function createTask(
 
 
         await supabaseClient
-            .from("cleaning_tasks")
+            .from(
+                "cleaning_tasks"
+            )
             .delete()
             .eq(
                 "id",
@@ -1714,6 +2655,7 @@ async function createTask(
 
 
         await loadTasks();
+
 
         return;
 
@@ -1765,6 +2707,7 @@ async function updateTask(
             "error"
         );
 
+
         return;
 
     }
@@ -1787,7 +2730,9 @@ async function updateTask(
             error: temporaryError
         } =
             await supabaseClient
-                .from("cleaning_plan_items")
+                .from(
+                    "cleaning_plan_items"
+                )
                 .update({
 
                     sort_order:
@@ -1806,15 +2751,21 @@ async function updateTask(
                 temporaryError
             );
 
+
             showTaskMessage(
                 "Kunne ikke endre rekkefølgen.",
                 "error"
             );
 
+
             return;
 
         }
 
+
+        // ====================================================
+        // MOVING TASK UP
+        // ====================================================
 
         if (
             newOrder <
@@ -1853,23 +2804,56 @@ async function updateTask(
                 const item of affectedItems
                 ) {
 
-                await supabaseClient
-                    .from("cleaning_plan_items")
-                    .update({
+                const {
+                    error
+                } =
+                    await supabaseClient
+                        .from(
+                            "cleaning_plan_items"
+                        )
+                        .update({
 
-                        sort_order:
-                            item.sort_order +
-                            1
+                            sort_order:
+                                item.sort_order +
+                                1
 
-                    })
-                    .eq(
-                        "id",
-                        item.id
+                        })
+                        .eq(
+                            "id",
+                            item.id
+                        );
+
+
+                if (error) {
+
+                    console.error(
+                        "MOVE TASK UP ERROR:",
+                        error
                     );
+
+
+                    showTaskMessage(
+                        "Kunne ikke endre rekkefølgen.",
+                        "error"
+                    );
+
+
+                    await loadTasks();
+
+
+                    return;
+
+                }
 
             }
 
         }
+
+
+            // ====================================================
+            // MOVING TASK DOWN
+        // ====================================================
+
         else {
 
             const affectedItems =
@@ -1904,30 +2888,63 @@ async function updateTask(
                 const item of affectedItems
                 ) {
 
-                await supabaseClient
-                    .from("cleaning_plan_items")
-                    .update({
+                const {
+                    error
+                } =
+                    await supabaseClient
+                        .from(
+                            "cleaning_plan_items"
+                        )
+                        .update({
 
-                        sort_order:
-                            item.sort_order -
-                            1
+                            sort_order:
+                                item.sort_order -
+                                1
 
-                    })
-                    .eq(
-                        "id",
-                        item.id
+                        })
+                        .eq(
+                            "id",
+                            item.id
+                        );
+
+
+                if (error) {
+
+                    console.error(
+                        "MOVE TASK DOWN ERROR:",
+                        error
                     );
+
+
+                    showTaskMessage(
+                        "Kunne ikke endre rekkefølgen.",
+                        "error"
+                    );
+
+
+                    await loadTasks();
+
+
+                    return;
+
+                }
 
             }
 
         }
 
 
+        // ====================================================
+        // SAVE FINAL ORDER FOR CURRENT TASK
+        // ====================================================
+
         const {
             error: finalOrderError
         } =
             await supabaseClient
-                .from("cleaning_plan_items")
+                .from(
+                    "cleaning_plan_items"
+                )
                 .update({
 
                     sort_order:
@@ -1943,15 +2960,19 @@ async function updateTask(
         if (finalOrderError) {
 
             console.error(
+                "FINAL TASK ORDER ERROR:",
                 finalOrderError
             );
+
 
             showTaskMessage(
                 "Kunne ikke lagre rekkefølgen.",
                 "error"
             );
 
+
             await loadTasks();
+
 
             return;
 
@@ -1968,7 +2989,9 @@ async function updateTask(
         error
     } =
         await supabaseClient
-            .from("cleaning_tasks")
+            .from(
+                "cleaning_tasks"
+            )
             .update({
 
                 name:
@@ -2023,6 +3046,7 @@ async function updateTask(
 
         await loadTasks();
 
+
         return;
 
     }
@@ -2073,7 +3097,9 @@ async function deleteTask(
         error
     } =
         await supabaseClient
-            .from("cleaning_tasks")
+            .from(
+                "cleaning_tasks"
+            )
             .delete()
             .eq(
                 "id",
@@ -2088,10 +3114,12 @@ async function deleteTask(
             error
         );
 
+
         showTaskMessage(
             "Kunne ikke slette oppgaven.",
             "error"
         );
+
 
         return;
 
@@ -2138,6 +3166,58 @@ async function normalizeTaskOrder() {
             );
 
 
+    /*
+        Bruk midlertidige verdier først.
+
+        Dette unngår konflikt med unique constraint:
+        plan_id + sort_order.
+    */
+
+    for (
+        let index = 0;
+        index < items.length;
+        index++
+    ) {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from(
+                    "cleaning_plan_items"
+                )
+                .update({
+
+                    sort_order:
+                        2000000 +
+                        index
+
+                })
+                .eq(
+                    "id",
+                    items[index].id
+                );
+
+
+        if (error) {
+
+            console.error(
+                "NORMALIZE TEMP ORDER ERROR:",
+                error
+            );
+
+
+            return;
+
+        }
+
+    }
+
+
+    /*
+        Nå kan vi trygt sette 1, 2, 3, 4...
+    */
+
     for (
         let index = 0;
         index < items.length;
@@ -2148,13 +3228,17 @@ async function normalizeTaskOrder() {
             index + 1;
 
 
-        if (
-            items[index].sort_order !==
-            expectedOrder
-        ) {
+        const item =
+            items[index];
 
+
+        const {
+            error: itemError
+        } =
             await supabaseClient
-                .from("cleaning_plan_items")
+                .from(
+                    "cleaning_plan_items"
+                )
                 .update({
 
                     sort_order:
@@ -2163,8 +3247,55 @@ async function normalizeTaskOrder() {
                 })
                 .eq(
                     "id",
-                    items[index].id
+                    item.id
                 );
+
+
+        if (itemError) {
+
+            console.error(
+                "NORMALIZE PLAN ITEM ERROR:",
+                itemError
+            );
+
+
+            return;
+
+        }
+
+
+        const {
+            error: taskError
+        } =
+            await supabaseClient
+                .from(
+                    "cleaning_tasks"
+                )
+                .update({
+
+                    sort_order:
+                    expectedOrder,
+
+                    updated_at:
+                        new Date()
+                            .toISOString()
+
+                })
+                .eq(
+                    "id",
+                    item.task_id
+                );
+
+
+        if (taskError) {
+
+            console.error(
+                "NORMALIZE CLEANING TASK ERROR:",
+                taskError
+            );
+
+
+            return;
 
         }
 
@@ -2185,9 +3316,14 @@ if (propertySelect) {
 
             resetTaskForm();
 
+
             showTaskMessage(
                 ""
             );
+
+
+            draggedTaskId =
+                null;
 
 
             await loadFloors(
@@ -2212,9 +3348,14 @@ if (floorSelect) {
 
             resetTaskForm();
 
+
             showTaskMessage(
                 ""
             );
+
+
+            draggedTaskId =
+                null;
 
 
             const property =
@@ -2235,6 +3376,7 @@ if (floorSelect) {
                         true;
 
                 }
+
 
                 return;
 

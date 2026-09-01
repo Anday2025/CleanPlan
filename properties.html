@@ -20,199 +20,610 @@
 </head>
 
 
-<body>
-
-<header class="topbar">
-
-  <div class="brand">
-
-        <span class="brand-icon">
-            🧹
-        </span>
-
-    <span>
-            Cleaning App
-        </span>
-
-  </div>
+<body class="admin-dashboard-body">
 
 
-  <div class="topbar-right">
+<!-- =========================================================
+     ADMIN APP
+     ========================================================= -->
 
-        <span id="adminName">
-            Anday
-        </span>
-
-    <button
-            id="logoutButton"
-            class="logout-button"
-    >
-      Logg ut
-    </button>
-
-  </div>
-
-</header>
+<div class="admin-app-layout">
 
 
-<main class="dashboard">
+  <!-- =====================================================
+       SIDEBAR
+       ===================================================== -->
+
+  <aside class="admin-sidebar">
 
 
-  <div class="page-header">
+    <!-- BRAND -->
 
-    <div>
+    <div class="admin-sidebar-brand">
 
-      <p class="eyebrow">
-        ADMINISTRATOR
-      </p>
+      <span class="admin-sidebar-logo">
+        🧹
+      </span>
 
-      <h1>
-        🏠 Boliger
-      </h1>
-
-      <p class="welcome-text">
-        Administrer boliger og etasjer.
-      </p>
+      <span>
+        Cleaning App
+      </span>
 
     </div>
 
 
-    <button
-            id="backButton"
-            class="secondary-button"
-    >
-      ← Dashboard
-    </button>
+    <!-- ROLE -->
 
-  </div>
+    <div class="admin-sidebar-section-label">
+      ADMIN
+    </div>
 
 
-  <!-- ADD PROPERTY -->
+    <!-- NAVIGATION -->
 
-  <section class="dashboard-card">
-
-    <h2>
-      Legg til bolig
-    </h2>
-
-    <p>
-      Opprett en ny bolig som skal brukes
-      i Cleaning App.
-    </p>
+    <nav class="admin-sidebar-nav">
 
 
-    <form id="propertyForm">
+      <a
+              href="admin.html"
+              class="admin-sidebar-link"
+      >
+
+        <span class="admin-sidebar-icon">
+          ▦
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
+      </a>
 
 
-      <div class="form-grid">
+      <a
+              href="properties.html"
+              class="admin-sidebar-link active"
+      >
+
+        <span class="admin-sidebar-icon">
+          🏠
+        </span>
+
+        <span>
+          Boliger
+        </span>
+
+      </a>
 
 
-        <div class="form-group">
+      <a
+              href="properties.html"
+              class="admin-sidebar-link"
+      >
 
-          <label for="propertyName">
-            Bolignavn
-          </label>
+        <span class="admin-sidebar-icon">
+          ▤
+        </span>
 
-          <input
-                  type="text"
-                  id="propertyName"
-                  placeholder="For eksempel Hovedbolig"
-                  required
-          >
+        <span>
+          Etasjer
+        </span>
 
-        </div>
-
-
-        <div class="form-group">
-
-          <label for="propertyAddress">
-            Adresse
-          </label>
-
-          <input
-                  type="text"
-                  id="propertyAddress"
-                  placeholder="For eksempel Nye Sandviksveien 46"
-                  required
-          >
-
-        </div>
+      </a>
 
 
-        <div class="form-group">
+      <a
+              href="admin-residents.html"
+              class="admin-sidebar-link"
+      >
 
-          <label for="floorCount">
-            Antall etasjer
-          </label>
+        <span class="admin-sidebar-icon">
+          👥
+        </span>
 
-          <input
-                  type="number"
-                  id="floorCount"
-                  min="1"
-                  max="100"
-                  value="1"
-                  required
-          >
+        <span>
+          Beboere
+        </span>
 
-        </div>
+      </a>
 
 
-      </div>
+      <a
+              href="admin-cleaning-plan.html"
+              class="admin-sidebar-link"
+      >
+
+        <span class="admin-sidebar-icon">
+          🧹
+        </span>
+
+        <span>
+          Rengjøringsplan
+        </span>
+
+      </a>
+
+
+      <a
+              href="users.html"
+              class="admin-sidebar-link"
+      >
+
+        <span class="admin-sidebar-icon">
+          👤
+        </span>
+
+        <span>
+          Brukere
+        </span>
+
+      </a>
 
 
       <button
-              type="submit"
-              class="primary-button"
-              id="savePropertyButton"
+              type="button"
+              class="admin-sidebar-link"
+              id="historySidebarButton"
       >
-        Lagre bolig
+
+        <span class="admin-sidebar-icon">
+          ↺
+        </span>
+
+        <span>
+          Historikk
+        </span>
+
       </button>
 
 
-      <p
-              id="propertyMessage"
-              class="message"
-      ></p>
+      <button
+              type="button"
+              class="admin-sidebar-link"
+              id="settingsSidebarButton"
+      >
 
-    </form>
+        <span class="admin-sidebar-icon">
+          ⚙
+        </span>
 
-  </section>
+        <span>
+          Innstillinger
+        </span>
+
+      </button>
 
 
-  <!-- PROPERTY LIST -->
+    </nav>
 
-  <section class="dashboard-card property-list-card">
 
-    <div class="section-header">
+    <!-- SIDEBAR BOTTOM -->
+
+    <div class="admin-sidebar-bottom">
+
+      <button
+              id="logoutButton"
+              class="admin-sidebar-logout"
+              type="button"
+      >
+
+        <span>
+          ↪
+        </span>
+
+        <span>
+          Logg ut
+        </span>
+
+      </button>
+
+    </div>
+
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN AREA
+       ===================================================== -->
+
+  <div class="admin-main-area">
+
+
+    <!-- TOP HEADER -->
+
+    <header class="admin-main-header">
+
 
       <div>
 
-        <h2>
-          Boliger
-        </h2>
-
-        <p>
-          Registrerte boliger
-        </p>
+        <button
+                id="mobileSidebarButton"
+                class="admin-mobile-menu-button"
+                type="button"
+                aria-label="Åpne meny"
+        >
+          ☰
+        </button>
 
       </div>
 
-    </div>
+
+      <div class="admin-header-profile">
+
+        <div class="admin-header-profile-text">
+
+          <strong id="adminName">
+            Administrator
+          </strong>
+
+          <span>
+            Admin
+          </span>
+
+        </div>
 
 
-    <div id="propertyList">
+        <div class="admin-profile-avatar">
 
-      <p class="empty-state">
-        Laster boliger...
-      </p>
+          <span id="adminInitial">
+            A
+          </span>
 
-    </div>
+        </div>
 
-  </section>
+      </div>
 
 
-</main>
+    </header>
 
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main class="admin-dashboard-main">
+
+
+      <!-- PAGE HEADER -->
+
+      <section class="admin-properties-page-header">
+
+        <div>
+
+          <p class="admin-dashboard-eyebrow">
+            ADMINISTRATOR
+          </p>
+
+          <h1>
+            Boliger
+          </h1>
+
+          <p>
+            Administrer boliger og etasjer.
+          </p>
+
+        </div>
+
+
+        <button
+                id="backButton"
+                class="secondary-button"
+                type="button"
+        >
+          ← Dashboard
+        </button>
+
+      </section>
+
+
+      <!-- ===================================================
+           MAIN GRID
+           =================================================== -->
+
+      <div class="admin-properties-layout">
+
+
+        <!-- =================================================
+             ADD PROPERTY
+             ================================================= -->
+
+        <section class="dashboard-card admin-property-form-card">
+
+
+          <div class="admin-properties-card-heading">
+
+            <div class="admin-action-icon">
+              🏠
+            </div>
+
+
+            <div>
+
+              <h2>
+                Legg til bolig
+              </h2>
+
+              <p>
+                Opprett en ny bolig som skal brukes
+                i Cleaning App.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <form id="propertyForm">
+
+
+            <div class="form-group admin-property-form-group">
+
+              <label for="propertyName">
+                Bolignavn
+              </label>
+
+              <input
+                      type="text"
+                      id="propertyName"
+                      placeholder="For eksempel Hovedbolig"
+                      required
+              >
+
+            </div>
+
+
+            <div class="form-group admin-property-form-group">
+
+              <label for="propertyAddress">
+                Adresse
+              </label>
+
+              <input
+                      type="text"
+                      id="propertyAddress"
+                      placeholder="For eksempel Nye Sandviksveien 46"
+                      required
+              >
+
+            </div>
+
+
+            <div class="form-group admin-property-form-group">
+
+              <label for="floorCount">
+                Antall etasjer
+              </label>
+
+              <input
+                      type="number"
+                      id="floorCount"
+                      min="1"
+                      max="100"
+                      value="1"
+                      required
+              >
+
+            </div>
+
+
+            <button
+                    type="submit"
+                    class="primary-button admin-property-save-button"
+                    id="savePropertyButton"
+            >
+              + Lagre bolig
+            </button>
+
+
+            <p
+                    id="propertyMessage"
+                    class="message"
+            ></p>
+
+
+          </form>
+
+        </section>
+
+
+        <!-- =================================================
+             REGISTERED PROPERTIES
+             ================================================= -->
+
+        <section class="dashboard-card admin-property-list-card">
+
+
+          <!-- HEADER -->
+
+          <div class="admin-property-list-header">
+
+
+            <div class="admin-property-list-heading">
+
+              <div class="admin-property-list-icon">
+                🏢
+              </div>
+
+
+              <div>
+
+                <div class="admin-property-title-row">
+
+                  <h2>
+                    Registrerte boliger
+                  </h2>
+
+                  <span
+                          id="propertyCountBadge"
+                          class="admin-property-number-badge"
+                  >
+                    0
+                  </span>
+
+                </div>
+
+
+                <p>
+                  Boliger du har tilgang til å administrere.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <!-- SHOW / HIDE BUTTON -->
+
+            <button
+                    id="togglePropertyListButton"
+                    class="admin-property-toggle-button"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="registeredPropertiesContent"
+            >
+
+              <span id="togglePropertyListText">
+                Vis boliger
+              </span>
+
+              <span
+                      id="togglePropertyListChevron"
+                      class="admin-property-toggle-chevron"
+              >
+                ⌄
+              </span>
+
+            </button>
+
+
+          </div>
+
+
+          <!-- =================================================
+               COLLAPSIBLE CONTENT
+               Hidden by default
+               ================================================= -->
+
+          <div
+                  id="registeredPropertiesContent"
+                  class="admin-property-collapsible"
+                  hidden
+          >
+
+
+            <!-- SEARCH AREA -->
+
+            <div class="admin-property-search-area">
+
+
+              <div class="admin-property-search-wrapper">
+
+                <span class="admin-property-search-icon">
+                  🔍
+                </span>
+
+
+                <input
+                        type="search"
+                        id="propertySearchInput"
+                        class="admin-property-search-input"
+                        placeholder="Søk etter bolignavn eller adresse..."
+                        autocomplete="off"
+                        aria-label="Søk etter bolig"
+                >
+
+
+                <button
+                        id="clearPropertySearchButton"
+                        class="admin-property-search-clear"
+                        type="button"
+                        aria-label="Tøm søk"
+                        hidden
+                >
+                  ×
+                </button>
+
+              </div>
+
+
+              <div class="admin-property-search-info">
+
+                <span id="propertySearchResultText">
+                  0 boliger funnet
+                </span>
+
+              </div>
+
+
+            </div>
+
+
+            <!-- PROPERTY LIST -->
+
+            <div id="propertyList">
+
+              <p class="empty-state">
+                Laster boliger...
+              </p>
+
+            </div>
+
+
+            <!-- NO SEARCH RESULT -->
+
+            <div
+                    id="propertySearchEmpty"
+                    class="admin-property-search-empty"
+                    hidden
+            >
+
+              <div class="admin-property-search-empty-icon">
+                🔎
+              </div>
+
+              <h3>
+                Ingen boliger funnet
+              </h3>
+
+              <p>
+                Prøv et annet bolignavn eller en annen adresse.
+              </p>
+
+            </div>
+
+
+          </div>
+
+
+        </section>
+
+
+      </div>
+
+
+    </main>
+
+
+  </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     MOBILE SIDEBAR OVERLAY
+     ========================================================= -->
+
+<div
+        id="adminSidebarOverlay"
+        class="admin-sidebar-overlay"
+></div>
+
+
+<!-- =========================================================
+     SUPABASE
+     ========================================================= -->
 
 <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
@@ -220,7 +631,141 @@
 
 <script src="js/config.js"></script>
 
-<script src="js/properties.js"></script>
+<script src="js/properties.js?v=3"></script>
+
+
+<!-- =========================================================
+     SIDEBAR BEHAVIOUR
+     ========================================================= -->
+
+<script>
+
+
+  const mobileSidebarButton =
+          document.getElementById(
+                  "mobileSidebarButton"
+          );
+
+
+  const adminSidebar =
+          document.querySelector(
+                  ".admin-sidebar"
+          );
+
+
+  const adminSidebarOverlay =
+          document.getElementById(
+                  "adminSidebarOverlay"
+          );
+
+
+  const historySidebarButton =
+          document.getElementById(
+                  "historySidebarButton"
+          );
+
+
+  const settingsSidebarButton =
+          document.getElementById(
+                  "settingsSidebarButton"
+          );
+
+
+  function closeAdminSidebar() {
+
+    if (adminSidebar) {
+
+      adminSidebar.classList.remove(
+              "open"
+      );
+
+    }
+
+
+    if (adminSidebarOverlay) {
+
+      adminSidebarOverlay.classList.remove(
+              "visible"
+      );
+
+    }
+
+  }
+
+
+  if (mobileSidebarButton) {
+
+    mobileSidebarButton.addEventListener(
+            "click",
+            function () {
+
+              if (adminSidebar) {
+
+                adminSidebar.classList.add(
+                        "open"
+                );
+
+              }
+
+
+              if (adminSidebarOverlay) {
+
+                adminSidebarOverlay.classList.add(
+                        "visible"
+                );
+
+              }
+
+            }
+    );
+
+  }
+
+
+  if (adminSidebarOverlay) {
+
+    adminSidebarOverlay.addEventListener(
+            "click",
+            closeAdminSidebar
+    );
+
+  }
+
+
+  if (historySidebarButton) {
+
+    historySidebarButton.addEventListener(
+            "click",
+            function () {
+
+              window.alert(
+                      "Historikk kommer i et senere steg."
+              );
+
+            }
+    );
+
+  }
+
+
+  if (settingsSidebarButton) {
+
+    settingsSidebarButton.addEventListener(
+            "click",
+            function () {
+
+              window.alert(
+                      "Innstillinger kommer i et senere steg."
+              );
+
+            }
+    );
+
+  }
+
+
+</script>
+
 
 </body>
 

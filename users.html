@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="no">
 
@@ -21,302 +20,798 @@
 </head>
 
 
-<body>
+<body class="admin-dashboard-body">
 
 
-<!-- ============================================================
-     TOPBAR
-     ============================================================ -->
+<!-- =========================================================
+     ADMIN APP
+     ========================================================= -->
 
-<header class="topbar">
-
-  <div class="brand">
-
-        <span class="brand-icon">
-            🧹
-        </span>
-
-    <span>
-            Cleaning App
-        </span>
-
-  </div>
+<div class="admin-app-layout">
 
 
-  <div class="topbar-right">
+  <!-- =====================================================
+       SIDEBAR
+       ===================================================== -->
 
-        <span id="adminName">
-            Anday
-        </span>
-
-    <button
-            id="logoutButton"
-            class="logout-button"
-            type="button"
-    >
-      Logg ut
-    </button>
-
-  </div>
-
-</header>
+  <aside class="admin-sidebar">
 
 
+    <!-- BRAND -->
 
-<!-- ============================================================
-     MAIN
-     ============================================================ -->
+    <div class="admin-sidebar-brand">
 
-<main class="dashboard">
+      <span class="admin-sidebar-logo">
+        🧹
+      </span>
 
-
-  <!-- ========================================================
-       PAGE HEADER
-       ======================================================== -->
-
-  <div class="page-header">
-
-    <div>
-
-      <p class="eyebrow">
-        ADMINISTRATOR
-      </p>
-
-      <h1>
-        👤 Brukere
-      </h1>
-
-      <p class="welcome-text">
-        Opprett og administrer brukere og roller.
-      </p>
+      <span>
+        Cleaning App
+      </span>
 
     </div>
 
 
-    <button
-            id="backButton"
-            class="secondary-button"
-            type="button"
-    >
-      ← Dashboard
-    </button>
+    <!-- ROLE -->
 
-  </div>
+    <div class="admin-sidebar-section-label">
+      ADMIN
+    </div>
 
 
+    <!-- NAVIGATION -->
 
-  <!-- ========================================================
-       CREATE USER
-       ======================================================== -->
-
-  <section class="dashboard-card">
-
-    <h2>
-      Opprett bruker
-    </h2>
-
-    <p>
-      Opprett en ny bruker for Cleaning App.
-      Brukeren mottar en sikker lenke på e-post
-      for å sette sitt eget passord.
-    </p>
+    <nav class="admin-sidebar-nav">
 
 
-    <form id="userForm">
+      <a
+              href="admin.html"
+              class="admin-sidebar-link"
+      >
+
+        <span class="admin-sidebar-icon">
+          ▦
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
+      </a>
 
 
-      <div class="form-grid">
+      <a
+              href="properties.html"
+              class="admin-sidebar-link"
+      >
+
+        <span class="admin-sidebar-icon">
+          🏠
+        </span>
+
+        <span>
+          Boliger
+        </span>
+
+      </a>
 
 
-        <!-- ==================================================
-             NAME
-             ================================================== -->
+      <a
+              href="properties.html"
+              class="admin-sidebar-link"
+      >
 
-        <div class="form-group">
+        <span class="admin-sidebar-icon">
+          ▤
+        </span>
 
-          <label for="fullName">
-            Navn
-          </label>
+        <span>
+          Etasjer
+        </span>
 
-          <input
-                  type="text"
-                  id="fullName"
-                  name="fullName"
-                  placeholder="For eksempel Ola Nordmann"
-                  autocomplete="name"
-                  required
-          >
-
-        </div>
+      </a>
 
 
+      <a
+              href="admin-residents.html"
+              class="admin-sidebar-link"
+      >
 
-        <!-- ==================================================
-             EMAIL
-             ================================================== -->
+        <span class="admin-sidebar-icon">
+          👥
+        </span>
 
-        <div class="form-group">
+        <span>
+          Beboere
+        </span>
 
-          <label for="email">
-            E-post
-          </label>
-
-          <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="fornavn@example.com"
-                  autocomplete="email"
-                  required
-          >
-
-        </div>
+      </a>
 
 
+      <a
+              href="admin-cleaning-plan.html"
+              class="admin-sidebar-link"
+      >
 
-        <!-- ==================================================
-             ROLE
-             ================================================== -->
+        <span class="admin-sidebar-icon">
+          🧹
+        </span>
 
-        <div class="form-group">
+        <span>
+          Rengjøringsplan
+        </span>
 
-          <label for="role">
-            Rolle
-          </label>
-
-          <!--
-              Rollealternativene fylles inn av users.js.
-
-              Superadmin:
-              → Admin
-              → Resident
-
-              Admin:
-              → Resident
-
-              Ingen:
-              → Superadmin
-          -->
-
-          <select
-                  id="role"
-                  name="role"
-                  required
-          >
-
-            <option
-                    value=""
-                    selected
-                    disabled
-            >
-              Velg rolle
-            </option>
-
-          </select>
-
-        </div>
+      </a>
 
 
-      </div>
+      <a
+              href="users.html"
+              class="admin-sidebar-link active"
+      >
 
+        <span class="admin-sidebar-icon">
+          👤
+        </span>
 
+        <span>
+          Brukere
+        </span>
 
-      <!-- ====================================================
-           CREATE BUTTON
-           ==================================================== -->
+      </a>
+
 
       <button
-              type="submit"
-              class="primary-button"
-              id="createUserButton"
+              type="button"
+              class="admin-sidebar-link"
+              id="historySidebarButton"
       >
-        Opprett bruker
+
+        <span class="admin-sidebar-icon">
+          ↺
+        </span>
+
+        <span>
+          Historikk
+        </span>
+
       </button>
 
 
+      <button
+              type="button"
+              class="admin-sidebar-link"
+              id="settingsSidebarButton"
+      >
 
-      <!-- ====================================================
-           MESSAGE
-           ==================================================== -->
+        <span class="admin-sidebar-icon">
+          ⚙
+        </span>
 
-      <p
-              id="userMessage"
-              class="message"
-              role="alert"
-              aria-live="polite"
-      ></p>
+        <span>
+          Innstillinger
+        </span>
 
-
-    </form>
-
-  </section>
-
+      </button>
 
 
-  <!-- ========================================================
-       USER LIST
-       ======================================================== -->
+    </nav>
 
-  <section class="dashboard-card">
 
-    <div class="section-header">
+    <!-- SIDEBAR BOTTOM -->
+
+    <div class="admin-sidebar-bottom">
+
+      <button
+              id="logoutButton"
+              class="admin-sidebar-logout"
+              type="button"
+      >
+
+        <span>
+          ↪
+        </span>
+
+        <span>
+          Logg ut
+        </span>
+
+      </button>
+
+    </div>
+
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN AREA
+       ===================================================== -->
+
+  <div class="admin-main-area">
+
+
+    <!-- TOP HEADER -->
+
+    <header class="admin-main-header">
+
 
       <div>
 
-        <h2>
-          Brukere
-        </h2>
-
-        <p>
-          Registrerte brukerprofiler
-        </p>
+        <button
+                id="mobileSidebarButton"
+                class="admin-mobile-menu-button"
+                type="button"
+                aria-label="Åpne meny"
+        >
+          ☰
+        </button>
 
       </div>
 
-    </div>
+
+      <div class="admin-header-profile">
+
+        <div class="admin-header-profile-text">
+
+          <strong id="adminName">
+            Administrator
+          </strong>
+
+          <span id="adminRole">
+            Admin
+          </span>
+
+        </div>
 
 
-    <div id="userList">
+        <div class="admin-profile-avatar">
 
-      <p class="empty-state">
-        Laster brukere...
-      </p>
+          <span id="adminInitial">
+            A
+          </span>
 
-    </div>
+        </div>
 
-  </section>
-
-
-</main>
+      </div>
 
 
+    </header>
 
-<!-- ============================================================
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main class="admin-dashboard-main">
+
+
+      <!-- PAGE HEADER -->
+
+      <section class="admin-users-page-header">
+
+        <div>
+
+          <p class="admin-dashboard-eyebrow">
+            ADMINISTRATOR
+          </p>
+
+          <h1>
+            Brukere
+          </h1>
+
+          <p>
+            Opprett og administrer brukere og roller.
+          </p>
+
+        </div>
+
+
+        <button
+                id="backButton"
+                class="secondary-button"
+                type="button"
+        >
+          ← Dashboard
+        </button>
+
+      </section>
+
+
+      <!-- ===================================================
+           MAIN GRID
+           =================================================== -->
+
+      <div class="admin-users-layout">
+
+
+        <!-- =================================================
+             CREATE USER
+             ================================================= -->
+
+        <section class="dashboard-card admin-user-form-card">
+
+          <div class="admin-users-card-heading">
+
+            <div class="admin-action-icon">
+              👤
+            </div>
+
+
+            <div>
+
+              <h2>
+                Opprett bruker
+              </h2>
+
+              <p>
+                Opprett en ny bruker for Cleaning App.
+                Brukeren mottar en sikker lenke på e-post
+                for å sette sitt eget passord.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <form id="userForm">
+
+
+            <!-- NAME -->
+
+            <div class="form-group admin-user-form-group">
+
+              <label for="fullName">
+                Navn
+              </label>
+
+
+              <input
+                      type="text"
+                      id="fullName"
+                      name="fullName"
+                      placeholder="For eksempel Ola Nordmann"
+                      autocomplete="name"
+                      required
+              >
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group admin-user-form-group">
+
+              <label for="email">
+                E-post
+              </label>
+
+
+              <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="fornavn@example.com"
+                      autocomplete="email"
+                      required
+              >
+
+            </div>
+
+
+            <!-- ROLE -->
+
+            <div class="form-group admin-user-form-group">
+
+              <label for="role">
+                Rolle
+              </label>
+
+
+              <select
+                      id="role"
+                      name="role"
+                      required
+              >
+
+                <option
+                        value=""
+                        selected
+                        disabled
+                >
+                  Velg rolle
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <!-- CREATE BUTTON -->
+
+            <button
+                    type="submit"
+                    class="primary-button admin-user-create-button"
+                    id="createUserButton"
+            >
+              + Opprett bruker
+            </button>
+
+
+            <!-- MESSAGE -->
+
+            <p
+                    id="userMessage"
+                    class="message"
+                    role="alert"
+                    aria-live="polite"
+            ></p>
+
+
+          </form>
+
+        </section>
+
+
+        <!-- =================================================
+             USER LIST
+             ================================================= -->
+
+        <section class="dashboard-card admin-user-list-card">
+
+
+          <!-- =================================================
+               HEADER
+               ================================================= -->
+
+          <div class="admin-user-list-header">
+
+
+            <div class="admin-user-list-heading">
+
+
+              <div
+                      class="admin-user-list-icon"
+                      aria-hidden="true"
+              >
+                👤
+              </div>
+
+
+              <div>
+
+                <div class="admin-user-title-row">
+
+                  <h2>
+                    Registrerte brukere
+                  </h2>
+
+
+                  <span
+                          id="userCountBadge"
+                          class="admin-user-number-badge"
+                  >
+                    0
+                  </span>
+
+                </div>
+
+
+                <p>
+                  Brukerprofiler du har tilgang til å administrere.
+                </p>
+
+              </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 SHOW / HIDE BUTTON
+                 ================================================= -->
+
+            <button
+                    id="toggleUsersButton"
+                    type="button"
+                    class="admin-users-toggle-button"
+                    aria-expanded="false"
+                    aria-controls="registeredUsersContent"
+            >
+
+              <span id="toggleUsersText">
+                Vis brukere
+              </span>
+
+              <span
+                      id="toggleUsersIcon"
+                      class="admin-users-toggle-icon"
+                      aria-hidden="true"
+              >
+                ⌄
+              </span>
+
+            </button>
+
+
+          </div>
+
+
+          <!-- =================================================
+               COLLAPSIBLE CONTENT
+               ================================================= -->
+
+          <div
+                  id="registeredUsersContent"
+                  class="admin-registered-users-content"
+                  hidden
+          >
+
+
+            <!-- =================================================
+                 SEARCH
+                 ================================================= -->
+
+            <div class="admin-users-search-row">
+
+
+              <div class="admin-users-search-field">
+
+
+                <span
+                        class="admin-users-search-icon"
+                        aria-hidden="true"
+                >
+                  🔍
+                </span>
+
+
+                <input
+                        id="userSearchInput"
+                        type="search"
+                        class="admin-users-search-input"
+                        placeholder="Søk etter navn, e-post, rolle eller status..."
+                        autocomplete="off"
+                        aria-label="Søk etter bruker"
+                >
+
+
+                <button
+                        id="clearUserSearchButton"
+                        type="button"
+                        class="admin-users-search-clear"
+                        aria-label="Tøm søk"
+                        hidden
+                >
+                  ×
+                </button>
+
+
+              </div>
+
+
+              <div class="admin-users-search-info">
+
+                <span id="userSearchCount">
+                  0 brukere funnet
+                </span>
+
+              </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 USER LIST
+                 ================================================= -->
+
+            <div id="userList">
+
+              <p class="empty-state">
+                Laster brukere...
+              </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 NO SEARCH RESULT
+                 ================================================= -->
+
+            <div
+                    id="userSearchEmpty"
+                    class="admin-user-search-empty"
+                    hidden
+            >
+
+              <div
+                      class="admin-user-search-empty-icon"
+                      aria-hidden="true"
+              >
+                🔎
+              </div>
+
+              <h3>
+                Ingen brukere funnet
+              </h3>
+
+              <p>
+                Prøv et annet navn, e-post,
+                rolle eller status.
+              </p>
+
+            </div>
+
+
+          </div>
+
+
+        </section>
+
+
+      </div>
+
+
+    </main>
+
+
+  </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     MOBILE SIDEBAR OVERLAY
+     ========================================================= -->
+
+<div
+        id="adminSidebarOverlay"
+        class="admin-sidebar-overlay"
+></div>
+
+
+<!-- =========================================================
      SUPABASE
-     ============================================================ -->
+     ========================================================= -->
 
 <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
 ></script>
 
-
-
-<!-- ============================================================
-     SUPABASE CONFIG
-     ============================================================ -->
-
 <script src="js/config.js"></script>
 
+<script src="js/users.js?v=3"></script>
 
 
-<!-- ============================================================
-     USER MANAGEMENT
-     ============================================================ -->
+<!-- =========================================================
+     SIDEBAR BEHAVIOUR
+     ========================================================= -->
 
-<script src="js/users.js"></script>
+<script>
+
+  const mobileSidebarButton =
+          document.getElementById(
+                  "mobileSidebarButton"
+          );
+
+  const adminSidebar =
+          document.querySelector(
+                  ".admin-sidebar"
+          );
+
+  const adminSidebarOverlay =
+          document.getElementById(
+                  "adminSidebarOverlay"
+          );
+
+  const historySidebarButton =
+          document.getElementById(
+                  "historySidebarButton"
+          );
+
+  const settingsSidebarButton =
+          document.getElementById(
+                  "settingsSidebarButton"
+          );
+
+
+  function closeAdminSidebar() {
+
+    if (adminSidebar) {
+
+      adminSidebar.classList.remove(
+              "open"
+      );
+
+    }
+
+
+    if (adminSidebarOverlay) {
+
+      adminSidebarOverlay.classList.remove(
+              "visible"
+      );
+
+    }
+
+  }
+
+
+  if (mobileSidebarButton) {
+
+    mobileSidebarButton.addEventListener(
+            "click",
+            function () {
+
+              if (adminSidebar) {
+
+                adminSidebar.classList.add(
+                        "open"
+                );
+
+              }
+
+
+              if (adminSidebarOverlay) {
+
+                adminSidebarOverlay.classList.add(
+                        "visible"
+                );
+
+              }
+
+            }
+    );
+
+  }
+
+
+  if (adminSidebarOverlay) {
+
+    adminSidebarOverlay.addEventListener(
+            "click",
+            closeAdminSidebar
+    );
+
+  }
+
+
+  if (historySidebarButton) {
+
+    historySidebarButton.addEventListener(
+            "click",
+            function () {
+
+              window.alert(
+                      "Historikk kommer i et senere steg."
+              );
+
+            }
+    );
+
+  }
+
+
+  if (settingsSidebarButton) {
+
+    settingsSidebarButton.addEventListener(
+            "click",
+            function () {
+
+              window.alert(
+                      "Innstillinger kommer i et senere steg."
+              );
+
+            }
+    );
+
+  }
+
+</script>
 
 
 </body>
 
 </html>
-

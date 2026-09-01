@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="no">
 
@@ -21,181 +20,750 @@
 </head>
 
 
-<body>
-
-<header class="topbar">
-
-    <div class="brand">
-
-        <span class="brand-icon">
-            🧹
-        </span>
-
-        <span>
-            Cleaning App
-        </span>
-
-    </div>
+<body class="admin-dashboard-body">
 
 
-    <div class="topbar-right">
+<!-- =========================================================
+     ADMIN APP
+     ========================================================= -->
 
-        <span id="adminName">
-            Anday
-        </span>
-
-        <button
-                id="logoutButton"
-                class="logout-button"
-        >
-            Logg ut
-        </button>
-
-    </div>
-
-</header>
+<div class="admin-app-layout">
 
 
-<main class="dashboard">
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
 
-    <section class="welcome-section">
-
-        <p class="eyebrow">
-            ADMINISTRATOR
-        </p>
-
-        <h1 id="welcomeTitle">
-            Velkommen
-        </h1>
-
-        <p class="welcome-text">
-            Administrer boliger, beboere og rengjøringsplaner.
-        </p>
-
-    </section>
+    <aside class="admin-sidebar">
 
 
-    <section class="dashboard-grid">
+        <!-- =================================================
+             BRAND
+             ================================================= -->
 
+        <div class="admin-sidebar-brand">
 
-        <!-- BOLIGER -->
-
-        <article class="dashboard-card">
-
-            <div class="card-icon">
-                🏠
-            </div>
-
-            <h2>
-                Boliger
-            </h2>
-
-            <p>
-                Opprett og administrer boliger
-                og etasjer.
-            </p>
-
-            <button
-                    class="primary-button"
-                    id="propertiesButton"
-            >
-                Åpne →
-            </button>
-
-        </article>
-
-
-        <!-- BEBOERE -->
-
-        <article class="dashboard-card">
-
-            <div class="card-icon">
-                👥
-            </div>
-
-            <h2>
-                Beboere
-            </h2>
-
-            <p>
-                Administrer beboere og deres
-                tilknytning til boliger.
-            </p>
-
-            <button
-                    class="primary-button"
-                    id="residentsButton"
-            >
-                Åpne →
-            </button>
-
-        </article>
-
-
-        <!-- RENGJØRINGSPLAN -->
-
-        <article class="dashboard-card dashboard-card-wide">
-
-            <div class="card-icon">
+            <span class="admin-sidebar-logo">
                 🧹
-            </div>
+            </span>
 
-            <h2>
-                Rengjøringsplan
-            </h2>
+            <span>
+                Cleaning App
+            </span>
 
-            <p>
-                Opprett oppgaver, velg beboere
-                og administrer den ukentlige
-                rotasjonen.
-            </p>
-
-            <button
-                    class="primary-button"
-                    id="cleaningPlanButton"
-            >
-                Åpne rengjøringsplan →
-            </button>
-
-        </article>
+        </div>
 
 
-        <!-- BRUKERE -->
-        <!-- Kun synlig for superadmin -->
+        <!-- =================================================
+             ROLE
+             ================================================= -->
 
-        <article
-                class="dashboard-card"
-                id="usersCard"
-                hidden
-        >
+        <div class="admin-sidebar-section-label">
+            ADMIN
+        </div>
 
-            <div class="card-icon">
-                👤
-            </div>
 
-            <h2>
-                Brukere
-            </h2>
+        <!-- =================================================
+             NAVIGATION
+             ================================================= -->
 
-            <p>
-                Opprett og administrer brukere
-                og roller.
-            </p>
+        <nav class="admin-sidebar-nav">
+
+
+            <!-- DASHBOARD -->
 
             <button
-                    class="primary-button"
-                    id="usersButton"
+                    id="dashboardSidebarButton"
+                    class="admin-sidebar-link active"
+                    type="button"
             >
-                Åpne →
+
+                <span class="admin-sidebar-icon">
+                    ▦
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
             </button>
 
-        </article>
+
+            <!-- PROPERTIES -->
+
+            <button
+                    id="propertiesSidebarButton"
+                    class="admin-sidebar-link"
+                    type="button"
+            >
+
+                <span class="admin-sidebar-icon">
+                    🏠
+                </span>
+
+                <span>
+                    Boliger
+                </span>
+
+            </button>
 
 
-    </section>
+            <!-- FLOORS -->
 
-</main>
+            <button
+                    id="floorsSidebarButton"
+                    class="admin-sidebar-link"
+                    type="button"
+            >
 
+                <span class="admin-sidebar-icon">
+                    ▤
+                </span>
+
+                <span>
+                    Etasjer
+                </span>
+
+            </button>
+
+
+            <!-- RESIDENTS -->
+
+            <button
+                    id="residentsSidebarButton"
+                    class="admin-sidebar-link"
+                    type="button"
+            >
+
+                <span class="admin-sidebar-icon">
+                    👥
+                </span>
+
+                <span>
+                    Beboere
+                </span>
+
+            </button>
+
+
+            <!-- CLEANING PLAN -->
+
+            <button
+                    id="cleaningPlanSidebarButton"
+                    class="admin-sidebar-link"
+                    type="button"
+            >
+
+                <span class="admin-sidebar-icon">
+                    🧹
+                </span>
+
+                <span>
+                    Rengjøringsplan
+                </span>
+
+            </button>
+
+
+            <!-- USERS -->
+
+            <button
+                    id="usersSidebarButton"
+                    class="admin-sidebar-link"
+                    type="button"
+            >
+
+                <span class="admin-sidebar-icon">
+                    👤
+                </span>
+
+                <span>
+                    Brukere
+                </span>
+
+            </button>
+
+
+            <!-- HISTORY -->
+
+            <button
+                    id="historySidebarButton"
+                    class="admin-sidebar-link"
+                    type="button"
+            >
+
+                <span class="admin-sidebar-icon">
+                    ↺
+                </span>
+
+                <span>
+                    Historikk
+                </span>
+
+            </button>
+
+
+            <!-- SETTINGS -->
+
+            <button
+                    id="settingsSidebarButton"
+                    class="admin-sidebar-link"
+                    type="button"
+            >
+
+                <span class="admin-sidebar-icon">
+                    ⚙
+                </span>
+
+                <span>
+                    Innstillinger
+                </span>
+
+            </button>
+
+
+        </nav>
+
+
+        <!-- =================================================
+             SIDEBAR BOTTOM
+             ================================================= -->
+
+        <div class="admin-sidebar-bottom">
+
+            <button
+                    id="sidebarLogoutButton"
+                    class="admin-sidebar-logout"
+                    type="button"
+            >
+
+                <span>
+                    ↪
+                </span>
+
+                <span>
+                    Logg ut
+                </span>
+
+            </button>
+
+        </div>
+
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN AREA
+         ===================================================== -->
+
+    <div class="admin-main-area">
+
+
+        <!-- =================================================
+             TOP HEADER
+             ================================================= -->
+
+        <header class="admin-main-header">
+
+            <div>
+
+                <button
+                        id="mobileSidebarButton"
+                        class="admin-mobile-menu-button"
+                        type="button"
+                        aria-label="Åpne meny"
+                >
+                    ☰
+                </button>
+
+            </div>
+
+
+            <div class="admin-header-profile">
+
+                <div class="admin-header-profile-text">
+
+                    <strong id="adminName">
+                        Administrator
+                    </strong>
+
+                    <span id="adminRole">
+                        Admin
+                    </span>
+
+                </div>
+
+
+                <div class="admin-profile-avatar">
+
+                    <span id="adminInitial">
+                        A
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTENT
+             ================================================= -->
+
+        <main class="admin-dashboard-main admin-dashboard-main-modern">
+
+
+            <!-- =================================================
+                 WELCOME
+                 ================================================= -->
+
+            <section class="admin-dashboard-welcome admin-dashboard-welcome-modern">
+
+
+                <div class="admin-dashboard-welcome-content">
+
+                    <p class="admin-dashboard-eyebrow">
+                        ADMINISTRATOR
+                    </p>
+
+
+                    <div class="admin-dashboard-title-row">
+
+                        <h1 id="welcomeTitle">
+                            Velkommen
+                        </h1>
+
+
+                        <span
+                                id="dashboardRoleBadge"
+                                class="admin-dashboard-role-badge"
+                        >
+                            Admin
+                        </span>
+
+                    </div>
+
+
+                    <p class="admin-dashboard-welcome-description">
+                        Administrer boliger, beboere, brukere
+                        og rengjøringsplaner.
+                    </p>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 STATISTICS
+                 ================================================= -->
+
+            <section
+                    class="admin-dashboard-stats"
+                    aria-label="Oversikt"
+            >
+
+
+                <!-- PROPERTIES -->
+
+                <article class="admin-dashboard-stat-card">
+
+                    <div class="admin-dashboard-stat-icon">
+                        🏠
+                    </div>
+
+
+                    <div class="admin-dashboard-stat-content">
+
+                        <span class="admin-dashboard-stat-label">
+                            Boliger
+                        </span>
+
+                        <strong
+                                id="dashboardPropertyCount"
+                                class="admin-dashboard-stat-value"
+                        >
+                            –
+                        </strong>
+
+                        <span class="admin-dashboard-stat-meta">
+                            Registrerte boliger
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+                <!-- RESIDENTS -->
+
+                <article class="admin-dashboard-stat-card">
+
+                    <div class="admin-dashboard-stat-icon">
+                        👥
+                    </div>
+
+
+                    <div class="admin-dashboard-stat-content">
+
+                        <span class="admin-dashboard-stat-label">
+                            Beboere
+                        </span>
+
+                        <strong
+                                id="dashboardResidentCount"
+                                class="admin-dashboard-stat-value"
+                        >
+                            –
+                        </strong>
+
+                        <span class="admin-dashboard-stat-meta">
+                            Aktive beboere
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+                <!-- USERS -->
+
+                <article class="admin-dashboard-stat-card">
+
+                    <div class="admin-dashboard-stat-icon">
+                        👤
+                    </div>
+
+
+                    <div class="admin-dashboard-stat-content">
+
+                        <span class="admin-dashboard-stat-label">
+                            Brukere
+                        </span>
+
+                        <strong
+                                id="dashboardUserCount"
+                                class="admin-dashboard-stat-value"
+                        >
+                            –
+                        </strong>
+
+                        <span class="admin-dashboard-stat-meta">
+                            Aktive brukere
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+                <!-- CLEANING PLANS -->
+
+                <article class="admin-dashboard-stat-card">
+
+                    <div class="admin-dashboard-stat-icon">
+                        🧹
+                    </div>
+
+
+                    <div class="admin-dashboard-stat-content">
+
+                        <span class="admin-dashboard-stat-label">
+                            Rengjøringsplaner
+                        </span>
+
+                        <strong
+                                id="dashboardCleaningPlanCount"
+                                class="admin-dashboard-stat-value"
+                        >
+                            –
+                        </strong>
+
+                        <span class="admin-dashboard-stat-meta">
+                            Aktive planer
+                        </span>
+
+                    </div>
+
+                </article>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 ADMINISTRATION HEADING
+                 ================================================= -->
+
+            <section class="admin-dashboard-section-heading">
+
+                <div>
+
+                    <p class="admin-dashboard-section-eyebrow">
+                        ADMINISTRASJON
+                    </p>
+
+                    <h2>
+                        Administrer Cleaning App
+                    </h2>
+
+                    <p>
+                        Velg området du ønsker å administrere.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 MAIN ACTION CARDS
+                 ================================================= -->
+
+            <section class="admin-dashboard-actions admin-dashboard-actions-modern">
+
+
+                <!-- =================================================
+                     PROPERTIES
+                     ================================================= -->
+
+                <article class="admin-action-card admin-action-card-modern">
+
+
+                    <div class="admin-action-card-header">
+
+                        <div class="admin-action-icon">
+                            🏠
+                        </div>
+
+
+                        <span class="admin-action-card-label">
+                            BOLIGER
+                        </span>
+
+                    </div>
+
+
+                    <div class="admin-action-card-body">
+
+                        <h2>
+                            Boliger
+                        </h2>
+
+                        <p>
+                            Opprett og administrer boliger
+                            og etasjer.
+                        </p>
+
+                    </div>
+
+
+                    <div class="admin-action-card-footer">
+
+                        <button
+                                id="propertiesButton"
+                                class="admin-action-button admin-action-button-modern"
+                                type="button"
+                        >
+                            Åpne boliger
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+
+                </article>
+
+
+                <!-- =================================================
+                     RESIDENTS
+                     ================================================= -->
+
+                <article class="admin-action-card admin-action-card-modern">
+
+
+                    <div class="admin-action-card-header">
+
+                        <div class="admin-action-icon">
+                            👥
+                        </div>
+
+
+                        <span class="admin-action-card-label">
+                            BEBOERE
+                        </span>
+
+                    </div>
+
+
+                    <div class="admin-action-card-body">
+
+                        <h2>
+                            Beboere
+                        </h2>
+
+                        <p>
+                            Administrer beboere og deres
+                            tilknytning til bolig og etasje.
+                        </p>
+
+                    </div>
+
+
+                    <div class="admin-action-card-footer">
+
+                        <button
+                                id="residentsButton"
+                                class="admin-action-button admin-action-button-modern"
+                                type="button"
+                        >
+                            Åpne beboere
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+
+                </article>
+
+
+                <!-- =================================================
+                     USERS
+                     ================================================= -->
+
+                <article
+                        id="usersCard"
+                        class="admin-action-card admin-action-card-modern"
+                        hidden
+                >
+
+
+                    <div class="admin-action-card-header">
+
+                        <div class="admin-action-icon">
+                            👤
+                        </div>
+
+
+                        <span class="admin-action-card-label">
+                            BRUKERE
+                        </span>
+
+                    </div>
+
+
+                    <div class="admin-action-card-body">
+
+                        <h2>
+                            Brukere
+                        </h2>
+
+                        <p>
+                            Opprett og administrer brukere,
+                            kontoer og roller.
+                        </p>
+
+                    </div>
+
+
+                    <div class="admin-action-card-footer">
+
+                        <button
+                                id="usersButton"
+                                class="admin-action-button admin-action-button-modern"
+                                type="button"
+                        >
+                            Åpne brukere
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+
+                </article>
+
+
+                <!-- =================================================
+                     CLEANING PLAN
+                     ================================================= -->
+
+                <article class="admin-action-card admin-action-card-modern">
+
+
+                    <div class="admin-action-card-header">
+
+                        <div class="admin-action-icon">
+                            🧹
+                        </div>
+
+
+                        <span class="admin-action-card-label">
+                            RENGJØRINGSPLAN
+                        </span>
+
+                    </div>
+
+
+                    <div class="admin-action-card-body">
+
+                        <h2>
+                            Rengjøringsplan
+                        </h2>
+
+                        <p>
+                            Opprett rengjøringsoppgaver,
+                            administrer planer og den ukentlige
+                            rengjøringsrotasjonen.
+                        </p>
+
+                    </div>
+
+
+                    <div class="admin-action-card-footer">
+
+                        <button
+                                id="cleaningPlanButton"
+                                class="admin-action-button admin-action-button-modern"
+                                type="button"
+                        >
+                            Åpne rengjøringsplan
+                            <span>→</span>
+                        </button>
+
+                    </div>
+
+
+                </article>
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     MOBILE SIDEBAR OVERLAY
+     ========================================================= -->
+
+<div
+        id="adminSidebarOverlay"
+        class="admin-sidebar-overlay"
+></div>
+
+
+<!-- =========================================================
+     SUPABASE
+     ========================================================= -->
 
 <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
@@ -203,9 +771,9 @@
 
 <script src="js/config.js"></script>
 
-<script src="js/admin.js?v=2"></script>
+<script src="js/admin.js?v=4"></script>
+
 
 </body>
 
 </html>
-

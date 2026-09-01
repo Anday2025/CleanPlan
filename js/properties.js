@@ -1,4 +1,3 @@
-
 // ============================================================
 // CLEANING APP
 // PROPERTIES
@@ -30,11 +29,348 @@ const propertyMessage =
 const propertyList =
     document.getElementById("propertyList");
 
+const registeredPropertiesContent =
+    document.getElementById(
+        "registeredPropertiesContent"
+    );
+
+const togglePropertyListButton =
+    document.getElementById(
+        "togglePropertyListButton"
+    );
+
+const togglePropertyListText =
+    document.getElementById(
+        "togglePropertyListText"
+    );
+
+const togglePropertyListChevron =
+    document.getElementById(
+        "togglePropertyListChevron"
+    );
+
+const propertyCountBadge =
+    document.getElementById(
+        "propertyCountBadge"
+    );
+
+const propertySearchInput =
+    document.getElementById(
+        "propertySearchInput"
+    );
+
+const clearPropertySearchButton =
+    document.getElementById(
+        "clearPropertySearchButton"
+    );
+
+const propertySearchResultText =
+    document.getElementById(
+        "propertySearchResultText"
+    );
+
+const propertySearchEmpty =
+    document.getElementById(
+        "propertySearchEmpty"
+    );
+
 const logoutButton =
     document.getElementById("logoutButton");
 
 const backButton =
     document.getElementById("backButton");
+
+
+// ============================================================
+// PROPERTY LIST UI STATE
+// ============================================================
+
+let activePropertyCount =
+    0;
+
+
+// ============================================================
+// UPDATE PROPERTY TOGGLE BUTTON
+// ============================================================
+
+function updatePropertyToggleButton() {
+
+    if (!togglePropertyListButton) {
+
+        return;
+    }
+
+
+    const isOpen =
+        registeredPropertiesContent
+            ? !registeredPropertiesContent.hidden
+            : false;
+
+
+    togglePropertyListButton.setAttribute(
+        "aria-expanded",
+        String(isOpen)
+    );
+
+
+    if (togglePropertyListText) {
+
+        togglePropertyListText.textContent =
+            (
+                isOpen
+                    ? "Skjul boliger"
+                    : "Vis boliger"
+            ) +
+            " (" +
+            activePropertyCount +
+            ")";
+
+    }
+
+
+    if (togglePropertyListChevron) {
+
+        togglePropertyListChevron.textContent =
+            isOpen
+                ? "⌃"
+                : "⌄";
+
+    }
+
+}
+
+
+// ============================================================
+// SET PROPERTY LIST VISIBILITY
+// ============================================================
+
+function setPropertyListOpen(
+    shouldOpen
+) {
+
+    if (!registeredPropertiesContent) {
+
+        return;
+    }
+
+
+    registeredPropertiesContent.hidden =
+        !shouldOpen;
+
+
+    updatePropertyToggleButton();
+
+
+    if (
+        shouldOpen &&
+        propertySearchInput
+    ) {
+
+        window.setTimeout(
+            function () {
+
+                propertySearchInput.focus();
+
+            },
+            0
+        );
+
+    }
+
+}
+
+
+// ============================================================
+// PROPERTY SEARCH RESULT TEXT
+// ============================================================
+
+function updatePropertySearchResultText(
+    visibleCount
+) {
+
+    if (!propertySearchResultText) {
+
+        return;
+    }
+
+
+    propertySearchResultText.textContent =
+        visibleCount +
+        (
+            visibleCount === 1
+                ? " bolig funnet"
+                : " boliger funnet"
+        );
+
+}
+
+
+// ============================================================
+// FILTER PROPERTY LIST
+// ============================================================
+
+function filterPropertyList() {
+
+    if (!propertyList) {
+
+        return;
+    }
+
+
+    const query =
+        propertySearchInput
+            ? propertySearchInput.value
+                .trim()
+                .toLocaleLowerCase("nb-NO")
+            : "";
+
+
+    const rows =
+        Array.from(
+            propertyList.querySelectorAll(
+                ".property-row"
+            )
+        );
+
+
+    let visibleCount =
+        0;
+
+
+    rows.forEach(
+        function (row) {
+
+            const searchableText =
+                (
+                    row.dataset.searchText ||
+                    row.textContent ||
+                    ""
+                )
+                    .toLocaleLowerCase(
+                        "nb-NO"
+                    );
+
+
+            const matches =
+                !query ||
+                searchableText.includes(
+                    query
+                );
+
+
+            row.hidden =
+                !matches;
+
+
+            if (matches) {
+
+                visibleCount +=
+                    1;
+
+            }
+
+        }
+    );
+
+
+    if (clearPropertySearchButton) {
+
+        clearPropertySearchButton.hidden =
+            query.length === 0;
+
+    }
+
+
+    if (propertySearchEmpty) {
+
+        propertySearchEmpty.hidden =
+            !(
+                query &&
+                rows.length > 0 &&
+                visibleCount === 0
+            );
+
+    }
+
+
+    updatePropertySearchResultText(
+        query
+            ? visibleCount
+            : activePropertyCount
+    );
+
+}
+
+
+// ============================================================
+// TOGGLE REGISTERED PROPERTIES
+// ============================================================
+
+if (togglePropertyListButton) {
+
+    togglePropertyListButton.addEventListener(
+        "click",
+        function () {
+
+            const isOpen =
+                registeredPropertiesContent
+                    ? !registeredPropertiesContent.hidden
+                    : false;
+
+
+            setPropertyListOpen(
+                !isOpen
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// SEARCH REGISTERED PROPERTIES
+// ============================================================
+
+if (propertySearchInput) {
+
+    propertySearchInput.addEventListener(
+        "input",
+        filterPropertyList
+    );
+
+}
+
+
+// ============================================================
+// CLEAR PROPERTY SEARCH
+// ============================================================
+
+if (clearPropertySearchButton) {
+
+    clearPropertySearchButton.addEventListener(
+        "click",
+        function () {
+
+            if (!propertySearchInput) {
+
+                return;
+            }
+
+
+            propertySearchInput.value =
+                "";
+
+
+            filterPropertyList();
+
+
+            propertySearchInput.focus();
+
+        }
+    );
+
+}
 
 
 // ============================================================
@@ -239,6 +575,9 @@ Deaktiverte boliger
 
 
     const parent =
+        document.querySelector(
+            ".admin-properties-layout"
+        ) ||
         propertyList.parentElement;
 
 
@@ -401,7 +740,7 @@ async function loadPropertyHistory(
                 "get_property_audit_history",
                 {
                     target_property_id:
-                        propertyId
+                    propertyId
                 }
             );
 
@@ -478,39 +817,39 @@ function createHistoryHtml(
 <div class="property-history-list">
 
     ${history.map(
-    entry => `
+        entry => `
 
 <div class="property-history-item">
 
     <div class="property-history-action">
 
         ${getAuditActionLabel(
-        entry.action
-    )}
+            entry.action
+        )}
 
     </div>
 
     <div class="property-history-user">
 
         ${escapeHtml(
-        entry.performed_by_name ||
-        "Ukjent bruker"
-    )}
+            entry.performed_by_name ||
+            "Ukjent bruker"
+        )}
 
     </div>
 
     <div class="property-history-time">
 
         ${formatNorwegianDateTime(
-        entry.performed_at
-    )}
+            entry.performed_at
+        )}
 
     </div>
 
 </div>
 
 `
-).join("")}
+    ).join("")}
 
 </div>
 
@@ -593,7 +932,6 @@ async function togglePropertyHistory(
 
 }
 
-
 // ============================================================
 // LOAD PROPERTIES
 // ============================================================
@@ -631,6 +969,26 @@ async function loadProperties() {
 </p>
 `;
 
+
+        activePropertyCount =
+            0;
+
+
+        if (propertyCountBadge) {
+
+            propertyCountBadge.textContent =
+                "0";
+
+        }
+
+
+        updatePropertyToggleButton();
+
+        updatePropertySearchResultText(
+            0
+        );
+
+
         return;
     }
 
@@ -649,6 +1007,23 @@ async function loadProperties() {
         );
 
 
+    activePropertyCount =
+        activeProperties.length;
+
+
+    if (propertyCountBadge) {
+
+        propertyCountBadge.textContent =
+            String(
+                activePropertyCount
+            );
+
+    }
+
+
+    updatePropertyToggleButton();
+
+
     // ========================================================
     // ACTIVE PROPERTIES
     // ========================================================
@@ -663,76 +1038,117 @@ async function loadProperties() {
 </p>
 `;
 
+
+        if (propertySearchEmpty) {
+
+            propertySearchEmpty.hidden =
+                true;
+
+        }
+
+
+        updatePropertySearchResultText(
+            0
+        );
+
     } else {
 
         propertyList.innerHTML =
             activeProperties.map(
-                property => `
+                property => {
 
-<div class="property-row">
+                    const searchText =
+                        (
+                            (
+                                property.name ||
+                                ""
+                            ) +
+                            " " +
+                            (
+                                property.address ||
+                                ""
+                            )
+                        )
+                            .trim()
+                            .toLocaleLowerCase(
+                                "nb-NO"
+                            );
 
-    <div>
 
-    <h3>
+                    return `
+
+<div
+    class="property-row"
+    data-search-text="${escapeHtml(searchText)}"
+>
+
+    <div class="property-content">
+
+        <h3>
             🏠 ${escapeHtml(property.name)}
-</h3>
+        </h3>
 
-<p>
-    ${escapeHtml(property.address)}
-</p>
+        <p>
+            ${escapeHtml(property.address)}
+        </p>
 
-<div class="property-meta">
+        <div class="property-meta">
 
             <span>
                 ${property.floor_count}
                 etasje(r)
             </span>
 
-</div>
+        </div>
+
+    </div>
+
+
+    <div class="property-actions">
+
+        <button
+            type="button"
+            class="secondary-button property-open-button"
+            data-property-id="${property.id}"
+        >
+            Åpne →
+        </button>
+
+        <button
+            type="button"
+            class="secondary-button property-history-button"
+            data-property-id="${property.id}"
+        >
+            📋 Historikk
+        </button>
+
+        <button
+            type="button"
+            class="secondary-button property-deactivate-button"
+            data-property-id="${property.id}"
+            data-property-name="${escapeHtml(property.name)}"
+        >
+            Deaktiver bolig
+        </button>
+
+    </div>
+
+
+    <div
+        id="property-history-${property.id}"
+        class="property-history-container"
+        style="display: none;"
+    ></div>
 
 </div>
 
+`;
 
-<div class="property-actions">
-
-    <button
-        type="button"
-        class="secondary-button property-open-button"
-        data-property-id="${property.id}"
-    >
-        Åpne →
-    </button>
-
-    <button
-        type="button"
-        class="secondary-button property-history-button"
-        data-property-id="${property.id}"
-    >
-        📋 Historikk
-    </button>
-
-    <button
-        type="button"
-        class="secondary-button property-deactivate-button"
-        data-property-id="${property.id}"
-        data-property-name="${escapeHtml(property.name)}"
-    >
-        Deaktiver bolig
-    </button>
-
-</div>
-
-
-<div
-    id="property-history-${property.id}"
-    class="property-history-container"
-    style="display: none;"
-></div>
-
-</div>
-
-`
+                }
             ).join("");
+
+
+        filterPropertyList();
 
     }
 
@@ -786,7 +1202,7 @@ async function loadProperties() {
     // ========================================================
 
     const historyButtons =
-        document.querySelectorAll(
+        propertyList.querySelectorAll(
             ".property-history-button"
         );
 
@@ -872,7 +1288,7 @@ async function loadProperties() {
                                 "deactivate_property",
                                 {
                                     target_property_id:
-                                        propertyId
+                                    propertyId
                                 }
                             );
 
@@ -999,66 +1415,66 @@ function renderDeactivatedProperties(
 
 <div class="property-row">
 
-    <div>
+    <div class="property-content">
 
-    <h3>
+        <h3>
             🏠 ${escapeHtml(property.name)}
-</h3>
+        </h3>
 
-<p>
-    ${escapeHtml(property.address)}
-</p>
+        <p>
+            ${escapeHtml(property.address)}
+        </p>
 
-<div class="property-meta">
+        <div class="property-meta">
 
             <span>
                 ${property.floor_count}
                 etasje(r)
             </span>
 
-    <span>
+            <span>
                 Deaktivert:
                 ${formatNorwegianDate(
-        property.deactivated_at
-    )}
+                    property.deactivated_at
+                )}
             </span>
 
-    <span>
+            <span>
                 Permanent sletting:
                 ${deletionDate}
             </span>
 
-</div>
+        </div>
 
-</div>
-
-
-<div class="property-actions">
-
-    <button
-        type="button"
-        class="secondary-button property-history-button"
-        data-property-id="${property.id}"
-    >
-        📋 Historikk
-    </button>
-
-    <button
-        type="button"
-        class="primary-button property-restore-button"
-        data-property-id="${property.id}"
-    >
-        ↩ Gjenopprett bolig
-    </button>
-
-</div>
+    </div>
 
 
-<div
-    id="property-history-${property.id}"
-    class="property-history-container"
-    style="display: none;"
-></div>
+    <div class="property-actions">
+
+        <button
+            type="button"
+            class="secondary-button property-history-button"
+            data-property-id="${property.id}"
+        >
+            📋 Historikk
+        </button>
+
+        <button
+            type="button"
+            class="primary-button property-restore-button"
+            data-property-id="${property.id}"
+        >
+            ↩ Gjenopprett bolig
+        </button>
+
+    </div>
+
+
+    <div
+        id="property-history-${property.id}"
+        class="property-history-container"
+        style="display: none;"
+    ></div>
 
 </div>
 
@@ -1073,7 +1489,7 @@ function renderDeactivatedProperties(
     // ========================================================
 
     const historyButtons =
-        document.querySelectorAll(
+        list.querySelectorAll(
             ".property-history-button"
         );
 
@@ -1101,7 +1517,7 @@ function renderDeactivatedProperties(
     // ========================================================
 
     const restoreButtons =
-        document.querySelectorAll(
+        list.querySelectorAll(
             ".property-restore-button"
         );
 
@@ -1151,7 +1567,7 @@ function renderDeactivatedProperties(
                                 "restore_property",
                                 {
                                     target_property_id:
-                                        propertyId
+                                    propertyId
                                 }
                             );
 
@@ -1297,23 +1713,23 @@ propertyForm.addEventListener(
         const {
             error
         } =
-        await supabaseClient
-            .from("properties")
-            .insert({
+            await supabaseClient
+                .from("properties")
+                .insert({
 
-                name:
+                    name:
                     name,
 
-                address:
+                    address:
                     address,
 
-                floor_count:
+                    floor_count:
                     floorCount,
 
-                is_active:
-                    true
+                    is_active:
+                        true
 
-            });
+                });
 
 
         // ----------------------------------------------------
@@ -1411,10 +1827,35 @@ async function initPropertiesPage() {
     }
 
 
+    // --------------------------------------------------------
+    // REGISTERED PROPERTIES START COLLAPSED
+    // --------------------------------------------------------
+
+    setPropertyListOpen(
+        false
+    );
+
+
+    // --------------------------------------------------------
+    // LOAD PROPERTIES
+    // --------------------------------------------------------
+
     await loadProperties();
+
+
+    // --------------------------------------------------------
+    // MAKE SURE COUNTS ARE CORRECT AFTER LOADING
+    // --------------------------------------------------------
+
+    updatePropertyToggleButton();
+
+    filterPropertyList();
 
 }
 
 
-initPropertiesPage();
+// ============================================================
+// INITIALIZE PAGE
+// ============================================================
 
+initPropertiesPage();

@@ -20,353 +20,629 @@
 </head>
 
 
-<body>
+<body class="admin-dashboard-body">
 
 
 <!-- =========================================================
-     TOPBAR
+     ADMIN APP
      ========================================================= -->
 
-<header class="topbar">
-
-  <div class="brand">
-
-        <span class="brand-icon">
-            🧹
-        </span>
-
-    <span>
-            Cleaning App
-        </span>
-
-  </div>
-
-
-  <div class="topbar-right">
-
-        <span id="adminName">
-            Administrator
-        </span>
-
-    <button
-            id="backButton"
-            class="secondary-button"
-            type="button"
-    >
-      ← Dashboard
-    </button>
-
-    <button
-            id="logoutButton"
-            class="logout-button"
-            type="button"
-    >
-      Logg ut
-    </button>
-
-  </div>
-
-</header>
-
-
-<!-- =========================================================
-     MAIN
-     ========================================================= -->
-
-<main class="dashboard">
+<div class="admin-app-layout">
 
 
   <!-- =====================================================
-       HEADER
+       SIDEBAR
        ===================================================== -->
 
-  <section class="welcome-section">
+  <aside class="admin-sidebar">
 
-    <p class="eyebrow">
-      ADMINISTRATOR
-    </p>
 
-    <h1>
-      🧹 Rengjøringsplan
-    </h1>
+    <div class="admin-sidebar-brand">
 
-    <p class="welcome-text">
-      Lag og administrer rengjøringsoppgaver
-      for hver bolig og etasje.
-    </p>
+      <span class="admin-sidebar-logo">
+        🧹
+      </span>
 
-  </section>
+      <span>
+        Cleaning App
+      </span>
+
+    </div>
+
+
+    <div class="admin-sidebar-section-label">
+      ADMIN
+    </div>
+
+
+    <nav class="admin-sidebar-nav">
+
+
+      <a
+              href="admin.html"
+              class="admin-sidebar-link"
+      >
+
+        <span class="admin-sidebar-icon">
+          ▦
+        </span>
+
+        <span>
+          Dashboard
+        </span>
+
+      </a>
+
+
+      <a
+              href="properties.html"
+              class="admin-sidebar-link"
+      >
+
+        <span class="admin-sidebar-icon">
+          🏠
+        </span>
+
+        <span>
+          Boliger
+        </span>
+
+      </a>
+
+
+      <a
+              href="properties.html"
+              class="admin-sidebar-link"
+      >
+
+        <span class="admin-sidebar-icon">
+          ▤
+        </span>
+
+        <span>
+          Etasjer
+        </span>
+
+      </a>
+
+
+      <a
+              href="admin-residents.html"
+              class="admin-sidebar-link"
+      >
+
+        <span class="admin-sidebar-icon">
+          👥
+        </span>
+
+        <span>
+          Beboere
+        </span>
+
+      </a>
+
+
+      <a
+              href="admin-cleaning-plan.html"
+              class="admin-sidebar-link active"
+      >
+
+        <span class="admin-sidebar-icon">
+          🧹
+        </span>
+
+        <span>
+          Rengjøringsplan
+        </span>
+
+      </a>
+
+
+      <a
+              href="users.html"
+              class="admin-sidebar-link"
+      >
+
+        <span class="admin-sidebar-icon">
+          👤
+        </span>
+
+        <span>
+          Brukere
+        </span>
+
+      </a>
+
+
+      <button
+              type="button"
+              class="admin-sidebar-link"
+              id="historySidebarButton"
+      >
+
+        <span class="admin-sidebar-icon">
+          ↺
+        </span>
+
+        <span>
+          Historikk
+        </span>
+
+      </button>
+
+
+      <button
+              type="button"
+              class="admin-sidebar-link"
+              id="settingsSidebarButton"
+      >
+
+        <span class="admin-sidebar-icon">
+          ⚙
+        </span>
+
+        <span>
+          Innstillinger
+        </span>
+
+      </button>
+
+
+    </nav>
+
+
+    <div class="admin-sidebar-bottom">
+
+      <button
+              id="logoutButton"
+              class="admin-sidebar-logout"
+              type="button"
+      >
+
+        <span>
+          ↪
+        </span>
+
+        <span>
+          Logg ut
+        </span>
+
+      </button>
+
+    </div>
+
+
+  </aside>
 
 
   <!-- =====================================================
-       PROPERTY / FLOOR
+       MAIN AREA
        ===================================================== -->
 
-  <section class="dashboard-card">
+  <div class="admin-main-area">
 
-    <div class="section-header">
+
+    <!-- ===================================================
+         TOP HEADER
+         =================================================== -->
+
+    <header class="admin-main-header">
+
 
       <div>
 
-        <h2>
-          Velg bolig og etasje
-        </h2>
-
-        <p>
-          Oppgavene du lager vises for alle aktive
-          beboere på den valgte etasjen.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="cleaning-admin-selection">
-
-
-      <div class="form-group">
-
-        <label for="propertySelect">
-          Bolig
-        </label>
-
-        <select id="propertySelect">
-
-          <option value="">
-            Velg bolig
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label for="floorSelect">
-          Etasje
-        </label>
-
-        <select
-                id="floorSelect"
-                disabled
+        <button
+                id="mobileSidebarButton"
+                class="admin-mobile-menu-button"
+                type="button"
+                aria-label="Åpne meny"
         >
-
-          <option value="">
-            Velg etasje
-          </option>
-
-        </select>
+          ☰
+        </button>
 
       </div>
 
 
-    </div>
+      <div class="admin-header-profile">
 
-  </section>
+        <div class="admin-header-profile-text">
 
+          <strong id="adminName">
+            Administrator
+          </strong>
 
-  <!-- =====================================================
-       TASK MANAGEMENT
-       ===================================================== -->
-
-  <section
-          id="taskManagementSection"
-          class="dashboard-card"
-          hidden
-  >
-
-
-    <div class="cleaning-admin-layout">
-
-
-      <!-- =================================================
-           ADD / EDIT TASK
-           ================================================= -->
-
-      <div class="cleaning-task-form-panel">
-
-        <h2 id="taskFormTitle">
-          Legg til ny oppgave
-        </h2>
-
-
-        <form id="taskForm">
-
-
-          <div class="form-group">
-
-            <label for="taskName">
-              Oppgave
-            </label>
-
-            <input
-                    id="taskName"
-                    type="text"
-                    maxlength="200"
-                    placeholder="Skriv inn oppgaven her..."
-                    required
-            >
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="taskDescription">
-              Beskrivelse
-              <span class="optional-label">
-                                (valgfritt)
-                            </span>
-            </label>
-
-            <textarea
-                    id="taskDescription"
-                    rows="4"
-                    maxlength="1000"
-                    placeholder="Eventuell ekstra informasjon..."
-            ></textarea>
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label for="taskOrder">
-              Rekkefølge
-            </label>
-
-            <input
-                    id="taskOrder"
-                    type="number"
-                    min="1"
-                    value="1"
-                    required
-            >
-
-            <small>
-              Lavere tall vises først.
-            </small>
-
-          </div>
-
-
-          <button
-                  id="saveTaskButton"
-                  class="primary-button"
-                  type="submit"
-          >
-            + Legg til oppgave
-          </button>
-
-
-          <button
-                  id="cancelEditButton"
-                  class="secondary-button"
-                  type="button"
-                  hidden
-          >
-            Avbryt redigering
-          </button>
-
-
-        </form>
-
-
-        <p
-                id="taskMessage"
-                class="message"
-        ></p>
-
-      </div>
-
-
-      <!-- =================================================
-           TASK LIST
-           ================================================= -->
-
-      <div class="cleaning-task-list-panel">
-
-
-        <div class="section-header">
-
-          <div>
-
-            <h2>
-              Rengjøringsoppgaver
-              (<span id="taskCount">0</span>)
-            </h2>
-
-            <p id="selectedLocationText">
-              -
-            </p>
-
-          </div>
+          <span>
+            Admin
+          </span>
 
         </div>
 
 
-        <div
-                id="taskEmptyState"
-                class="empty-state"
-        >
+        <div class="admin-profile-avatar">
+
+          <span id="adminInitial">
+            A
+          </span>
+
+        </div>
+
+      </div>
+
+
+    </header>
+
+
+    <!-- ===================================================
+         MAIN CONTENT
+         =================================================== -->
+
+    <main class="admin-cleaning-dashboard-main">
+
+
+      <!-- =================================================
+           PAGE HEADER
+           ================================================= -->
+
+      <section class="admin-cleaning-dashboard-header">
+
+        <div>
+
+          <p class="admin-dashboard-eyebrow">
+            ADMINISTRATOR
+          </p>
+
+          <h1>
+            Rengjøringsplan (Admin)
+          </h1>
 
           <p>
-            Ingen oppgaver er opprettet for
-            denne etasjen ennå.
+            Lag og administrer oppgaver for rengjøringsplanen.
           </p>
 
         </div>
 
 
-        <div
-                id="taskTableWrapper"
-                class="table-wrapper"
-                hidden
+        <button
+                id="backButton"
+                class="secondary-button"
+                type="button"
         >
+          ← Dashboard
+        </button>
 
-          <table class="cleaning-task-table">
-
-            <thead>
-
-            <tr>
-
-              <th>
-                #
-              </th>
-
-              <th>
-                Oppgave
-              </th>
-
-              <th>
-                Handlinger
-              </th>
-
-            </tr>
-
-            </thead>
+      </section>
 
 
-            <tbody id="taskList">
+      <!-- =================================================
+           PROPERTY / FLOOR / INFO
+           ================================================= -->
 
-            </tbody>
+      <section class="admin-cleaning-location-grid">
 
-          </table>
+
+        <!-- PROPERTY -->
+
+        <div class="admin-cleaning-location-card">
+
+          <div class="form-group">
+
+            <label for="propertySelect">
+              Bolig
+            </label>
+
+            <select id="propertySelect">
+
+              <option value="">
+                Velg bolig
+              </option>
+
+            </select>
+
+          </div>
 
         </div>
 
 
-      </div>
+        <!-- FLOOR -->
+
+        <div class="admin-cleaning-location-card">
+
+          <div class="form-group">
+
+            <label for="floorSelect">
+              Etasje
+            </label>
+
+            <select
+                    id="floorSelect"
+                    disabled
+            >
+
+              <option value="">
+                Velg etasje
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
 
 
-    </div>
+        <!-- INFO -->
 
-  </section>
+        <div class="admin-cleaning-info-box">
+
+          <span class="admin-cleaning-info-icon">
+            i
+          </span>
+
+          <p>
+            Oppgavene du lager her vises for alle beboere
+            som bor på denne etasjen.
+          </p>
+
+        </div>
 
 
-</main>
+      </section>
+
+
+      <!-- =================================================
+           TASK MANAGEMENT
+           ================================================= -->
+
+      <section
+              id="taskManagementSection"
+              class="admin-cleaning-workspace"
+              hidden
+      >
+
+
+        <!-- =================================================
+             LEFT - TASK FORM
+             ================================================= -->
+
+        <div class="admin-cleaning-task-form-card">
+
+          <h2 id="taskFormTitle">
+            Legg til ny oppgave
+          </h2>
+
+
+          <form id="taskForm">
+
+
+            <!-- TASK -->
+
+            <div class="form-group">
+
+              <label for="taskName">
+                Oppgave
+              </label>
+
+              <input
+                      id="taskName"
+                      type="text"
+                      maxlength="200"
+                      placeholder="Skriv inn oppgaven her..."
+                      required
+              >
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group admin-cleaning-description-group">
+
+              <label for="taskDescription">
+                Beskrivelse
+                <span class="optional-label">
+                  (valgfritt)
+                </span>
+              </label>
+
+              <textarea
+                      id="taskDescription"
+                      rows="3"
+                      maxlength="1000"
+                      placeholder="Eventuell ekstra informasjon..."
+              ></textarea>
+
+            </div>
+
+
+            <!-- ORDER -->
+
+            <div class="admin-cleaning-order-row">
+
+              <div class="form-group admin-cleaning-order-group">
+
+                <label for="taskOrder">
+                  Rekkefølge
+                </label>
+
+                <input
+                        id="taskOrder"
+                        type="number"
+                        min="1"
+                        value="1"
+                        required
+                >
+
+              </div>
+
+
+              <small>
+                Lavere tall vises først.
+              </small>
+
+            </div>
+
+
+            <!-- SAVE -->
+
+            <button
+                    id="saveTaskButton"
+                    class="admin-cleaning-add-button"
+                    type="submit"
+            >
+              + Legg til oppgave
+            </button>
+
+
+            <!-- CANCEL EDIT -->
+
+            <button
+                    id="cancelEditButton"
+                    class="secondary-button admin-cleaning-cancel-button"
+                    type="button"
+                    hidden
+            >
+              Avbryt redigering
+            </button>
+
+
+          </form>
+
+
+          <p
+                  id="taskMessage"
+                  class="message"
+          ></p>
+
+        </div>
+
+
+        <!-- =================================================
+             RIGHT - TASK LIST
+             ================================================= -->
+
+        <div class="admin-cleaning-task-list-card">
+
+
+          <div class="admin-cleaning-task-list-header">
+
+            <div>
+
+              <h2>
+                Rengjøringsoppgaver
+                (<span id="taskCount">0</span>)
+              </h2>
+
+              <p id="selectedLocationText">
+                -
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- EMPTY -->
+
+          <div
+                  id="taskEmptyState"
+                  class="empty-state"
+          >
+
+            <p>
+              Ingen oppgaver er opprettet for
+              denne etasjen ennå.
+            </p>
+
+          </div>
+
+
+          <!-- TABLE -->
+
+          <div
+                  id="taskTableWrapper"
+                  class="table-wrapper"
+                  hidden
+          >
+
+            <table class="cleaning-task-table admin-cleaning-modern-table">
+
+              <thead>
+
+              <tr>
+
+                <!-- DRAG HANDLE -->
+                <th class="admin-cleaning-drag-column">
+                  #
+                </th>
+
+                <!-- ORDER NUMBER -->
+                <th class="admin-cleaning-number-column">
+                  #
+                </th>
+
+                <!-- TASK -->
+                <th>
+                  Oppgave
+                </th>
+
+                <!-- ACTIONS -->
+                <th class="admin-cleaning-actions-column">
+                  Handlinger
+                </th>
+
+              </tr>
+
+              </thead>
+
+
+              <tbody id="taskList">
+              </tbody>
+
+            </table>
+
+          </div>
+
+
+          <!-- DRAG INFO -->
+
+          <div
+                  id="dragDropInfo"
+                  class="admin-cleaning-drag-info"
+          >
+
+            <span class="admin-cleaning-drag-info-icon">
+              i
+            </span>
+
+            <span>
+              Dra og slipp for å endre rekkefølgen på oppgavene.
+            </span>
+
+          </div>
+
+
+        </div>
+
+
+      </section>
+
+
+    </main>
+
+
+  </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     MOBILE SIDEBAR OVERLAY
+     ========================================================= -->
+
+<div
+        id="adminSidebarOverlay"
+        class="admin-sidebar-overlay"
+></div>
 
 
 <!-- =========================================================
@@ -379,7 +655,134 @@
 
 <script src="js/config.js"></script>
 
-<script src="js/admin-cleaning-plan.js?v=2"></script>
+<script src="js/admin-cleaning-plan.js?v=4"></script>
+
+
+<!-- =========================================================
+     SIDEBAR
+     ========================================================= -->
+
+<script>
+
+  const mobileSidebarButton =
+          document.getElementById(
+                  "mobileSidebarButton"
+          );
+
+  const adminSidebar =
+          document.querySelector(
+                  ".admin-sidebar"
+          );
+
+  const adminSidebarOverlay =
+          document.getElementById(
+                  "adminSidebarOverlay"
+          );
+
+  const historySidebarButton =
+          document.getElementById(
+                  "historySidebarButton"
+          );
+
+  const settingsSidebarButton =
+          document.getElementById(
+                  "settingsSidebarButton"
+          );
+
+
+  function closeAdminSidebar() {
+
+    if (adminSidebar) {
+
+      adminSidebar.classList.remove(
+              "open"
+      );
+
+    }
+
+
+    if (adminSidebarOverlay) {
+
+      adminSidebarOverlay.classList.remove(
+              "visible"
+      );
+
+    }
+
+  }
+
+
+  if (mobileSidebarButton) {
+
+    mobileSidebarButton.addEventListener(
+            "click",
+            function () {
+
+              if (adminSidebar) {
+
+                adminSidebar.classList.add(
+                        "open"
+                );
+
+              }
+
+
+              if (adminSidebarOverlay) {
+
+                adminSidebarOverlay.classList.add(
+                        "visible"
+                );
+
+              }
+
+            }
+    );
+
+  }
+
+
+  if (adminSidebarOverlay) {
+
+    adminSidebarOverlay.addEventListener(
+            "click",
+            closeAdminSidebar
+    );
+
+  }
+
+
+  if (historySidebarButton) {
+
+    historySidebarButton.addEventListener(
+            "click",
+            function () {
+
+              window.alert(
+                      "Historikk kommer i et senere steg."
+              );
+
+            }
+    );
+
+  }
+
+
+  if (settingsSidebarButton) {
+
+    settingsSidebarButton.addEventListener(
+            "click",
+            function () {
+
+              window.alert(
+                      "Innstillinger kommer i et senere steg."
+              );
+
+            }
+    );
+
+  }
+
+</script>
 
 
 </body>

@@ -36,6 +36,11 @@
 
     <header class="landing-header">
 
+
+        <!-- ====================================================
+             BRAND
+             ==================================================== -->
+
         <div class="landing-brand">
 
             <span class="landing-brand-icon">
@@ -49,13 +54,198 @@
         </div>
 
 
-        <button
-                type="button"
-                class="language-button"
-                id="languageButton"
-        >
-            🌐 Norsk ▾
-        </button>
+        <!-- ====================================================
+             HEADER ACTIONS
+             ==================================================== -->
+
+        <div class="landing-header-actions">
+
+
+            <!-- =================================================
+                 LOGIN BUTTON
+                 ================================================= -->
+
+            <button
+                    type="button"
+                    class="landing-header-login-button"
+                    id="openLoginButton"
+                    aria-haspopup="dialog"
+                    aria-controls="loginModal"
+                    aria-expanded="false"
+            >
+                Logg inn
+            </button>
+
+
+
+            <!-- =================================================
+                 LANGUAGE SELECTOR
+                 ================================================= -->
+
+            <div class="language-selector">
+
+
+                <!-- LANGUAGE BUTTON -->
+
+                <button
+                        type="button"
+                        class="language-button"
+                        id="languageButton"
+                        aria-haspopup="true"
+                        aria-controls="languageModal"
+                        aria-expanded="false"
+                >
+
+                    <span class="language-button-globe">
+                        🌐
+                    </span>
+
+                    <span id="selectedLanguageName">
+                        Norsk
+                    </span>
+
+                    <span class="language-button-chevron">
+                        ▾
+                    </span>
+
+                </button>
+
+
+
+                <!-- =================================================
+                     LANGUAGE DROPDOWN
+                     ================================================= -->
+
+                <div
+                        id="languageModal"
+                        class="language-modal"
+                        hidden
+                >
+
+
+                    <section class="language-modal-card">
+
+
+                        <!-- =========================================
+                             SEARCH
+                             ========================================= -->
+
+                        <div class="language-search-wrapper">
+
+
+                            <span class="language-search-icon">
+                                🔍
+                            </span>
+
+
+                            <input
+                                    type="search"
+                                    id="languageSearchInput"
+                                    class="language-search-input"
+                                    placeholder="Søk etter språk..."
+                                    autocomplete="off"
+                                    aria-label="Søk etter språk"
+                            >
+
+
+                            <button
+                                    type="button"
+                                    id="clearLanguageSearchButton"
+                                    class="language-search-clear"
+                                    aria-label="Tøm søk"
+                                    hidden
+                            >
+                                ×
+                            </button>
+
+
+                        </div>
+
+
+
+                        <!-- =========================================
+                             LANGUAGE RESULT INFO
+                             ========================================= -->
+
+                        <div class="language-list-info">
+
+                            <span id="languageResultText">
+                                Laster språk...
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- =========================================
+                             LANGUAGE LIST
+                             ========================================= -->
+
+                        <div
+                                id="languageList"
+                                class="language-list"
+                                role="listbox"
+                                aria-label="Tilgjengelige språk"
+                        >
+
+
+                            <div class="language-loading-state">
+
+                                <span class="language-loading-icon">
+                                    🌐
+                                </span>
+
+                                <p>
+                                    Laster tilgjengelige språk...
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <!-- =========================================
+                             EMPTY SEARCH
+                             ========================================= -->
+
+                        <div
+                                id="languageSearchEmpty"
+                                class="language-search-empty"
+                                hidden
+                        >
+
+
+                            <div class="language-search-empty-icon">
+                                🔎
+                            </div>
+
+
+                            <h3>
+                                Ingen språk funnet
+                            </h3>
+
+
+                            <p>
+                                Prøv et annet søk.
+                            </p>
+
+
+                        </div>
+
+
+                    </section>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
 
     </header>
 
@@ -65,7 +255,7 @@
          CONTENT
          ======================================================== -->
 
-    <section class="landing-content">
+    <section class="landing-content landing-content-without-login">
 
 
         <!-- ====================================================
@@ -204,153 +394,208 @@
         </div>
 
 
+    </section>
+
+
+</main>
+
+
+
+<!-- ============================================================
+     LOGIN MODAL
+     ============================================================ -->
+
+<div
+        id="loginModal"
+        class="landing-login-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="loginModalTitle"
+        hidden
+>
+
+
+    <!-- ========================================================
+         MODAL BACKDROP
+         ======================================================== -->
+
+    <div
+            id="loginModalBackdrop"
+            class="landing-login-modal-backdrop"
+    ></div>
+
+
+
+    <!-- ========================================================
+         LOGIN CARD
+         ======================================================== -->
+
+    <section class="landing-login-card landing-login-modal-card">
+
 
         <!-- ====================================================
-             LOGIN CARD
+             CLOSE BUTTON
              ==================================================== -->
 
-        <section class="landing-login-card">
-
-
-            <h2>
-                Logg inn
-            </h2>
-
-
-
-            <form id="loginForm">
-
-
-                <!-- =================================================
-                     EMAIL
-                     ================================================= -->
-
-                <div class="landing-form-group">
-
-                    <label for="email">
-                        E-post
-                    </label>
-
-
-                    <div class="landing-input-wrapper">
-
-                        <span class="landing-input-icon">
-                            ✉
-                        </span>
-
-                        <input
-                                type="email"
-                                id="email"
-                                placeholder="din@epost.no"
-                                autocomplete="email"
-                                required
-                        >
-
-                    </div>
-
-                </div>
+        <button
+                type="button"
+                id="closeLoginButton"
+                class="landing-login-modal-close"
+                aria-label="Lukk innlogging"
+        >
+            ×
+        </button>
 
 
 
-                <!-- =================================================
-                     PASSWORD
-                     ================================================= -->
+        <!-- ====================================================
+             TITLE
+             ==================================================== -->
 
-                <div class="landing-form-group">
-
-                    <label for="password">
-                        Passord
-                    </label>
-
-
-                    <div class="landing-input-wrapper">
-
-                        <span class="landing-input-icon">
-                            🔒
-                        </span>
-
-                        <input
-                                type="password"
-                                id="password"
-                                placeholder="Ditt passord"
-                                autocomplete="current-password"
-                                required
-                        >
-
-                    </div>
-
-                </div>
+        <h2 id="loginModalTitle">
+            Logg inn
+        </h2>
 
 
 
-                <!-- =================================================
-                     LOGIN BUTTON
-                     ================================================= -->
+        <!-- ====================================================
+             LOGIN FORM
+             ==================================================== -->
 
-                <button
-                        type="submit"
-                        class="landing-login-button"
-                        id="loginButton"
-                >
-                    LOGG INN
-                </button>
-
-
-            </form>
-
+        <form id="loginForm">
 
 
             <!-- =================================================
-                 DIVIDER
+                 EMAIL
                  ================================================= -->
 
-            <div class="login-divider">
+            <div class="landing-form-group">
 
-                <span></span>
+                <label for="email">
+                    E-post
+                </label>
 
-                <span class="login-divider-text">
-                    eller
-                </span>
 
-                <span></span>
+                <div class="landing-input-wrapper">
+
+                    <span class="landing-input-icon">
+                        ✉
+                    </span>
+
+
+                    <input
+                            type="email"
+                            id="email"
+                            placeholder="din@epost.no"
+                            autocomplete="email"
+                            required
+                    >
+
+                </div>
 
             </div>
 
 
 
             <!-- =================================================
-                 FORGOT PASSWORD
+                 PASSWORD
                  ================================================= -->
 
-            <button
-                    type="button"
-                    class="landing-forgot-button"
-                    id="forgotPasswordButton"
-            >
-                Glemt passord?
-            </button>
+            <div class="landing-form-group">
+
+                <label for="password">
+                    Passord
+                </label>
+
+
+                <div class="landing-input-wrapper">
+
+                    <span class="landing-input-icon">
+                        🔒
+                    </span>
+
+
+                    <input
+                            type="password"
+                            id="password"
+                            placeholder="Ditt passord"
+                            autocomplete="current-password"
+                            required
+                    >
+
+                </div>
+
+            </div>
 
 
 
             <!-- =================================================
-                 MESSAGE
+                 LOGIN BUTTON
                  ================================================= -->
 
-            <p
-                    id="loginMessage"
-                    class="message"
-                    role="alert"
-                    aria-live="polite"
-            ></p>
+            <button
+                    type="submit"
+                    class="landing-login-button"
+                    id="loginButton"
+            >
+                LOGG INN
+            </button>
 
 
-        </section>
+        </form>
+
+
+
+        <!-- =================================================
+             DIVIDER
+             ================================================= -->
+
+        <div class="login-divider">
+
+            <span></span>
+
+
+            <span class="login-divider-text">
+                eller
+            </span>
+
+
+            <span></span>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FORGOT PASSWORD
+             ================================================= -->
+
+        <button
+                type="button"
+                class="landing-forgot-button"
+                id="forgotPasswordButton"
+        >
+            Glemt passord?
+        </button>
+
+
+
+        <!-- =================================================
+             MESSAGE
+             ================================================= -->
+
+        <p
+                id="loginMessage"
+                class="message"
+                role="alert"
+                aria-live="polite"
+        ></p>
 
 
     </section>
 
 
-</main>
+</div>
 
 
 
@@ -363,6 +608,7 @@
 ></script>
 
 
+
 <!-- ============================================================
      SUPABASE CONFIG
      ============================================================ -->
@@ -370,11 +616,20 @@
 <script src="js/config.js"></script>
 
 
+
 <!-- ============================================================
      AUTH
      ============================================================ -->
 
-<script src="js/auth.js"></script>
+<script src="js/auth.js?v=3"></script>
+
+
+
+<!-- ============================================================
+     LANGUAGE
+     ============================================================ -->
+
+<script src="js/language.js?v=1"></script>
 
 
 </body>

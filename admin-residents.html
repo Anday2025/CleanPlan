@@ -20,235 +20,680 @@
 </head>
 
 
-<body>
-
-<header class="topbar">
-
-    <div class="brand">
-
-        <span class="brand-icon">
-            🧹
-        </span>
-
-        <span>
-            Cleaning App
-        </span>
-
-    </div>
+<body class="admin-dashboard-body">
 
 
-    <div class="topbar-right">
+<!-- =========================================================
+     ADMIN APP
+     ========================================================= -->
 
-        <span id="adminName">
-            Anday
-        </span>
-
-        <button
-                id="logoutButton"
-                class="logout-button"
-        >
-            Logg ut
-        </button>
-
-    </div>
-
-</header>
-
-
-<main class="dashboard">
+<div class="admin-app-layout">
 
 
     <!-- =====================================================
-         PAGE HEADER
+         SIDEBAR
          ===================================================== -->
 
-    <div class="page-header">
+    <aside class="admin-sidebar">
 
-        <div>
 
-            <p class="eyebrow">
-                ADMINISTRATOR
-            </p>
+        <!-- =================================================
+             BRAND
+             ================================================= -->
 
-            <h1>
-                👥 Beboere
-            </h1>
+        <div class="admin-sidebar-brand">
 
-            <p class="welcome-text">
-                Administrer beboere og deres tilknytning
-                til boliger og etasjer.
-            </p>
+            <span class="admin-sidebar-logo">
+                🧹
+            </span>
+
+            <span>
+                Cleaning App
+            </span>
 
         </div>
 
 
-        <button
-                id="backButton"
-                class="secondary-button"
-        >
-            ← Dashboard
-        </button>
+        <!-- =================================================
+             ROLE LABEL
+             ================================================= -->
 
-    </div>
-
-
-    <!-- =====================================================
-         ADD RESIDENT
-         ===================================================== -->
-
-    <section class="dashboard-card">
-
-        <h2>
-            Legg til beboer
-        </h2>
-
-        <p>
-            Koble en brukerprofil til en bolig og etasje.
-        </p>
+        <div class="admin-sidebar-section-label">
+            ADMIN
+        </div>
 
 
-        <form id="residentForm">
+        <!-- =================================================
+             NAVIGATION
+             ================================================= -->
+
+        <nav class="admin-sidebar-nav">
 
 
-            <div class="form-grid">
+            <!-- DASHBOARD -->
 
-
-                <!-- USER PROFILE -->
-
-                <div class="form-group">
-
-                    <label for="residentProfile">
-
-                        Brukerprofil
-
-                    </label>
-
-
-                    <select
-                            id="residentProfile"
-                            required
-                    >
-
-                        <option value="">
-                            Velg brukerprofil
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- PROPERTY -->
-
-                <div class="form-group">
-
-                    <label for="residentProperty">
-
-                        Bolig
-
-                    </label>
-
-
-                    <select
-                            id="residentProperty"
-                            required
-                    >
-
-                        <option value="">
-                            Velg bolig
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <!-- FLOOR -->
-
-                <div class="form-group">
-
-                    <label for="residentFloor">
-
-                        Etasje
-
-                    </label>
-
-
-                    <select
-                            id="residentFloor"
-                            required
-                            disabled
-                    >
-
-                        <option value="">
-                            Velg bolig først
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-            </div>
-
-
-            <button
-                    type="submit"
-                    class="primary-button"
-                    id="saveResidentButton"
+            <a
+                    href="admin.html"
+                    class="admin-sidebar-link"
             >
 
-                Opprett beboer
+                <span class="admin-sidebar-icon">
+                    ▦
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <!-- PROPERTIES -->
+
+            <a
+                    href="properties.html"
+                    class="admin-sidebar-link"
+            >
+
+                <span class="admin-sidebar-icon">
+                    🏠
+                </span>
+
+                <span>
+                    Boliger
+                </span>
+
+            </a>
+
+
+            <!-- FLOORS -->
+
+            <a
+                    href="properties.html"
+                    class="admin-sidebar-link"
+            >
+
+                <span class="admin-sidebar-icon">
+                    ▤
+                </span>
+
+                <span>
+                    Etasjer
+                </span>
+
+            </a>
+
+
+            <!-- RESIDENTS -->
+
+            <a
+                    href="admin-residents.html"
+                    class="admin-sidebar-link active"
+            >
+
+                <span class="admin-sidebar-icon">
+                    👥
+                </span>
+
+                <span>
+                    Beboere
+                </span>
+
+            </a>
+
+
+            <!-- CLEANING PLAN -->
+
+            <a
+                    href="admin-cleaning-plan.html"
+                    class="admin-sidebar-link"
+            >
+
+                <span class="admin-sidebar-icon">
+                    🧹
+                </span>
+
+                <span>
+                    Rengjøringsplan
+                </span>
+
+            </a>
+
+
+            <!-- USERS -->
+
+            <a
+                    href="users.html"
+                    class="admin-sidebar-link"
+            >
+
+                <span class="admin-sidebar-icon">
+                    👤
+                </span>
+
+                <span>
+                    Brukere
+                </span>
+
+            </a>
+
+
+            <!-- HISTORY -->
+
+            <button
+                    type="button"
+                    class="admin-sidebar-link"
+                    id="historySidebarButton"
+            >
+
+                <span class="admin-sidebar-icon">
+                    ↺
+                </span>
+
+                <span>
+                    Historikk
+                </span>
 
             </button>
 
 
-            <p
-                    id="residentMessage"
-                    class="message"
-            ></p>
+            <!-- SETTINGS -->
+
+            <button
+                    type="button"
+                    class="admin-sidebar-link"
+                    id="settingsSidebarButton"
+            >
+
+                <span class="admin-sidebar-icon">
+                    ⚙
+                </span>
+
+                <span>
+                    Innstillinger
+                </span>
+
+            </button>
 
 
-        </form>
+        </nav>
 
-    </section>
+
+        <!-- =================================================
+             SIDEBAR BOTTOM
+             ================================================= -->
+
+        <div class="admin-sidebar-bottom">
+
+            <button
+                    id="logoutButton"
+                    class="admin-sidebar-logout"
+                    type="button"
+            >
+
+                <span>
+                    ↪
+                </span>
+
+                <span>
+                    Logg ut
+                </span>
+
+            </button>
+
+        </div>
+
+
+    </aside>
 
 
     <!-- =====================================================
-         RESIDENT LIST
+         MAIN AREA
          ===================================================== -->
 
-    <section class="dashboard-card property-list-card">
+    <div class="admin-main-area">
 
-        <div class="section-header">
+
+        <!-- =================================================
+             TOP HEADER
+             ================================================= -->
+
+        <header class="admin-main-header">
+
 
             <div>
 
-                <h2>
-                    Beboere
-                </h2>
-
-                <p>
-                    Registrerte beboere
-                </p>
+                <button
+                        id="mobileSidebarButton"
+                        class="admin-mobile-menu-button"
+                        type="button"
+                        aria-label="Åpne meny"
+                >
+                    ☰
+                </button>
 
             </div>
 
-        </div>
+
+            <div class="admin-header-profile">
+
+                <div class="admin-header-profile-text">
+
+                    <strong id="adminName">
+                        Administrator
+                    </strong>
+
+                    <span>
+                        Admin
+                    </span>
+
+                </div>
 
 
-        <div id="residentList">
+                <div class="admin-profile-avatar">
 
-            <p class="empty-state">
-                Laster beboere...
-            </p>
+                    <span id="adminInitial">
+                        A
+                    </span>
 
-        </div>
+                </div>
 
-    </section>
+            </div>
 
 
-</main>
+        </header>
+
+
+        <!-- =================================================
+             MAIN CONTENT
+             ================================================= -->
+
+        <main class="admin-dashboard-main">
+
+
+            <!-- =================================================
+                 PAGE HEADER
+                 ================================================= -->
+
+            <section class="admin-residents-page-header">
+
+                <div>
+
+                    <p class="admin-dashboard-eyebrow">
+                        ADMINISTRATOR
+                    </p>
+
+                    <h1>
+                        Beboere
+                    </h1>
+
+                    <p>
+                        Administrer beboere og deres tilknytning
+                        til boliger og etasjer.
+                    </p>
+
+                </div>
+
+
+                <button
+                        id="backButton"
+                        class="secondary-button"
+                        type="button"
+                >
+                    ← Dashboard
+                </button>
+
+            </section>
+
+
+            <!-- =================================================
+                 RESIDENT MANAGEMENT GRID
+                 ================================================= -->
+
+            <div class="admin-residents-layout">
+
+
+                <!-- =================================================
+                     ADD RESIDENT
+                     ================================================= -->
+
+                <section class="dashboard-card admin-resident-form-card">
+
+                    <div class="admin-residents-card-heading">
+
+                        <div class="admin-action-icon">
+                            👤
+                        </div>
+
+
+                        <div>
+
+                            <h2>
+                                Legg til beboer
+                            </h2>
+
+                            <p>
+                                Koble en eksisterende brukerprofil
+                                til bolig og etasje.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <form id="residentForm">
+
+
+                        <!-- USER PROFILE -->
+
+                        <div class="form-group admin-resident-form-group">
+
+                            <label for="residentProfile">
+                                Brukerprofil
+                            </label>
+
+
+                            <select
+                                    id="residentProfile"
+                                    required
+                            >
+
+                                <option value="">
+                                    Velg brukerprofil
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- PROPERTY -->
+
+                        <div class="form-group admin-resident-form-group">
+
+                            <label for="residentProperty">
+                                Bolig
+                            </label>
+
+
+                            <select
+                                    id="residentProperty"
+                                    required
+                            >
+
+                                <option value="">
+                                    Velg bolig
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- FLOOR -->
+
+                        <div class="form-group admin-resident-form-group">
+
+                            <label for="residentFloor">
+                                Etasje
+                            </label>
+
+
+                            <select
+                                    id="residentFloor"
+                                    required
+                                    disabled
+                            >
+
+                                <option value="">
+                                    Velg bolig først
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- SAVE -->
+
+                        <button
+                                type="submit"
+                                class="primary-button admin-resident-save-button"
+                                id="saveResidentButton"
+                        >
+                            + Opprett beboer
+                        </button>
+
+
+                        <p
+                                id="residentMessage"
+                                class="message"
+                        ></p>
+
+
+                    </form>
+
+                </section>
+
+
+                <!-- =================================================
+                     RESIDENT LIST
+                     ================================================= -->
+
+                <section class="dashboard-card admin-resident-list-card">
+
+
+                    <!-- =================================================
+                         HEADER
+                         ================================================= -->
+
+                    <div class="admin-resident-list-header">
+
+
+                        <div class="admin-resident-list-heading">
+
+
+                            <div
+                                    class="admin-resident-list-icon"
+                                    aria-hidden="true"
+                            >
+                                👥
+                            </div>
+
+
+                            <div>
+
+                                <div class="admin-resident-title-row">
+
+                                    <h2>
+                                        Registrerte beboere
+                                    </h2>
+
+
+                                    <span
+                                            id="residentCountBadge"
+                                            class="admin-resident-number-badge"
+                                    >
+                                        0
+                                    </span>
+
+                                </div>
+
+
+                                <p>
+                                    Beboere du har tilgang til å administrere.
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- =================================================
+                             SHOW / HIDE BUTTON
+                             ================================================= -->
+
+                        <button
+                                id="toggleResidentsButton"
+                                type="button"
+                                class="admin-residents-toggle-button"
+                                aria-expanded="false"
+                                aria-controls="registeredResidentsContent"
+                        >
+
+                            <span id="toggleResidentsText">
+                                Vis beboere
+                            </span>
+
+                            <span
+                                    id="toggleResidentsIcon"
+                                    class="admin-residents-toggle-icon"
+                                    aria-hidden="true"
+                            >
+                                ⌄
+                            </span>
+
+                        </button>
+
+
+                    </div>
+
+
+                    <!-- =================================================
+                         COLLAPSIBLE CONTENT
+                         ================================================= -->
+
+                    <div
+                            id="registeredResidentsContent"
+                            class="admin-registered-residents-content"
+                            hidden
+                    >
+
+
+                        <!-- =================================================
+                             SEARCH
+                             ================================================= -->
+
+                        <div class="admin-residents-search-row">
+
+
+                            <div class="admin-residents-search-field">
+
+
+                                <span
+                                        class="admin-residents-search-icon"
+                                        aria-hidden="true"
+                                >
+                                    🔍
+                                </span>
+
+
+                                <input
+                                        id="residentSearchInput"
+                                        type="search"
+                                        class="admin-residents-search-input"
+                                        placeholder="Søk etter navn, e-post, bolig eller etasje..."
+                                        autocomplete="off"
+                                        aria-label="Søk etter beboer"
+                                >
+
+
+                                <button
+                                        id="clearResidentSearchButton"
+                                        type="button"
+                                        class="admin-residents-search-clear"
+                                        aria-label="Tøm søk"
+                                        hidden
+                                >
+                                    ×
+                                </button>
+
+
+                            </div>
+
+
+                            <div class="admin-residents-search-info">
+
+                                <span id="residentSearchCount">
+                                    0 beboere funnet
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- =================================================
+                             RESIDENT LIST
+                             ================================================= -->
+
+                        <div id="residentList">
+
+                            <p class="empty-state">
+                                Laster beboere...
+                            </p>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             NO SEARCH RESULT
+                             ================================================= -->
+
+                        <div
+                                id="residentSearchEmpty"
+                                class="admin-resident-search-empty"
+                                hidden
+                        >
+
+                            <div
+                                    class="admin-resident-search-empty-icon"
+                                    aria-hidden="true"
+                            >
+                                🔎
+                            </div>
+
+                            <h3>
+                                Ingen beboere funnet
+                            </h3>
+
+                            <p>
+                                Prøv et annet navn, e-post,
+                                bolig eller etasje.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+            </div>
+
+
+        </main>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     MOBILE SIDEBAR OVERLAY
+     ========================================================= -->
+
+<div
+        id="adminSidebarOverlay"
+        class="admin-sidebar-overlay"
+></div>
 
 
 <!-- =========================================================
@@ -261,7 +706,135 @@
 
 <script src="js/config.js"></script>
 
-<script src="js/admin-residents.js"></script>
+<script src="js/admin-residents.js?v=3"></script>
+
+
+<!-- =========================================================
+     PAGE SIDEBAR BEHAVIOUR
+     ========================================================= -->
+
+<script>
+
+    const mobileSidebarButton =
+        document.getElementById(
+            "mobileSidebarButton"
+        );
+
+    const adminSidebar =
+        document.querySelector(
+            ".admin-sidebar"
+        );
+
+    const adminSidebarOverlay =
+        document.getElementById(
+            "adminSidebarOverlay"
+        );
+
+    const historySidebarButton =
+        document.getElementById(
+            "historySidebarButton"
+        );
+
+    const settingsSidebarButton =
+        document.getElementById(
+            "settingsSidebarButton"
+        );
+
+
+    function closeAdminSidebar() {
+
+        if (adminSidebar) {
+
+            adminSidebar.classList.remove(
+                "open"
+            );
+
+        }
+
+
+        if (adminSidebarOverlay) {
+
+            adminSidebarOverlay.classList.remove(
+                "visible"
+            );
+
+        }
+
+    }
+
+
+    if (mobileSidebarButton) {
+
+        mobileSidebarButton.addEventListener(
+            "click",
+            function () {
+
+                if (adminSidebar) {
+
+                    adminSidebar.classList.add(
+                        "open"
+                    );
+
+                }
+
+
+                if (adminSidebarOverlay) {
+
+                    adminSidebarOverlay.classList.add(
+                        "visible"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if (adminSidebarOverlay) {
+
+        adminSidebarOverlay.addEventListener(
+            "click",
+            closeAdminSidebar
+        );
+
+    }
+
+
+    if (historySidebarButton) {
+
+        historySidebarButton.addEventListener(
+            "click",
+            function () {
+
+                window.alert(
+                    "Historikk kommer i et senere steg."
+                );
+
+            }
+        );
+
+    }
+
+
+    if (settingsSidebarButton) {
+
+        settingsSidebarButton.addEventListener(
+            "click",
+            function () {
+
+                window.alert(
+                    "Innstillinger kommer i et senere steg."
+                );
+
+            }
+        );
+
+    }
+
+</script>
+
 
 </body>
 
