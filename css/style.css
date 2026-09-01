@@ -1314,7 +1314,7 @@ textarea:focus-visible {
             relative;
 
     z-index:
-            2;
+            100;
 
     width:
             min(
