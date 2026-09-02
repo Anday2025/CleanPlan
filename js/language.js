@@ -304,12 +304,12 @@ document.addEventListener(
         //
         // Norwegian is the source/default language.
         //
-        // NO + EN are translated locally.
-        // The remaining languages temporarily fall back to
-        // Norwegian until the translation API is connected.
+        // Norwegian and English are translated locally.
+        // Other languages temporarily fall back to Norwegian.
         // ========================================================
 
         const translations = {
+
 
             // ====================================================
             // NORWEGIAN
@@ -512,8 +512,8 @@ document.addEventListener(
                 takePhoto:
                     "Ta bilde",
 
-                maxSixPhotos:
-                    "Maks 6 bilder",
+                maxTenPhotos:
+                    "Maks 10 bilder",
 
                 confirmAndSign:
                     "Bekreft og signer",
@@ -577,13 +577,22 @@ document.addEventListener(
                 scheduled:
                     "Planlagt",
 
+                planned:
+                    "Planlagt",
+
                 previousWeekStatus:
                     "Tidligere uke",
 
                 upcoming:
                     "Kommende",
 
+                notCompleted:
+                    "Ikke fullført",
+
                 notAvailableYet:
+                    "Ikke tilgjengelig ennå",
+
+                notYetAvailable:
                     "Ikke tilgjengelig ennå",
 
                 open:
@@ -619,11 +628,17 @@ document.addEventListener(
                 onlyResponsibleCanConfirm:
                     "🔒 Kun ukens ansvarlige kan bekrefte rengjøringen.",
 
+                onlyResponsibleResidentCanComplete:
+                    "Bare den ansvarlige beboeren kan fullføre rengjøringen.",
+
                 notActiveCleaningWeek:
                     "Dette er ikke den aktive rengjøringsuken.",
 
                 tasksOnlyCurrentWeek:
                     "Oppgaver kan bare fullføres i den aktuelle uken.",
+
+                onlyCurrentWeekCanBeCompleted:
+                    "Rengjøring kan bare fullføres i den aktuelle uken.",
 
                 selectCurrentWeekToClean:
                     "🔒 Velg den aktuelle uken for å utføre rengjøringen.",
@@ -633,6 +648,9 @@ document.addEventListener(
 
                 notAvailableThursdayFriday:
                     "Ikke tilgjengelig ennå. Rengjøring kan registreres torsdag eller fredag.",
+
+                notYetAvailableLocked:
+                    "🔒 Ikke tilgjengelig ennå. Rengjøring kan registreres torsdag eller fredag.",
 
                 confirmationOpensThursday:
                     "🔒 Bekreftelse åpnes torsdag.",
@@ -655,17 +673,26 @@ document.addEventListener(
                 completeTasksAndPhotoBeforeSign:
                     "Fullfør alle oppgaver og ta minst ett nytt bilde før du signerer.",
 
-                maxSixPhotosAlert:
-                    "Du kan legge til maksimalt 6 bilder.",
+                cleaningAlreadySigned:
+                    "✓ Rengjøringen er allerede bekreftet og signert.",
+
+                maxTenPhotosAlert:
+                    "Du kan legge til maksimalt 10 bilder.",
 
                 photosCount:
-                    "Bilder ({count}/6)",
+                    "Bilder ({count}/10)",
 
                 documentationPhotoAlt:
                     "Dokumentasjonsbilde",
 
+                cleaningDocumentationPhoto:
+                    "Dokumentasjonsbilde",
+
                 removePhotoAria:
                     "Fjern bilde",
+
+                deletePhoto:
+                    "Slett bilde",
 
                 maxPhotosTaken:
                     "✓ Maks antall bilder tatt",
@@ -673,25 +700,29 @@ document.addEventListener(
                 takePhotoWithIcon:
                     "📷 Ta bilde",
 
+                cleaningTask:
+                    "Rengjøringsoppgave",
+
                 couldNotSaveTaskCompletion:
                     "Kunne ikke lagre oppgaven som fullført.",
 
                 couldNotRemoveTaskCompletion:
                     "Kunne ikke fjerne fullføringen av oppgaven.",
 
-                completionReadyForSupabase:
-                    "Alle oppgaver er fullført og dokumentasjonen er klar. Neste steg er å lagre bildene og signeringen sikkert i Supabase.",
-
-                onlyResponsibleResidentCanComplete:
-                    "Bare den ansvarlige beboeren kan fullføre rengjøringen.",
-
                 responsibleOnlyForWeek:
                     "Du kan bare fullføre rengjøringen i uken du er ansvarlig.",
 
+                unexpectedResidentPageError:
+                    "Det oppstod en uventet feil ved lasting av siden.",
+
                 errorOccurred:
-                    "Det oppstod en feil."
+                    "Det oppstod en feil.",
+
+                cancel:
+                    "Avbryt"
 
             },
+
 
             // ====================================================
             // ENGLISH
@@ -894,8 +925,8 @@ document.addEventListener(
                 takePhoto:
                     "Take photo",
 
-                maxSixPhotos:
-                    "Maximum 6 photos",
+                maxTenPhotos:
+                    "Maximum 10 photos",
 
                 confirmAndSign:
                     "Confirm and sign",
@@ -959,13 +990,22 @@ document.addEventListener(
                 scheduled:
                     "Scheduled",
 
+                planned:
+                    "Planned",
+
                 previousWeekStatus:
                     "Previous week",
 
                 upcoming:
                     "Upcoming",
 
+                notCompleted:
+                    "Not completed",
+
                 notAvailableYet:
+                    "Not available yet",
+
+                notYetAvailable:
                     "Not available yet",
 
                 open:
@@ -1001,11 +1041,17 @@ document.addEventListener(
                 onlyResponsibleCanConfirm:
                     "🔒 Only the resident responsible for this week can confirm the cleaning.",
 
+                onlyResponsibleResidentCanComplete:
+                    "Only the responsible resident can complete the cleaning.",
+
                 notActiveCleaningWeek:
                     "This is not the active cleaning week.",
 
                 tasksOnlyCurrentWeek:
                     "Tasks can only be completed during the current week.",
+
+                onlyCurrentWeekCanBeCompleted:
+                    "Cleaning can only be completed during the current week.",
 
                 selectCurrentWeekToClean:
                     "🔒 Select the current week to perform the cleaning.",
@@ -1015,6 +1061,9 @@ document.addEventListener(
 
                 notAvailableThursdayFriday:
                     "Not available yet. Cleaning can be registered on Thursday or Friday.",
+
+                notYetAvailableLocked:
+                    "🔒 Not available yet. Cleaning can be registered on Thursday or Friday.",
 
                 confirmationOpensThursday:
                     "🔒 Confirmation opens on Thursday.",
@@ -1037,17 +1086,26 @@ document.addEventListener(
                 completeTasksAndPhotoBeforeSign:
                     "Complete all tasks and take at least one new photo before signing.",
 
-                maxSixPhotosAlert:
-                    "You can add a maximum of 6 photos.",
+                cleaningAlreadySigned:
+                    "✓ The cleaning has already been confirmed and signed.",
+
+                maxTenPhotosAlert:
+                    "You can add a maximum of 10 photos.",
 
                 photosCount:
-                    "Photos ({count}/6)",
+                    "Photos ({count}/10)",
 
                 documentationPhotoAlt:
                     "Documentation photo",
 
+                cleaningDocumentationPhoto:
+                    "Documentation photo",
+
                 removePhotoAria:
                     "Remove photo",
+
+                deletePhoto:
+                    "Delete photo",
 
                 maxPhotosTaken:
                     "✓ Maximum number of photos taken",
@@ -1055,28 +1113,30 @@ document.addEventListener(
                 takePhotoWithIcon:
                     "📷 Take photo",
 
+                cleaningTask:
+                    "Cleaning task",
+
                 couldNotSaveTaskCompletion:
                     "Could not save the task as completed.",
 
                 couldNotRemoveTaskCompletion:
                     "Could not remove the task completion.",
 
-                completionReadyForSupabase:
-                    "All tasks are completed and the documentation is ready. The next step is to store the photos and signature securely in Supabase.",
-
-                onlyResponsibleResidentCanComplete:
-                    "Only the responsible resident can complete the cleaning.",
-
                 responsibleOnlyForWeek:
                     "You can only complete the cleaning during the week you are responsible.",
 
+                unexpectedResidentPageError:
+                    "An unexpected error occurred while loading the page.",
+
                 errorOccurred:
-                    "An error occurred."
+                    "An error occurred.",
+
+                cancel:
+                    "Cancel"
 
             }
 
         };
-
 
         // ========================================================
         // CURRENT LANGUAGE
@@ -1089,7 +1149,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // GET LANGUAGE
+        // GET LANGUAGE BY CODE
         // ========================================================
 
         function getLanguageByCode(
@@ -1179,11 +1239,11 @@ document.addEventListener(
 
 
             /*
-             * Languages without a translation package yet
-             * temporarily fall back to Norwegian.
+             * Norwegian is the fallback language.
              *
-             * Later this fallback can be replaced by the
-             * Supabase translation Edge Function.
+             * Languages that do not yet have their
+             * own local translation package will
+             * temporarily display Norwegian.
              */
 
             const fallbackTranslations =
@@ -1192,6 +1252,10 @@ document.addEventListener(
 
             let translatedText;
 
+
+            // ----------------------------------------------------
+            // CURRENT LANGUAGE
+            // ----------------------------------------------------
 
             if (
                 currentTranslations &&
@@ -1208,7 +1272,14 @@ document.addEventListener(
                         ];
 
             }
+
+
+                // ----------------------------------------------------
+                // NORWEGIAN FALLBACK
+            // ----------------------------------------------------
+
             else if (
+                fallbackTranslations &&
                 Object.prototype
                     .hasOwnProperty.call(
                     fallbackTranslations,
@@ -1222,7 +1293,19 @@ document.addEventListener(
                         ];
 
             }
+
+
+                // ----------------------------------------------------
+                // UNKNOWN TRANSLATION KEY
+            // ----------------------------------------------------
+
             else {
+
+                console.warn(
+                    "Missing translation key:",
+                    key
+                );
+
 
                 translatedText =
                     key;
@@ -1236,6 +1319,7 @@ document.addEventListener(
             );
 
         }
+
 
         // ========================================================
         // TRANSLATE PAGE
@@ -1390,7 +1474,9 @@ document.addEventListener(
 
                     /*
                      * <title> uses textContent.
-                     * Normal HTML elements use title attribute.
+                     *
+                     * Normal HTML elements use
+                     * the title attribute.
                      */
 
                     if (
@@ -1402,8 +1488,7 @@ document.addEventListener(
                         element.textContent =
                             translatedTitle;
 
-                    }
-                    else {
+                    } else {
 
                         element.setAttribute(
                             "title",
@@ -1417,7 +1502,7 @@ document.addEventListener(
 
 
             // ====================================================
-            // HTML LANGUAGE
+            // HTML LANGUAGE ATTRIBUTE
             // ====================================================
 
             document.documentElement.lang =
@@ -1435,10 +1520,10 @@ document.addEventListener(
 
 
             /*
-             * The Resident page already uses data-i18n-title.
+             * resident.html uses data-i18n-title.
              *
-             * Landing/login pages may not use it yet, so keep
-             * a small fallback for those pages.
+             * Older login/landing pages may not,
+             * so keep a safe fallback.
              */
 
             if (
@@ -1453,8 +1538,7 @@ document.addEventListener(
                     document.title =
                         "Cleaning App - Log in";
 
-                }
-                else {
+                } else {
 
                     document.title =
                         "Cleaning App - Logg inn";
@@ -1477,6 +1561,11 @@ document.addEventListener(
                     currentLanguageCode
                 );
 
+
+            /*
+             * Invalid or old language code
+             * stored in localStorage.
+             */
 
             if (!language) {
 
@@ -1514,7 +1603,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // OPEN LANGUAGE DROPDOWN
+        // OPEN LANGUAGE MODAL
         // ========================================================
 
         function openLanguageModal() {
@@ -1543,6 +1632,11 @@ document.addEventListener(
             renderLanguages();
 
 
+            /*
+             * Focus search after the modal
+             * has become visible.
+             */
+
             setTimeout(
                 function () {
 
@@ -1563,7 +1657,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // CLOSE LANGUAGE DROPDOWN
+        // CLOSE LANGUAGE MODAL
         // ========================================================
 
         function closeLanguageModal() {
@@ -1592,7 +1686,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // TOGGLE LANGUAGE DROPDOWN
+        // TOGGLE LANGUAGE MODAL
         // ========================================================
 
         function toggleLanguageModal() {
@@ -1610,8 +1704,7 @@ document.addEventListener(
 
                 openLanguageModal();
 
-            }
-            else {
+            } else {
 
                 closeLanguageModal();
 
@@ -1619,9 +1712,8 @@ document.addEventListener(
 
         }
 
-
         // ========================================================
-        // CREATE LANGUAGE ROW
+        // CREATE LANGUAGE ITEM
         // ========================================================
 
         function createLanguageItem(
@@ -1637,8 +1729,10 @@ document.addEventListener(
             button.type =
                 "button";
 
+
             button.className =
                 "language-item";
+
 
             button.dataset.languageCode =
                 language.code;
@@ -1687,12 +1781,13 @@ document.addEventListener(
             flag.className =
                 "language-item-flag";
 
+
             flag.textContent =
                 language.flag;
 
 
             // ====================================================
-            // CODE
+            // LANGUAGE CODE
             // ====================================================
 
             const code =
@@ -1704,12 +1799,13 @@ document.addEventListener(
             code.className =
                 "language-item-code";
 
+
             code.textContent =
                 language.shortCode;
 
 
             // ====================================================
-            // CHECK
+            // SELECTED CHECK
             // ====================================================
 
             const check =
@@ -1721,19 +1817,26 @@ document.addEventListener(
             check.className =
                 "language-item-check";
 
+
             check.textContent =
                 isSelected
                     ? "✓"
                     : "";
 
 
+            // ====================================================
+            // BUILD ITEM
+            // ====================================================
+
             button.appendChild(
                 flag
             );
 
+
             button.appendChild(
                 code
             );
+
 
             button.appendChild(
                 check
@@ -1741,7 +1844,7 @@ document.addEventListener(
 
 
             // ====================================================
-            // CLICK
+            // SELECT LANGUAGE
             // ====================================================
 
             button.addEventListener(
@@ -1794,6 +1897,15 @@ document.addEventListener(
                 function (
                     language
                 ) {
+
+                    /*
+                     * Search using:
+                     *
+                     * - language code
+                     * - short code
+                     * - English language name
+                     * - native language name
+                     */
 
                     const searchableText =
                         [
@@ -1886,6 +1998,29 @@ document.addEventListener(
                 }
 
 
+                /*
+                 * Search field may still contain
+                 * text, so keep the clear button
+                 * available.
+                 */
+
+                if (
+                    clearLanguageSearchButton &&
+                    languageSearchInput
+                ) {
+
+                    clearLanguageSearchButton.hidden =
+                        (
+                            languageSearchInput
+                                .value
+                                .trim()
+                                .length ===
+                            0
+                        );
+
+                }
+
+
                 return;
 
             }
@@ -1906,7 +2041,7 @@ document.addEventListener(
 
 
             // ====================================================
-            // ITEMS
+            // LANGUAGE ITEMS
             // ====================================================
 
             filteredLanguages.forEach(
@@ -1925,7 +2060,7 @@ document.addEventListener(
 
 
             // ====================================================
-            // CLEAR BUTTON
+            // CLEAR SEARCH BUTTON
             // ====================================================
 
             if (
@@ -1945,6 +2080,7 @@ document.addEventListener(
             }
 
         }
+
 
         // ========================================================
         // SELECT LANGUAGE
@@ -1967,6 +2103,7 @@ document.addEventListener(
                     languageCode
                 );
 
+
                 return;
 
             }
@@ -1987,21 +2124,21 @@ document.addEventListener(
 
 
             // ====================================================
-            // UPDATE BUTTON
+            // UPDATE HEADER BUTTON
             // ====================================================
 
             updateLanguageButton();
 
 
             // ====================================================
-            // TRANSLATE STATIC PAGE CONTENT
+            // TRANSLATE STATIC PAGE
             // ====================================================
 
             translatePage();
 
 
             // ====================================================
-            // RESET SEARCH
+            // RESET LANGUAGE SEARCH
             // ====================================================
 
             if (
@@ -2022,25 +2159,23 @@ document.addEventListener(
 
 
             // ====================================================
-            // CLOSE DROPDOWN
+            // CLOSE LANGUAGE MODAL
             // ====================================================
 
             closeLanguageModal();
 
 
             // ====================================================
-            // GLOBAL LANGUAGE CHANGE EVENT
+            // NOTIFY OTHER JS FILES
             //
-            // resident.js listens for this event and rerenders
-            // dynamic content such as:
+            // IMPORTANT:
             //
-            // - Welcome, Sami
-            // - Week number
-            // - Dates
-            // - Status
-            // - Task count
-            // - Permission messages
-            // - Photo controls
+            // resident.js listens for this exact event:
+            //
+            // cleanplan:languagechange
+            //
+            // Dynamic content can therefore be rerendered
+            // immediately without reloading the page.
             // ====================================================
 
             window.dispatchEvent(
@@ -2092,7 +2227,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // SEARCH
+        // LANGUAGE SEARCH
         // ========================================================
 
         if (
@@ -2111,8 +2246,9 @@ document.addEventListener(
 
 
             /*
-             * Prevent the document click listener from
-             * closing the dropdown while the user searches.
+             * Do not let the document click
+             * handler close the language modal
+             * while the resident is searching.
              */
 
             languageSearchInput
@@ -2131,7 +2267,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // CLEAR SEARCH
+        // CLEAR LANGUAGE SEARCH
         // ========================================================
 
         if (
@@ -2176,7 +2312,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // DO NOT CLOSE WHEN CLICKING INSIDE SELECTOR
+        // DO NOT CLOSE WHEN CLICKING INSIDE LANGUAGE SELECTOR
         // ========================================================
 
         if (
@@ -2199,7 +2335,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // CLICK OUTSIDE
+        // CLOSE WHEN CLICKING OUTSIDE
         // ========================================================
 
         document.addEventListener(
@@ -2252,15 +2388,14 @@ document.addEventListener(
         // ========================================================
         // PUBLIC LANGUAGE API
         //
-        // IMPORTANT:
-        //
-        // resident.js uses:
+        // Other JavaScript files can use:
         //
         // window.CleanPlanI18n.t(...)
         // window.CleanPlanI18n.getLanguage()
         // window.CleanPlanI18n.applyTranslations()
+        // window.CleanPlanI18n.setLanguage(...)
         //
-        // Keep this API available globally.
+        // Keep this API globally available.
         // ========================================================
 
         window.CleanPlanI18n = {
@@ -2331,11 +2466,11 @@ document.addEventListener(
         // ========================================================
         // BACKWARD COMPATIBILITY API
         //
-        // Some older pages may still use:
+        // Older pages may still use:
         //
         // window.cleanPlanLanguage
         //
-        // Keep it available so those pages do not break.
+        // Keep this available so existing pages do not break.
         // ========================================================
 
         window.cleanPlanLanguage =
@@ -2380,15 +2515,18 @@ document.addEventListener(
 
             };
 
+
         // ========================================================
-        // INITIALIZE LANGUAGE SYSTEM
+        // VALIDATE STORED LANGUAGE
         // ========================================================
 
         /*
-         * Validate the language stored in localStorage.
+         * Validate the language code stored
+         * in localStorage.
          *
-         * If an old or invalid language code exists,
-         * fall back safely to Norwegian.
+         * This protects the page if an old,
+         * removed or invalid language code
+         * exists in the browser.
          */
 
         if (
@@ -2410,7 +2548,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // UPDATE LANGUAGE BUTTON
+        // INITIALIZE LANGUAGE BUTTON
         // ========================================================
 
         updateLanguageButton();
@@ -2438,6 +2576,7 @@ document.addEventListener(
             "CleanPlan language system ready:",
             currentLanguageCode
         );
+
 
     }
 );

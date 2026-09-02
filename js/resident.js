@@ -183,11 +183,6 @@ const cleaningPermissionText =
         "cleaningPermissionText"
     );
 
-const cameraInput =
-    document.getElementById(
-        "cameraInput"
-    );
-
 const cameraButton =
     document.getElementById(
         "cameraButton"
@@ -249,6 +244,9 @@ let currentWeekAssignments =
 let currentCleaningCompletions =
     [];
 
+let currentCleaningDocumentation =
+    [];
+
 let currentWeekFriday =
     null;
 
@@ -258,11 +256,20 @@ let selectedFriday =
 let selectedResponsibleMember =
     null;
 
-let selectedPhotos =
-    [];
+let isSavingDocumentation =
+    false;
 
 let isSavingTaskCompletion =
     false;
+
+let isSigningCleaning =
+    false;
+
+let activeCameraStream =
+    null;
+
+let activeCameraOverlay =
+    null;
 
 
 // ============================================================
@@ -270,7 +277,7 @@ let isSavingTaskCompletion =
 // ============================================================
 
 const MAX_PHOTOS =
-    6;
+    10;
 
 
 // ============================================================
@@ -297,14 +304,18 @@ function t(
 
 
     /*
-     * This fallback should normally never be needed,
-     * because language.js is loaded before resident.js.
+     * language.js should normally
+     * always be loaded before resident.js.
      */
 
     return key;
 
 }
 
+
+// ============================================================
+// GET CURRENT LANGUAGE
+// ============================================================
 
 function getCurrentLanguageCode() {
 
@@ -329,6 +340,10 @@ function getCurrentLanguageCode() {
 
 }
 
+
+// ============================================================
+// GET DATE LOCALE
+// ============================================================
 
 function getCurrentDateLocale() {
 
@@ -499,7 +514,7 @@ function getFloorDisplayName(
 
 
 // ============================================================
-// DATE HELPERS
+// NORMALIZE DATE
 // ============================================================
 
 function normalizeDate(
@@ -527,8 +542,11 @@ function normalizeDate(
 
 
     const parts =
-        String(value)
-            .split("-");
+        String(
+            value
+        ).split(
+            "-"
+        );
 
 
     if (
@@ -537,16 +555,24 @@ function normalizeDate(
     ) {
 
         return new Date(
-            Number(parts[0]),
-            Number(parts[1]) - 1,
-            Number(parts[2])
+            Number(
+                parts[0]
+            ),
+            Number(
+                parts[1]
+            ) - 1,
+            Number(
+                parts[2]
+            )
         );
 
     }
 
 
     const parsed =
-        new Date(value);
+        new Date(
+            value
+        );
 
 
     if (
@@ -658,6 +684,7 @@ function dateToIso(
     const year =
         date.getFullYear();
 
+
     const month =
         String(
             date.getMonth() +
@@ -666,6 +693,7 @@ function dateToIso(
             2,
             "0"
         );
+
 
     const day =
         String(
@@ -733,19 +761,6 @@ function getFridayForDate(
 
     const day =
         result.getDay();
-
-
-    /*
-     * JavaScript:
-     *
-     * Sunday    = 0
-     * Monday    = 1
-     * Tuesday   = 2
-     * Wednesday = 3
-     * Thursday  = 4
-     * Friday    = 5
-     * Saturday  = 6
-     */
 
 
     let difference =
@@ -971,6 +986,11 @@ function getCleaningWindowState() {
         today.getDay();
 
 
+    /*
+     * Monday-Wednesday:
+     * cleaning is not available yet.
+     */
+
     if (
         day >=
         1 &&
@@ -983,6 +1003,11 @@ function getCleaningWindowState() {
     }
 
 
+    /*
+     * Thursday-Friday:
+     * cleaning is open.
+     */
+
     if (
         day ===
         4 ||
@@ -994,6 +1019,11 @@ function getCleaningWindowState() {
 
     }
 
+
+    /*
+     * Saturday-Sunday:
+     * deadline has passed.
+     */
 
     return "deadline-passed";
 
@@ -1121,9 +1151,7 @@ async function checkResidentAccess() {
     }
 
 
-    if (
-        !profile.is_active
-    ) {
+    if (!profile.is_active) {
 
         await supabaseClient.auth
             .signOut();
@@ -1217,6 +1245,9 @@ if (logoutButton) {
     logoutButton.addEventListener(
         "click",
         async function () {
+
+            stopDirectCamera();
+
 
             await supabaseClient.auth
                 .signOut();
@@ -1466,6 +1497,9 @@ function showResidentDashboard(
 
 function resetCleaningPlanDisplay() {
 
+    stopDirectCamera();
+
+
     currentCleaningPlan =
         null;
 
@@ -1481,7 +1515,16 @@ function resetCleaningPlanDisplay() {
     currentCleaningCompletions =
         [];
 
+    currentCleaningDocumentation =
+        [];
+
     selectedResponsibleMember =
+        null;
+
+    currentWeekFriday =
+        null;
+
+    selectedFriday =
         null;
 
 
@@ -1517,7 +1560,7 @@ function resetCleaningPlanDisplay() {
     }
 
 
-    resetSelectedPhotos();
+    renderPhotoPreviews();
 
 }
 
@@ -1547,6 +1590,16 @@ async function loadCleaningPlan() {
 
             noCleaningPlanState.hidden =
                 false;
+
+        }
+
+
+        if (cleaningPlanSubtitle) {
+
+            cleaningPlanSubtitle.textContent =
+                t(
+                    "noActiveCleaningPlan"
+                );
 
         }
 
@@ -1709,6 +1762,10 @@ async function loadCleaningPlan() {
 
 async function loadCleaningTasks() {
 
+    currentCleaningTasks =
+        [];
+
+
     if (!currentCleaningPlan) {
 
         return;
@@ -1782,7 +1839,7 @@ async function loadCleaningTasks() {
         ).filter(
             function (item) {
 
-                return (
+                return Boolean(
                     item.cleaning_tasks &&
                     item.cleaning_tasks
                         .is_active
@@ -1799,6 +1856,10 @@ async function loadCleaningTasks() {
 // ============================================================
 
 async function loadCleaningMembers() {
+
+    currentCleaningMembers =
+        [];
+
 
     if (!currentCleaningPlan) {
 
@@ -1876,7 +1937,7 @@ async function loadCleaningMembers() {
         ).filter(
             function (member) {
 
-                return (
+                return Boolean(
                     member.residents &&
                     member.residents
                         .is_active
@@ -1886,7 +1947,6 @@ async function loadCleaningMembers() {
         );
 
 }
-
 
 // ============================================================
 // LOAD WEEK ASSIGNMENTS
@@ -1905,24 +1965,6 @@ async function loadWeekAssignments() {
     }
 
 
-    const currentFriday =
-        getCurrentWeekFriday();
-
-
-    const rangeStart =
-        addDays(
-            currentFriday,
-            -56
-        );
-
-
-    const rangeEnd =
-        addDays(
-            currentFriday,
-            112
-        );
-
-
     const {
         data,
         error
@@ -1938,6 +1980,8 @@ async function loadWeekAssignments() {
                 week_start,
                 resident_id,
                 status,
+                signed_by,
+                signed_at,
 
                 residents (
                     id,
@@ -1957,18 +2001,6 @@ async function loadWeekAssignments() {
                 "plan_id",
                 currentCleaningPlan.id
             )
-            .gte(
-                "week_start",
-                dateToIso(
-                    rangeStart
-                )
-            )
-            .lte(
-                "week_start",
-                dateToIso(
-                    rangeEnd
-                )
-            )
             .order(
                 "week_start",
                 {
@@ -1985,10 +2017,6 @@ async function loadWeekAssignments() {
             error
         );
 
-
-        currentWeekAssignments =
-            {};
-
         return;
 
     }
@@ -2000,9 +2028,7 @@ async function loadWeekAssignments() {
     ).forEach(
         function (assignment) {
 
-            if (
-                !assignment.week_start
-            ) {
+            if (!assignment.week_start) {
 
                 return;
 
@@ -2015,150 +2041,6 @@ async function loadWeekAssignments() {
                 assignment;
 
         }
-    );
-
-}
-
-// ============================================================
-// GET MEMBER NAME
-// ============================================================
-
-function getMemberName(
-    member
-) {
-
-    if (
-        !member ||
-        !member.residents
-    ) {
-
-        return t(
-            "notAssigned"
-        );
-
-    }
-
-
-    return (
-        member.residents
-            .profiles
-            ?.full_name ||
-        t(
-            "notAssigned"
-        )
-    );
-
-}
-
-
-// ============================================================
-// GET MEMBER RESIDENT ID
-// ============================================================
-
-function getMemberResidentId(
-    member
-) {
-
-    if (
-        !member ||
-        !member.residents
-    ) {
-
-        return null;
-
-    }
-
-
-    return (
-        member.residents.id ||
-        null
-    );
-
-}
-
-
-// ============================================================
-// GET ASSIGNMENT RESIDENT ID
-// ============================================================
-
-function getAssignmentResidentId(
-    assignment
-) {
-
-    if (!assignment) {
-
-        return null;
-
-    }
-
-
-    return (
-        assignment.resident_id ||
-        assignment.residents?.id ||
-        null
-    );
-
-}
-
-
-// ============================================================
-// GET ASSIGNMENT NAME
-// ============================================================
-
-function getAssignmentName(
-    assignment
-) {
-
-    if (!assignment) {
-
-        return t(
-            "notAssigned"
-        );
-
-    }
-
-
-    return (
-        assignment.residents
-            ?.profiles
-            ?.full_name ||
-        t(
-            "notAssigned"
-        )
-    );
-
-}
-
-
-// ============================================================
-// FIND MEMBER BY RESIDENT ID
-// ============================================================
-
-function findMemberByResidentId(
-    residentId
-) {
-
-    if (!residentId) {
-
-        return null;
-
-    }
-
-
-    return (
-        currentCleaningMembers.find(
-            function (member) {
-
-                return (
-                    getMemberResidentId(
-                        member
-                    ) ===
-                    residentId
-                );
-
-            }
-        ) ||
-        null
     );
 
 }
@@ -2179,11 +2061,15 @@ function getStoredAssignmentForFriday(
     }
 
 
+    const fridayIso =
+        dateToIso(
+            friday
+        );
+
+
     return (
         currentWeekAssignments[
-            dateToIso(
-                friday
-            )
+            fridayIso
             ] ||
         null
     );
@@ -2192,230 +2078,7 @@ function getStoredAssignmentForFriday(
 
 
 // ============================================================
-// GET ROTATION INDEX FOR FRIDAY
-// ============================================================
-
-function getRotationIndexForFriday(
-    friday
-) {
-
-    if (
-        !friday ||
-        !currentCleaningPlan ||
-        !currentCleaningPlan.start_date ||
-        currentCleaningMembers.length ===
-        0
-    ) {
-
-        return -1;
-
-    }
-
-
-    const planStart =
-        normalizeDate(
-            currentCleaningPlan.start_date
-        );
-
-
-    if (!planStart) {
-
-        return -1;
-
-    }
-
-
-    const planStartFriday =
-        getFridayForDate(
-            planStart
-        );
-
-
-    const differenceMilliseconds =
-        startOfDay(
-            friday
-        ).getTime() -
-        startOfDay(
-            planStartFriday
-        ).getTime();
-
-
-    const differenceWeeks =
-        Math.floor(
-            differenceMilliseconds /
-            (
-                7 *
-                24 *
-                60 *
-                60 *
-                1000
-            )
-        );
-
-
-    if (
-        differenceWeeks <
-        0
-    ) {
-
-        return -1;
-
-    }
-
-
-    return (
-        differenceWeeks %
-        currentCleaningMembers.length
-    );
-
-}
-
-
-// ============================================================
-// GET FALLBACK RESPONSIBLE MEMBER
-// ============================================================
-
-function getFallbackResponsibleMember(
-    friday
-) {
-
-    const rotationIndex =
-        getRotationIndexForFriday(
-            friday
-        );
-
-
-    if (
-        rotationIndex <
-        0 ||
-        rotationIndex >=
-        currentCleaningMembers.length
-    ) {
-
-        return null;
-
-    }
-
-
-    return (
-        currentCleaningMembers[
-            rotationIndex
-            ] ||
-        null
-    );
-
-}
-
-
-// ============================================================
-// GET RESPONSIBLE MEMBER FOR FRIDAY
-// ============================================================
-
-function getResponsibleMemberForFriday(
-    friday
-) {
-
-    const storedAssignment =
-        getStoredAssignmentForFriday(
-            friday
-        );
-
-
-    if (storedAssignment) {
-
-        const residentId =
-            getAssignmentResidentId(
-                storedAssignment
-            );
-
-
-        const matchingMember =
-            findMemberByResidentId(
-                residentId
-            );
-
-
-        if (matchingMember) {
-
-            return matchingMember;
-
-        }
-
-
-        if (
-            storedAssignment.residents
-        ) {
-
-            return {
-
-                resident_id:
-                residentId,
-
-                residents:
-                storedAssignment
-                    .residents
-
-            };
-
-        }
-
-    }
-
-
-    return getFallbackResponsibleMember(
-        friday
-    );
-
-}
-
-
-// ============================================================
-// GET RESPONSIBLE NAME FOR FRIDAY
-// ============================================================
-
-function getResponsibleNameForFriday(
-    friday
-) {
-
-    const storedAssignment =
-        getStoredAssignmentForFriday(
-            friday
-        );
-
-
-    if (storedAssignment) {
-
-        const assignmentName =
-            getAssignmentName(
-                storedAssignment
-            );
-
-
-        if (
-            assignmentName !==
-            t(
-                "notAssigned"
-            )
-        ) {
-
-            return assignmentName;
-
-        }
-
-    }
-
-
-    return getMemberName(
-        getResponsibleMemberForFriday(
-            friday
-        )
-    );
-
-}
-
-
-// ============================================================
-// GET OR CREATE WEEK ASSIGNMENT
+// ENSURE WEEK ASSIGNMENT
 // ============================================================
 
 async function ensureWeekAssignment(
@@ -2438,52 +2101,42 @@ async function ensureWeekAssignment(
         );
 
 
-    if (
+    const existingAssignment =
         currentWeekAssignments[
             fridayIso
-            ]
-    ) {
+            ];
 
-        return (
-            currentWeekAssignments[
-                fridayIso
-                ]
-        );
+
+    if (existingAssignment) {
+
+        return existingAssignment;
 
     }
 
-
-    /*
-     * The database function is responsible for creating
-     * a stable assignment when one does not already exist.
-     *
-     * RLS and the database function remain the source
-     * of truth for access and assignment security.
-     */
 
     const {
         data,
         error
     } =
-        await supabaseClient.rpc(
-            "get_or_create_cleaning_week_assignment",
-            {
-                p_plan_id:
-                currentCleaningPlan.id,
+        await supabaseClient
+            .rpc(
+                "get_or_create_cleaning_week_assignment",
+                {
+                    p_plan_id:
+                    currentCleaningPlan.id,
 
-                p_week_start:
-                fridayIso
-            }
-        );
+                    p_week_start:
+                    fridayIso
+                }
+            );
 
 
     if (error) {
 
         console.error(
-            "GET OR CREATE WEEK ASSIGNMENT ERROR:",
+            "ENSURE WEEK ASSIGNMENT ERROR:",
             error
         );
-
 
         return null;
 
@@ -2491,162 +2144,462 @@ async function ensureWeekAssignment(
 
 
     /*
-     * The RPC can return either one row or an array,
-     * depending on the PostgreSQL return definition.
-     */
-
-    let assignment =
-        null;
-
-
-    if (
-        Array.isArray(
-            data
-        )
-    ) {
-
-        assignment =
-            data[0] ||
-            null;
-
-    }
-    else {
-
-        assignment =
-            data ||
-            null;
-
-    }
-
-
-    /*
-     * Reload the stored assignments so nested resident/profile
-     * information is available for rendering.
+     * The RPC may return the created assignment
+     * directly, but reload from the database so
+     * the local state always has the same shape,
+     * including resident/profile and signing data.
      */
 
     await loadWeekAssignments();
 
 
     return (
-        currentWeekAssignments[
-            fridayIso
-            ] ||
-        assignment
+        getStoredAssignmentForFriday(
+            friday
+        ) ||
+        data ||
+        null
     );
 
 }
 
 
 // ============================================================
-// GET WEEK STATUS TEXT
+// GET ROTATION MEMBER FOR FRIDAY
 // ============================================================
 
-function getWeekStatusText(
+function getRotationMemberForFriday(
     friday
 ) {
 
     if (
+        !currentCleaningPlan ||
         !friday ||
-        !currentWeekFriday
+        currentCleaningMembers.length ===
+        0
     ) {
 
-        return t(
-            "scheduled"
-        );
+        return null;
 
     }
 
 
-    const fridayTime =
+    /*
+     * Prefer the stored database assignment.
+     * This makes the database the authoritative
+     * source after an assignment has been created.
+     */
+
+    const storedAssignment =
+        getStoredAssignmentForFriday(
+            friday
+        );
+
+
+    if (
+        storedAssignment &&
+        storedAssignment.resident_id
+    ) {
+
+        const storedMember =
+            currentCleaningMembers.find(
+                function (member) {
+
+                    return (
+                        member.resident_id ===
+                        storedAssignment.resident_id
+                    );
+
+                }
+            );
+
+
+        if (storedMember) {
+
+            return storedMember;
+
+        }
+
+
+        /*
+         * If a former/inactive member still owns a
+         * historical assignment, preserve the
+         * assignment information when possible.
+         */
+
+        if (
+            storedAssignment.residents
+        ) {
+
+            return {
+
+                resident_id:
+                storedAssignment.resident_id,
+
+                residents:
+                storedAssignment.residents
+
+            };
+
+        }
+
+    }
+
+
+    const planStart =
+        normalizeDate(
+            currentCleaningPlan.start_date
+        );
+
+
+    if (!planStart) {
+
+        return null;
+
+    }
+
+
+    const planStartFriday =
+        getFridayForDate(
+            planStart
+        );
+
+
+    const millisecondsPerWeek =
+        7 *
+        24 *
+        60 *
+        60 *
+        1000;
+
+
+    const difference =
         startOfDay(
             friday
-        ).getTime();
-
-
-    const currentFridayTime =
+        ).getTime() -
         startOfDay(
-            currentWeekFriday
+            planStartFriday
         ).getTime();
 
 
-    if (
-        fridayTime <
-        currentFridayTime
-    ) {
+    const weekOffset =
+        Math.round(
+            difference /
+            millisecondsPerWeek
+        );
+
+
+    /*
+     * Make modulo work for weeks before
+     * the cleaning plan's start date too.
+     */
+
+    const memberCount =
+        currentCleaningMembers.length;
+
+
+    const memberIndex =
+        (
+            (
+                weekOffset %
+                memberCount
+            ) +
+            memberCount
+        ) %
+        memberCount;
+
+
+    return (
+        currentCleaningMembers[
+            memberIndex
+            ] ||
+        null
+    );
+
+}
+
+
+// ============================================================
+// GET MEMBER DISPLAY NAME
+// ============================================================
+
+function getMemberDisplayName(
+    member
+) {
+
+    if (!member) {
 
         return t(
-            "previousWeekStatus"
+            "notAssigned"
         );
 
     }
 
 
-    if (
-        fridayTime >
-        currentFridayTime
-    ) {
+    return (
+        member
+            .residents
+            ?.profiles
+            ?.full_name ||
+        t(
+            "notAssigned"
+        )
+    );
+
+}
+
+
+// ============================================================
+// GET ASSIGNMENT DISPLAY NAME
+// ============================================================
+
+function getAssignmentDisplayName(
+    assignment
+) {
+
+    if (!assignment) {
 
         return t(
-            "upcoming"
+            "notAssigned"
         );
+
+    }
+
+
+    return (
+        assignment
+            .residents
+            ?.profiles
+            ?.full_name ||
+        t(
+            "notAssigned"
+        )
+    );
+
+}
+
+
+// ============================================================
+// GET RESPONSIBLE MEMBER FOR FRIDAY
+// ============================================================
+
+function getResponsibleMemberForFriday(
+    friday
+) {
+
+    if (!friday) {
+
+        return null;
+
+    }
+
+
+    const assignment =
+        getStoredAssignmentForFriday(
+            friday
+        );
+
+
+    if (
+        assignment &&
+        assignment.resident_id
+    ) {
+
+        const matchingMember =
+            currentCleaningMembers.find(
+                function (member) {
+
+                    return (
+                        member.resident_id ===
+                        assignment.resident_id
+                    );
+
+                }
+            );
+
+
+        if (matchingMember) {
+
+            return matchingMember;
+
+        }
+
+
+        if (assignment.residents) {
+
+            return {
+
+                resident_id:
+                assignment.resident_id,
+
+                residents:
+                assignment.residents
+
+            };
+
+        }
+
+    }
+
+
+    return getRotationMemberForFriday(
+        friday
+    );
+
+}
+
+
+// ============================================================
+// IS CURRENT RESIDENT RESPONSIBLE
+// ============================================================
+
+function isCurrentResidentResponsible(
+    friday
+) {
+
+    if (
+        !currentResident ||
+        !friday
+    ) {
+
+        return false;
+
+    }
+
+
+    const assignment =
+        getStoredAssignmentForFriday(
+            friday
+        );
+
+
+    if (assignment) {
+
+        return (
+            assignment.resident_id ===
+            currentResident.id
+        );
+
+    }
+
+
+    const responsibleMember =
+        getResponsibleMemberForFriday(
+            friday
+        );
+
+
+    if (!responsibleMember) {
+
+        return false;
+
+    }
+
+
+    return (
+        responsibleMember.resident_id ===
+        currentResident.id
+    );
+
+}
+
+
+// ============================================================
+// CAN CURRENT USER COMPLETE
+// ============================================================
+
+function canCurrentUserComplete() {
+
+    if (
+        !currentResident ||
+        !currentCleaningPlan ||
+        !selectedFriday
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        !isCurrentResidentResponsible(
+            selectedFriday
+        )
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        !isSelectedCurrentWeek()
+    ) {
+
+        return false;
+
+    }
+
+
+    return (
+        getCleaningWindowState() ===
+        "open"
+    );
+
+}
+
+
+// ============================================================
+// GET ASSIGNMENT STATUS KEY
+// ============================================================
+
+function getAssignmentStatusKey(
+    assignment,
+    friday
+) {
+
+    if (
+        assignment &&
+        (
+            assignment.signed_by ||
+            assignment.signed_at ||
+            assignment.status ===
+            "completed"
+        )
+    ) {
+
+        return "completed";
+
+    }
+
+
+    if (!friday) {
+
+        return "planned";
 
     }
 
 
     const today =
-        new Date();
-
-
-    const day =
-        today.getDay();
-
-
-    if (
-        day >=
-        1 &&
-        day <=
-        3
-    ) {
-
-        return t(
-            "notAvailableYet"
+        startOfDay(
+            new Date()
         );
 
-    }
 
-
-    if (
-        day ===
-        4 ||
-        day ===
-        5
-    ) {
-
-        return t(
-            "open"
+    const fridayDate =
+        startOfDay(
+            friday
         );
 
-    }
 
-
-    return t(
-        "deadlinePassed"
-    );
-
-}
-
-
-// ============================================================
-// GET WEEK STATUS CLASS
-// ============================================================
-
-function getWeekStatusClass(
-    friday
-) {
+    /*
+     * A future cleaning week.
+     */
 
     if (
-        !friday ||
-        !currentWeekFriday
+        fridayDate.getTime() >
+        getCurrentWeekFriday()
+            .getTime()
     ) {
 
         return "planned";
@@ -2654,106 +2607,215 @@ function getWeekStatusClass(
     }
 
 
-    const fridayTime =
-        startOfDay(
-            friday
-        ).getTime();
-
-
-    const currentFridayTime =
-        startOfDay(
-            currentWeekFriday
-        ).getTime();
-
+    /*
+     * Current cleaning week.
+     */
 
     if (
-        fridayTime <
-        currentFridayTime
+        isSameDate(
+            friday,
+            getCurrentWeekFriday()
+        )
     ) {
 
-        return "previous";
+        const windowState =
+            getCleaningWindowState();
+
+
+        if (
+            windowState ===
+            "not-open-yet"
+        ) {
+
+            return "not-open-yet";
+
+        }
+
+
+        if (
+            windowState ===
+            "open"
+        ) {
+
+            return "planned";
+
+        }
+
+
+        return "deadline-passed";
 
     }
 
 
+    /*
+     * Historical unsigned assignment.
+     */
+
     if (
-        fridayTime >
-        currentFridayTime
+        fridayDate.getTime() <
+        today.getTime()
     ) {
 
-        return "upcoming";
+        return "not-completed";
 
     }
 
 
-    const day =
-        new Date()
-            .getDay();
-
-
-    if (
-        day >=
-        1 &&
-        day <=
-        3
-    ) {
-
-        return "not-available";
-
-    }
-
-
-    if (
-        day ===
-        4 ||
-        day ===
-        5
-    ) {
-
-        return "open";
-
-    }
-
-
-    return "deadline-passed";
+    return "planned";
 
 }
 
 
 // ============================================================
-// APPLY WEEK STATUS CLASS
+// GET STATUS TEXT
 // ============================================================
 
-function applyWeekStatusClass(
-    element,
+function getAssignmentStatusText(
+    assignment,
     friday
 ) {
 
-    if (!element) {
+    const statusKey =
+        getAssignmentStatusKey(
+            assignment,
+            friday
+        );
 
-        return;
+
+    switch (
+        statusKey
+        ) {
+
+        case "completed":
+
+            return t(
+                "completed"
+            );
+
+
+        case "not-open-yet":
+
+            return t(
+                "notYetAvailable"
+            );
+
+
+        case "deadline-passed":
+
+            return t(
+                "deadlinePassed"
+            );
+
+
+        case "not-completed":
+
+            return t(
+                "notCompleted"
+            );
+
+
+        default:
+
+            return t(
+                "planned"
+            );
+
+    }
+
+}
+
+
+// ============================================================
+// GET STATUS CSS CLASS
+// ============================================================
+
+function getAssignmentStatusClass(
+    assignment,
+    friday
+) {
+
+    const statusKey =
+        getAssignmentStatusKey(
+            assignment,
+            friday
+        );
+
+
+    switch (
+        statusKey
+        ) {
+
+        case "completed":
+
+            return "completed";
+
+
+        case "deadline-passed":
+
+        case "not-completed":
+
+            return "expired";
+
+
+        case "not-open-yet":
+
+            return "waiting";
+
+
+        default:
+
+            return "planned";
+
+    }
+
+}
+
+
+// ============================================================
+// GET SELECTED WEEK ASSIGNMENT
+// ============================================================
+
+function getSelectedWeekAssignment() {
+
+    if (!selectedFriday) {
+
+        return null;
 
     }
 
 
-    element.classList.remove(
-        "planned",
-        "previous",
-        "upcoming",
-        "not-available",
-        "open",
-        "deadline-passed"
-    );
-
-
-    element.classList.add(
-        getWeekStatusClass(
-            friday
-        )
+    return getStoredAssignmentForFriday(
+        selectedFriday
     );
 
 }
 
+
+// ============================================================
+// IS SELECTED WEEK SIGNED
+// ============================================================
+
+function isSelectedWeekSigned() {
+
+    const assignment =
+        getSelectedWeekAssignment();
+
+
+    if (!assignment) {
+
+        return false;
+
+    }
+
+
+    return Boolean(
+        assignment.signed_by ||
+        assignment.signed_at ||
+        assignment.status ===
+        "completed"
+    );
+
+}
 
 // ============================================================
 // RENDER CURRENT WEEK CARD
@@ -2761,15 +2823,18 @@ function applyWeekStatusClass(
 
 function renderCurrentWeekCard() {
 
-    if (!currentWeekFriday) {
+    if (
+        !currentWeekFriday ||
+        !currentCleaningPlan
+    ) {
 
         return;
 
     }
 
 
-    const weekInfo =
-        getIsoWeekInfo(
+    const assignment =
+        getStoredAssignmentForFriday(
             currentWeekFriday
         );
 
@@ -2781,7 +2846,17 @@ function renderCurrentWeekCard() {
 
 
     const responsibleName =
-        getResponsibleNameForFriday(
+        assignment
+            ? getAssignmentDisplayName(
+                assignment
+            )
+            : getMemberDisplayName(
+                responsibleMember
+            );
+
+
+    const weekInfo =
+        getIsoWeekInfo(
             currentWeekFriday
         );
 
@@ -2803,14 +2878,25 @@ function renderCurrentWeekCard() {
     if (currentWeekStatus) {
 
         currentWeekStatus.textContent =
-            getWeekStatusText(
+            getAssignmentStatusText(
+                assignment,
                 currentWeekFriday
             );
 
 
-        applyWeekStatusClass(
-            currentWeekStatus,
-            currentWeekFriday
+        currentWeekStatus.classList.remove(
+            "planned",
+            "waiting",
+            "expired",
+            "completed"
+        );
+
+
+        currentWeekStatus.classList.add(
+            getAssignmentStatusClass(
+                assignment,
+                currentWeekFriday
+            )
         );
 
     }
@@ -2844,25 +2930,6 @@ function renderCurrentWeekCard() {
 
     }
 
-
-    /*
-     * Keep this reference available when the selected
-     * week is also the current week.
-     */
-
-    if (
-        selectedFriday &&
-        isSameDate(
-            selectedFriday,
-            currentWeekFriday
-        )
-    ) {
-
-        selectedResponsibleMember =
-            responsibleMember;
-
-    }
-
 }
 
 
@@ -2872,15 +2939,18 @@ function renderCurrentWeekCard() {
 
 function renderSelectedWeek() {
 
-    if (!selectedFriday) {
+    if (
+        !selectedFriday ||
+        !currentCleaningPlan
+    ) {
 
         return;
 
     }
 
 
-    const weekInfo =
-        getIsoWeekInfo(
+    const assignment =
+        getStoredAssignmentForFriday(
             selectedFriday
         );
 
@@ -2892,7 +2962,17 @@ function renderSelectedWeek() {
 
 
     const responsibleName =
-        getResponsibleNameForFriday(
+        assignment
+            ? getAssignmentDisplayName(
+                assignment
+            )
+            : getMemberDisplayName(
+                selectedResponsibleMember
+            );
+
+
+    const weekInfo =
+        getIsoWeekInfo(
             selectedFriday
         );
 
@@ -2942,23 +3022,36 @@ function renderSelectedWeek() {
     if (selectedWeekStatus) {
 
         selectedWeekStatus.textContent =
-            getWeekStatusText(
+            getAssignmentStatusText(
+                assignment,
                 selectedFriday
             );
-
-
-        applyWeekStatusClass(
-            selectedWeekStatus,
-            selectedFriday
-        );
 
     }
 
 
     if (signedByName) {
 
-        signedByName.textContent =
-            responsibleName;
+        if (
+            assignment &&
+            (
+                assignment.signed_by ||
+                assignment.signed_at ||
+                assignment.status ===
+                "completed"
+            )
+        ) {
+
+            signedByName.textContent =
+                responsibleName;
+
+        }
+        else {
+
+            signedByName.textContent =
+                responsibleName;
+
+        }
 
     }
 
@@ -2983,14 +3076,30 @@ function createWeekPreviewItem(
     friday
 ) {
 
-    const weekInfo =
-        getIsoWeekInfo(
+    const assignment =
+        getStoredAssignmentForFriday(
+            friday
+        );
+
+
+    const responsibleMember =
+        getResponsibleMemberForFriday(
             friday
         );
 
 
     const responsibleName =
-        getResponsibleNameForFriday(
+        assignment
+            ? getAssignmentDisplayName(
+                assignment
+            )
+            : getMemberDisplayName(
+                responsibleMember
+            );
+
+
+    const weekInfo =
+        getIsoWeekInfo(
             friday
         );
 
@@ -3003,6 +3112,7 @@ function createWeekPreviewItem(
 
     item.type =
         "button";
+
 
     item.className =
         "resident-week-preview-item";
@@ -3080,6 +3190,7 @@ function createWeekPreviewItem(
         weekLabel
     );
 
+
     weekColumn.appendChild(
         dateLabel
     );
@@ -3112,7 +3223,8 @@ function createWeekPreviewItem(
 
 
     statusLabel.textContent =
-        getWeekStatusText(
+        getAssignmentStatusText(
+            assignment,
             friday
         );
 
@@ -3120,6 +3232,7 @@ function createWeekPreviewItem(
     responsibleColumn.appendChild(
         responsibleLabel
     );
+
 
     responsibleColumn.appendChild(
         statusLabel
@@ -3130,6 +3243,7 @@ function createWeekPreviewItem(
         weekColumn
     );
 
+
     item.appendChild(
         responsibleColumn
     );
@@ -3139,6 +3253,20 @@ function createWeekPreviewItem(
         "click",
         async function () {
 
+            if (
+                isSavingDocumentation ||
+                isSavingTaskCompletion ||
+                isSigningCleaning
+            ) {
+
+                return;
+
+            }
+
+
+            stopDirectCamera();
+
+
             selectedFriday =
                 new Date(
                     friday.getFullYear(),
@@ -3147,13 +3275,9 @@ function createWeekPreviewItem(
                 );
 
 
-            resetSelectedPhotos();
+            currentCleaningDocumentation =
+                [];
 
-
-            /*
-             * Ensure the selected week has a stable
-             * assignment in the database.
-             */
 
             await ensureWeekAssignment(
                 selectedFriday
@@ -3192,11 +3316,11 @@ function renderWeekPreview() {
 
 
     /*
-     * Show five weeks:
+     * Vis fem uker:
      *
-     * - two before selected week
-     * - selected week
-     * - two after selected week
+     * - to uker før valgt uke
+     * - valgt uke
+     * - to uker etter valgt uke
      */
 
     for (
@@ -3208,8 +3332,7 @@ function renderWeekPreview() {
         const friday =
             addDays(
                 selectedFriday,
-                offset *
-                7
+                offset * 7
             );
 
 
@@ -3234,11 +3357,19 @@ if (previousWeekButton) {
         "click",
         async function () {
 
-            if (!selectedFriday) {
+            if (
+                !selectedFriday ||
+                isSavingDocumentation ||
+                isSavingTaskCompletion ||
+                isSigningCleaning
+            ) {
 
                 return;
 
             }
+
+
+            stopDirectCamera();
 
 
             selectedFriday =
@@ -3248,7 +3379,8 @@ if (previousWeekButton) {
                 );
 
 
-            resetSelectedPhotos();
+            currentCleaningDocumentation =
+                [];
 
 
             await ensureWeekAssignment(
@@ -3274,11 +3406,19 @@ if (nextWeekButton) {
         "click",
         async function () {
 
-            if (!selectedFriday) {
+            if (
+                !selectedFriday ||
+                isSavingDocumentation ||
+                isSavingTaskCompletion ||
+                isSigningCleaning
+            ) {
 
                 return;
 
             }
+
+
+            stopDirectCamera();
 
 
             selectedFriday =
@@ -3288,7 +3428,8 @@ if (nextWeekButton) {
                 );
 
 
-            resetSelectedPhotos();
+            currentCleaningDocumentation =
+                [];
 
 
             await ensureWeekAssignment(
@@ -3321,8 +3462,9 @@ async function renderCleaningSchedule() {
 
 
     /*
-     * Make sure current and selected weeks have stable
-     * database assignments before rendering.
+     * Sørg for at både denne uken og
+     * valgt uke har stabile assignments
+     * i databasen.
      */
 
     if (currentWeekFriday) {
@@ -3349,16 +3491,22 @@ async function renderCleaningSchedule() {
     await loadCleaningCompletionsForSelectedWeek();
 
 
+    await loadCleaningDocumentationForSelectedWeek();
+
+
     await renderCleaningTasks();
 
 
     updateCompletionControls();
 
+
     renderPhotoPreviews();
+
 
     updateConfirmButtonState();
 
 }
+
 // ============================================================
 // LOAD CLEANING COMPLETIONS FOR SELECTED WEEK
 // ============================================================
@@ -3377,6 +3525,12 @@ async function loadCleaningCompletionsForSelectedWeek() {
         return;
 
     }
+
+
+    const weekStart =
+        dateToIso(
+            selectedFriday
+        );
 
 
     const {
@@ -3403,9 +3557,7 @@ async function loadCleaningCompletionsForSelectedWeek() {
             )
             .eq(
                 "week_start",
-                dateToIso(
-                    selectedFriday
-                )
+                weekStart
             );
 
 
@@ -3415,10 +3567,6 @@ async function loadCleaningCompletionsForSelectedWeek() {
             "LOAD CLEANING COMPLETIONS ERROR:",
             error
         );
-
-
-        currentCleaningCompletions =
-            [];
 
         return;
 
@@ -3433,84 +3581,6 @@ async function loadCleaningCompletionsForSelectedWeek() {
 
 
 // ============================================================
-// GET TASK FROM PLAN ITEM
-// ============================================================
-
-function getTaskFromPlanItem(
-    planItem
-) {
-
-    if (!planItem) {
-
-        return null;
-
-    }
-
-
-    return (
-        planItem.cleaning_tasks ||
-        null
-    );
-
-}
-
-
-// ============================================================
-// GET TASK ID FROM PLAN ITEM
-// ============================================================
-
-function getTaskIdFromPlanItem(
-    planItem
-) {
-
-    const task =
-        getTaskFromPlanItem(
-            planItem
-        );
-
-
-    return (
-        task?.id ||
-        planItem?.task_id ||
-        null
-    );
-
-}
-
-
-// ============================================================
-// FIND TASK COMPLETION
-// ============================================================
-
-function findTaskCompletion(
-    taskId
-) {
-
-    if (!taskId) {
-
-        return null;
-
-    }
-
-
-    return (
-        currentCleaningCompletions.find(
-            function (completion) {
-
-                return (
-                    completion.task_id ===
-                    taskId
-                );
-
-            }
-        ) ||
-        null
-    );
-
-}
-
-
-// ============================================================
 // IS TASK COMPLETED
 // ============================================================
 
@@ -3518,9 +3588,36 @@ function isTaskCompleted(
     taskId
 ) {
 
-    return Boolean(
-        findTaskCompletion(
-            taskId
+    return currentCleaningCompletions.some(
+        function (completion) {
+
+            return (
+                completion.task_id ===
+                taskId
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// GET TASK CHECKBOXES
+// ============================================================
+
+function getTaskCheckboxes() {
+
+    if (!cleaningTaskList) {
+
+        return [];
+
+    }
+
+
+    return Array.from(
+        cleaningTaskList.querySelectorAll(
+            ".resident-cleaning-checkbox"
         )
     );
 
@@ -3528,49 +3625,42 @@ function isTaskCompleted(
 
 
 // ============================================================
-// GET CURRENT RESIDENT ID
+// SET TASK CHECKBOXES DISABLED
 // ============================================================
 
-function getCurrentResidentId() {
+function setTaskCheckboxesDisabled(
+    disabled
+) {
 
-    return (
-        currentResident?.id ||
-        null
+    const checkboxes =
+        getTaskCheckboxes();
+
+
+    checkboxes.forEach(
+        function (checkbox) {
+
+            checkbox.disabled =
+                disabled;
+
+        }
     );
 
 }
 
 
 // ============================================================
-// GET SELECTED RESPONSIBLE RESIDENT ID
+// ARE ALL TASKS COMPLETED
 // ============================================================
 
-function getSelectedResponsibleResidentId() {
+function areAllTasksCompleted() {
 
-    return getMemberResidentId(
-        selectedResponsibleMember
-    );
-
-}
-
-
-// ============================================================
-// IS CURRENT USER RESPONSIBLE
-// ============================================================
-
-function isCurrentUserResponsible() {
-
-    const currentResidentId =
-        getCurrentResidentId();
-
-
-    const responsibleResidentId =
-        getSelectedResponsibleResidentId();
+    const checkboxes =
+        getTaskCheckboxes();
 
 
     if (
-        !currentResidentId ||
-        !responsibleResidentId
+        checkboxes.length ===
+        0
     ) {
 
         return false;
@@ -3578,52 +3668,15 @@ function isCurrentUserResponsible() {
     }
 
 
-    return (
-        currentResidentId ===
-        responsibleResidentId
-    );
+    return checkboxes.every(
+        function (checkbox) {
 
-}
+            return (
+                checkbox.checked ===
+                true
+            );
 
-
-// ============================================================
-// CAN CURRENT USER COMPLETE
-// ============================================================
-
-function canCurrentUserComplete() {
-
-    if (
-        !currentResident ||
-        !currentCleaningPlan ||
-        !selectedFriday
-    ) {
-
-        return false;
-
-    }
-
-
-    if (
-        !isCurrentUserResponsible()
-    ) {
-
-        return false;
-
-    }
-
-
-    if (
-        !isSelectedCurrentWeek()
-    ) {
-
-        return false;
-
-    }
-
-
-    return (
-        getCleaningWindowState() ===
-        "open"
+        }
     );
 
 }
@@ -3638,93 +3691,96 @@ async function saveTaskCompletion(
 ) {
 
     if (
+        isSavingTaskCompletion ||
         !taskId ||
         !currentCleaningPlan ||
         !currentResident ||
         !selectedFriday
     ) {
 
-        return {
-
-            success:
-                false,
-
-            data:
-                null
-
-        };
+        return false;
 
     }
 
-
-    /*
-     * Frontend permission check is only for UI behavior.
-     *
-     * Supabase RLS / can_complete_cleaning_task remains
-     * the security authority.
-     */
 
     if (
-        !canCurrentUserComplete()
+        !canCurrentUserComplete() ||
+        isSelectedWeekSigned()
     ) {
 
-        return {
-
-            success:
-                false,
-
-            data:
-                null
-
-        };
+        return false;
 
     }
 
 
-    const payload = {
+    if (
+        isTaskCompleted(
+            taskId
+        )
+    ) {
 
-        plan_id:
-        currentCleaningPlan.id,
+        return true;
 
-        task_id:
-        taskId,
+    }
 
-        resident_id:
-        currentResident.id,
 
-        week_start:
+    isSavingTaskCompletion =
+        true;
+
+
+    updateCompletionControls();
+
+    renderPhotoPreviews();
+
+    updateConfirmButtonState();
+
+
+    try {
+
+        const weekStart =
             dateToIso(
                 selectedFriday
-            )
-
-    };
+            );
 
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from(
-                "cleaning_completions"
-            )
-            .insert(
-                payload
-            )
-            .select(
-                `
-                id,
-                plan_id,
-                task_id,
-                resident_id,
-                week_start,
-                completed_at
-                `
-            )
-            .single();
+        const {
+            error
+        } =
+            await supabaseClient
+                .from(
+                    "cleaning_completions"
+                )
+                .insert(
+                    {
+                        plan_id:
+                        currentCleaningPlan.id,
+
+                        task_id:
+                        taskId,
+
+                        resident_id:
+                        currentResident.id,
+
+                        week_start:
+                        weekStart
+                    }
+                );
 
 
-    if (error) {
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        await loadCleaningCompletionsForSelectedWeek();
+
+
+        return true;
+
+    }
+    catch (error) {
 
         console.error(
             "SAVE TASK COMPLETION ERROR:",
@@ -3732,46 +3788,32 @@ async function saveTaskCompletion(
         );
 
 
-        return {
-
-            success:
-                false,
-
-            data:
-                null
-
-        };
-
-    }
-
-
-    currentCleaningCompletions =
-        currentCleaningCompletions.filter(
-            function (completion) {
-
-                return (
-                    completion.task_id !==
-                    taskId
-                );
-
-            }
+        window.alert(
+            t(
+                "couldNotSaveTaskCompletion"
+            )
         );
 
 
-    currentCleaningCompletions.push(
-        data
-    );
+        return false;
+
+    }
+    finally {
+
+        isSavingTaskCompletion =
+            false;
 
 
-    return {
+        await renderCleaningTasks();
 
-        success:
-            true,
 
-        data:
-        data
+        updateCompletionControls();
 
-    };
+        renderPhotoPreviews();
+
+        updateConfirmButtonState();
+
+    }
 
 }
 
@@ -3785,69 +3827,109 @@ async function deleteTaskCompletion(
 ) {
 
     if (
+        isSavingTaskCompletion ||
         !taskId ||
         !currentCleaningPlan ||
         !currentResident ||
         !selectedFriday
     ) {
 
-        return {
-
-            success:
-                false
-
-        };
+        return false;
 
     }
 
 
     if (
-        !canCurrentUserComplete()
+        !canCurrentUserComplete() ||
+        isSelectedWeekSigned()
     ) {
 
-        return {
-
-            success:
-                false
-
-        };
+        return false;
 
     }
 
 
-    const existingCompletion =
-        findTaskCompletion(
-            taskId
+    const completion =
+        currentCleaningCompletions.find(
+            function (item) {
+
+                return (
+                    item.task_id ===
+                    taskId
+                );
+
+            }
         );
 
 
-    if (!existingCompletion) {
+    if (!completion) {
 
-        return {
-
-            success:
-                true
-
-        };
+        return true;
 
     }
 
 
-    const {
-        error
-    } =
-        await supabaseClient
-            .from(
-                "cleaning_completions"
-            )
-            .delete()
-            .eq(
-                "id",
-                existingCompletion.id
-            );
+    /*
+     * Only delete the completion belonging
+     * to this cleaning plan, task, week and
+     * current responsible resident.
+     */
+
+    if (
+        completion.resident_id !==
+        currentResident.id
+    ) {
+
+        return false;
+
+    }
 
 
-    if (error) {
+    isSavingTaskCompletion =
+        true;
+
+
+    updateCompletionControls();
+
+    renderPhotoPreviews();
+
+    updateConfirmButtonState();
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from(
+                    "cleaning_completions"
+                )
+                .delete()
+                .eq(
+                    "id",
+                    completion.id
+                )
+                .eq(
+                    "resident_id",
+                    currentResident.id
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        await loadCleaningCompletionsForSelectedWeek();
+
+
+        return true;
+
+    }
+    catch (error) {
 
         console.error(
             "DELETE TASK COMPLETION ERROR:",
@@ -3855,35 +3937,32 @@ async function deleteTaskCompletion(
         );
 
 
-        return {
-
-            success:
-                false
-
-        };
-
-    }
-
-
-    currentCleaningCompletions =
-        currentCleaningCompletions.filter(
-            function (completion) {
-
-                return (
-                    completion.id !==
-                    existingCompletion.id
-                );
-
-            }
+        window.alert(
+            t(
+                "couldNotSaveTaskCompletion"
+            )
         );
 
 
-    return {
+        return false;
 
-        success:
-            true
+    }
+    finally {
 
-    };
+        isSavingTaskCompletion =
+            false;
+
+
+        await renderCleaningTasks();
+
+
+        updateCompletionControls();
+
+        renderPhotoPreviews();
+
+        updateConfirmButtonState();
+
+    }
 
 }
 
@@ -3907,60 +3986,26 @@ async function handleTaskCheckboxChange(
     }
 
 
-    if (
-        isSavingTaskCompletion
-    ) {
-
-        checkbox.checked =
-            isTaskCompleted(
-                taskId
-            );
-
-        return;
-
-    }
-
-
-    const previousCheckedState =
-        isTaskCompleted(
-            taskId
-        );
-
-
-    const wantedCheckedState =
+    const shouldBeChecked =
         checkbox.checked;
 
 
-    if (
-        !canCurrentUserComplete()
-    ) {
-
-        checkbox.checked =
-            previousCheckedState;
-
-        updateConfirmButtonState();
-
-        return;
-
-    }
-
-
-    isSavingTaskCompletion =
-        true;
-
+    /*
+     * Immediately lock the checkbox while
+     * the database operation is running.
+     */
 
     checkbox.disabled =
         true;
 
 
-    let result;
+    let success =
+        false;
 
 
-    if (
-        wantedCheckedState
-    ) {
+    if (shouldBeChecked) {
 
-        result =
+        success =
             await saveTaskCompletion(
                 taskId
             );
@@ -3968,7 +4013,7 @@ async function handleTaskCheckboxChange(
     }
     else {
 
-        result =
+        success =
             await deleteTaskCompletion(
                 taskId
             );
@@ -3976,41 +4021,23 @@ async function handleTaskCheckboxChange(
     }
 
 
-    if (
-        !result ||
-        !result.success
-    ) {
+    /*
+     * If Supabase rejected the operation,
+     * restore the checkbox from the
+     * authoritative database state.
+     */
+
+    if (!success) {
 
         checkbox.checked =
-            previousCheckedState;
-
-
-        window.alert(
-            wantedCheckedState
-                ? t(
-                    "couldNotSaveTaskCompletion"
-                )
-                : t(
-                    "couldNotRemoveTaskCompletion"
-                )
-        );
-
-    }
-    else {
-
-        checkbox.checked =
-            wantedCheckedState;
+            isTaskCompleted(
+                taskId
+            );
 
     }
 
 
-    isSavingTaskCompletion =
-        false;
-
-
-    checkbox.disabled =
-        !canCurrentUserComplete();
-
+    updateCompletionControls();
 
     updateConfirmButtonState();
 
@@ -4018,18 +4045,16 @@ async function handleTaskCheckboxChange(
 
 
 // ============================================================
-// CREATE CLEANING TASK ITEM
+// CREATE CLEANING TASK ELEMENT
 // ============================================================
 
-function createCleaningTaskItem(
-    planItem,
-    index
+function createCleaningTaskElement(
+    planItem
 ) {
 
     const task =
-        getTaskFromPlanItem(
-            planItem
-        );
+        planItem
+            ?.cleaning_tasks;
 
 
     if (!task) {
@@ -4039,37 +4064,14 @@ function createCleaningTaskItem(
     }
 
 
-    const taskId =
-        getTaskIdFromPlanItem(
-            planItem
-        );
-
-
-    if (!taskId) {
-
-        return null;
-
-    }
-
-
-    const item =
-        document.createElement(
-            "div"
-        );
-
-
-    item.className =
-        "resident-cleaning-task-item";
-
-
-    const checkboxWrapper =
+    const row =
         document.createElement(
             "label"
         );
 
 
-    checkboxWrapper.className =
-        "resident-cleaning-checkbox-wrapper";
+    row.className =
+        "resident-cleaning-task";
 
 
     const checkbox =
@@ -4081,40 +4083,19 @@ function createCleaningTaskItem(
     checkbox.type =
         "checkbox";
 
+
     checkbox.className =
         "resident-cleaning-checkbox";
 
+
     checkbox.dataset.taskId =
-        taskId;
+        task.id;
 
 
     checkbox.checked =
         isTaskCompleted(
-            taskId
+            task.id
         );
-
-
-    checkbox.disabled =
-        !canCurrentUserComplete();
-
-
-    const customCheckbox =
-        document.createElement(
-            "span"
-        );
-
-
-    customCheckbox.className =
-        "resident-cleaning-checkbox-custom";
-
-
-    checkboxWrapper.appendChild(
-        checkbox
-    );
-
-    checkboxWrapper.appendChild(
-        customCheckbox
-    );
 
 
     const content =
@@ -4133,13 +4114,11 @@ function createCleaningTaskItem(
         );
 
 
-    title.className =
-        "resident-cleaning-task-title";
-
-
     title.textContent =
         task.name ||
-        "";
+        t(
+            "cleaningTask"
+        );
 
 
     content.appendChild(
@@ -4147,18 +4126,12 @@ function createCleaningTaskItem(
     );
 
 
-    if (
-        task.description
-    ) {
+    if (task.description) {
 
         const description =
             document.createElement(
-                "p"
+                "span"
             );
-
-
-        description.className =
-            "resident-cleaning-task-description";
 
 
         description.textContent =
@@ -4172,33 +4145,13 @@ function createCleaningTaskItem(
     }
 
 
-    const number =
-        document.createElement(
-            "span"
-        );
-
-
-    number.className =
-        "resident-cleaning-task-number";
-
-
-    number.textContent =
-        String(
-            index +
-            1
-        );
-
-
-    item.appendChild(
-        checkboxWrapper
+    row.appendChild(
+        checkbox
     );
 
-    item.appendChild(
+
+    row.appendChild(
         content
-    );
-
-    item.appendChild(
-        number
     );
 
 
@@ -4208,14 +4161,14 @@ function createCleaningTaskItem(
 
             await handleTaskCheckboxChange(
                 checkbox,
-                taskId
+                task.id
             );
 
         }
     );
 
 
-    return item;
+    return row;
 
 }
 
@@ -4237,20 +4190,24 @@ async function renderCleaningTasks() {
         "";
 
 
+    const taskCount =
+        currentCleaningTasks.length;
+
+
+    if (cleaningTaskCount) {
+
+        cleaningTaskCount.textContent =
+            String(
+                taskCount
+            );
+
+    }
+
+
     if (
-        currentCleaningTasks.length ===
+        taskCount ===
         0
     ) {
-
-        if (cleaningTaskCount) {
-
-            cleaningTaskCount.textContent =
-                t(
-                    "zeroTasks"
-                );
-
-        }
-
 
         if (noCleaningTasksState) {
 
@@ -4267,6 +4224,8 @@ async function renderCleaningTasks() {
 
         }
 
+
+        updateConfirmButtonState();
 
         return;
 
@@ -4289,41 +4248,19 @@ async function renderCleaningTasks() {
     }
 
 
-    if (cleaningTaskCount) {
-
-        cleaningTaskCount.textContent =
-            t(
-                currentCleaningTasks.length ===
-                1
-                    ? "oneTask"
-                    : "multipleTasks",
-                {
-                    count:
-                    currentCleaningTasks
-                        .length
-                }
-            );
-
-    }
-
-
     currentCleaningTasks.forEach(
-        function (
-            planItem,
-            index
-        ) {
+        function (planItem) {
 
-            const taskItem =
-                createCleaningTaskItem(
-                    planItem,
-                    index
+            const taskElement =
+                createCleaningTaskElement(
+                    planItem
                 );
 
 
-            if (taskItem) {
+            if (taskElement) {
 
                 cleaningTaskList.appendChild(
-                    taskItem
+                    taskElement
                 );
 
             }
@@ -4331,39 +4268,14 @@ async function renderCleaningTasks() {
         }
     );
 
-}
 
+    /*
+     * Permissions are applied after every
+     * render so a rerender cannot accidentally
+     * make locked checkboxes editable.
+     */
 
-// ============================================================
-// SET TASK CHECKBOXES DISABLED
-// ============================================================
-
-function setTaskCheckboxesDisabled(
-    disabled
-) {
-
-    if (!cleaningTaskList) {
-
-        return;
-
-    }
-
-
-    const checkboxes =
-        cleaningTaskList
-            .querySelectorAll(
-                ".resident-cleaning-checkbox"
-            );
-
-
-    checkboxes.forEach(
-        function (checkbox) {
-
-            checkbox.disabled =
-                disabled;
-
-        }
-    );
+    updateCompletionControls();
 
 }
 
@@ -4374,9 +4286,130 @@ function setTaskCheckboxesDisabled(
 
 function updateCompletionControls() {
 
+    const assignment =
+        getSelectedWeekAssignment();
+
+
+    /*
+     * No selected assignment.
+     */
+
+    if (!assignment) {
+
+        setTaskCheckboxesDisabled(
+            true
+        );
+
+
+        if (taskPermissionMessage) {
+
+            taskPermissionMessage.textContent =
+                t(
+                    "onlyResponsibleResidentCanComplete"
+                );
+
+        }
+
+
+        if (cleaningPermissionNotice) {
+
+            cleaningPermissionNotice.hidden =
+                false;
+
+        }
+
+
+        if (cleaningPermissionText) {
+
+            cleaningPermissionText.textContent =
+                t(
+                    "onlyResponsibleResidentCanComplete"
+                );
+
+        }
+
+
+        if (responsibleOnlyMessage) {
+
+            responsibleOnlyMessage.textContent =
+                t(
+                    "onlyResponsibleResidentCanComplete"
+                );
+
+        }
+
+
+        updateConfirmButtonState();
+
+        return;
+
+    }
+
+
+    /*
+     * Signed cleaning is permanently locked.
+     */
+
+    if (isSelectedWeekSigned()) {
+
+        setTaskCheckboxesDisabled(
+            true
+        );
+
+
+        if (taskPermissionMessage) {
+
+            taskPermissionMessage.textContent =
+                t(
+                    "cleaningAlreadySigned"
+                );
+
+        }
+
+
+        if (cleaningPermissionNotice) {
+
+            cleaningPermissionNotice.hidden =
+                false;
+
+        }
+
+
+        if (cleaningPermissionText) {
+
+            cleaningPermissionText.textContent =
+                t(
+                    "cleaningAlreadySigned"
+                );
+
+        }
+
+
+        if (responsibleOnlyMessage) {
+
+            responsibleOnlyMessage.textContent =
+                t(
+                    "cleaningAlreadySigned"
+                );
+
+        }
+
+
+        updateConfirmButtonState();
+
+        return;
+
+    }
+
+
+    /*
+     * Another resident is responsible.
+     */
+
     if (
-        !currentCleaningPlan ||
-        !selectedFriday
+        !isCurrentResidentResponsible(
+            selectedFriday
+        )
     ) {
 
         setTaskCheckboxesDisabled(
@@ -4384,171 +4417,119 @@ function updateCompletionControls() {
         );
 
 
-        if (confirmCleaningButton) {
+        if (taskPermissionMessage) {
 
-            confirmCleaningButton.disabled =
-                true;
+            taskPermissionMessage.textContent =
+                t(
+                    "onlyResponsibleResidentCanComplete"
+                );
 
         }
 
+
+        if (cleaningPermissionNotice) {
+
+            cleaningPermissionNotice.hidden =
+                false;
+
+        }
+
+
+        if (cleaningPermissionText) {
+
+            cleaningPermissionText.textContent =
+                t(
+                    "onlyResponsibleResidentCanComplete"
+                );
+
+        }
+
+
+        if (responsibleOnlyMessage) {
+
+            responsibleOnlyMessage.textContent =
+                t(
+                    "onlyResponsibleResidentCanComplete"
+                );
+
+        }
+
+
+        updateConfirmButtonState();
 
         return;
 
     }
 
 
-    const responsibleName =
-        getResponsibleNameForFriday(
-            selectedFriday
+    /*
+     * A different week is selected.
+     */
+
+    if (
+        !isSelectedCurrentWeek()
+    ) {
+
+        setTaskCheckboxesDisabled(
+            true
         );
 
 
-    const isResponsible =
-        isCurrentUserResponsible();
+        if (taskPermissionMessage) {
+
+            taskPermissionMessage.textContent =
+                t(
+                    "onlyCurrentWeekCanBeCompleted"
+                );
+
+        }
 
 
-    const isCurrentWeek =
-        isSelectedCurrentWeek();
+        if (cleaningPermissionNotice) {
+
+            cleaningPermissionNotice.hidden =
+                false;
+
+        }
 
 
-    const cleaningWindowState =
+        if (cleaningPermissionText) {
+
+            cleaningPermissionText.textContent =
+                t(
+                    "onlyCurrentWeekCanBeCompleted"
+                );
+
+        }
+
+
+        if (responsibleOnlyMessage) {
+
+            responsibleOnlyMessage.textContent =
+                t(
+                    "onlyCurrentWeekCanBeCompleted"
+                );
+
+        }
+
+
+        updateConfirmButtonState();
+
+        return;
+
+    }
+
+
+    const windowState =
         getCleaningWindowState();
 
 
-    // --------------------------------------------------------
-    // NOT RESPONSIBLE
-    // --------------------------------------------------------
-
-    if (!isResponsible) {
-
-        setTaskCheckboxesDisabled(
-            true
-        );
-
-
-        if (taskPermissionMessage) {
-
-            taskPermissionMessage.textContent =
-                t(
-                    "tasksVisibleOnlyResponsibleCanComplete"
-                );
-
-        }
-
-
-        if (cleaningPermissionNotice) {
-
-            cleaningPermissionNotice.hidden =
-                false;
-
-        }
-
-
-        if (cleaningPermissionText) {
-
-            cleaningPermissionText.textContent =
-                t(
-                    "onlyNameCanComplete",
-                    {
-                        name:
-                        responsibleName
-                    }
-                );
-
-        }
-
-
-        if (responsibleOnlyMessage) {
-
-            responsibleOnlyMessage.textContent =
-                t(
-                    "onlyResponsibleCanConfirm"
-                );
-
-        }
-
-
-        if (confirmCleaningButton) {
-
-            confirmCleaningButton.disabled =
-                true;
-
-        }
-
-
-        return;
-
-    }
-
-
-    // --------------------------------------------------------
-    // RESPONSIBLE, BUT NOT SELECTED CURRENT WEEK
-    // --------------------------------------------------------
-
-    if (!isCurrentWeek) {
-
-        setTaskCheckboxesDisabled(
-            true
-        );
-
-
-        if (taskPermissionMessage) {
-
-            taskPermissionMessage.textContent =
-                t(
-                    "notActiveCleaningWeek"
-                );
-
-        }
-
-
-        if (cleaningPermissionNotice) {
-
-            cleaningPermissionNotice.hidden =
-                false;
-
-        }
-
-
-        if (cleaningPermissionText) {
-
-            cleaningPermissionText.textContent =
-                t(
-                    "tasksOnlyCurrentWeek"
-                );
-
-        }
-
-
-        if (responsibleOnlyMessage) {
-
-            responsibleOnlyMessage.textContent =
-                t(
-                    "selectCurrentWeekToClean"
-                );
-
-        }
-
-
-        if (confirmCleaningButton) {
-
-            confirmCleaningButton.disabled =
-                true;
-
-        }
-
-
-        return;
-
-    }
-
-
-    // --------------------------------------------------------
-    // RESPONSIBLE, CURRENT WEEK, BEFORE THURSDAY
-    // --------------------------------------------------------
+    /*
+     * Monday-Wednesday.
+     */
 
     if (
-        cleaningWindowState ===
+        windowState ===
         "not-open-yet"
     ) {
 
@@ -4561,7 +4542,7 @@ function updateCompletionControls() {
 
             taskPermissionMessage.textContent =
                 t(
-                    "cleaningAvailableThursday"
+                    "notYetAvailableLocked"
                 );
 
         }
@@ -4579,7 +4560,7 @@ function updateCompletionControls() {
 
             cleaningPermissionText.textContent =
                 t(
-                    "notAvailableThursdayFriday"
+                    "notYetAvailableLocked"
                 );
 
         }
@@ -4589,31 +4570,25 @@ function updateCompletionControls() {
 
             responsibleOnlyMessage.textContent =
                 t(
-                    "confirmationOpensThursday"
+                    "notYetAvailableLocked"
                 );
 
         }
 
 
-        if (confirmCleaningButton) {
-
-            confirmCleaningButton.disabled =
-                true;
-
-        }
-
+        updateConfirmButtonState();
 
         return;
 
     }
 
 
-    // --------------------------------------------------------
-    // RESPONSIBLE, CURRENT WEEK, DEADLINE PASSED
-    // --------------------------------------------------------
+    /*
+     * Saturday-Sunday.
+     */
 
     if (
-        cleaningWindowState ===
+        windowState ===
         "deadline-passed"
     ) {
 
@@ -4626,7 +4601,7 @@ function updateCompletionControls() {
 
             taskPermissionMessage.textContent =
                 t(
-                    "deadlineExpiredForWeek"
+                    "deadlineExpiredLocked"
                 );
 
         }
@@ -4644,7 +4619,7 @@ function updateCompletionControls() {
 
             cleaningPermissionText.textContent =
                 t(
-                    "cleaningCannotBeRegistered"
+                    "deadlineExpiredLocked"
                 );
 
         }
@@ -4660,22 +4635,40 @@ function updateCompletionControls() {
         }
 
 
-        if (confirmCleaningButton) {
-
-            confirmCleaningButton.disabled =
-                true;
-
-        }
-
+        updateConfirmButtonState();
 
         return;
 
     }
 
 
-    // --------------------------------------------------------
-    // RESPONSIBLE + CURRENT WEEK + THURSDAY/FRIDAY
-    // --------------------------------------------------------
+    /*
+     * A database operation is currently running.
+     */
+
+    if (
+        isSavingTaskCompletion ||
+        isSavingDocumentation ||
+        isSigningCleaning
+    ) {
+
+        setTaskCheckboxesDisabled(
+            true
+        );
+
+
+        updateConfirmButtonState();
+
+        return;
+
+    }
+
+
+    /*
+     * Responsible resident +
+     * current week +
+     * Thursday/Friday.
+     */
 
     setTaskCheckboxesDisabled(
         false
@@ -4725,12 +4718,158 @@ function updateCompletionControls() {
 }
 
 // ============================================================
-// RESET SELECTED PHOTOS
+// CLEANING DOCUMENTATION
+// ============================================================
+
+
+// ============================================================
+// LOAD CLEANING DOCUMENTATION FOR SELECTED WEEK
+// ============================================================
+
+async function loadCleaningDocumentationForSelectedWeek() {
+
+    currentCleaningDocumentation =
+        [];
+
+
+    const assignment =
+        getSelectedWeekAssignment();
+
+
+    if (
+        !assignment ||
+        !assignment.id
+    ) {
+
+        return;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from(
+                "cleaning_documentation"
+            )
+            .select(
+                `
+                id,
+                assignment_id,
+                uploaded_by_resident_id,
+                storage_path,
+                file_name,
+                mime_type,
+                file_size,
+                created_at
+                `
+            )
+            .eq(
+                "assignment_id",
+                assignment.id
+            )
+            .order(
+                "created_at",
+                {
+                    ascending:
+                        true
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            "LOAD CLEANING DOCUMENTATION ERROR:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    const documentation =
+        data ||
+        [];
+
+
+    /*
+     * Bucketen er privat.
+     *
+     * Opprett derfor en midlertidig signed URL
+     * for hvert dokumentasjonsbilde.
+     */
+
+    const documentationWithUrls =
+        await Promise.all(
+
+            documentation.map(
+
+                async function (item) {
+
+                    const {
+                        data: signedUrlData,
+                        error: signedUrlError
+                    } =
+                        await supabaseClient
+                            .storage
+                            .from(
+                                "cleaning-documentation"
+                            )
+                            .createSignedUrl(
+                                item.storage_path,
+                                3600
+                            );
+
+
+                    if (signedUrlError) {
+
+                        console.error(
+                            "CREATE DOCUMENTATION SIGNED URL ERROR:",
+                            signedUrlError
+                        );
+
+                    }
+
+
+                    return {
+
+                        ...item,
+
+                        signedUrl:
+                            signedUrlError
+                                ? null
+                                : (
+                                    signedUrlData
+                                        ?.signedUrl ||
+                                    null
+                                )
+
+                    };
+
+                }
+
+            )
+
+        );
+
+
+    currentCleaningDocumentation =
+        documentationWithUrls;
+
+}
+
+
+// ============================================================
+// RESET DOCUMENTATION VIEW
 // ============================================================
 
 function resetSelectedPhotos() {
 
-    selectedPhotos =
+    currentCleaningDocumentation =
         [];
 
 
@@ -4740,64 +4879,1562 @@ function resetSelectedPhotos() {
 
 
 // ============================================================
-// ADD CAMERA PHOTO
+// HAS REQUIRED DOCUMENTATION PHOTO
 // ============================================================
 
-function addCameraPhoto(
-    fileList
+function hasRequiredPhoto() {
+
+    return (
+        currentCleaningDocumentation.length >
+        0
+    );
+
+}
+
+
+// ============================================================
+// CAN MANAGE DOCUMENTATION
+// ============================================================
+
+function canManageDocumentation() {
+
+    const assignment =
+        getSelectedWeekAssignment();
+
+
+    if (
+        !assignment ||
+        !currentResident
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        assignment.resident_id !==
+        currentResident.id
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        isSelectedWeekSigned()
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        !canCurrentUserComplete()
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        isSavingDocumentation ||
+        isSavingTaskCompletion ||
+        isSigningCleaning
+    ) {
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+// ============================================================
+// SAVE CAMERA DOCUMENTATION
+// ============================================================
+
+async function saveCameraDocumentation(
+    imageBlob
 ) {
 
     if (
-        !fileList ||
-        fileList.length ===
-        0
+        isSavingDocumentation ||
+        !imageBlob
     ) {
 
-        return;
+        return false;
 
     }
 
 
-    const file =
-        fileList[0];
+    const assignment =
+        getSelectedWeekAssignment();
 
 
     if (
-        !file ||
-        !file.type ||
-        !file.type.startsWith(
-            "image/"
-        )
+        !assignment ||
+        !assignment.id ||
+        !currentResident ||
+        !currentResident.id ||
+        !currentProfile ||
+        !currentProfile.id
     ) {
 
-        return;
+        return false;
 
     }
 
 
     if (
-        selectedPhotos.length >=
+        !canCurrentUserComplete() ||
+        isSelectedWeekSigned()
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        assignment.resident_id !==
+        currentResident.id
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        currentCleaningDocumentation.length >=
         MAX_PHOTOS
     ) {
 
         window.alert(
+            "Maks 10 bilder er tillatt."
+        );
+
+        return false;
+
+    }
+
+
+    isSavingDocumentation =
+        true;
+
+
+    renderPhotoPreviews();
+
+    updateCompletionControls();
+
+    updateConfirmButtonState();
+
+
+    let storagePath =
+        null;
+
+
+    try {
+
+        // ----------------------------------------------------
+        // CREATE UNIQUE JPEG FILE NAME
+        // ----------------------------------------------------
+
+        const uniqueId =
+            (
+                window.crypto &&
+                typeof window.crypto.randomUUID ===
+                "function"
+            )
+                ? window.crypto.randomUUID()
+                : (
+                    Date.now() +
+                    "-" +
+                    Math.random()
+                        .toString(16)
+                        .slice(2)
+                );
+
+
+        const fileName =
+            uniqueId +
+            ".jpg";
+
+
+        /*
+         * Storage path:
+         *
+         * assignment-id/
+         * authenticated-profile-id/
+         * unique-image.jpg
+         */
+
+        storagePath =
+            assignment.id +
+            "/" +
+            currentProfile.id +
+            "/" +
+            fileName;
+
+
+        // ----------------------------------------------------
+        // SAVE CAMERA IMAGE IN PRIVATE STORAGE
+        // ----------------------------------------------------
+
+        const {
+            error: uploadError
+        } =
+            await supabaseClient
+                .storage
+                .from(
+                    "cleaning-documentation"
+                )
+                .upload(
+                    storagePath,
+                    imageBlob,
+                    {
+                        contentType:
+                            "image/jpeg",
+
+                        upsert:
+                            false
+                    }
+                );
+
+
+        if (uploadError) {
+
+            throw uploadError;
+
+        }
+
+
+        // ----------------------------------------------------
+        // SAVE IMAGE METADATA
+        // ----------------------------------------------------
+
+        const {
+            error: metadataError
+        } =
+            await supabaseClient
+                .from(
+                    "cleaning_documentation"
+                )
+                .insert(
+                    {
+                        assignment_id:
+                        assignment.id,
+
+                        uploaded_by_resident_id:
+                        currentResident.id,
+
+                        storage_path:
+                        storagePath,
+
+                        file_name:
+                        fileName,
+
+                        mime_type:
+                            "image/jpeg",
+
+                        file_size:
+                        imageBlob.size
+                    }
+                );
+
+
+        if (metadataError) {
+
+            /*
+             * Storage succeeded but metadata failed.
+             *
+             * Remove the Storage object so we do not
+             * leave an orphaned camera image.
+             */
+
+            const {
+                error: cleanupError
+            } =
+                await supabaseClient
+                    .storage
+                    .from(
+                        "cleaning-documentation"
+                    )
+                    .remove(
+                        [
+                            storagePath
+                        ]
+                    );
+
+
+            if (cleanupError) {
+
+                console.error(
+                    "DOCUMENTATION CLEANUP ERROR:",
+                    cleanupError
+                );
+
+            }
+
+
+            throw metadataError;
+
+        }
+
+
+        // ----------------------------------------------------
+        // RELOAD DOCUMENTATION
+        // ----------------------------------------------------
+
+        await loadCleaningDocumentationForSelectedWeek();
+
+
+        return true;
+
+    }
+    catch (error) {
+
+        console.error(
+            "SAVE CAMERA DOCUMENTATION ERROR:",
+            error
+        );
+
+
+        window.alert(
+            "Bildet kunne ikke lagres. Prøv igjen."
+        );
+
+
+        return false;
+
+    }
+    finally {
+
+        /*
+         * Important:
+         *
+         * Set the saving state back to false BEFORE
+         * rendering. Otherwise the camera button may
+         * remain disabled after the first image.
+         */
+
+        isSavingDocumentation =
+            false;
+
+
+        renderPhotoPreviews();
+
+        updateCompletionControls();
+
+        updateConfirmButtonState();
+
+    }
+
+}
+
+
+// ============================================================
+// DELETE CLEANING DOCUMENTATION
+// ============================================================
+
+async function deleteCleaningDocumentation(
+    item
+) {
+
+    if (
+        !item ||
+        !item.id ||
+        !item.storage_path ||
+        isSavingDocumentation
+    ) {
+
+        return false;
+
+    }
+
+
+    const assignment =
+        getSelectedWeekAssignment();
+
+
+    if (
+        !assignment ||
+        !currentResident
+    ) {
+
+        return false;
+
+    }
+
+
+    /*
+     * Only the responsible resident may delete
+     * documentation from the selected assignment.
+     */
+
+    if (
+        assignment.resident_id !==
+        currentResident.id
+    ) {
+
+        return false;
+
+    }
+
+
+    /*
+     * A resident may only delete an image
+     * that they created themselves.
+     */
+
+    if (
+        item.uploaded_by_resident_id !==
+        currentResident.id
+    ) {
+
+        return false;
+
+    }
+
+
+    /*
+     * No changes are allowed after signing.
+     */
+
+    if (
+        isSelectedWeekSigned()
+    ) {
+
+        return false;
+
+    }
+
+
+    /*
+     * Deletion follows the same completion
+     * window as adding documentation.
+     */
+
+    if (
+        !canCurrentUserComplete()
+    ) {
+
+        return false;
+
+    }
+
+
+    isSavingDocumentation =
+        true;
+
+
+    renderPhotoPreviews();
+
+    updateCompletionControls();
+
+    updateConfirmButtonState();
+
+
+    try {
+
+        /*
+         * Delete the database metadata first.
+         *
+         * This avoids leaving a database row that
+         * points to a Storage object that has already
+         * disappeared if the database deletion fails.
+         */
+
+        const {
+            error: metadataDeleteError
+        } =
+            await supabaseClient
+                .from(
+                    "cleaning_documentation"
+                )
+                .delete()
+                .eq(
+                    "id",
+                    item.id
+                )
+                .eq(
+                    "uploaded_by_resident_id",
+                    currentResident.id
+                );
+
+
+        if (metadataDeleteError) {
+
+            throw metadataDeleteError;
+
+        }
+
+
+        /*
+         * Then remove the actual private
+         * Storage object.
+         */
+
+        const {
+            error: storageDeleteError
+        } =
+            await supabaseClient
+                .storage
+                .from(
+                    "cleaning-documentation"
+                )
+                .remove(
+                    [
+                        item.storage_path
+                    ]
+                );
+
+
+        if (storageDeleteError) {
+
+            /*
+             * The metadata is already deleted.
+             * Log the Storage cleanup problem.
+             *
+             * The user should not be given permission
+             * to recreate/delete database metadata
+             * from the browser as compensation.
+             */
+
+            console.error(
+                "DELETE DOCUMENTATION STORAGE ERROR:",
+                storageDeleteError
+            );
+
+        }
+
+
+        await loadCleaningDocumentationForSelectedWeek();
+
+
+        return true;
+
+    }
+    catch (error) {
+
+        console.error(
+            "DELETE CLEANING DOCUMENTATION ERROR:",
+            error
+        );
+
+
+        window.alert(
+            "Bildet kunne ikke slettes. Prøv igjen."
+        );
+
+
+        await loadCleaningDocumentationForSelectedWeek();
+
+
+        return false;
+
+    }
+    finally {
+
+        isSavingDocumentation =
+            false;
+
+
+        renderPhotoPreviews();
+
+        updateCompletionControls();
+
+        updateConfirmButtonState();
+
+    }
+
+}
+
+
+// ============================================================
+// CREATE DOCUMENTATION IMAGE ELEMENT
+// ============================================================
+
+function createDocumentationImageElement(
+    item,
+    canDelete
+) {
+
+    const wrapper =
+        document.createElement(
+            "div"
+        );
+
+
+    wrapper.className =
+        "resident-photo-preview-item";
+
+
+    if (
+        item &&
+        item.signedUrl
+    ) {
+
+        const image =
+            document.createElement(
+                "img"
+            );
+
+
+        image.src =
+            item.signedUrl;
+
+
+        image.alt =
             t(
-                "maxSixPhotosAlert"
+                "cleaningDocumentationPhoto"
+            );
+
+
+        image.loading =
+            "lazy";
+
+
+        wrapper.appendChild(
+            image
+        );
+
+    }
+    else {
+
+        const unavailable =
+            document.createElement(
+                "div"
+            );
+
+
+        unavailable.className =
+            "resident-photo-preview-unavailable";
+
+
+        unavailable.textContent =
+            "📷";
+
+
+        wrapper.appendChild(
+            unavailable
+        );
+
+    }
+
+
+    if (canDelete) {
+
+        const deleteButton =
+            document.createElement(
+                "button"
+            );
+
+
+        deleteButton.type =
+            "button";
+
+
+        deleteButton.className =
+            "resident-photo-delete-button";
+
+
+        deleteButton.setAttribute(
+            "aria-label",
+            t(
+                "deletePhoto"
             )
         );
 
+
+        deleteButton.textContent =
+            "×";
+
+
+        deleteButton.addEventListener(
+            "click",
+            async function (event) {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+
+                if (
+                    deleteButton.disabled
+                ) {
+
+                    return;
+
+                }
+
+
+                deleteButton.disabled =
+                    true;
+
+
+                await deleteCleaningDocumentation(
+                    item
+                );
+
+            }
+        );
+
+
+        wrapper.appendChild(
+            deleteButton
+        );
+
+    }
+
+
+    return wrapper;
+
+}
+
+
+// ============================================================
+// RENDER PHOTO PREVIEWS
+// ============================================================
+
+function renderPhotoPreviews() {
+
+    const documentation =
+        currentCleaningDocumentation ||
+        [];
+
+
+    // --------------------------------------------------------
+    // PHOTO COUNT
+    // --------------------------------------------------------
+
+    if (photoCount) {
+
+        photoCount.textContent =
+            "Bilder (" +
+            documentation.length +
+            "/" +
+            MAX_PHOTOS +
+            ")";
+
+    }
+
+
+    // --------------------------------------------------------
+    // PREVIEW GRID
+    // --------------------------------------------------------
+
+    if (photoPreviewGrid) {
+
+        photoPreviewGrid.innerHTML =
+            "";
+
+    }
+
+
+    const assignment =
+        getSelectedWeekAssignment();
+
+
+    const responsibleResident =
+        Boolean(
+            assignment &&
+            currentResident &&
+            assignment.resident_id ===
+            currentResident.id
+        );
+
+
+    const signed =
+        isSelectedWeekSigned();
+
+
+    const canManage =
+        canManageDocumentation();
+
+
+    // --------------------------------------------------------
+    // RENDER EXISTING DOCUMENTATION
+    // --------------------------------------------------------
+
+    if (photoPreviewGrid) {
+
+        documentation.forEach(
+            function (item) {
+
+                /*
+                 * Same-floor residents may see the images
+                 * through Supabase RLS, but only the
+                 * responsible resident who created the
+                 * image may delete it before signing.
+                 */
+
+                const canDelete =
+                    Boolean(
+                        canManage &&
+                        responsibleResident &&
+                        !signed &&
+                        item.uploaded_by_resident_id ===
+                        currentResident?.id
+                    );
+
+
+                const element =
+                    createDocumentationImageElement(
+                        item,
+                        canDelete
+                    );
+
+
+                photoPreviewGrid.appendChild(
+                    element
+                );
+
+            }
+        );
+
+    }
+
+
+    // --------------------------------------------------------
+    // CAMERA BUTTON
+    // --------------------------------------------------------
+
+    if (cameraButton) {
+
+        const reachedMaximum =
+            documentation.length >=
+            MAX_PHOTOS;
+
+
+        cameraButton.disabled =
+            Boolean(
+                !canManage ||
+                signed ||
+                reachedMaximum ||
+                isSavingDocumentation ||
+                isSavingTaskCompletion ||
+                isSigningCleaning
+            );
+
+    }
+
+
+    updateConfirmButtonState();
+
+}
+// ============================================================
+// DIRECT CAMERA
+// ============================================================
+
+
+// ============================================================
+// STOP DIRECT CAMERA
+// ============================================================
+
+function stopDirectCamera() {
+
+    if (activeCameraStream) {
+
+        activeCameraStream
+            .getTracks()
+            .forEach(
+                function (track) {
+
+                    track.stop();
+
+                }
+            );
+
+
+        activeCameraStream =
+            null;
+
+    }
+
+
+    if (activeCameraOverlay) {
+
+        activeCameraOverlay.remove();
+
+
+        activeCameraOverlay =
+            null;
+
+    }
+
+}
+
+
+// ============================================================
+// CAPTURE CAMERA FRAME
+// ============================================================
+
+async function captureCameraFrame(
+    video
+) {
+
+    if (
+        !video ||
+        !video.videoWidth ||
+        !video.videoHeight
+    ) {
+
+        return false;
+
+    }
+
+
+    const sourceWidth =
+        video.videoWidth;
+
+
+    const sourceHeight =
+        video.videoHeight;
+
+
+    /*
+     * Limit the longest side to 1920 px.
+     *
+     * This keeps documentation images
+     * reasonably small while preserving
+     * enough detail.
+     */
+
+    const maxDimension =
+        1920;
+
+
+    let width =
+        sourceWidth;
+
+
+    let height =
+        sourceHeight;
+
+
+    if (
+        Math.max(
+            width,
+            height
+        ) >
+        maxDimension
+    ) {
+
+        const scale =
+            maxDimension /
+            Math.max(
+                width,
+                height
+            );
+
+
+        width =
+            Math.round(
+                width *
+                scale
+            );
+
+
+        height =
+            Math.round(
+                height *
+                scale
+            );
+
+    }
+
+
+    const canvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    canvas.width =
+        width;
+
+
+    canvas.height =
+        height;
+
+
+    const context =
+        canvas.getContext(
+            "2d"
+        );
+
+
+    if (!context) {
+
+        return false;
+
+    }
+
+
+    context.drawImage(
+        video,
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    const imageBlob =
+        await new Promise(
+            function (resolve) {
+
+                canvas.toBlob(
+                    function (blob) {
+
+                        resolve(
+                            blob
+                        );
+
+                    },
+                    "image/jpeg",
+                    0.85
+                );
+
+            }
+        );
+
+
+    if (!imageBlob) {
+
+        return false;
+
+    }
+
+
+    return await saveCameraDocumentation(
+        imageBlob
+    );
+
+}
+
+
+// ============================================================
+// OPEN DIRECT CAMERA
+// ============================================================
+
+async function openDirectCamera() {
+
+    if (
+        !canManageDocumentation()
+    ) {
 
         return;
 
     }
 
 
-    selectedPhotos.push(
-        file
-    );
+    if (
+        currentCleaningDocumentation.length >=
+        MAX_PHOTOS
+    ) {
+
+        window.alert(
+            "Maks 10 bilder er tillatt."
+        );
+
+        return;
+
+    }
 
 
-    renderPhotoPreviews();
+    /*
+     * getUserMedia only works in a secure
+     * browser context.
+     *
+     * GitHub Pages uses HTTPS, so the
+     * deployed application supports this.
+     */
+
+    if (
+        !navigator.mediaDevices ||
+        typeof navigator.mediaDevices.getUserMedia !==
+        "function"
+    ) {
+
+        window.alert(
+            "Kamera er ikke tilgjengelig i denne nettleseren."
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * Make sure an old camera session
+     * cannot remain open.
+     */
+
+    stopDirectCamera();
+
+
+    try {
+
+        // ----------------------------------------------------
+        // REQUEST CAMERA
+        // ----------------------------------------------------
+
+        try {
+
+            /*
+             * Prefer the rear/environment camera.
+             */
+
+            activeCameraStream =
+                await navigator
+                    .mediaDevices
+                    .getUserMedia(
+                        {
+                            video: {
+                                facingMode: {
+                                    ideal:
+                                        "environment"
+                                }
+                            },
+
+                            audio:
+                                false
+                        }
+                    );
+
+        }
+        catch (preferredCameraError) {
+
+            console.warn(
+                "REAR CAMERA REQUEST FAILED, TRYING DEFAULT CAMERA:",
+                preferredCameraError
+            );
+
+
+            /*
+             * Some desktop browsers and devices
+             * do not understand or provide an
+             * environment-facing camera.
+             *
+             * Fall back to any available camera.
+             */
+
+            activeCameraStream =
+                await navigator
+                    .mediaDevices
+                    .getUserMedia(
+                        {
+                            video:
+                                true,
+
+                            audio:
+                                false
+                        }
+                    );
+
+        }
+
+
+        // ----------------------------------------------------
+        // CAMERA OVERLAY
+        // ----------------------------------------------------
+
+        const overlay =
+            document.createElement(
+                "div"
+            );
+
+
+        overlay.className =
+            "resident-camera-overlay";
+
+
+        /*
+         * Keep the camera usable even if the
+         * stylesheet does not yet contain
+         * dedicated overlay classes.
+         */
+
+        overlay.style.position =
+            "fixed";
+
+        overlay.style.inset =
+            "0";
+
+        overlay.style.zIndex =
+            "99999";
+
+        overlay.style.background =
+            "#000";
+
+        overlay.style.display =
+            "flex";
+
+        overlay.style.flexDirection =
+            "column";
+
+        overlay.style.alignItems =
+            "center";
+
+        overlay.style.justifyContent =
+            "center";
+
+        overlay.style.padding =
+            "16px";
+
+        overlay.style.boxSizing =
+            "border-box";
+
+
+        activeCameraOverlay =
+            overlay;
+
+
+        // ----------------------------------------------------
+        // VIDEO PREVIEW
+        // ----------------------------------------------------
+
+        const video =
+            document.createElement(
+                "video"
+            );
+
+
+        video.className =
+            "resident-camera-video";
+
+
+        video.autoplay =
+            true;
+
+
+        video.playsInline =
+            true;
+
+
+        video.muted =
+            true;
+
+
+        video.srcObject =
+            activeCameraStream;
+
+
+        video.style.width =
+            "100%";
+
+        video.style.maxWidth =
+            "720px";
+
+        video.style.maxHeight =
+            "calc(100vh - 130px)";
+
+        video.style.objectFit =
+            "contain";
+
+        video.style.background =
+            "#000";
+
+        video.style.borderRadius =
+            "10px";
+
+
+        // ----------------------------------------------------
+        // BUTTON CONTAINER
+        // ----------------------------------------------------
+
+        const buttonContainer =
+            document.createElement(
+                "div"
+            );
+
+
+        buttonContainer.className =
+            "resident-camera-actions";
+
+
+        buttonContainer.style.display =
+            "flex";
+
+        buttonContainer.style.alignItems =
+            "center";
+
+        buttonContainer.style.justifyContent =
+            "center";
+
+        buttonContainer.style.gap =
+            "12px";
+
+        buttonContainer.style.marginTop =
+            "16px";
+
+        buttonContainer.style.width =
+            "100%";
+
+
+        // ----------------------------------------------------
+        // CANCEL BUTTON
+        // ----------------------------------------------------
+
+        const cancelButton =
+            document.createElement(
+                "button"
+            );
+
+
+        cancelButton.type =
+            "button";
+
+
+        cancelButton.className =
+            "resident-camera-cancel-button";
+
+
+        cancelButton.textContent =
+            t(
+                "cancel"
+            );
+
+
+        cancelButton.style.padding =
+            "12px 18px";
+
+        cancelButton.style.border =
+            "none";
+
+        cancelButton.style.borderRadius =
+            "8px";
+
+        cancelButton.style.cursor =
+            "pointer";
+
+        cancelButton.style.fontWeight =
+            "600";
+
+
+        // ----------------------------------------------------
+        // CAPTURE BUTTON
+        // ----------------------------------------------------
+
+        const captureButton =
+            document.createElement(
+                "button"
+            );
+
+
+        captureButton.type =
+            "button";
+
+
+        captureButton.className =
+            "resident-camera-capture-button";
+
+
+        captureButton.textContent =
+            "📷 " +
+            t(
+                "takePhoto"
+            );
+
+
+        captureButton.style.padding =
+            "12px 18px";
+
+        captureButton.style.border =
+            "none";
+
+        captureButton.style.borderRadius =
+            "8px";
+
+        captureButton.style.cursor =
+            "pointer";
+
+        captureButton.style.fontWeight =
+            "700";
+
+
+        // ----------------------------------------------------
+        // CANCEL CAMERA
+        // ----------------------------------------------------
+
+        cancelButton.addEventListener(
+            "click",
+            function () {
+
+                stopDirectCamera();
+
+            }
+        );
+
+
+        // ----------------------------------------------------
+        // CAPTURE IMAGE
+        // ----------------------------------------------------
+
+        captureButton.addEventListener(
+            "click",
+            async function () {
+
+                if (
+                    captureButton.disabled ||
+                    isSavingDocumentation
+                ) {
+
+                    return;
+
+                }
+
+
+                /*
+                 * Recheck permissions immediately
+                 * before taking the image.
+                 */
+
+                if (
+                    !canCurrentUserComplete() ||
+                    isSelectedWeekSigned()
+                ) {
+
+                    stopDirectCamera();
+
+                    renderPhotoPreviews();
+
+                    updateCompletionControls();
+
+                    updateConfirmButtonState();
+
+                    return;
+
+                }
+
+
+                if (
+                    currentCleaningDocumentation.length >=
+                    MAX_PHOTOS
+                ) {
+
+                    stopDirectCamera();
+
+
+                    window.alert(
+                        "Maks 10 bilder er tillatt."
+                    );
+
+
+                    renderPhotoPreviews();
+
+                    return;
+
+                }
+
+
+                captureButton.disabled =
+                    true;
+
+
+                cancelButton.disabled =
+                    true;
+
+
+                const success =
+                    await captureCameraFrame(
+                        video
+                    );
+
+
+                /*
+                 * Close the camera after each
+                 * captured image.
+                 *
+                 * The resident can press
+                 * "Ta bilde" again to take
+                 * another documentation image.
+                 */
+
+                stopDirectCamera();
+
+
+                if (!success) {
+
+                    window.alert(
+                        "Bildet kunne ikke tas eller lagres. Prøv igjen."
+                    );
+
+                }
+
+
+                renderPhotoPreviews();
+
+                updateCompletionControls();
+
+                updateConfirmButtonState();
+
+            }
+        );
+
+
+        // ----------------------------------------------------
+        // ADD CAMERA ELEMENTS
+        // ----------------------------------------------------
+
+        buttonContainer.appendChild(
+            cancelButton
+        );
+
+
+        buttonContainer.appendChild(
+            captureButton
+        );
+
+
+        overlay.appendChild(
+            video
+        );
+
+
+        overlay.appendChild(
+            buttonContainer
+        );
+
+
+        document.body.appendChild(
+            overlay
+        );
+
+
+        /*
+         * Start video preview after the
+         * element is connected to the DOM.
+         */
+
+        await video.play();
+
+    }
+    catch (error) {
+
+        console.error(
+            "DIRECT CAMERA ERROR:",
+            error
+        );
+
+
+        stopDirectCamera();
+
+
+        window.alert(
+            "Kunne ikke åpne kameraet. Kontroller kameratillatelsen i nettleseren."
+        );
+
+    }
 
 }
 
@@ -4810,10 +6447,13 @@ if (cameraButton) {
 
     cameraButton.addEventListener(
         "click",
-        function () {
+        async function () {
 
             if (
-                cameraButton.disabled
+                cameraButton.disabled ||
+                isSavingDocumentation ||
+                isSavingTaskCompletion ||
+                isSigningCleaning
             ) {
 
                 return;
@@ -4821,28 +6461,7 @@ if (cameraButton) {
             }
 
 
-            if (
-                selectedPhotos.length >=
-                MAX_PHOTOS
-            ) {
-
-                window.alert(
-                    t(
-                        "maxSixPhotosAlert"
-                    )
-                );
-
-
-                return;
-
-            }
-
-
-            if (cameraInput) {
-
-                cameraInput.click();
-
-            }
+            await openDirectCamera();
 
         }
     );
@@ -4851,268 +6470,38 @@ if (cameraButton) {
 
 
 // ============================================================
-// CAMERA FILE CHANGE
+// STOP CAMERA WHEN PAGE IS HIDDEN
 // ============================================================
 
-if (cameraInput) {
+document.addEventListener(
+    "visibilitychange",
+    function () {
 
-    cameraInput.addEventListener(
-        "change",
-        function () {
-
-            addCameraPhoto(
-                cameraInput.files
-            );
-
-
-            cameraInput.value =
-                "";
-
-        }
-    );
-
-}
-
-
-// ============================================================
-// RENDER PHOTO PREVIEWS
-// ============================================================
-
-function renderPhotoPreviews() {
-
-    if (photoPreviewGrid) {
-
-        photoPreviewGrid.innerHTML =
-            "";
-
-    }
-
-
-    if (photoCount) {
-
-        photoCount.textContent =
-            t(
-                "photosCount",
-                {
-                    count:
-                    selectedPhotos.length
-                }
-            );
-
-    }
-
-
-    selectedPhotos.forEach(
-        function (
-            file,
-            index
+        if (
+            document.hidden &&
+            activeCameraStream
         ) {
 
-            const wrapper =
-                document.createElement(
-                    "div"
-                );
-
-
-            wrapper.className =
-                "resident-photo-preview";
-
-
-            const image =
-                document.createElement(
-                    "img"
-                );
-
-
-            const objectUrl =
-                URL.createObjectURL(
-                    file
-                );
-
-
-            image.src =
-                objectUrl;
-
-
-            image.alt =
-                t(
-                    "documentationPhotoAlt"
-                );
-
-
-            image.addEventListener(
-                "load",
-                function () {
-
-                    URL.revokeObjectURL(
-                        objectUrl
-                    );
-
-                }
-            );
-
-
-            const removeButton =
-                document.createElement(
-                    "button"
-                );
-
-
-            removeButton.type =
-                "button";
-
-
-            removeButton.className =
-                "resident-photo-remove";
-
-
-            removeButton.textContent =
-                "×";
-
-
-            removeButton.setAttribute(
-                "aria-label",
-                t(
-                    "removePhotoAria"
-                )
-            );
-
-
-            removeButton.addEventListener(
-                "click",
-                function () {
-
-                    selectedPhotos.splice(
-                        index,
-                        1
-                    );
-
-
-                    renderPhotoPreviews();
-
-                }
-            );
-
-
-            wrapper.appendChild(
-                image
-            );
-
-
-            wrapper.appendChild(
-                removeButton
-            );
-
-
-            if (photoPreviewGrid) {
-
-                photoPreviewGrid.appendChild(
-                    wrapper
-                );
-
-            }
+            stopDirectCamera();
 
         }
-    );
-
-
-    if (cameraButton) {
-
-        cameraButton.textContent =
-            selectedPhotos.length >=
-            MAX_PHOTOS
-                ? t(
-                    "maxPhotosTaken"
-                )
-                : t(
-                    "takePhotoWithIcon"
-                );
-
-
-        cameraButton.disabled =
-            (
-                !canCurrentUserComplete() ||
-                selectedPhotos.length >=
-                MAX_PHOTOS
-            );
 
     }
-
-
-    updateConfirmButtonState();
-
-}
+);
 
 
 // ============================================================
-// GET TASK CHECKBOXES
+// STOP CAMERA BEFORE LEAVING PAGE
 // ============================================================
 
-function getTaskCheckboxes() {
+window.addEventListener(
+    "pagehide",
+    function () {
 
-    if (!cleaningTaskList) {
-
-        return [];
+        stopDirectCamera();
 
     }
-
-
-    return Array.from(
-        cleaningTaskList.querySelectorAll(
-            ".resident-cleaning-checkbox"
-        )
-    );
-
-}
-
-
-// ============================================================
-// ARE ALL TASKS COMPLETED
-// ============================================================
-
-function areAllTasksCompleted() {
-
-    const checkboxes =
-        getTaskCheckboxes();
-
-
-    if (
-        checkboxes.length ===
-        0
-    ) {
-
-        return false;
-
-    }
-
-
-    return checkboxes.every(
-        function (checkbox) {
-
-            return (
-                checkbox.checked ===
-                true
-            );
-
-        }
-    );
-
-}
-
-
-// ============================================================
-// HAS REQUIRED PHOTO
-// ============================================================
-
-function hasRequiredPhoto() {
-
-    return (
-        selectedPhotos.length >
-        0
-    );
-
-}
-
+);
 
 // ============================================================
 // UPDATE CONFIRM BUTTON STATE
@@ -5127,48 +6516,345 @@ function updateConfirmButtonState() {
     }
 
 
-    if (
-        !canCurrentUserComplete()
-    ) {
+    const assignment =
+        getSelectedWeekAssignment();
 
-        confirmCleaningButton.disabled =
-            true;
 
+    /*
+     * Default:
+     * signing is locked.
+     */
+
+    confirmCleaningButton.disabled =
+        true;
+
+
+    if (!assignment) {
 
         return;
 
     }
 
 
-    const allTasksCompleted =
-        areAllTasksCompleted();
+    /*
+     * A signed cleaning week can never
+     * be signed again.
+     */
+
+    if (
+        isSelectedWeekSigned()
+    ) {
+
+        return;
+
+    }
 
 
-    const hasPhoto =
-        hasRequiredPhoto();
+    /*
+     * Only the responsible resident,
+     * during the current cleaning window,
+     * may sign.
+     */
 
+    if (
+        !canCurrentUserComplete()
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * Lock while another operation
+     * is running.
+     */
+
+    if (
+        isSavingDocumentation ||
+        isSavingTaskCompletion ||
+        isSigningCleaning
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * Every required cleaning task
+     * must be completed.
+     */
+
+    if (
+        !areAllTasksCompleted()
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * At least one camera documentation
+     * image is required.
+     */
+
+    if (
+        !hasRequiredPhoto()
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * Everything required by the
+     * frontend is satisfied.
+     *
+     * The database RPC will perform
+     * the final authoritative checks.
+     */
 
     confirmCleaningButton.disabled =
-        !(
-            allTasksCompleted &&
-            hasPhoto
-        );
+        false;
 
 }
 
 
 // ============================================================
-// CONFIRM CLEANING
+// SIGN CLEANING WEEK
+// ============================================================
+
+async function signCleaningWeek() {
+
+    if (
+        isSigningCleaning ||
+        isSavingDocumentation ||
+        isSavingTaskCompletion
+    ) {
+
+        return false;
+
+    }
+
+
+    const assignment =
+        getSelectedWeekAssignment();
+
+
+    if (
+        !assignment ||
+        !assignment.id
+    ) {
+
+        return false;
+
+    }
+
+
+    if (
+        isSelectedWeekSigned()
+    ) {
+
+        updateConfirmButtonState();
+
+        return false;
+
+    }
+
+
+    if (
+        !canCurrentUserComplete()
+    ) {
+
+        updateCompletionControls();
+
+        updateConfirmButtonState();
+
+        return false;
+
+    }
+
+
+    if (
+        !areAllTasksCompleted()
+    ) {
+
+        updateConfirmButtonState();
+
+        return false;
+
+    }
+
+
+    if (
+        !hasRequiredPhoto()
+    ) {
+
+        updateConfirmButtonState();
+
+        return false;
+
+    }
+
+
+    isSigningCleaning =
+        true;
+
+
+    updateCompletionControls();
+
+    renderPhotoPreviews();
+
+    updateConfirmButtonState();
+
+
+    try {
+
+        /*
+         * Final signing is performed by the
+         * SECURITY DEFINER database function.
+         *
+         * The browser does not directly update
+         * signed_by, signed_at or status.
+         */
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .rpc(
+                    "sign_cleaning_week",
+                    {
+                        p_assignment_id:
+                        assignment.id
+                    }
+                );
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        /*
+         * Reload authoritative database state
+         * after successful signing.
+         */
+
+        await loadWeekAssignments();
+
+
+        await loadCleaningCompletionsForSelectedWeek();
+
+
+        await loadCleaningDocumentationForSelectedWeek();
+
+
+        /*
+         * Render the complete selected week again.
+         *
+         * After signed_by / signed_at are loaded,
+         * tasks, camera and delete buttons become
+         * permanently locked.
+         */
+
+        renderCurrentWeekCard();
+
+        renderSelectedWeek();
+
+        renderWeekPreview();
+
+
+        await renderCleaningTasks();
+
+
+        updateCompletionControls();
+
+        renderPhotoPreviews();
+
+        updateConfirmButtonState();
+
+
+        return true;
+
+    }
+    catch (error) {
+
+        console.error(
+            "SIGN CLEANING WEEK ERROR:",
+            error
+        );
+
+
+        /*
+         * Do not mark anything as signed locally.
+         *
+         * Reload the database assignment in case
+         * the RPC succeeded but the response was
+         * interrupted.
+         */
+
+        await loadWeekAssignments();
+
+
+        await loadCleaningDocumentationForSelectedWeek();
+
+
+        window.alert(
+            "Rengjøringen kunne ikke signeres. Kontroller at alle oppgaver er fullført og at minst ett bilde er lagret."
+        );
+
+
+        return false;
+
+    }
+    finally {
+
+        isSigningCleaning =
+            false;
+
+
+        renderCurrentWeekCard();
+
+        renderSelectedWeek();
+
+        renderWeekPreview();
+
+
+        await renderCleaningTasks();
+
+
+        updateCompletionControls();
+
+        renderPhotoPreviews();
+
+        updateConfirmButtonState();
+
+    }
+
+}
+
+
+// ============================================================
+// CONFIRM CLEANING BUTTON
 // ============================================================
 
 if (confirmCleaningButton) {
 
     confirmCleaningButton.addEventListener(
         "click",
-        function () {
+        async function () {
 
             if (
-                confirmCleaningButton.disabled
+                confirmCleaningButton.disabled ||
+                isSigningCleaning ||
+                isSavingDocumentation ||
+                isSavingTaskCompletion
             ) {
 
                 return;
@@ -5176,19 +6862,7 @@ if (confirmCleaningButton) {
             }
 
 
-            /*
-             * Supabase Storage and secure final signing
-             * will be connected in the next database step.
-             *
-             * Nothing is marked finally signed only
-             * in the browser.
-             */
-
-            window.alert(
-                t(
-                    "completionReadyForSupabase"
-                )
-            );
+            await signCleaningWeek();
 
         }
     );
@@ -5247,6 +6921,7 @@ function refreshPropertyLanguage() {
 
     const property =
         currentResident.properties;
+
 
     const floor =
         currentResident.floors;
@@ -5371,14 +7046,13 @@ function refreshCleaningLanguage() {
 function refreshResidentLanguage() {
 
     /*
-     * First translate all static HTML elements
-     * that use data-i18n attributes.
+     * Translate all static HTML elements
+     * using data-i18n first.
      */
 
     if (
         window.CleanPlanI18n &&
-        typeof window.CleanPlanI18n
-            .applyTranslations ===
+        typeof window.CleanPlanI18n.applyTranslations ===
         "function"
     ) {
 
@@ -5387,10 +7061,6 @@ function refreshResidentLanguage() {
 
     }
 
-
-    /*
-     * Then rerender dynamic JavaScript content.
-     */
 
     refreshProfileLanguage();
 
@@ -5414,172 +7084,119 @@ window.addEventListener(
     }
 );
 
-
-// ============================================================
-// SHOW WAITING STATE
-// ============================================================
-
-function showWaitingState() {
-
-    if (loadingSection) {
-
-        loadingSection.hidden =
-            true;
-
-    }
-
-
-    hideContentSections();
-
-
-    if (waitingSection) {
-
-        waitingSection.hidden =
-            false;
-
-    }
-
-}
-
-
-// ============================================================
-// SHOW PAGE ERROR
-// ============================================================
-
-function showPageError(
-    message
-) {
-
-    if (loadingSection) {
-
-        loadingSection.hidden =
-            true;
-
-    }
-
-
-    hideContentSections();
-
-
-    if (residentPageMessage) {
-
-        residentPageMessage.textContent =
-            message ||
-            t(
-                "errorOccurred"
-            );
-
-    }
-
-
-    if (errorSection) {
-
-        errorSection.hidden =
-            false;
-
-    }
-
-}
-
 // ============================================================
 // INITIALIZE RESIDENT PAGE
 // ============================================================
 
-async function initResidentPage() {
+async function initializeResidentPage() {
 
-    hideContentSections();
+    try {
+
+        // ----------------------------------------------------
+        // INITIAL PAGE STATE
+        // ----------------------------------------------------
+
+        hideContentSections();
 
 
-    if (loadingSection) {
+        if (loadingSection) {
 
-        loadingSection.hidden =
-            false;
+            loadingSection.hidden =
+                false;
+
+        }
+
+
+        // ----------------------------------------------------
+        // AUTHENTICATION + PROFILE
+        // ----------------------------------------------------
+
+        const access =
+            await checkResidentAccess();
+
+
+        if (!access) {
+
+            return;
+
+        }
+
+
+        // ----------------------------------------------------
+        // RESIDENT / PROPERTY ASSOCIATION
+        // ----------------------------------------------------
+
+        const associationResult =
+            await loadResidentAssociation(
+                access.profile.id
+            );
+
+
+        if (
+            !associationResult ||
+            !associationResult.success
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+         * Resident account exists, but the
+         * administrator has not yet connected
+         * it to a property/floor.
+         *
+         * loadResidentAssociation() already
+         * displays the waiting section.
+         */
+
+        if (
+            !associationResult.resident
+        ) {
+
+            refreshResidentLanguage();
+
+            return;
+
+        }
+
+
+        // ----------------------------------------------------
+        // CLEANING PLAN
+        // ----------------------------------------------------
+
+        await loadCleaningPlan();
+
+
+        // ----------------------------------------------------
+        // APPLY CURRENT LANGUAGE
+        // ----------------------------------------------------
+
+        refreshResidentLanguage();
 
     }
+    catch (error) {
 
-
-    /*
-     * Make sure the static translations are applied first.
-     */
-
-    if (
-        window.CleanPlanI18n &&
-        typeof window.CleanPlanI18n
-            .applyTranslations ===
-        "function"
-    ) {
-
-        window.CleanPlanI18n
-            .applyTranslations();
-
-    }
-
-
-    const accessResult =
-        await checkResidentAccess();
-
-
-    if (!accessResult) {
-
-        return;
-
-    }
-
-
-    const associationResult =
-        await loadResidentAssociation(
-            accessResult.profile.id
+        console.error(
+            "INITIALIZE RESIDENT PAGE ERROR:",
+            error
         );
 
 
-    if (
-        !associationResult ||
-        !associationResult.success
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        !associationResult.resident
-    ) {
-
-        return;
+        showError(
+            t(
+                "unexpectedResidentPageError"
+            )
+        );
 
     }
-
-
-    await loadCleaningPlan();
-
-
-    refreshResidentLanguage();
 
 }
 
 
 // ============================================================
-// START PAGE
+// START RESIDENT PAGE
 // ============================================================
 
-if (
-    document.readyState ===
-    "loading"
-) {
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
-
-            initResidentPage();
-
-        }
-    );
-
-}
-else {
-
-    initResidentPage();
-
-}
+initializeResidentPage();

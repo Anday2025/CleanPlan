@@ -777,10 +777,9 @@
 
         </section>
 
-
         <!-- =================================================
-             RIGHT COLUMN
-             ================================================= -->
+     RIGHT COLUMN
+     ================================================= -->
 
         <div class="resident-plan-right">
 
@@ -812,20 +811,13 @@
 
 
             <!--
-                Camera only.
-                No gallery upload.
+                 Direct camera only.
 
-                capture="environment" requests the rear camera
-                on supported mobile browsers.
+                 JavaScript opens the device camera directly
+                 with navigator.mediaDevices.getUserMedia().
+
+                 No file or gallery input is used.
             -->
-
-            <input
-                    id="cameraInput"
-                    type="file"
-                    accept="image/*"
-                    capture="environment"
-                    hidden
-            >
 
 
             <button
@@ -851,11 +843,11 @@
             <div class="resident-photo-footer">
 
               <span id="photoCount">
-                Bilder (0/6)
+                Bilder (0/10)
               </span>
 
-              <span data-i18n="maxSixPhotos">
-                Maks 6 bilder
+              <span data-i18n="maxTenPhotos">
+                Maks 10 bilder
               </span>
 
             </div>
