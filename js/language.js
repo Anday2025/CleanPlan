@@ -1,6 +1,13 @@
 // ============================================================
 // CLEANPLAN
 // LANGUAGE SYSTEM
+//
+// Interface languages:
+// - Norwegian (NO)
+// - English   (EN)
+//
+// Cleaning task translations from other source languages
+// will later be handled through the Translation API.
 // ============================================================
 
 document.addEventListener(
@@ -59,7 +66,8 @@ document.addEventListener(
 
 
         // ========================================================
-        // LANGUAGES
+        // AVAILABLE LANGUAGES
+        // ONLY NO + EN
         // ========================================================
 
         const languages = [
@@ -78,222 +86,6 @@ document.addEventListener(
                 name: "English",
                 nativeName: "English",
                 flag: "🇬🇧"
-            },
-
-            {
-                code: "sv",
-                shortCode: "SV",
-                name: "Swedish",
-                nativeName: "Svenska",
-                flag: "🇸🇪"
-            },
-
-            {
-                code: "da",
-                shortCode: "DA",
-                name: "Danish",
-                nativeName: "Dansk",
-                flag: "🇩🇰"
-            },
-
-            {
-                code: "de",
-                shortCode: "DE",
-                name: "German",
-                nativeName: "Deutsch",
-                flag: "🇩🇪"
-            },
-
-            {
-                code: "fr",
-                shortCode: "FR",
-                name: "French",
-                nativeName: "Français",
-                flag: "🇫🇷"
-            },
-
-            {
-                code: "es",
-                shortCode: "ES",
-                name: "Spanish",
-                nativeName: "Español",
-                flag: "🇪🇸"
-            },
-
-            {
-                code: "it",
-                shortCode: "IT",
-                name: "Italian",
-                nativeName: "Italiano",
-                flag: "🇮🇹"
-            },
-
-            {
-                code: "pt",
-                shortCode: "PT",
-                name: "Portuguese",
-                nativeName: "Português",
-                flag: "🇵🇹"
-            },
-
-            {
-                code: "pl",
-                shortCode: "PL",
-                name: "Polish",
-                nativeName: "Polski",
-                flag: "🇵🇱"
-            },
-
-            {
-                code: "ro",
-                shortCode: "RO",
-                name: "Romanian",
-                nativeName: "Română",
-                flag: "🇷🇴"
-            },
-
-            {
-                code: "hu",
-                shortCode: "HU",
-                name: "Hungarian",
-                nativeName: "Magyar",
-                flag: "🇭🇺"
-            },
-
-            {
-                code: "bg",
-                shortCode: "BG",
-                name: "Bulgarian",
-                nativeName: "Български",
-                flag: "🇧🇬"
-            },
-
-            {
-                code: "el",
-                shortCode: "EL",
-                name: "Greek",
-                nativeName: "Ελληνικά",
-                flag: "🇬🇷"
-            },
-
-            {
-                code: "hr",
-                shortCode: "HR",
-                name: "Croatian",
-                nativeName: "Hrvatski",
-                flag: "🇭🇷"
-            },
-
-            {
-                code: "sk",
-                shortCode: "SK",
-                name: "Slovak",
-                nativeName: "Slovenčina",
-                flag: "🇸🇰"
-            },
-
-            {
-                code: "cs",
-                shortCode: "CS",
-                name: "Czech",
-                nativeName: "Čeština",
-                flag: "🇨🇿"
-            },
-
-            {
-                code: "uk",
-                shortCode: "UK",
-                name: "Ukrainian",
-                nativeName: "Українська",
-                flag: "🇺🇦"
-            },
-
-            {
-                code: "ru",
-                shortCode: "RU",
-                name: "Russian",
-                nativeName: "Русский",
-                flag: "🇷🇺"
-            },
-
-            {
-                code: "tr",
-                shortCode: "TR",
-                name: "Turkish",
-                nativeName: "Türkçe",
-                flag: "🇹🇷"
-            },
-
-            {
-                code: "ar",
-                shortCode: "AR",
-                name: "Arabic",
-                nativeName: "العربية",
-                flag: "🇸🇦"
-            },
-
-            {
-                code: "am",
-                shortCode: "AM",
-                name: "Amharic",
-                nativeName: "አማርኛ",
-                flag: "🇪🇹"
-            },
-
-            {
-                code: "ti",
-                shortCode: "TI",
-                name: "Tigrinya",
-                nativeName: "ትግርኛ",
-                flag: "🇪🇷"
-            },
-
-            {
-                code: "hi",
-                shortCode: "HI",
-                name: "Hindi",
-                nativeName: "हिन्दी",
-                flag: "🇮🇳"
-            },
-
-            {
-                code: "bn",
-                shortCode: "BN",
-                name: "Bengali",
-                nativeName: "বাংলা",
-                flag: "🇧🇩"
-            },
-
-            {
-                code: "ur",
-                shortCode: "UR",
-                name: "Urdu",
-                nativeName: "اردو",
-                flag: "🇵🇰"
-            },
-
-            {
-                code: "zh",
-                shortCode: "ZH",
-                name: "Chinese",
-                nativeName: "中文",
-                flag: "🇨🇳"
-            },
-
-            {
-                code: "ja",
-                shortCode: "JA",
-                name: "Japanese",
-                nativeName: "日本語",
-                flag: "🇯🇵"
-            },
-
-            {
-                code: "ko",
-                shortCode: "KO",
-                name: "Korean",
-                nativeName: "한국어",
-                flag: "🇰🇷"
             }
 
         ];
@@ -301,11 +93,6 @@ document.addEventListener(
 
         // ========================================================
         // TRANSLATIONS
-        //
-        // Norwegian is the source/default language.
-        //
-        // Norwegian and English are translated locally.
-        // Other languages temporarily fall back to Norwegian.
         // ========================================================
 
         const translations = {
@@ -319,7 +106,7 @@ document.addEventListener(
 
 
                 // =================================================
-                // GENERAL / LOGIN / LANDING PAGE
+                // GENERAL / LOGIN
                 // =================================================
 
                 login:
@@ -416,7 +203,7 @@ document.addEventListener(
 
 
                 // =================================================
-                // RESIDENT PAGE - STATIC TEXT
+                // RESIDENT PAGE
                 // =================================================
 
                 residentPageTitle:
@@ -426,13 +213,13 @@ document.addEventListener(
                     "BEBOER",
 
                 residentWelcomeDescription:
-                    "Her finner du boligen din, rengjøringsplanen og oppgavene dine.",
+                    "Her finner du boligen din, rengjøringsplanen og dine kommende rengjøringsuker.",
 
                 loading:
                     "Laster...",
 
                 residentLoadingDescription:
-                    "Vi henter informasjonen din.",
+                    "Henter kontoen og rengjøringsplanen din.",
 
                 propertyAssociation:
                     "Boligtilknytning",
@@ -441,19 +228,19 @@ document.addEventListener(
                     "Kontoen din er aktiv.",
 
                 notAssignedProperty:
-                    "Du er ikke knyttet til en bolig ennå",
+                    "Du er ikke tilknyttet en bolig ennå",
 
                 notAssignedPropertyDescription:
-                    "Kontoen din er opprettet, men du er ikke registrert på en bolig og etasje ennå.",
+                    "Kontoen din er opprettet og klar til bruk, men administrator har ikke koblet deg til en bolig og etasje ennå.",
 
                 contactAdministratorProperty:
-                    "Kontakt administratoren dersom du mener dette er feil.",
+                    "Kontakt administrator dersom du mener at boligtilknytningen allerede skulle vært registrert.",
 
                 myProperty:
                     "Min bolig",
 
                 registeredPropertyFloor:
-                    "Registrert bolig og etasje",
+                    "Din registrerte bolig og etasje.",
 
                 active:
                     "Aktiv",
@@ -462,10 +249,10 @@ document.addEventListener(
                     "Ingen rengjøringsplan ennå",
 
                 noCleaningPlanDescription:
-                    "Det er ikke opprettet en aktiv rengjøringsplan for boligen og etasjen din.",
+                    "Administrator har ikke opprettet en rengjøringsplan for etasjen din ennå.",
 
                 thisWeek:
-                    "Denne uken",
+                    "DENNE UKEN",
 
                 date:
                     "Dato",
@@ -480,16 +267,16 @@ document.addEventListener(
                     "Etasje",
 
                 thursdayFallbackWarning:
-                    "Hvis rengjøring ikke er mulig fredag, skal den utføres torsdag.",
+                    "Hvis fredag ikke er mulig, skal rengjøringen utføres på torsdag.",
 
                 viewPreviousUpcomingWeeks:
-                    "Se tidligere og kommende uker",
+                    "Se tidligere og kommende uker.",
 
                 previous:
-                    "← Forrige",
+                    "Forrige",
 
                 next:
-                    "Neste →",
+                    "Neste",
 
                 selectedWeek:
                     "Valgt uke",
@@ -501,41 +288,75 @@ document.addEventListener(
                     "Rengjøringsoppgaver",
 
                 noCleaningTasks:
-                    "Ingen rengjøringsoppgaver er opprettet.",
+                    "Det er ingen rengjøringsoppgaver registrert ennå.",
+
+
+                // =================================================
+                // DOCUMENTATION / CAMERA
+                // =================================================
 
                 documentWork:
                     "Dokumenter arbeidet",
 
                 documentWorkDescription:
-                    "Ta minst ett nytt bilde etter at rengjøringen er utført.",
+                    "Ta nye bilder med kameraet etter at rengjøringen er utført.",
 
                 takePhoto:
                     "Ta bilde",
 
+                takePhotoWithIcon:
+                    "📷 Ta bilde",
+
                 maxTenPhotos:
                     "Maks 10 bilder",
+
+                maxTenPhotosAlert:
+                    "Du kan legge til maksimalt 10 bilder.",
+
+                photosCount:
+                    "Bilder ({count}/10)",
+
+                documentationPhotoAlt:
+                    "Dokumentasjonsbilde",
+
+                cleaningDocumentationPhoto:
+                    "Dokumentasjonsbilde",
+
+                removePhotoAria:
+                    "Fjern bilde",
+
+                deletePhoto:
+                    "Slett bilde",
+
+                maxPhotosTaken:
+                    "✓ Maks antall bilder tatt",
+
+
+                // =================================================
+                // CONFIRM AND SIGN
+                // =================================================
 
                 confirmAndSign:
                     "Bekreft og signer",
 
                 confirmAndSignDescription:
-                    "Når alle oppgavene er fullført og minst ett bilde er lagt til, kan rengjøringen bekreftes.",
+                    "Bekreft når alle oppgavene er utført og dokumentasjonen er lagt til.",
 
                 signedBy:
-                    "Signert av",
+                    "Signeres av",
 
                 week:
                     "Uke",
 
                 confirmCleaningCompleted:
-                    "Bekreft at rengjøringen er fullført",
+                    "Bekreft og signer rengjøring utført",
 
                 couldNotLoadPage:
-                    "Kunne ikke laste siden.",
+                    "Kunne ikke laste siden",
 
 
                 // =================================================
-                // RESIDENT PAGE - DYNAMIC TEXT
+                // DYNAMIC RESIDENT TEXT
                 // =================================================
 
                 welcomeUser:
@@ -586,9 +407,6 @@ document.addEventListener(
                 upcoming:
                     "Kommende",
 
-                notCompleted:
-                    "Ikke fullført",
-
                 notAvailableYet:
                     "Ikke tilgjengelig ennå",
 
@@ -600,6 +418,12 @@ document.addEventListener(
 
                 deadlinePassed:
                     "Frist utløpt",
+
+                completed:
+                    "Fullført ✓",
+
+                notCompleted:
+                    "Ikke fullført",
 
                 cleaningWeekHeading:
                     "Rengjøring • Uke {week}",
@@ -616,6 +440,9 @@ document.addEventListener(
                 multipleTasks:
                     "{count} oppgaver",
 
+                cleaningTask:
+                    "Rengjøringsoppgave",
+
                 tasksCreatedByAdministrator:
                     "Oppgavene er opprettet av administrator.",
 
@@ -629,7 +456,10 @@ document.addEventListener(
                     "🔒 Kun ukens ansvarlige kan bekrefte rengjøringen.",
 
                 onlyResponsibleResidentCanComplete:
-                    "Bare den ansvarlige beboeren kan fullføre rengjøringen.",
+                    "Kun den ansvarlige beboeren kan fullføre denne uken.",
+
+                responsibleOnlyForWeek:
+                    "🔒 Kun den ansvarlige for denne uken kan fullføre rengjøringen.",
 
                 notActiveCleaningWeek:
                     "Dette er ikke den aktive rengjøringsuken.",
@@ -638,7 +468,7 @@ document.addEventListener(
                     "Oppgaver kan bare fullføres i den aktuelle uken.",
 
                 onlyCurrentWeekCanBeCompleted:
-                    "Rengjøring kan bare fullføres i den aktuelle uken.",
+                    "Bare den aktuelle rengjøringsuken kan fullføres.",
 
                 selectCurrentWeekToClean:
                     "🔒 Velg den aktuelle uken for å utføre rengjøringen.",
@@ -674,34 +504,7 @@ document.addEventListener(
                     "Fullfør alle oppgaver og ta minst ett nytt bilde før du signerer.",
 
                 cleaningAlreadySigned:
-                    "✓ Rengjøringen er allerede bekreftet og signert.",
-
-                maxTenPhotosAlert:
-                    "Du kan legge til maksimalt 10 bilder.",
-
-                photosCount:
-                    "Bilder ({count}/10)",
-
-                documentationPhotoAlt:
-                    "Dokumentasjonsbilde",
-
-                cleaningDocumentationPhoto:
-                    "Dokumentasjonsbilde",
-
-                removePhotoAria:
-                    "Fjern bilde",
-
-                deletePhoto:
-                    "Slett bilde",
-
-                maxPhotosTaken:
-                    "✓ Maks antall bilder tatt",
-
-                takePhotoWithIcon:
-                    "📷 Ta bilde",
-
-                cleaningTask:
-                    "Rengjøringsoppgave",
+                    "Rengjøringen er allerede signert.",
 
                 couldNotSaveTaskCompletion:
                     "Kunne ikke lagre oppgaven som fullført.",
@@ -709,30 +512,69 @@ document.addEventListener(
                 couldNotRemoveTaskCompletion:
                     "Kunne ikke fjerne fullføringen av oppgaven.",
 
-                responsibleOnlyForWeek:
-                    "Du kan bare fullføre rengjøringen i uken du er ansvarlig.",
+                completionReadyForSupabase:
+                    "Alle oppgaver er fullført og dokumentasjonen er klar.",
 
                 unexpectedResidentPageError:
-                    "Det oppstod en uventet feil ved lasting av siden.",
+                    "Det oppstod en uventet feil på beboersiden.",
 
                 errorOccurred:
                     "Det oppstod en feil.",
 
-                cancel:
-                    "Avbryt"
+
+                // =================================================
+                // CLEANING HISTORY
+                // =================================================
+
+                cleaningHistory:
+                    "Logg",
+
+                cleaningHistoryEyebrow:
+                    "Historikk",
+
+                cleaningHistoryDescription:
+                    "Se tidligere rengjøringsuker og dokumentasjon for boligen og etasjen din.",
+
+                closeCleaningHistory:
+                    "Lukk historikk",
+
+                loadingCleaningHistory:
+                    "Laster rengjøringshistorikk...",
+
+                noCleaningHistory:
+                    "Ingen historikk ennå",
+
+                noCleaningHistoryDescription:
+                    "Tidligere rengjøringsuker vises her når de blir tilgjengelige.",
+
+                cleaningHistoryResponsible:
+                    "Ansvarlig",
+
+                cleaningHistorySignedBy:
+                    "Signert av",
+
+                cleaningHistorySignedAt:
+                    "Signert",
+
+                cleaningHistoryDocumentation:
+                    "Dokumentasjon",
+
+                cleaningHistoryNoDocumentation:
+                    "Ingen dokumentasjonsbilder",
+
+                cleaningHistoryWeek:
+                    "Uke"
 
             },
 
 
             // ====================================================
             // ENGLISH
+            // DEL 2 CONTINUES HERE
             // ====================================================
 
-            en: {
-
-
-                // =================================================
-                // GENERAL / LOGIN / LANDING PAGE
+            en: {                 // =================================================
+                // GENERAL / LOGIN
                 // =================================================
 
                 login:
@@ -829,7 +671,7 @@ document.addEventListener(
 
 
                 // =================================================
-                // RESIDENT PAGE - STATIC TEXT
+                // RESIDENT PAGE
                 // =================================================
 
                 residentPageTitle:
@@ -839,16 +681,16 @@ document.addEventListener(
                     "RESIDENT",
 
                 residentWelcomeDescription:
-                    "Here you can find your property, cleaning schedule and tasks.",
+                    "Here you can find your property, cleaning schedule and upcoming cleaning weeks.",
 
                 loading:
                     "Loading...",
 
                 residentLoadingDescription:
-                    "We are loading your information.",
+                    "Loading your account and cleaning schedule.",
 
                 propertyAssociation:
-                    "Property association",
+                    "Property assignment",
 
                 accountActive:
                     "Your account is active.",
@@ -857,16 +699,16 @@ document.addEventListener(
                     "You are not assigned to a property yet",
 
                 notAssignedPropertyDescription:
-                    "Your account has been created, but you have not yet been assigned to a property and floor.",
+                    "Your account has been created and is ready to use, but an administrator has not yet assigned you to a property and floor.",
 
                 contactAdministratorProperty:
-                    "Contact the administrator if you believe this is incorrect.",
+                    "Contact an administrator if you believe your property assignment should already have been registered.",
 
                 myProperty:
                     "My property",
 
                 registeredPropertyFloor:
-                    "Registered property and floor",
+                    "Your registered property and floor.",
 
                 active:
                     "Active",
@@ -875,10 +717,10 @@ document.addEventListener(
                     "No cleaning schedule yet",
 
                 noCleaningPlanDescription:
-                    "No active cleaning schedule has been created for your property and floor.",
+                    "An administrator has not created a cleaning schedule for your floor yet.",
 
                 thisWeek:
-                    "This week",
+                    "THIS WEEK",
 
                 date:
                     "Date",
@@ -893,16 +735,16 @@ document.addEventListener(
                     "Floor",
 
                 thursdayFallbackWarning:
-                    "If cleaning is not possible on Friday, it must be completed on Thursday.",
+                    "If Friday is not possible, cleaning must be completed on Thursday.",
 
                 viewPreviousUpcomingWeeks:
-                    "View previous and upcoming weeks",
+                    "View previous and upcoming weeks.",
 
                 previous:
-                    "← Previous",
+                    "Previous",
 
                 next:
-                    "Next →",
+                    "Next",
 
                 selectedWeek:
                     "Selected week",
@@ -914,25 +756,59 @@ document.addEventListener(
                     "Cleaning tasks",
 
                 noCleaningTasks:
-                    "No cleaning tasks have been created.",
+                    "No cleaning tasks have been registered yet.",
+
+
+                // =================================================
+                // DOCUMENTATION / CAMERA
+                // =================================================
 
                 documentWork:
                     "Document the work",
 
                 documentWorkDescription:
-                    "Take at least one new photo after the cleaning is completed.",
+                    "Take new photos with the camera after the cleaning has been completed.",
 
                 takePhoto:
                     "Take photo",
 
+                takePhotoWithIcon:
+                    "📷 Take photo",
+
                 maxTenPhotos:
                     "Maximum 10 photos",
+
+                maxTenPhotosAlert:
+                    "You can add a maximum of 10 photos.",
+
+                photosCount:
+                    "Photos ({count}/10)",
+
+                documentationPhotoAlt:
+                    "Documentation photo",
+
+                cleaningDocumentationPhoto:
+                    "Documentation photo",
+
+                removePhotoAria:
+                    "Remove photo",
+
+                deletePhoto:
+                    "Delete photo",
+
+                maxPhotosTaken:
+                    "✓ Maximum number of photos taken",
+
+
+                // =================================================
+                // CONFIRM AND SIGN
+                // =================================================
 
                 confirmAndSign:
                     "Confirm and sign",
 
                 confirmAndSignDescription:
-                    "When all tasks are completed and at least one photo has been added, the cleaning can be confirmed.",
+                    "Confirm when all tasks have been completed and the documentation has been added.",
 
                 signedBy:
                     "Signed by",
@@ -941,14 +817,14 @@ document.addEventListener(
                     "Week",
 
                 confirmCleaningCompleted:
-                    "Confirm that the cleaning is completed",
+                    "Confirm and sign cleaning completed",
 
                 couldNotLoadPage:
-                    "Could not load the page.",
+                    "Could not load the page",
 
 
                 // =================================================
-                // RESIDENT PAGE - DYNAMIC TEXT
+                // DYNAMIC RESIDENT TEXT
                 // =================================================
 
                 welcomeUser:
@@ -970,7 +846,7 @@ document.addEventListener(
                     "Floor {floor}",
 
                 couldNotFetchPropertyAssociation:
-                    "Could not load your property association.",
+                    "Could not load your property assignment.",
 
                 couldNotFetchCleaningPlan:
                     "Could not load the cleaning schedule.",
@@ -991,16 +867,13 @@ document.addEventListener(
                     "Scheduled",
 
                 planned:
-                    "Planned",
+                    "Scheduled",
 
                 previousWeekStatus:
                     "Previous week",
 
                 upcoming:
                     "Upcoming",
-
-                notCompleted:
-                    "Not completed",
 
                 notAvailableYet:
                     "Not available yet",
@@ -1013,6 +886,12 @@ document.addEventListener(
 
                 deadlinePassed:
                     "Deadline passed",
+
+                completed:
+                    "Completed ✓",
+
+                notCompleted:
+                    "Not completed",
 
                 cleaningWeekHeading:
                     "Cleaning • Week {week}",
@@ -1029,6 +908,9 @@ document.addEventListener(
                 multipleTasks:
                     "{count} tasks",
 
+                cleaningTask:
+                    "Cleaning task",
+
                 tasksCreatedByAdministrator:
                     "The tasks were created by the administrator.",
 
@@ -1042,19 +924,22 @@ document.addEventListener(
                     "🔒 Only the resident responsible for this week can confirm the cleaning.",
 
                 onlyResponsibleResidentCanComplete:
-                    "Only the responsible resident can complete the cleaning.",
+                    "Only the responsible resident can complete this week.",
+
+                responsibleOnlyForWeek:
+                    "🔒 Only the resident responsible for this week can complete the cleaning.",
 
                 notActiveCleaningWeek:
                     "This is not the active cleaning week.",
 
                 tasksOnlyCurrentWeek:
-                    "Tasks can only be completed during the current week.",
+                    "Tasks can only be completed during the current cleaning week.",
 
                 onlyCurrentWeekCanBeCompleted:
-                    "Cleaning can only be completed during the current week.",
+                    "Only the current cleaning week can be completed.",
 
                 selectCurrentWeekToClean:
-                    "🔒 Select the current week to perform the cleaning.",
+                    "🔒 Select the current week to complete the cleaning.",
 
                 cleaningAvailableThursday:
                     "Cleaning becomes available on Thursday.",
@@ -1078,7 +963,7 @@ document.addEventListener(
                     "🔒 The deadline has passed.",
 
                 responsibleThisWeekCheckTasks:
-                    "You are responsible this week. Check off the tasks as they are completed.",
+                    "You are responsible this week. Check off each task as it is completed.",
 
                 responsibleForThisWeek:
                     "You are responsible for this week.",
@@ -1087,34 +972,7 @@ document.addEventListener(
                     "Complete all tasks and take at least one new photo before signing.",
 
                 cleaningAlreadySigned:
-                    "✓ The cleaning has already been confirmed and signed.",
-
-                maxTenPhotosAlert:
-                    "You can add a maximum of 10 photos.",
-
-                photosCount:
-                    "Photos ({count}/10)",
-
-                documentationPhotoAlt:
-                    "Documentation photo",
-
-                cleaningDocumentationPhoto:
-                    "Documentation photo",
-
-                removePhotoAria:
-                    "Remove photo",
-
-                deletePhoto:
-                    "Delete photo",
-
-                maxPhotosTaken:
-                    "✓ Maximum number of photos taken",
-
-                takePhotoWithIcon:
-                    "📷 Take photo",
-
-                cleaningTask:
-                    "Cleaning task",
+                    "The cleaning has already been signed.",
 
                 couldNotSaveTaskCompletion:
                     "Could not save the task as completed.",
@@ -1122,21 +980,63 @@ document.addEventListener(
                 couldNotRemoveTaskCompletion:
                     "Could not remove the task completion.",
 
-                responsibleOnlyForWeek:
-                    "You can only complete the cleaning during the week you are responsible.",
+                completionReadyForSupabase:
+                    "All tasks are completed and the documentation is ready.",
 
                 unexpectedResidentPageError:
-                    "An unexpected error occurred while loading the page.",
+                    "An unexpected error occurred on the resident page.",
 
                 errorOccurred:
                     "An error occurred.",
 
-                cancel:
-                    "Cancel"
+
+                // =================================================
+                // CLEANING HISTORY
+                // =================================================
+
+                cleaningHistory:
+                    "Log",
+
+                cleaningHistoryEyebrow:
+                    "History",
+
+                cleaningHistoryDescription:
+                    "View previous cleaning weeks and documentation for your property and floor.",
+
+                closeCleaningHistory:
+                    "Close history",
+
+                loadingCleaningHistory:
+                    "Loading cleaning history...",
+
+                noCleaningHistory:
+                    "No history yet",
+
+                noCleaningHistoryDescription:
+                    "Previous cleaning weeks will appear here when they become available.",
+
+                cleaningHistoryResponsible:
+                    "Responsible",
+
+                cleaningHistorySignedBy:
+                    "Signed by",
+
+                cleaningHistorySignedAt:
+                    "Signed",
+
+                cleaningHistoryDocumentation:
+                    "Documentation",
+
+                cleaningHistoryNoDocumentation:
+                    "No documentation photos",
+
+                cleaningHistoryWeek:
+                    "Week"
 
             }
 
         };
+
 
         // ========================================================
         // CURRENT LANGUAGE
@@ -1148,6 +1048,36 @@ document.addEventListener(
             ) || "no";
 
 
+        /*
+         * If an old language such as sv, pl, ti, etc.
+         * is still saved from the previous 29-language version,
+         * reset safely to Norwegian.
+         */
+        if (
+            !languages.some(
+                function (language) {
+
+                    return (
+                        language.code ===
+                        currentLanguageCode
+                    );
+
+                }
+            )
+        ) {
+
+            currentLanguageCode =
+                "no";
+
+
+            localStorage.setItem(
+                "cleaningAppLanguage",
+                "no"
+            );
+
+        }
+
+
         // ========================================================
         // GET LANGUAGE BY CODE
         // ========================================================
@@ -1157,9 +1087,7 @@ document.addEventListener(
         ) {
 
             return languages.find(
-                function (
-                    language
-                ) {
+                function (language) {
 
                     return (
                         language.code ===
@@ -1173,15 +1101,16 @@ document.addEventListener(
 
 
         // ========================================================
-        // INTERPOLATE TRANSLATION PARAMETERS
+        // INTERPOLATE
         // ========================================================
 
-        function interpolateTranslation(
+        function interpolate(
             text,
-            params = {}
+            params
         ) {
 
             if (
+                !params ||
                 typeof text !==
                 "string"
             ) {
@@ -1192,30 +1121,22 @@ document.addEventListener(
 
 
             return text.replace(
-                /\{([a-zA-Z0-9_]+)\}/g,
+                /\{(\w+)\}/g,
                 function (
                     match,
                     key
                 ) {
 
-                    if (
-                        Object.prototype
-                            .hasOwnProperty.call(
+                    return Object.prototype
+                        .hasOwnProperty
+                        .call(
                             params,
                             key
                         )
-                    ) {
-
-                        return String(
-                            params[
-                                key
-                                ]
-                        );
-
-                    }
-
-
-                    return match;
+                        ? String(
+                            params[key]
+                        )
+                        : match;
 
                 }
             );
@@ -1229,7 +1150,7 @@ document.addEventListener(
 
         function getTranslation(
             key,
-            params = {}
+            params
         ) {
 
             const currentTranslations =
@@ -1238,83 +1159,53 @@ document.addEventListener(
                     ];
 
 
-            /*
-             * Norwegian is the fallback language.
-             *
-             * Languages that do not yet have their
-             * own local translation package will
-             * temporarily display Norwegian.
-             */
-
             const fallbackTranslations =
                 translations.no;
 
 
-            let translatedText;
+            let value;
 
-
-            // ----------------------------------------------------
-            // CURRENT LANGUAGE
-            // ----------------------------------------------------
 
             if (
                 currentTranslations &&
                 Object.prototype
-                    .hasOwnProperty.call(
-                    currentTranslations,
-                    key
-                )
+                    .hasOwnProperty
+                    .call(
+                        currentTranslations,
+                        key
+                    )
             ) {
 
-                translatedText =
+                value =
                     currentTranslations[
                         key
                         ];
 
-            }
-
-
-                // ----------------------------------------------------
-                // NORWEGIAN FALLBACK
-            // ----------------------------------------------------
-
-            else if (
+            } else if (
                 fallbackTranslations &&
                 Object.prototype
-                    .hasOwnProperty.call(
-                    fallbackTranslations,
-                    key
-                )
+                    .hasOwnProperty
+                    .call(
+                        fallbackTranslations,
+                        key
+                    )
             ) {
 
-                translatedText =
+                value =
                     fallbackTranslations[
                         key
                         ];
 
-            }
+            } else {
 
-
-                // ----------------------------------------------------
-                // UNKNOWN TRANSLATION KEY
-            // ----------------------------------------------------
-
-            else {
-
-                console.warn(
-                    "Missing translation key:",
-                    key
-                );
-
-
-                translatedText =
+                value =
                     key;
 
             }
 
 
-            return interpolateTranslation(
-                translatedText,
+            return interpolate(
+                value,
                 params
             );
 
@@ -1327,231 +1218,157 @@ document.addEventListener(
 
         function translatePage() {
 
-
-            // ====================================================
-            // TEXT CONTENT
-            // ====================================================
-
-            const textElements =
-                document.querySelectorAll(
+            document
+                .querySelectorAll(
                     "[data-i18n]"
+                )
+                .forEach(
+                    function (element) {
+
+                        const key =
+                            element.dataset
+                                .i18n;
+
+
+                        if (
+                            key
+                        ) {
+
+                            element.textContent =
+                                getTranslation(
+                                    key
+                                );
+
+                        }
+
+                    }
                 );
 
 
-            textElements.forEach(
-                function (
-                    element
-                ) {
-
-                    const key =
-                        element.dataset.i18n;
-
-
-                    if (!key) {
-
-                        return;
-
-                    }
-
-
-                    element.textContent =
-                        getTranslation(
-                            key
-                        );
-
-                }
-            );
-
-
-            // ====================================================
-            // PLACEHOLDERS
-            // ====================================================
-
-            const placeholderElements =
-                document.querySelectorAll(
+            document
+                .querySelectorAll(
                     "[data-i18n-placeholder]"
+                )
+                .forEach(
+                    function (element) {
+
+                        const key =
+                            element.dataset
+                                .i18nPlaceholder;
+
+
+                        if (
+                            key
+                        ) {
+
+                            element.setAttribute(
+                                "placeholder",
+                                getTranslation(
+                                    key
+                                )
+                            );
+
+                        }
+
+                    }
                 );
 
 
-            placeholderElements.forEach(
-                function (
-                    element
-                ) {
-
-                    const key =
-                        element.dataset
-                            .i18nPlaceholder;
-
-
-                    if (!key) {
-
-                        return;
-
-                    }
-
-
-                    element.setAttribute(
-                        "placeholder",
-                        getTranslation(
-                            key
-                        )
-                    );
-
-                }
-            );
-
-
-            // ====================================================
-            // ARIA LABELS
-            // ====================================================
-
-            const ariaLabelElements =
-                document.querySelectorAll(
+            document
+                .querySelectorAll(
                     "[data-i18n-aria-label]"
+                )
+                .forEach(
+                    function (element) {
+
+                        const key =
+                            element.dataset
+                                .i18nAriaLabel;
+
+
+                        if (
+                            key
+                        ) {
+
+                            element.setAttribute(
+                                "aria-label",
+                                getTranslation(
+                                    key
+                                )
+                            );
+
+                        }
+
+                    }
                 );
 
 
-            ariaLabelElements.forEach(
-                function (
-                    element
-                ) {
-
-                    const key =
-                        element.dataset
-                            .i18nAriaLabel;
-
-
-                    if (!key) {
-
-                        return;
-
-                    }
-
-
-                    element.setAttribute(
-                        "aria-label",
-                        getTranslation(
-                            key
-                        )
-                    );
-
-                }
-            );
-
-
-            // ====================================================
-            // TITLE ATTRIBUTES
-            // ====================================================
-
-            const titleElements =
-                document.querySelectorAll(
+            document
+                .querySelectorAll(
                     "[data-i18n-title]"
+                )
+                .forEach(
+                    function (element) {
+
+                        const key =
+                            element.dataset
+                                .i18nTitle;
+
+
+                        if (
+                            key
+                        ) {
+
+                            element.setAttribute(
+                                "title",
+                                getTranslation(
+                                    key
+                                )
+                            );
+
+                        }
+
+                    }
                 );
 
 
-            titleElements.forEach(
-                function (
-                    element
-                ) {
-
-                    const key =
-                        element.dataset
-                            .i18nTitle;
-
-
-                    if (!key) {
-
-                        return;
-
-                    }
-
-
-                    const translatedTitle =
-                        getTranslation(
-                            key
-                        );
-
-
-                    /*
-                     * <title> uses textContent.
-                     *
-                     * Normal HTML elements use
-                     * the title attribute.
-                     */
-
-                    if (
-                        element.tagName
-                            .toLowerCase() ===
-                        "title"
-                    ) {
-
-                        element.textContent =
-                            translatedTitle;
-
-                    } else {
-
-                        element.setAttribute(
-                            "title",
-                            translatedTitle
-                        );
-
-                    }
-
-                }
-            );
-
-
-            // ====================================================
-            // HTML LANGUAGE ATTRIBUTE
-            // ====================================================
-
-            document.documentElement.lang =
-                currentLanguageCode;
-
-
-            // ====================================================
-            // FALLBACK DOCUMENT TITLE
-            // ====================================================
-
-            const translatedTitleElement =
+            const titleElement =
                 document.querySelector(
                     "title[data-i18n-title]"
                 );
 
 
-            /*
-             * resident.html uses data-i18n-title.
-             *
-             * Older login/landing pages may not,
-             * so keep a safe fallback.
-             */
-
             if (
-                !translatedTitleElement
+                titleElement
             ) {
 
+                const titleKey =
+                    titleElement.dataset
+                        .i18nTitle;
+
+
                 if (
-                    currentLanguageCode ===
-                    "en"
+                    titleKey
                 ) {
 
                     document.title =
-                        "Cleaning App - Log in";
-
-                } else {
-
-                    document.title =
-                        "Cleaning App - Logg inn";
+                        getTranslation(
+                            titleKey
+                        );
 
                 }
 
             }
 
+
+            document.documentElement.lang =
+                currentLanguageCode;
+
         }
 
 
         // ========================================================
-        // UPDATE HEADER LANGUAGE BUTTON
+        // UPDATE LANGUAGE BUTTON
         // ========================================================
 
         function updateLanguageButton() {
@@ -1562,12 +1379,9 @@ document.addEventListener(
                 );
 
 
-            /*
-             * Invalid or old language code
-             * stored in localStorage.
-             */
-
-            if (!language) {
+            if (
+                !language
+            ) {
 
                 currentLanguageCode =
                     "no";
@@ -1599,16 +1413,15 @@ document.addEventListener(
             document.documentElement.lang =
                 language.code;
 
-        }
-
-
-        // ========================================================
+        }               // ========================================================
         // OPEN LANGUAGE MODAL
         // ========================================================
 
         function openLanguageModal() {
 
-            if (!languageModal) {
+            if (
+                !languageModal
+            ) {
 
                 return;
 
@@ -1619,7 +1432,9 @@ document.addEventListener(
                 false;
 
 
-            if (languageButton) {
+            if (
+                languageButton
+            ) {
 
                 languageButton.setAttribute(
                     "aria-expanded",
@@ -1632,11 +1447,6 @@ document.addEventListener(
             renderLanguages();
 
 
-            /*
-             * Focus search after the modal
-             * has become visible.
-             */
-
             setTimeout(
                 function () {
 
@@ -1644,8 +1454,7 @@ document.addEventListener(
                         languageSearchInput
                     ) {
 
-                        languageSearchInput
-                            .focus();
+                        languageSearchInput.focus();
 
                     }
 
@@ -1662,7 +1471,9 @@ document.addEventListener(
 
         function closeLanguageModal() {
 
-            if (!languageModal) {
+            if (
+                !languageModal
+            ) {
 
                 return;
 
@@ -1673,7 +1484,9 @@ document.addEventListener(
                 true;
 
 
-            if (languageButton) {
+            if (
+                languageButton
+            ) {
 
                 languageButton.setAttribute(
                     "aria-expanded",
@@ -1691,7 +1504,9 @@ document.addEventListener(
 
         function toggleLanguageModal() {
 
-            if (!languageModal) {
+            if (
+                !languageModal
+            ) {
 
                 return;
 
@@ -1711,6 +1526,7 @@ document.addEventListener(
             }
 
         }
+
 
         // ========================================================
         // CREATE LANGUAGE ITEM
@@ -1745,10 +1561,8 @@ document.addEventListener(
 
 
             const isSelected =
-                (
-                    language.code ===
-                    currentLanguageCode
-                );
+                language.code ===
+                currentLanguageCode;
 
 
             button.setAttribute(
@@ -1759,7 +1573,9 @@ document.addEventListener(
             );
 
 
-            if (isSelected) {
+            if (
+                isSelected
+            ) {
 
                 button.classList.add(
                     "active"
@@ -1768,9 +1584,9 @@ document.addEventListener(
             }
 
 
-            // ====================================================
+            // ----------------------------------------------------
             // FLAG
-            // ====================================================
+            // ----------------------------------------------------
 
             const flag =
                 document.createElement(
@@ -1786,9 +1602,9 @@ document.addEventListener(
                 language.flag;
 
 
-            // ====================================================
-            // LANGUAGE CODE
-            // ====================================================
+            // ----------------------------------------------------
+            // CODE
+            // ----------------------------------------------------
 
             const code =
                 document.createElement(
@@ -1804,9 +1620,9 @@ document.addEventListener(
                 language.shortCode;
 
 
-            // ====================================================
-            // SELECTED CHECK
-            // ====================================================
+            // ----------------------------------------------------
+            // CHECKMARK
+            // ----------------------------------------------------
 
             const check =
                 document.createElement(
@@ -1824,9 +1640,9 @@ document.addEventListener(
                     : "";
 
 
-            // ====================================================
-            // BUILD ITEM
-            // ====================================================
+            // ----------------------------------------------------
+            // ADD CONTENT
+            // ----------------------------------------------------
 
             button.appendChild(
                 flag
@@ -1843,9 +1659,9 @@ document.addEventListener(
             );
 
 
-            // ====================================================
+            // ----------------------------------------------------
             // SELECT LANGUAGE
-            // ====================================================
+            // ----------------------------------------------------
 
             button.addEventListener(
                 "click",
@@ -1886,7 +1702,9 @@ document.addEventListener(
                     : "";
 
 
-            if (!searchValue) {
+            if (
+                !searchValue
+            ) {
 
                 return languages;
 
@@ -1898,15 +1716,6 @@ document.addEventListener(
                     language
                 ) {
 
-                    /*
-                     * Search using:
-                     *
-                     * - language code
-                     * - short code
-                     * - English language name
-                     * - native language name
-                     */
-
                     const searchableText =
                         [
                             language.code,
@@ -1914,7 +1723,9 @@ document.addEventListener(
                             language.name,
                             language.nativeName
                         ]
-                            .join(" ")
+                            .join(
+                                " "
+                            )
                             .toLowerCase();
 
 
@@ -1935,7 +1746,9 @@ document.addEventListener(
 
         function renderLanguages() {
 
-            if (!languageList) {
+            if (
+                !languageList
+            ) {
 
                 return;
 
@@ -1950,9 +1763,9 @@ document.addEventListener(
                 "";
 
 
-            // ====================================================
+            // ----------------------------------------------------
             // RESULT COUNT
-            // ====================================================
+            // ----------------------------------------------------
 
             if (
                 languageResultText
@@ -1975,9 +1788,9 @@ document.addEventListener(
             }
 
 
-            // ====================================================
-            // EMPTY RESULT
-            // ====================================================
+            // ----------------------------------------------------
+            // NO RESULTS
+            // ----------------------------------------------------
 
             if (
                 filteredLanguages.length ===
@@ -1998,33 +1811,14 @@ document.addEventListener(
                 }
 
 
-                /*
-                 * Search field may still contain
-                 * text, so keep the clear button
-                 * available.
-                 */
-
-                if (
-                    clearLanguageSearchButton &&
-                    languageSearchInput
-                ) {
-
-                    clearLanguageSearchButton.hidden =
-                        (
-                            languageSearchInput
-                                .value
-                                .trim()
-                                .length ===
-                            0
-                        );
-
-                }
-
-
                 return;
 
             }
 
+
+            // ----------------------------------------------------
+            // SHOW RESULTS
+            // ----------------------------------------------------
 
             languageList.hidden =
                 false;
@@ -2040,9 +1834,13 @@ document.addEventListener(
             }
 
 
-            // ====================================================
-            // LANGUAGE ITEMS
-            // ====================================================
+            // ----------------------------------------------------
+            // ITEMS
+            //
+            // Each item is appended separately.
+            // Therefore NO and EN are displayed vertically,
+            // one row under the other.
+            // ----------------------------------------------------
 
             filteredLanguages.forEach(
                 function (
@@ -2059,9 +1857,9 @@ document.addEventListener(
             );
 
 
-            // ====================================================
+            // ----------------------------------------------------
             // CLEAR SEARCH BUTTON
-            // ====================================================
+            // ----------------------------------------------------
 
             if (
                 clearLanguageSearchButton &&
@@ -2069,13 +1867,11 @@ document.addEventListener(
             ) {
 
                 clearLanguageSearchButton.hidden =
-                    (
-                        languageSearchInput
-                            .value
-                            .trim()
-                            .length ===
-                        0
-                    );
+                    languageSearchInput
+                        .value
+                        .trim()
+                        .length ===
+                    0;
 
             }
 
@@ -2096,13 +1892,14 @@ document.addEventListener(
                 );
 
 
-            if (!language) {
+            if (
+                !language
+            ) {
 
                 console.warn(
                     "Unknown language:",
                     languageCode
                 );
-
 
                 return;
 
@@ -2113,9 +1910,9 @@ document.addEventListener(
                 language.code;
 
 
-            // ====================================================
-            // SAVE LANGUAGE
-            // ====================================================
+            // ----------------------------------------------------
+            // SAVE
+            // ----------------------------------------------------
 
             localStorage.setItem(
                 "cleaningAppLanguage",
@@ -2123,23 +1920,18 @@ document.addEventListener(
             );
 
 
-            // ====================================================
-            // UPDATE HEADER BUTTON
-            // ====================================================
+            // ----------------------------------------------------
+            // UPDATE PAGE
+            // ----------------------------------------------------
 
             updateLanguageButton();
-
-
-            // ====================================================
-            // TRANSLATE STATIC PAGE
-            // ====================================================
 
             translatePage();
 
 
-            // ====================================================
-            // RESET LANGUAGE SEARCH
-            // ====================================================
+            // ----------------------------------------------------
+            // RESET SEARCH
+            // ----------------------------------------------------
 
             if (
                 languageSearchInput
@@ -2151,32 +1943,14 @@ document.addEventListener(
             }
 
 
-            // ====================================================
-            // UPDATE LANGUAGE LIST
-            // ====================================================
-
             renderLanguages();
-
-
-            // ====================================================
-            // CLOSE LANGUAGE MODAL
-            // ====================================================
 
             closeLanguageModal();
 
 
-            // ====================================================
+            // ----------------------------------------------------
             // NOTIFY OTHER JS FILES
-            //
-            // IMPORTANT:
-            //
-            // resident.js listens for this exact event:
-            //
-            // cleanplan:languagechange
-            //
-            // Dynamic content can therefore be rerendered
-            // immediately without reloading the page.
-            // ====================================================
+            // ----------------------------------------------------
 
             window.dispatchEvent(
                 new CustomEvent(
@@ -2192,12 +1966,6 @@ document.addEventListener(
                 )
             );
 
-
-            console.log(
-                "Selected language:",
-                language.code
-            );
-
         }
 
 
@@ -2205,7 +1973,9 @@ document.addEventListener(
         // LANGUAGE BUTTON
         // ========================================================
 
-        if (languageButton) {
+        if (
+            languageButton
+        ) {
 
             languageButton.addEventListener(
                 "click",
@@ -2227,86 +1997,75 @@ document.addEventListener(
 
 
         // ========================================================
-        // LANGUAGE SEARCH
+        // SEARCH
         // ========================================================
 
         if (
             languageSearchInput
         ) {
 
-            languageSearchInput
-                .addEventListener(
-                    "input",
-                    function () {
+            languageSearchInput.addEventListener(
+                "input",
+                function () {
 
-                        renderLanguages();
+                    renderLanguages();
 
-                    }
-                );
+                }
+            );
 
 
-            /*
-             * Do not let the document click
-             * handler close the language modal
-             * while the resident is searching.
-             */
+            languageSearchInput.addEventListener(
+                "click",
+                function (
+                    event
+                ) {
 
-            languageSearchInput
-                .addEventListener(
-                    "click",
-                    function (
-                        event
-                    ) {
+                    event.stopPropagation();
 
-                        event.stopPropagation();
-
-                    }
-                );
+                }
+            );
 
         }
 
 
         // ========================================================
-        // CLEAR LANGUAGE SEARCH
+        // CLEAR SEARCH
         // ========================================================
 
         if (
             clearLanguageSearchButton
         ) {
 
-            clearLanguageSearchButton
-                .addEventListener(
-                    "click",
-                    function (
-                        event
+            clearLanguageSearchButton.addEventListener(
+                "click",
+                function (
+                    event
+                ) {
+
+                    event.preventDefault();
+
+                    event.stopPropagation();
+
+
+                    if (
+                        !languageSearchInput
                     ) {
 
-                        event.preventDefault();
-
-                        event.stopPropagation();
-
-
-                        if (
-                            !languageSearchInput
-                        ) {
-
-                            return;
-
-                        }
-
-
-                        languageSearchInput.value =
-                            "";
-
-
-                        renderLanguages();
-
-
-                        languageSearchInput
-                            .focus();
+                        return;
 
                     }
-                );
+
+
+                    languageSearchInput.value =
+                        "";
+
+
+                    renderLanguages();
+
+                    languageSearchInput.focus();
+
+                }
+            );
 
         }
 
@@ -2319,23 +2078,22 @@ document.addEventListener(
             languageSelector
         ) {
 
-            languageSelector
-                .addEventListener(
-                    "click",
-                    function (
-                        event
-                    ) {
+            languageSelector.addEventListener(
+                "click",
+                function (
+                    event
+                ) {
 
-                        event.stopPropagation();
+                    event.stopPropagation();
 
-                    }
-                );
+                }
+            );
 
         }
 
 
         // ========================================================
-        // CLOSE WHEN CLICKING OUTSIDE
+        // CLICK OUTSIDE
         // ========================================================
 
         document.addEventListener(
@@ -2363,7 +2121,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // ESCAPE KEY
+        // ESCAPE
         // ========================================================
 
         document.addEventListener(
@@ -2386,43 +2144,24 @@ document.addEventListener(
 
 
         // ========================================================
-        // PUBLIC LANGUAGE API
-        //
-        // Other JavaScript files can use:
-        //
-        // window.CleanPlanI18n.t(...)
-        // window.CleanPlanI18n.getLanguage()
-        // window.CleanPlanI18n.applyTranslations()
-        // window.CleanPlanI18n.setLanguage(...)
-        //
-        // Keep this API globally available.
+        // PUBLIC I18N API
         // ========================================================
 
         window.CleanPlanI18n = {
 
 
-            // ====================================================
-            // GET CURRENT LANGUAGE
-            // ====================================================
-
             getLanguage:
                 function () {
 
-                    return (
-                        currentLanguageCode
-                    );
+                    return currentLanguageCode;
 
                 },
 
 
-            // ====================================================
-            // GET TRANSLATION
-            // ====================================================
-
             t:
                 function (
                     key,
-                    params = {}
+                    params
                 ) {
 
                     return getTranslation(
@@ -2433,10 +2172,6 @@ document.addEventListener(
                 },
 
 
-            // ====================================================
-            // APPLY STATIC TRANSLATIONS
-            // ====================================================
-
             applyTranslations:
                 function () {
 
@@ -2444,10 +2179,6 @@ document.addEventListener(
 
                 },
 
-
-            // ====================================================
-            // SET LANGUAGE
-            // ====================================================
 
             setLanguage:
                 function (
@@ -2464,13 +2195,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // BACKWARD COMPATIBILITY API
-        //
-        // Older pages may still use:
-        //
-        // window.cleanPlanLanguage
-        //
-        // Keep this available so existing pages do not break.
+        // BACKWARD COMPATIBILITY
         // ========================================================
 
         window.cleanPlanLanguage =
@@ -2478,105 +2203,14 @@ document.addEventListener(
 
 
         // ========================================================
-        // LEGACY METHOD NAMES
-        // ========================================================
-
-        window.cleanPlanLanguage
-            .getCurrentLanguage =
-            function () {
-
-                return (
-                    currentLanguageCode
-                );
-
-            };
-
-
-        window.cleanPlanLanguage
-            .getTranslation =
-            function (
-                key,
-                params = {}
-            ) {
-
-                return getTranslation(
-                    key,
-                    params
-                );
-
-            };
-
-
-        window.cleanPlanLanguage
-            .translatePage =
-            function () {
-
-                translatePage();
-
-            };
-
-
-        // ========================================================
-        // VALIDATE STORED LANGUAGE
-        // ========================================================
-
-        /*
-         * Validate the language code stored
-         * in localStorage.
-         *
-         * This protects the page if an old,
-         * removed or invalid language code
-         * exists in the browser.
-         */
-
-        if (
-            !getLanguageByCode(
-                currentLanguageCode
-            )
-        ) {
-
-            currentLanguageCode =
-                "no";
-
-
-            localStorage.setItem(
-                "cleaningAppLanguage",
-                currentLanguageCode
-            );
-
-        }
-
-
-        // ========================================================
-        // INITIALIZE LANGUAGE BUTTON
+        // INITIALIZE
         // ========================================================
 
         updateLanguageButton();
 
-
-        // ========================================================
-        // TRANSLATE CURRENT PAGE
-        // ========================================================
-
         translatePage();
 
-
-        // ========================================================
-        // RENDER LANGUAGE LIST
-        // ========================================================
-
         renderLanguages();
-
-
-        // ========================================================
-        // LANGUAGE SYSTEM READY
-        // ========================================================
-
-        console.log(
-            "CleanPlan language system ready:",
-            currentLanguageCode
-        );
-
 
     }
 );

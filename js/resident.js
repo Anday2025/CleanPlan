@@ -218,6 +218,40 @@ const responsibleOnlyMessage =
         "responsibleOnlyMessage"
     );
 
+// ============================================================
+// CLEANING HISTORY DOM ELEMENTS
+// ============================================================
+
+const cleaningHistoryButton =
+    document.getElementById(
+        "cleaningHistoryButton"
+    );
+
+const cleaningHistorySection =
+    document.getElementById(
+        "cleaningHistorySection"
+    );
+
+const closeCleaningHistoryButton =
+    document.getElementById(
+        "closeCleaningHistoryButton"
+    );
+
+const cleaningHistoryLoading =
+    document.getElementById(
+        "cleaningHistoryLoading"
+    );
+
+const cleaningHistoryEmpty =
+    document.getElementById(
+        "cleaningHistoryEmpty"
+    );
+
+const cleaningHistoryList =
+    document.getElementById(
+        "cleaningHistoryList"
+    );
+
 
 // ============================================================
 // STATE
@@ -270,6 +304,20 @@ let activeCameraStream =
 
 let activeCameraOverlay =
     null;
+
+
+// ============================================================
+// CLEANING HISTORY STATE
+// ============================================================
+
+let currentCleaningHistory =
+    [];
+
+let isLoadingCleaningHistory =
+    false;
+
+let hasLoadedCleaningHistory =
+    false;
 
 
 // ============================================================
@@ -1517,6 +1565,10 @@ function resetCleaningPlanDisplay() {
 
     currentCleaningDocumentation =
         [];
+
+    resetCleaningHistory();
+
+    closeCleaningHistory();
 
     selectedResponsibleMember =
         null;
@@ -4044,6 +4096,8 @@ async function handleTaskCheckboxChange(
 }
 
 
+
+
 // ============================================================
 // CREATE CLEANING TASK ELEMENT
 // ============================================================
@@ -6350,7 +6404,6 @@ async function openDirectCamera() {
                         video
                     );
 
-
                 /*
                  * Close the camera after each
                  * captured image.
@@ -7068,6 +7121,1289 @@ function refreshResidentLanguage() {
 
     refreshCleaningLanguage();
 
+
+    if (hasLoadedCleaningHistory) {
+
+        renderCleaningHistory();
+
+    }
+
+}
+// ============================================================
+// RESET CLEANING HISTORY
+// ============================================================
+
+function resetCleaningHistory() {
+
+    currentCleaningHistory =
+        [];
+
+    isLoadingCleaningHistory =
+        false;
+
+    hasLoadedCleaningHistory =
+        false;
+
+
+    if (cleaningHistoryList) {
+
+        cleaningHistoryList.innerHTML =
+            "";
+
+    }
+
+
+    if (cleaningHistoryLoading) {
+
+        cleaningHistoryLoading.hidden =
+            true;
+
+    }
+
+
+    if (cleaningHistoryEmpty) {
+
+        cleaningHistoryEmpty.hidden =
+            true;
+
+    }
+
+}
+
+
+// ============================================================
+// FORMAT CLEANING HISTORY SIGNED TIME
+// ============================================================
+
+function formatCleaningHistorySignedAt(
+    value
+) {
+
+    if (!value) {
+
+        return "-";
+
+    }
+
+
+    const date =
+        new Date(
+            value
+        );
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "-";
+
+    }
+
+
+    return new Intl.DateTimeFormat(
+        getCurrentDateLocale(),
+        {
+            day:
+                "2-digit",
+
+            month:
+                "2-digit",
+
+            year:
+                "numeric",
+
+            hour:
+                "2-digit",
+
+            minute:
+                "2-digit"
+        }
+    ).format(
+        date
+    );
+
+}
+
+
+// ============================================================
+// HISTORY ASSIGNMENT COMPLETED
+// ============================================================
+
+function isCleaningHistoryCompleted(
+    assignment
+) {
+
+    if (!assignment) {
+
+        return false;
+
+    }
+
+
+    return Boolean(
+        assignment.signed_by ||
+        assignment.signed_at ||
+        assignment.status ===
+        "completed"
+    );
+
+}
+
+
+// ============================================================
+// LOAD CLEANING HISTORY DOCUMENTATION URLS
+// ============================================================
+
+async function addSignedUrlsToCleaningHistoryDocumentation(
+    documentation
+) {
+
+    return Promise.all(
+
+        (
+            documentation ||
+            []
+        ).map(
+
+            async function (
+                item
+            ) {
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient
+                        .storage
+                        .from(
+                            "cleaning-documentation"
+                        )
+                        .createSignedUrl(
+                            item.storage_path,
+                            3600
+                        );
+
+
+                if (error) {
+
+                    console.error(
+                        "CREATE CLEANING HISTORY SIGNED URL ERROR:",
+                        error
+                    );
+
+                }
+
+
+                return {
+
+                    ...item,
+
+                    signedUrl:
+                        error
+                            ? null
+                            : (
+                                data
+                                    ?.signedUrl ||
+                                null
+                            )
+
+                };
+
+            }
+
+        )
+
+    );
+
+}
+
+
+// ============================================================
+// LOAD CLEANING HISTORY
+// ============================================================
+
+async function loadCleaningHistory() {
+
+    if (
+        isLoadingCleaningHistory ||
+        !currentCleaningPlan ||
+        !currentResident
+    ) {
+
+        return;
+
+    }
+
+
+    isLoadingCleaningHistory =
+        true;
+
+
+    if (cleaningHistoryLoading) {
+
+        cleaningHistoryLoading.hidden =
+            false;
+
+    }
+
+
+    if (cleaningHistoryEmpty) {
+
+        cleaningHistoryEmpty.hidden =
+            true;
+
+    }
+
+
+    if (cleaningHistoryList) {
+
+        cleaningHistoryList.innerHTML =
+            "";
+
+    }
+
+
+    try {
+
+        const currentFriday =
+            getCurrentWeekFriday();
+
+        const currentFridayIso =
+            dateToIso(
+                currentFriday
+            );
+
+        const planStartDate =
+            normalizeDate(
+                currentCleaningPlan
+                    .start_date
+            );
+
+        const planStartFriday =
+            planStartDate
+                ? getFridayForDate(
+                    planStartDate
+                )
+                : null;
+
+        const planStartIso =
+            planStartFriday
+                ? dateToIso(
+                    planStartFriday
+                )
+                : null;
+
+
+        let assignmentQuery =
+            supabaseClient
+                .from(
+                    "cleaning_week_assignments"
+                )
+                .select(
+                    `
+                    id,
+                    plan_id,
+                    week_start,
+                    resident_id,
+                    status,
+                    signed_by,
+                    signed_at,
+
+                    residents (
+                        id,
+                        profile_id,
+                        property_id,
+                        floor_id,
+                        is_active,
+
+                        profiles (
+                            id,
+                            full_name
+                        )
+                    )
+                    `
+                )
+                .eq(
+                    "plan_id",
+                    currentCleaningPlan.id
+                )
+                .lt(
+                    "week_start",
+                    currentFridayIso
+                );
+
+
+        if (planStartIso) {
+
+            assignmentQuery =
+                assignmentQuery.gte(
+                    "week_start",
+                    planStartIso
+                );
+
+        }
+
+
+        const {
+            data:
+                assignmentData,
+
+            error:
+                assignmentError
+        } =
+            await assignmentQuery
+                .order(
+                    "week_start",
+                    {
+                        ascending:
+                            false
+                    }
+                );
+
+
+        if (assignmentError) {
+
+            throw assignmentError;
+
+        }
+
+
+        const assignments =
+            assignmentData ||
+            [];
+
+
+        if (
+            assignments.length ===
+            0
+        ) {
+
+            currentCleaningHistory =
+                [];
+
+            hasLoadedCleaningHistory =
+                true;
+
+            renderCleaningHistory();
+
+            return;
+
+        }
+
+
+        const signerIds =
+            [
+                ...new Set(
+                    assignments
+                        .map(
+                            function (
+                                assignment
+                            ) {
+
+                                return assignment
+                                    .signed_by;
+
+                            }
+                        )
+                        .filter(
+                            Boolean
+                        )
+                )
+            ];
+
+
+        const signerProfileMap =
+            {};
+
+
+        if (
+            signerIds.length >
+            0
+        ) {
+
+            const {
+                data:
+                    signerData,
+
+                error:
+                    signerError
+            } =
+                await supabaseClient
+                    .from(
+                        "profiles"
+                    )
+                    .select(
+                        `
+                        id,
+                        full_name
+                        `
+                    )
+                    .in(
+                        "id",
+                        signerIds
+                    );
+
+
+            if (signerError) {
+
+                console.warn(
+                    "LOAD CLEANING HISTORY SIGNERS ERROR:",
+                    signerError
+                );
+
+            }
+            else {
+
+                (
+                    signerData ||
+                    []
+                ).forEach(
+                    function (
+                        profile
+                    ) {
+
+                        signerProfileMap[
+                            profile.id
+                            ] =
+                            profile;
+
+                    }
+                );
+
+            }
+
+        }
+
+
+        const assignmentIds =
+            assignments.map(
+                function (
+                    assignment
+                ) {
+
+                    return assignment.id;
+
+                }
+            );
+
+
+        let documentation =
+            [];
+
+
+        if (
+            assignmentIds.length >
+            0
+        ) {
+
+            const {
+                data:
+                    documentationData,
+
+                error:
+                    documentationError
+            } =
+                await supabaseClient
+                    .from(
+                        "cleaning_documentation"
+                    )
+                    .select(
+                        `
+                        id,
+                        assignment_id,
+                        uploaded_by_resident_id,
+                        storage_path,
+                        file_name,
+                        mime_type,
+                        file_size,
+                        created_at
+                        `
+                    )
+                    .in(
+                        "assignment_id",
+                        assignmentIds
+                    )
+                    .order(
+                        "created_at",
+                        {
+                            ascending:
+                                true
+                        }
+                    );
+
+
+            if (documentationError) {
+
+                throw documentationError;
+
+            }
+
+
+            documentation =
+                await addSignedUrlsToCleaningHistoryDocumentation(
+                    documentationData ||
+                    []
+                );
+
+        }
+
+
+        const documentationMap =
+            {};
+
+
+        documentation.forEach(
+            function (
+                item
+            ) {
+
+                if (
+                    !documentationMap[
+                        item.assignment_id
+                        ]
+                ) {
+
+                    documentationMap[
+                        item.assignment_id
+                        ] =
+                        [];
+
+                }
+
+
+                documentationMap[
+                    item.assignment_id
+                    ].push(
+                    item
+                );
+
+            }
+        );
+
+
+        currentCleaningHistory =
+            assignments.map(
+                function (
+                    assignment
+                ) {
+
+                    const responsibleName =
+                        assignment
+                            .residents
+                            ?.profiles
+                            ?.full_name ||
+                        t(
+                            "notAssigned"
+                        );
+
+                    const signerProfile =
+                        assignment.signed_by
+                            ? (
+                                signerProfileMap[
+                                    assignment.signed_by
+                                    ] ||
+                                null
+                            )
+                            : null;
+
+                    const signerName =
+                        signerProfile
+                            ?.full_name ||
+                        (
+                            isCleaningHistoryCompleted(
+                                assignment
+                            )
+                                ? responsibleName
+                                : "-"
+                        );
+
+
+                    return {
+
+                        assignment:
+                        assignment,
+
+                        responsibleName:
+                        responsibleName,
+
+                        signerName:
+                        signerName,
+
+                        documentation:
+                            documentationMap[
+                                assignment.id
+                                ] ||
+                            []
+
+                    };
+
+                }
+            );
+
+
+        hasLoadedCleaningHistory =
+            true;
+
+
+        renderCleaningHistory();
+
+    }
+    catch (error) {
+
+        console.error(
+            "LOAD CLEANING HISTORY ERROR:",
+            error
+        );
+
+
+        currentCleaningHistory =
+            [];
+
+        hasLoadedCleaningHistory =
+            false;
+
+
+        if (cleaningHistoryList) {
+
+            cleaningHistoryList.innerHTML =
+                "";
+
+        }
+
+
+        if (cleaningHistoryEmpty) {
+
+            cleaningHistoryEmpty.hidden =
+                false;
+
+        }
+
+    }
+    finally {
+
+        isLoadingCleaningHistory =
+            false;
+
+
+        if (cleaningHistoryLoading) {
+
+            cleaningHistoryLoading.hidden =
+                true;
+
+        }
+
+    }
+
+}
+
+
+// ============================================================
+// CREATE CLEANING HISTORY DETAIL
+// ============================================================
+
+function createCleaningHistoryDetail(
+    label,
+    value
+) {
+
+    const detail =
+        document.createElement(
+            "div"
+        );
+
+    detail.className =
+        "resident-history-detail";
+
+
+    const detailLabel =
+        document.createElement(
+            "span"
+        );
+
+    detailLabel.textContent =
+        label;
+
+
+    const detailValue =
+        document.createElement(
+            "strong"
+        );
+
+    detailValue.textContent =
+        value ||
+        "-";
+
+
+    detail.appendChild(
+        detailLabel
+    );
+
+    detail.appendChild(
+        detailValue
+    );
+
+
+    return detail;
+
+}
+
+
+// ============================================================
+// CREATE CLEANING HISTORY PHOTO
+// ============================================================
+
+function createCleaningHistoryPhoto(
+    item,
+    index
+) {
+
+    if (
+        !item ||
+        !item.signedUrl
+    ) {
+
+        return null;
+
+    }
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+    link.className =
+        "resident-history-photo";
+
+    link.href =
+        item.signedUrl;
+
+    link.target =
+        "_blank";
+
+    link.rel =
+        "noopener noreferrer";
+
+
+    const image =
+        document.createElement(
+            "img"
+        );
+
+    image.src =
+        item.signedUrl;
+
+    image.alt =
+        t(
+            "cleaningDocumentationPhoto"
+        ) +
+        " " +
+        String(
+            index +
+            1
+        );
+
+    image.loading =
+        "lazy";
+
+
+    link.appendChild(
+        image
+    );
+
+
+    return link;
+
+}
+
+
+// ============================================================
+// CREATE CLEANING HISTORY ITEM
+// ============================================================
+
+function createCleaningHistoryItem(
+    historyItem
+) {
+
+    if (
+        !historyItem ||
+        !historyItem.assignment
+    ) {
+
+        return null;
+
+    }
+
+
+    const assignment =
+        historyItem.assignment;
+
+    const friday =
+        normalizeDate(
+            assignment.week_start
+        );
+
+    const weekInfo =
+        friday
+            ? getIsoWeekInfo(
+                friday
+            )
+            : {
+                week:
+                    "-",
+
+                year:
+                    "-"
+            };
+
+    const completed =
+        isCleaningHistoryCompleted(
+            assignment
+        );
+
+
+    const item =
+        document.createElement(
+            "article"
+        );
+
+    item.className =
+        "resident-history-item";
+
+
+    const header =
+        document.createElement(
+            "div"
+        );
+
+    header.className =
+        "resident-history-item-header";
+
+
+    const titleWrapper =
+        document.createElement(
+            "div"
+        );
+
+    titleWrapper.className =
+        "resident-history-item-title";
+
+
+    const title =
+        document.createElement(
+            "h3"
+        );
+
+    title.textContent =
+        t(
+            "cleaningHistoryWeek"
+        ) +
+        " " +
+        String(
+            weekInfo.week
+        );
+
+
+    const date =
+        document.createElement(
+            "span"
+        );
+
+    date.textContent =
+        friday
+            ? formatDisplayDate(
+                friday
+            )
+            : "-";
+
+
+    titleWrapper.appendChild(
+        title
+    );
+
+    titleWrapper.appendChild(
+        date
+    );
+
+
+    const status =
+        document.createElement(
+            "span"
+        );
+
+    status.className =
+        "resident-history-status " +
+        (
+            completed
+                ? "completed"
+                : "not-completed"
+        );
+
+    status.textContent =
+        completed
+            ? t(
+                "completed"
+            )
+            : t(
+                "notCompleted"
+            );
+
+
+    header.appendChild(
+        titleWrapper
+    );
+
+    header.appendChild(
+        status
+    );
+
+
+    const details =
+        document.createElement(
+            "div"
+        );
+
+    details.className =
+        "resident-history-details";
+
+
+    details.appendChild(
+        createCleaningHistoryDetail(
+            t(
+                "cleaningHistoryResponsible"
+            ),
+            historyItem.responsibleName
+        )
+    );
+
+    details.appendChild(
+        createCleaningHistoryDetail(
+            t(
+                "cleaningHistorySignedBy"
+            ),
+            completed
+                ? historyItem.signerName
+                : "-"
+        )
+    );
+
+    details.appendChild(
+        createCleaningHistoryDetail(
+            t(
+                "cleaningHistorySignedAt"
+            ),
+            completed
+                ? formatCleaningHistorySignedAt(
+                    assignment.signed_at
+                )
+                : "-"
+        )
+    );
+
+
+    const documentationSection =
+        document.createElement(
+            "div"
+        );
+
+    documentationSection.className =
+        "resident-history-documentation";
+
+
+    const documentationTitle =
+        document.createElement(
+            "h4"
+        );
+
+    documentationTitle.className =
+        "resident-history-documentation-title";
+
+    documentationTitle.textContent =
+        t(
+            "cleaningHistoryDocumentation"
+        );
+
+
+    documentationSection.appendChild(
+        documentationTitle
+    );
+
+
+    const visibleDocumentation =
+        (
+            historyItem.documentation ||
+            []
+        ).filter(
+            function (
+                documentationItem
+            ) {
+
+                return Boolean(
+                    documentationItem
+                        .signedUrl
+                );
+
+            }
+        );
+
+
+    if (
+        visibleDocumentation.length ===
+        0
+    ) {
+
+        const emptyDocumentation =
+            document.createElement(
+                "p"
+            );
+
+        emptyDocumentation.textContent =
+            t(
+                "cleaningHistoryNoDocumentation"
+            );
+
+        documentationSection.appendChild(
+            emptyDocumentation
+        );
+
+    }
+    else {
+
+        const photoGrid =
+            document.createElement(
+                "div"
+            );
+
+        photoGrid.className =
+            "resident-history-photo-grid";
+
+
+        visibleDocumentation.forEach(
+            function (
+                documentationItem,
+                index
+            ) {
+
+                const photo =
+                    createCleaningHistoryPhoto(
+                        documentationItem,
+                        index
+                    );
+
+
+                if (photo) {
+
+                    photoGrid.appendChild(
+                        photo
+                    );
+
+                }
+
+            }
+        );
+
+
+        documentationSection.appendChild(
+            photoGrid
+        );
+
+    }
+
+
+    item.appendChild(
+        header
+    );
+
+    item.appendChild(
+        details
+    );
+
+    item.appendChild(
+        documentationSection
+    );
+
+
+    return item;
+
+}
+
+
+// ============================================================
+// RENDER CLEANING HISTORY
+// ============================================================
+
+function renderCleaningHistory() {
+
+    if (!cleaningHistoryList) {
+
+        return;
+
+    }
+
+
+    cleaningHistoryList.innerHTML =
+        "";
+
+
+    if (
+        !hasLoadedCleaningHistory ||
+        currentCleaningHistory.length ===
+        0
+    ) {
+
+        if (cleaningHistoryEmpty) {
+
+            cleaningHistoryEmpty.hidden =
+                !hasLoadedCleaningHistory;
+
+        }
+
+        return;
+
+    }
+
+
+    if (cleaningHistoryEmpty) {
+
+        cleaningHistoryEmpty.hidden =
+            true;
+
+    }
+
+
+    currentCleaningHistory.forEach(
+        function (
+            historyItem
+        ) {
+
+            const item =
+                createCleaningHistoryItem(
+                    historyItem
+                );
+
+
+            if (item) {
+
+                cleaningHistoryList.appendChild(
+                    item
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// OPEN CLEANING HISTORY
+// ============================================================
+
+async function openCleaningHistory() {
+
+    if (!cleaningHistorySection) {
+
+        return;
+
+    }
+
+
+    cleaningHistorySection.hidden =
+        false;
+
+
+    if (cleaningHistoryButton) {
+
+        cleaningHistoryButton.setAttribute(
+            "aria-expanded",
+            "true"
+        );
+
+    }
+
+
+    cleaningHistorySection.scrollIntoView(
+        {
+            behavior:
+                "smooth",
+
+            block:
+                "start"
+        }
+    );
+
+
+    await loadCleaningHistory();
+
+}
+
+
+// ============================================================
+// CLOSE CLEANING HISTORY
+// ============================================================
+
+function closeCleaningHistory() {
+
+    if (!cleaningHistorySection) {
+
+        return;
+
+    }
+
+
+    cleaningHistorySection.hidden =
+        true;
+
+
+    if (cleaningHistoryButton) {
+
+        cleaningHistoryButton.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    }
+
+}
+
+
+// ============================================================
+// CLEANING HISTORY BUTTON
+// ============================================================
+
+if (cleaningHistoryButton) {
+
+    cleaningHistoryButton.addEventListener(
+        "click",
+        async function () {
+
+            await openCleaningHistory();
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// CLOSE CLEANING HISTORY BUTTON
+// ============================================================
+
+if (closeCleaningHistoryButton) {
+
+    closeCleaningHistoryButton.addEventListener(
+        "click",
+        function () {
+
+            closeCleaningHistory();
+
+        }
+    );
+
 }
 
 
@@ -7200,3 +8536,4 @@ async function initializeResidentPage() {
 // ============================================================
 
 initializeResidentPage();
+

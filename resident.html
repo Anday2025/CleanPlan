@@ -229,6 +229,28 @@
 
     </div>
 
+
+    <!-- =====================================================
+         CLEANING HISTORY BUTTON
+         ===================================================== -->
+
+    <button
+            id="cleaningHistoryButton"
+            type="button"
+            class="resident-history-button"
+            aria-expanded="false"
+            aria-controls="cleaningHistorySection"
+    >
+    <span>
+      📋
+    </span>
+
+      <span data-i18n="cleaningHistory">
+      Logg
+    </span>
+
+    </button>
+
   </div>
 
 
@@ -941,6 +963,122 @@
 
 
     </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+     CLEANING HISTORY
+     ===================================================== -->
+
+  <section
+          id="cleaningHistorySection"
+          class="resident-history-section"
+          hidden
+  >
+
+
+    <!-- ===================================================
+         HISTORY HEADER
+         =================================================== -->
+
+    <div class="resident-history-heading">
+
+      <div>
+
+        <p
+                class="eyebrow"
+                data-i18n="cleaningHistoryEyebrow"
+        >
+          HISTORIKK
+        </p>
+
+        <h2>
+          📋
+          <span data-i18n="cleaningHistory">
+            Logg
+          </span>
+        </h2>
+
+        <p data-i18n="cleaningHistoryDescription">
+          Se tidligere rengjøringsuker og dokumentasjon for boligen og etasjen din.
+        </p>
+
+      </div>
+
+
+      <button
+              id="closeCleaningHistoryButton"
+              type="button"
+              class="resident-history-close-button"
+              aria-label="Lukk historikk"
+              data-i18n-aria-label="closeCleaningHistory"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <!-- ===================================================
+         HISTORY CONTENT
+         =================================================== -->
+
+    <section class="dashboard-card resident-history-card">
+
+
+      <!-- =================================================
+           LOADING
+           ================================================= -->
+
+      <div
+              id="cleaningHistoryLoading"
+              class="resident-history-loading"
+              hidden
+      >
+
+        <p data-i18n="loadingCleaningHistory">
+          Laster rengjøringshistorikk...
+        </p>
+
+      </div>
+
+
+      <!-- =================================================
+           EMPTY HISTORY
+           ================================================= -->
+
+      <div
+              id="cleaningHistoryEmpty"
+              class="empty-state"
+              hidden
+      >
+
+        <h3 data-i18n="noCleaningHistory">
+          Ingen historikk ennå
+        </h3>
+
+        <p data-i18n="noCleaningHistoryDescription">
+          Tidligere rengjøringsuker vises her når de blir tilgjengelige.
+        </p>
+
+      </div>
+
+
+      <!-- =================================================
+           HISTORY LIST
+           ================================================= -->
+
+      <div
+              id="cleaningHistoryList"
+              class="resident-history-list"
+      >
+      </div>
+
+
+    </section>
+
 
   </section>
 
