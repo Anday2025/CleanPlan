@@ -17750,3 +17750,1655 @@ input[type="text"] {
     }
 
 }
+
+/* ============================================================
+   ADMIN DASHBOARD
+   LAYOUT FOUNDATION
+   ============================================================ */
+
+
+/* ============================================================
+   ADMIN DASHBOARD BODY
+   ============================================================ */
+
+.admin-dashboard-body {
+
+    margin: 0;
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+    background: #f4f6f9;
+
+    color: #172033;
+
+}
+
+
+/* ============================================================
+   ADMIN APP LAYOUT
+   ============================================================ */
+
+.admin-app-layout {
+
+    width: 100%;
+
+    min-height: 100vh;
+
+}
+
+
+/* ============================================================
+   ADMIN MAIN AREA
+   ============================================================ */
+
+.admin-main-area {
+
+    width: auto;
+
+    min-width: 0;
+
+    min-height: 100vh;
+
+    margin-left: 245px;
+
+    background: #f4f6f9;
+
+}
+
+
+/* ============================================================
+   ADMIN MAIN HEADER
+   ============================================================ */
+
+.admin-main-header {
+
+    width: 100%;
+
+    min-height: 66px;
+
+    padding:
+            0 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-bottom:
+            1px solid #e1e6ec;
+
+    background: #ffffff;
+
+}
+
+
+/* ============================================================
+   ADMIN MOBILE MENU BUTTON
+   DESKTOP
+   ============================================================ */
+
+.admin-mobile-menu-button {
+
+    display: none;
+
+    width: 38px;
+
+    height: 38px;
+
+    padding: 0;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #344054;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+}
+
+
+/* ============================================================
+   ADMIN HEADER PROFILE
+   ============================================================ */
+
+.admin-header-profile {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   ADMIN HEADER PROFILE TEXT
+   ============================================================ */
+
+.admin-header-profile-text {
+
+    min-width: 0;
+
+    text-align: right;
+
+}
+
+
+.admin-header-profile-text strong {
+
+    display: block;
+
+    max-width: 220px;
+
+    overflow: hidden;
+
+    color: #344054;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    line-height: 1.25;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+.admin-header-profile-text span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: #8a94a3;
+
+    font-size: 9px;
+
+    line-height: 1.2;
+
+}
+
+
+/* ============================================================
+   ADMIN PROFILE AVATAR
+   ============================================================ */
+
+.admin-profile-avatar {
+
+    width: 34px;
+
+    height: 34px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #e8eef5;
+
+    color: #526275;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+}
+
+
+/* ============================================================
+   DESKTOP
+   ============================================================ */
+
+@media (min-width: 701px) {
+
+    .admin-main-area {
+
+        width:
+                calc(
+                        100% - 245px
+                );
+
+        margin-left: 245px;
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE / TABLET
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .admin-main-area {
+
+        width: 100%;
+
+        margin-left: 0;
+
+    }
+
+
+    .admin-main-header {
+
+        min-height: 58px;
+
+        padding:
+                8px 14px;
+
+    }
+
+
+    .admin-mobile-menu-button {
+
+        display: inline-flex;
+
+    }
+
+
+    .admin-header-profile-text strong {
+
+        max-width: 150px;
+
+    }
+
+}
+
+/* ============================================================
+   ADMIN DASHBOARD
+   SIDEBAR ALIGNMENT
+   DEL 2
+   ============================================================ */
+
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-sidebar {
+
+    position: fixed;
+
+    z-index: 100;
+
+    top: 0;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 245px;
+
+    padding:
+            20px 14px 18px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow-y: auto;
+
+    background:
+            linear-gradient(
+                    180deg,
+                    #132638 0%,
+                    #0c1c2c 100%
+            );
+
+    color: #ffffff;
+
+}
+
+
+/* ============================================================
+   SIDEBAR BRAND
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-sidebar-brand {
+
+    min-width: 0;
+
+    padding:
+            4px 10px 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+}
+
+
+/* ============================================================
+   SIDEBAR BRAND LOGO
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-sidebar-logo {
+
+    width: 36px;
+
+    height: 36px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.09
+            );
+
+    font-size: 20px;
+
+}
+
+
+/* ============================================================
+   SIDEBAR SECTION LABEL
+   ============================================================ */
+
+.admin-sidebar-section-label {
+
+    margin:
+            0 10px 8px;
+
+    color:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.48
+            );
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    letter-spacing: 1.2px;
+
+    text-transform: uppercase;
+
+}
+
+
+/* ============================================================
+   SIDEBAR NAVIGATION
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-sidebar-nav {
+
+    width: 100%;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+}
+
+
+/* ============================================================
+   SIDEBAR LINK
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-sidebar-link {
+
+    width: 100%;
+
+    min-width: 0;
+
+    min-height: 42px;
+
+    padding:
+            9px 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.72
+            );
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    line-height: 1.3;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            color 0.15s ease;
+
+}
+
+
+.admin-dashboard-body
+.admin-sidebar-link:hover {
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.07
+            );
+
+    color: #ffffff;
+
+}
+
+
+.admin-dashboard-body
+.admin-sidebar-link.active {
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.11
+            );
+
+    color: #ffffff;
+
+}
+
+
+/* ============================================================
+   SIDEBAR ICON
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-sidebar-icon {
+
+    width: 20px;
+
+    min-width: 20px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    font-size: 15px;
+
+}
+
+
+/* ============================================================
+   SIDEBAR LINK TEXT
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-sidebar-link > span:last-child {
+
+    min-width: 0;
+
+    flex: 1;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   SIDEBAR BOTTOM
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-sidebar-bottom {
+
+    margin-top: 18px;
+
+    padding-top: 17px;
+
+    border-top:
+            1px solid
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.10
+            );
+
+}
+
+
+/* ============================================================
+   LOGOUT
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-sidebar-logout {
+
+    width: 100%;
+
+    min-height: 40px;
+
+    padding:
+            9px 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: 11px;
+
+    border:
+            1px solid
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.11
+            );
+
+    border-radius: 8px;
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.04
+            );
+
+    color:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.76
+            );
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            color 0.15s ease;
+
+}
+
+
+.admin-dashboard-body
+.admin-sidebar-logout:hover {
+
+    border-color:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+            );
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.08
+            );
+
+    color: #ffffff;
+
+}
+
+
+/* ============================================================
+   SIDEBAR OVERLAY
+   ============================================================ */
+
+.admin-sidebar-overlay {
+
+    display: none;
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .admin-dashboard-body
+    .admin-sidebar {
+
+        transform:
+                translateX(-100%);
+
+        transition:
+                transform 0.2s ease;
+
+    }
+
+
+    .admin-dashboard-body
+    .admin-sidebar.open {
+
+        transform:
+                translateX(0);
+
+    }
+
+
+    .admin-sidebar-overlay {
+
+        position: fixed;
+
+        z-index: 90;
+
+        inset: 0;
+
+        display: none;
+
+        background:
+                rgba(
+                        12,
+                        28,
+                        44,
+                        0.35
+                );
+
+    }
+
+
+    .admin-sidebar-overlay.active {
+
+        display: block;
+
+    }
+
+}
+
+/* ============================================================
+   ADMIN DASHBOARD
+   WELCOME + STATISTICS
+   DEL 3
+   ============================================================ */
+
+
+/* ============================================================
+   MAIN DASHBOARD CONTENT
+   ============================================================ */
+
+.admin-dashboard-main {
+
+    width:
+            min(
+                    1180px,
+                    calc(100% - 48px)
+            );
+
+    margin:
+            0 auto;
+
+    padding:
+            32px 0 56px;
+
+}
+
+
+/* ============================================================
+   WELCOME SECTION
+   ============================================================ */
+
+.admin-dashboard-welcome {
+
+    margin-bottom: 24px;
+
+}
+
+
+.admin-dashboard-welcome-content {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   WELCOME EYEBROW
+   ============================================================ */
+
+.admin-dashboard-eyebrow {
+
+    margin:
+            0 0 7px;
+
+    color: #7d8798;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    letter-spacing: 1.1px;
+
+    text-transform: uppercase;
+
+}
+
+
+/* ============================================================
+   WELCOME TITLE ROW
+   ============================================================ */
+
+.admin-dashboard-title-row {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+}
+
+
+/* ============================================================
+   WELCOME TITLE
+   ============================================================ */
+
+.admin-dashboard-title-row h1 {
+
+    margin: 0;
+
+    color: #2f3d50;
+
+    font-size: 25px;
+
+    font-weight: 700;
+
+    line-height: 1.25;
+
+}
+
+
+/* ============================================================
+   ROLE BADGE
+   ============================================================ */
+
+.admin-dashboard-role-badge {
+
+    min-height: 22px;
+
+    padding:
+            4px 8px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 999px;
+
+    background: #edf3ff;
+
+    color: #315efb;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   SUPERADMIN ROLE BADGE
+   ============================================================ */
+
+.admin-dashboard-role-badge.superadmin {
+
+    background: #f0edff;
+
+    color: #6941c6;
+
+}
+
+
+/* ============================================================
+   ADMIN ROLE BADGE
+   ============================================================ */
+
+.admin-dashboard-role-badge.admin {
+
+    background: #edf3ff;
+
+    color: #315efb;
+
+}
+
+
+/* ============================================================
+   WELCOME DESCRIPTION
+   ============================================================ */
+
+.admin-dashboard-welcome-description {
+
+    max-width: 720px;
+
+    margin:
+            8px 0 0;
+
+    color: #7d8798;
+
+    font-size: 11px;
+
+    line-height: 1.55;
+
+}
+
+
+/* ============================================================
+   STATISTICS GRID
+   ============================================================ */
+
+.admin-dashboard-stats {
+
+    margin-bottom: 28px;
+
+    display: grid;
+
+    grid-template-columns:
+            repeat(
+                    4,
+                    minmax(0, 1fr)
+            );
+
+    gap: 12px;
+
+}
+
+
+/* ============================================================
+   STAT CARD
+   ============================================================ */
+
+.admin-dashboard-stat-card {
+
+    min-width: 0;
+
+    min-height: 88px;
+
+    padding:
+            15px 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    border:
+            1px solid #e3e8ee;
+
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 4px 14px
+            rgba(
+                    30,
+                    50,
+                    80,
+                    0.04
+            );
+
+}
+
+
+/* ============================================================
+   STAT ICON
+   ============================================================ */
+
+.admin-dashboard-stat-icon {
+
+    width: 38px;
+
+    height: 38px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background: #f2f5f9;
+
+    font-size: 17px;
+
+}
+
+
+/* ============================================================
+   STAT CONTENT
+   ============================================================ */
+
+.admin-dashboard-stat-content {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   STAT LABEL
+   ============================================================ */
+
+.admin-dashboard-stat-label {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #8b95a5;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    letter-spacing: 0.4px;
+
+    text-transform: uppercase;
+
+}
+
+
+/* ============================================================
+   STAT VALUE
+   ============================================================ */
+
+.admin-dashboard-stat-value {
+
+    display: block;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #344054;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   STAT META
+   ============================================================ */
+
+.admin-dashboard-stat-meta {
+
+    display: block;
+
+    margin-top: 3px;
+
+    overflow: hidden;
+
+    color: #8b95a5;
+
+    font-size: 8px;
+
+    font-weight: 500;
+
+    line-height: 1.3;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+    .admin-dashboard-stats {
+
+        grid-template-columns:
+                repeat(
+                        2,
+                        minmax(0, 1fr)
+                );
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .admin-dashboard-main {
+
+        width:
+                calc(
+                        100% - 28px
+                );
+
+        padding:
+                22px 0 40px;
+
+    }
+
+
+    .admin-dashboard-title-row h1 {
+
+        font-size: 21px;
+
+    }
+
+
+    .admin-dashboard-stats {
+
+        grid-template-columns:
+                1fr;
+
+        gap: 10px;
+
+    }
+
+
+    .admin-dashboard-stat-card {
+
+        min-height: 78px;
+
+        padding:
+                13px 14px;
+
+    }
+
+}
+/* ============================================================
+   ADMIN DASHBOARD
+   SECTION HEADING + ACTION CARDS
+   DEL 4
+   ============================================================ */
+
+
+/* ============================================================
+   ADMINISTRATION SECTION HEADING
+   ============================================================ */
+
+.admin-dashboard-section-heading {
+
+    margin-bottom: 18px;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+}
+
+
+.admin-dashboard-section-heading > div {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   SECTION EYEBROW
+   ============================================================ */
+
+.admin-dashboard-section-eyebrow {
+
+    margin:
+            0 0 6px;
+
+    color: #7d8798;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+}
+
+
+/* ============================================================
+   SECTION TITLE
+   ============================================================ */
+
+.admin-dashboard-section-heading h2 {
+
+    margin:
+            0 0 6px;
+
+    color: #2f3d50;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+}
+
+
+/* ============================================================
+   SECTION DESCRIPTION
+   ============================================================ */
+
+.admin-dashboard-section-heading p:not(
+    .admin-dashboard-section-eyebrow
+) {
+
+    max-width: 720px;
+
+    margin: 0;
+
+    color: #7d8798;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   ACTION GRID
+   ============================================================ */
+
+.admin-dashboard-actions-modern {
+
+    display: grid;
+
+    grid-template-columns:
+            repeat(
+                    2,
+                    minmax(0, 1fr)
+            );
+
+    gap: 14px;
+
+}
+
+
+/* ============================================================
+   MODERN ACTION CARD
+   ============================================================ */
+
+.admin-action-card-modern {
+
+    min-width: 0;
+
+    min-height: 190px;
+
+    padding: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    border:
+            1px solid #e2e7ee;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 5px 18px
+            rgba(
+                    30,
+                    50,
+                    80,
+                    0.05
+            );
+
+    transition:
+            border-color 0.15s ease,
+            box-shadow 0.15s ease,
+            transform 0.15s ease;
+
+}
+
+
+/* ============================================================
+   ACTION CARD HOVER
+   ============================================================ */
+
+.admin-action-card-modern:hover {
+
+    border-color: #d6dde7;
+
+    box-shadow:
+            0 8px 24px
+            rgba(
+                    30,
+                    50,
+                    80,
+                    0.07
+            );
+
+    transform:
+            translateY(-1px);
+
+}
+
+
+/* ============================================================
+   ACTION CARD HEADER
+   ============================================================ */
+
+.admin-action-card-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 18px;
+
+}
+
+
+/* ============================================================
+   ACTION ICON
+   ============================================================ */
+
+.admin-action-card-modern
+.admin-action-icon {
+
+    width: 40px;
+
+    height: 40px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: #f2f5f9;
+
+    font-size: 18px;
+
+}
+
+
+/* ============================================================
+   ACTION CARD LABEL
+   ============================================================ */
+
+.admin-action-card-label {
+
+    min-width: 0;
+
+    color: #8b95a5;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+    letter-spacing: 0.5px;
+
+    text-align: right;
+
+    text-transform: uppercase;
+
+}
+
+
+/* ============================================================
+   ACTION CARD BODY
+   ============================================================ */
+
+.admin-action-card-body {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+
+/* ============================================================
+   ACTION CARD TITLE
+   ============================================================ */
+
+.admin-action-card-body h2 {
+
+    margin:
+            0 0 7px;
+
+    color: #344054;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+}
+
+
+/* ============================================================
+   ACTION CARD DESCRIPTION
+   ============================================================ */
+
+.admin-action-card-body p {
+
+    max-width: 520px;
+
+    min-height: 0;
+
+    margin: 0;
+
+    color: #7d8798;
+
+    font-size: 10px;
+
+    line-height: 1.55;
+
+}
+
+
+/* ============================================================
+   ACTION CARD FOOTER
+   ============================================================ */
+
+.admin-action-card-footer {
+
+    margin-top: 22px;
+
+}
+
+
+/* ============================================================
+   MODERN ACTION BUTTON
+   ============================================================ */
+
+.admin-action-button-modern {
+
+    min-height: 36px;
+
+    padding:
+            8px 12px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    border:
+            1px solid #dce3eb;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #344054;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            color 0.15s ease,
+            transform 0.15s ease;
+
+}
+
+
+/* ============================================================
+   ACTION BUTTON HOVER
+   ============================================================ */
+
+.admin-action-button-modern:hover {
+
+    border-color: #cfd8e4;
+
+    background: #f8fafc;
+
+    color: #1f2d3d;
+
+    transform:
+            translateY(-1px);
+
+}
+
+
+/* ============================================================
+   ACTION BUTTON ARROW
+   ============================================================ */
+
+.admin-action-button-modern span {
+
+    flex-shrink: 0;
+
+    font-size: 12px;
+
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .admin-dashboard-actions-modern {
+
+        grid-template-columns:
+                1fr;
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .admin-dashboard-section-heading {
+
+        align-items: flex-start;
+
+        margin-bottom: 16px;
+
+    }
+
+
+    .admin-dashboard-section-heading h2 {
+
+        font-size: 16px;
+
+    }
+
+
+    .admin-action-card-modern {
+
+        min-height: 170px;
+
+        padding: 16px;
+
+    }
+
+
+    .admin-action-card-header {
+
+        margin-bottom: 14px;
+
+    }
+
+
+    .admin-action-card-modern
+    .admin-action-icon {
+
+        width: 36px;
+
+        height: 36px;
+
+        font-size: 16px;
+
+    }
+
+
+    .admin-action-card-footer {
+
+        margin-top: 18px;
+
+    }
+
+}

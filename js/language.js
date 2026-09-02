@@ -207,7 +207,7 @@ document.addEventListener(
                 // =================================================
 
                 residentPageTitle:
-                    "Cleaning App - Min side",
+                    "CleanPlan - Min side",
 
                 residentRole:
                     "BEBOER",
@@ -675,7 +675,7 @@ document.addEventListener(
                 // =================================================
 
                 residentPageTitle:
-                    "Cleaning App - My page",
+                    "CleanPlan - My page",
 
                 residentRole:
                     "RESIDENT",
