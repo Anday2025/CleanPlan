@@ -21574,3 +21574,333 @@ input[type="text"] {
     }
 
 }
+
+/* ============================================================
+   ADMIN FIXED HEADER
+   ============================================================ */
+
+.admin-main-header {
+
+    position: fixed;
+
+    top: 0;
+
+    /* Must match sidebar width */
+    left: 264px;
+
+    right: 0;
+
+    width: auto !important;
+    max-width: none !important;
+
+    box-sizing: border-box;
+
+    z-index: 1200;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+
+}
+
+
+/* ============================================================
+   SPACE BELOW FIXED HEADER
+   ============================================================ */
+
+.admin-main-area {
+
+    padding-top: 72px;
+
+}
+
+
+/* ============================================================
+   HEADER RIGHT SIDE
+   ============================================================ */
+
+.admin-header-profile {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    flex-shrink: 0;
+
+}
+
+
+/* ============================================================
+   LANGUAGE SELECTOR
+   ============================================================ */
+
+.admin-header-profile .admin-language-selector {
+
+    position: relative;
+
+    width: 160px;
+
+    min-width: 160px;
+
+    max-width: 160px;
+
+    flex: 0 0 160px;
+
+}
+
+
+/* ============================================================
+   LANGUAGE BUTTON
+   ============================================================ */
+
+.admin-header-profile
+.admin-language-selector
+.language-button {
+
+    width: 160px;
+
+    min-width: 160px;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* ============================================================
+   LANGUAGE MODAL
+   ============================================================ */
+
+.admin-header-profile
+.admin-language-selector
+.language-modal {
+
+    position: absolute;
+
+    top: calc(100% + 8px);
+
+    right: 0;
+
+    left: auto;
+
+    width: 220px;
+
+    min-width: 220px;
+
+    max-width: 220px;
+
+    z-index: 2000;
+
+    box-sizing: border-box;
+
+}
+
+
+/* ============================================================
+   LANGUAGE MODAL CARD
+   ============================================================ */
+
+.admin-header-profile
+.language-modal-card {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+}
+
+
+/* ============================================================
+   LANGUAGE SEARCH
+   ============================================================ */
+
+.admin-header-profile
+.language-search-wrapper {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+}
+
+
+.admin-header-profile
+.language-search-input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+}
+
+
+/* ============================================================
+   LANGUAGE OPTIONS
+   ============================================================ */
+
+.admin-header-profile
+.language-option {
+
+    width: 100%;
+
+    min-height: 48px;
+
+    padding: 8px 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    box-sizing: border-box;
+
+    text-align: left;
+
+}
+
+
+/* FLAG */
+
+.admin-header-profile
+.language-option-flag {
+
+    flex: 0 0 auto;
+
+    font-size: 18px;
+
+}
+
+
+/* LANGUAGE TEXT */
+
+.admin-header-profile
+.language-option-text {
+
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+    line-height: 1.25;
+
+}
+
+
+.admin-header-profile
+.language-option-text strong {
+
+    display: block;
+
+    font-size: 14px;
+
+    white-space: nowrap;
+
+}
+
+
+.admin-header-profile
+.language-option-text > span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+
+}
+
+
+/* NO / EN CODE */
+
+.admin-header-profile
+.language-option-code {
+
+    flex: 0 0 auto;
+
+    margin-left: auto;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .admin-main-header {
+
+        left: 0;
+
+        right: 0;
+
+        width: auto !important;
+
+    }
+
+
+    .admin-header-profile
+    .admin-language-selector {
+
+        width: 92px;
+
+        min-width: 92px;
+
+        max-width: 92px;
+
+        flex-basis: 92px;
+
+    }
+
+
+    .admin-header-profile
+    .admin-language-selector
+    .language-button {
+
+        width: 92px;
+
+        min-width: 92px;
+
+    }
+
+
+    .admin-header-profile
+    .admin-language-selector
+    .language-modal {
+
+        width: 210px;
+
+        min-width: 210px;
+
+        max-width: 210px;
+
+    }
+
+}

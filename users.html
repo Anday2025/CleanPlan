@@ -10,7 +10,11 @@
           content="width=device-width, initial-scale=1.0"
   >
 
-  <title>CleanPlan - Brukere</title>
+  <title
+          data-i18n-title="adminUsersPageTitle"
+  >
+    CleanPlan - Brukere
+  </title>
 
   <link
           rel="stylesheet"
@@ -24,6 +28,17 @@
 
 
 <!-- =========================================================
+     MOBILE SIDEBAR OVERLAY
+     ========================================================= -->
+
+<div
+        id="adminSidebarOverlay"
+        class="admin-sidebar-overlay"
+        hidden
+></div>
+
+
+<!-- =========================================================
      ADMIN APP
      ========================================================= -->
 
@@ -34,131 +49,171 @@
        SIDEBAR
        ===================================================== -->
 
-  <aside class="admin-sidebar">
+  <aside
+          id="adminSidebar"
+          class="admin-sidebar"
+  >
 
 
-    <!-- BRAND -->
+    <!-- =================================================
+         BRAND
+         ================================================= -->
 
     <div class="admin-sidebar-brand">
 
-      <span class="admin-sidebar-logo">
-        🧹
-      </span>
+            <span class="admin-sidebar-logo">
+                🧹
+            </span>
 
       <span>
-        CleanPlan
-      </span>
+                CleanPlan
+            </span>
 
     </div>
 
 
-    <!-- ROLE -->
+    <!-- =================================================
+         ROLE
+         ================================================= -->
 
-    <div class="admin-sidebar-section-label">
+    <div
+            class="admin-sidebar-section-label"
+            data-i18n="adminRoleLabel"
+    >
       ADMIN
     </div>
 
 
-    <!-- NAVIGATION -->
+    <!-- =================================================
+         NAVIGATION
+         ================================================= -->
 
     <nav class="admin-sidebar-nav">
 
+
+      <!-- =============================================
+           DASHBOARD
+           ============================================= -->
 
       <a
               href="admin.html"
               class="admin-sidebar-link"
       >
 
-        <span class="admin-sidebar-icon">
-          ▦
-        </span>
+                <span class="admin-sidebar-icon">
+                    ▦
+                </span>
 
-        <span>
-          Dashboard
-        </span>
+        <span data-i18n="adminDashboard">
+                    Dashboard
+                </span>
 
       </a>
 
+
+      <!-- =============================================
+           PROPERTIES
+           ============================================= -->
 
       <a
               href="properties.html"
               class="admin-sidebar-link"
       >
 
-        <span class="admin-sidebar-icon">
-          🏠
-        </span>
+                <span class="admin-sidebar-icon">
+                    🏠
+                </span>
 
-        <span>
-          Boliger
-        </span>
+        <span data-i18n="adminProperties">
+                    Boliger
+                </span>
 
       </a>
 
+
+      <!-- =============================================
+           FLOORS
+           ============================================= -->
 
       <a
               href="properties.html"
               class="admin-sidebar-link"
       >
 
-        <span class="admin-sidebar-icon">
-          ▤
-        </span>
+                <span class="admin-sidebar-icon">
+                    ▤
+                </span>
 
-        <span>
-          Etasjer
-        </span>
+        <span data-i18n="adminFloors">
+                    Etasjer
+                </span>
 
       </a>
 
+
+      <!-- =============================================
+           RESIDENTS
+           ============================================= -->
 
       <a
               href="admin-residents.html"
               class="admin-sidebar-link"
       >
 
-        <span class="admin-sidebar-icon">
-          👥
-        </span>
+                <span class="admin-sidebar-icon">
+                    👥
+                </span>
 
-        <span>
-          Beboere
-        </span>
+        <span data-i18n="adminResidents">
+                    Beboere
+                </span>
 
       </a>
 
+
+      <!-- =============================================
+           CLEANING PLAN
+           ============================================= -->
 
       <a
               href="admin-cleaning-plan.html"
               class="admin-sidebar-link"
       >
 
-        <span class="admin-sidebar-icon">
-          🧹
-        </span>
+                <span class="admin-sidebar-icon">
+                    🧹
+                </span>
 
-        <span>
-          Rengjøringsplan
-        </span>
+        <span data-i18n="adminCleaningPlan">
+                    Rengjøringsplan
+                </span>
 
       </a>
 
+
+      <!-- =============================================
+           USERS
+           ============================================= -->
 
       <a
               href="users.html"
               class="admin-sidebar-link active"
       >
 
-        <span class="admin-sidebar-icon">
-          👤
-        </span>
+                <span class="admin-sidebar-icon">
+                    👤
+                </span>
 
-        <span>
-          Brukere
-        </span>
+        <span data-i18n="adminUsers">
+                    Brukere
+                </span>
 
       </a>
 
+
+      <!-- =============================================
+           HISTORY
+           ============================================= -->
 
       <button
               type="button"
@@ -166,16 +221,20 @@
               id="historySidebarButton"
       >
 
-        <span class="admin-sidebar-icon">
-          ↺
-        </span>
+                <span class="admin-sidebar-icon">
+                    ↺
+                </span>
 
-        <span>
-          Historikk
-        </span>
+        <span data-i18n="adminHistory">
+                    Historikk
+                </span>
 
       </button>
 
+
+      <!-- =============================================
+           SETTINGS
+           ============================================= -->
 
       <button
               type="button"
@@ -183,13 +242,13 @@
               id="settingsSidebarButton"
       >
 
-        <span class="admin-sidebar-icon">
-          ⚙
-        </span>
+                <span class="admin-sidebar-icon">
+                    ⚙
+                </span>
 
-        <span>
-          Innstillinger
-        </span>
+        <span data-i18n="adminSettings">
+                    Innstillinger
+                </span>
 
       </button>
 
@@ -197,7 +256,9 @@
     </nav>
 
 
-    <!-- SIDEBAR BOTTOM -->
+    <!-- =================================================
+         SIDEBAR BOTTOM
+         ================================================= -->
 
     <div class="admin-sidebar-bottom">
 
@@ -207,13 +268,13 @@
               type="button"
       >
 
-        <span>
-          ↪
-        </span>
+                <span>
+                    ↪
+                </span>
 
-        <span>
-          Logg ut
-        </span>
+        <span data-i18n="adminLogout">
+                    Logg ut
+                </span>
 
       </button>
 
@@ -230,10 +291,16 @@
   <div class="admin-main-area">
 
 
-    <!-- TOP HEADER -->
+    <!-- =================================================
+         TOP HEADER
+         ================================================= -->
 
     <header class="admin-main-header">
 
+
+      <!-- =============================================
+           MOBILE MENU
+           ============================================= -->
 
       <div>
 
@@ -242,6 +309,7 @@
                 class="admin-mobile-menu-button"
                 type="button"
                 aria-label="Åpne meny"
+                data-i18n-aria-label="adminOpenMenu"
         >
           ☰
         </button>
@@ -249,7 +317,16 @@
       </div>
 
 
+      <!-- =============================================
+           PROFILE + LANGUAGE
+           ============================================= -->
+
       <div class="admin-header-profile">
+
+
+        <!-- =========================================
+             PROFILE TEXT
+             ========================================= -->
 
         <div class="admin-header-profile-text">
 
@@ -258,19 +335,164 @@
           </strong>
 
           <span id="adminRole">
-            Admin
-          </span>
+                        Admin
+                    </span>
 
         </div>
 
+
+        <!-- =========================================
+             LANGUAGE SELECTOR
+             ========================================= -->
+
+        <div class="language-selector admin-language-selector">
+
+
+          <button
+                  id="languageButton"
+                  class="language-button"
+                  type="button"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+          >
+
+                        <span
+                                class="language-button-globe"
+                                aria-hidden="true"
+                        >
+                            🌐
+                        </span>
+
+            <span id="selectedLanguageName">
+                            NO
+                        </span>
+
+            <span
+                    class="language-button-chevron"
+                    aria-hidden="true"
+            >
+                            ▾
+                        </span>
+
+          </button>
+
+
+          <!-- =====================================
+               LANGUAGE MODAL
+               ===================================== -->
+
+          <div
+                  id="languageModal"
+                  class="language-modal"
+                  hidden
+          >
+
+
+            <!-- ================================
+                 SEARCH
+                 ================================ -->
+
+            <div class="language-search-wrapper">
+
+              <input
+                      id="languageSearchInput"
+                      class="language-search-input"
+                      type="search"
+                      placeholder="Søk etter språk..."
+                      aria-label="Søk etter språk"
+                      data-i18n-placeholder="languageSearchPlaceholder"
+                      data-i18n-aria-label="languageSearchAriaLabel"
+                      autocomplete="off"
+              >
+
+
+              <button
+                      id="clearLanguageSearchButton"
+                      class="language-search-clear"
+                      type="button"
+                      aria-label="Tøm søk"
+                      data-i18n-aria-label="clearLanguageSearch"
+                      hidden
+              >
+                ×
+              </button>
+
+            </div>
+
+
+            <!-- ================================
+                 RESULT TEXT
+                 ================================ -->
+
+            <div
+                    id="languageResultText"
+                    class="language-result-text"
+                    aria-live="polite"
+            >
+            </div>
+
+
+            <!-- ================================
+                 LANGUAGE LIST
+                 ================================ -->
+
+            <div
+                    id="languageList"
+                    class="language-list"
+                    role="listbox"
+                    aria-label="Tilgjengelige språk"
+                    data-i18n-aria-label="availableLanguages"
+            >
+
+              <p
+                      class="language-loading"
+                      data-i18n="loadingAvailableLanguages"
+              >
+                Laster tilgjengelige språk...
+              </p>
+
+            </div>
+
+
+            <!-- ================================
+                 EMPTY SEARCH
+                 ================================ -->
+
+            <div
+                    id="languageSearchEmpty"
+                    class="language-search-empty"
+                    hidden
+            >
+
+              <strong data-i18n="noLanguagesFound">
+                Ingen språk funnet
+              </strong>
+
+              <span data-i18n="tryAnotherSearch">
+                                Prøv et annet søk.
+                            </span>
+
+            </div>
+
+
+          </div>
+
+
+        </div>
+
+
+        <!-- =========================================
+             AVATAR
+             ========================================= -->
 
         <div class="admin-profile-avatar">
 
-          <span id="adminInitial">
-            A
-          </span>
+                    <span id="adminInitial">
+                        A
+                    </span>
 
         </div>
+
 
       </div>
 
@@ -285,21 +507,29 @@
     <main class="admin-dashboard-main">
 
 
-      <!-- PAGE HEADER -->
+      <!-- =================================================
+           PAGE HEADER
+           ================================================= -->
 
       <section class="admin-users-page-header">
 
+
         <div>
 
-          <p class="admin-dashboard-eyebrow">
+          <p
+                  class="admin-dashboard-eyebrow"
+                  data-i18n="adminAdministratorEyebrow"
+          >
             ADMINISTRATOR
           </p>
 
-          <h1>
+
+          <h1 data-i18n="adminUsers">
             Brukere
           </h1>
 
-          <p>
+
+          <p data-i18n="adminUsersPageDescription">
             Opprett og administrer brukere og roller.
           </p>
 
@@ -311,8 +541,17 @@
                 class="secondary-button"
                 type="button"
         >
-          ← Dashboard
+
+                    <span aria-hidden="true">
+                        ←
+                    </span>
+
+          <span data-i18n="adminDashboard">
+                        Dashboard
+                    </span>
+
         </button>
+
 
       </section>
 
@@ -330,7 +569,9 @@
 
         <section class="dashboard-card admin-user-form-card">
 
+
           <div class="admin-users-card-heading">
+
 
             <div class="admin-action-icon">
               👤
@@ -339,17 +580,17 @@
 
             <div>
 
-              <h2>
+              <h2 data-i18n="adminCreateUser">
                 Opprett bruker
               </h2>
 
-              <p>
-                Opprett en ny bruker for CleanPlan.
-                Brukeren mottar en sikker lenke på e-post
-                for å sette sitt eget passord.
+
+              <p data-i18n="adminCreateUserDescription">
+                Opprett en ny bruker for CleanPlan. Brukeren mottar en sikker lenke på e-post for å sette sitt eget passord.
               </p>
 
             </div>
+
 
           </div>
 
@@ -357,11 +598,16 @@
           <form id="userForm">
 
 
-            <!-- NAME -->
+            <!-- =========================================
+                 NAME
+                 ========================================= -->
 
             <div class="form-group admin-user-form-group">
 
-              <label for="fullName">
+              <label
+                      for="fullName"
+                      data-i18n="adminNameLabel"
+              >
                 Navn
               </label>
 
@@ -371,6 +617,7 @@
                       id="fullName"
                       name="fullName"
                       placeholder="For eksempel Ola Nordmann"
+                      data-i18n-placeholder="adminNamePlaceholder"
                       autocomplete="name"
                       required
               >
@@ -378,11 +625,16 @@
             </div>
 
 
-            <!-- EMAIL -->
+            <!-- =========================================
+                 EMAIL
+                 ========================================= -->
 
             <div class="form-group admin-user-form-group">
 
-              <label for="email">
+              <label
+                      for="email"
+                      data-i18n="emailLabel"
+              >
                 E-post
               </label>
 
@@ -399,11 +651,16 @@
             </div>
 
 
-            <!-- ROLE -->
+            <!-- =========================================
+                 ROLE
+                 ========================================= -->
 
             <div class="form-group admin-user-form-group">
 
-              <label for="role">
+              <label
+                      for="role"
+                      data-i18n="adminRole"
+              >
                 Rolle
               </label>
 
@@ -418,27 +675,41 @@
                         value=""
                         selected
                         disabled
+                        data-i18n="adminSelectRole"
                 >
                   Velg rolle
                 </option>
 
               </select>
 
+
             </div>
 
 
-            <!-- CREATE BUTTON -->
+            <!-- =========================================
+                 CREATE BUTTON
+                 ========================================= -->
 
             <button
                     type="submit"
                     class="primary-button admin-user-create-button"
                     id="createUserButton"
             >
-              + Opprett bruker
+
+                            <span aria-hidden="true">
+                                +
+                            </span>
+
+              <span data-i18n="adminCreateUser">
+                                Opprett bruker
+                            </span>
+
             </button>
 
 
-            <!-- MESSAGE -->
+            <!-- =========================================
+                 MESSAGE
+                 ========================================= -->
 
             <p
                     id="userMessage"
@@ -450,6 +721,7 @@
 
           </form>
 
+
         </section>
 
 
@@ -460,9 +732,9 @@
         <section class="dashboard-card admin-user-list-card">
 
 
-          <!-- =================================================
+          <!-- =============================================
                HEADER
-               ================================================= -->
+               ============================================= -->
 
           <div class="admin-user-list-header">
 
@@ -480,9 +752,10 @@
 
               <div>
 
+
                 <div class="admin-user-title-row">
 
-                  <h2>
+                  <h2 data-i18n="adminRegisteredUsers">
                     Registrerte brukere
                   </h2>
 
@@ -491,15 +764,16 @@
                           id="userCountBadge"
                           class="admin-user-number-badge"
                   >
-                    0
-                  </span>
+                                        0
+                                    </span>
 
                 </div>
 
 
-                <p>
+                <p data-i18n="adminUsersAccessDescription">
                   Brukerprofiler du har tilgang til å administrere.
                 </p>
+
 
               </div>
 
@@ -507,9 +781,9 @@
             </div>
 
 
-            <!-- =================================================
+            <!-- =========================================
                  SHOW / HIDE BUTTON
-                 ================================================= -->
+                 ========================================= -->
 
             <button
                     id="toggleUsersButton"
@@ -519,17 +793,21 @@
                     aria-controls="registeredUsersContent"
             >
 
-              <span id="toggleUsersText">
-                Vis brukere
-              </span>
+                            <span
+                                    id="toggleUsersText"
+                                    data-i18n="adminShowUsers"
+                            >
+                                Vis brukere
+                            </span>
+
 
               <span
                       id="toggleUsersIcon"
                       class="admin-users-toggle-icon"
                       aria-hidden="true"
               >
-                ⌄
-              </span>
+                                ⌄
+                            </span>
 
             </button>
 
@@ -537,9 +815,9 @@
           </div>
 
 
-          <!-- =================================================
+          <!-- =============================================
                COLLAPSIBLE CONTENT
-               ================================================= -->
+               ============================================= -->
 
           <div
                   id="registeredUsersContent"
@@ -548,9 +826,9 @@
           >
 
 
-            <!-- =================================================
+            <!-- =========================================
                  SEARCH
-                 ================================================= -->
+                 ========================================= -->
 
             <div class="admin-users-search-row">
 
@@ -558,12 +836,12 @@
               <div class="admin-users-search-field">
 
 
-                <span
-                        class="admin-users-search-icon"
-                        aria-hidden="true"
-                >
-                  🔍
-                </span>
+                                <span
+                                        class="admin-users-search-icon"
+                                        aria-hidden="true"
+                                >
+                                    🔍
+                                </span>
 
 
                 <input
@@ -571,8 +849,10 @@
                         type="search"
                         class="admin-users-search-input"
                         placeholder="Søk etter navn, e-post, rolle eller status..."
+                        data-i18n-placeholder="adminUserSearchPlaceholder"
                         autocomplete="off"
                         aria-label="Søk etter bruker"
+                        data-i18n-aria-label="adminUserSearchAria"
                 >
 
 
@@ -581,6 +861,7 @@
                         type="button"
                         class="admin-users-search-clear"
                         aria-label="Tøm søk"
+                        data-i18n-aria-label="clearLanguageSearch"
                         hidden
                 >
                   ×
@@ -592,9 +873,9 @@
 
               <div class="admin-users-search-info">
 
-                <span id="userSearchCount">
-                  0 brukere funnet
-                </span>
+                                <span id="userSearchCount">
+                                    0 brukere funnet
+                                </span>
 
               </div>
 
@@ -602,22 +883,25 @@
             </div>
 
 
-            <!-- =================================================
+            <!-- =========================================
                  USER LIST
-                 ================================================= -->
+                 ========================================= -->
 
             <div id="userList">
 
-              <p class="empty-state">
+              <p
+                      class="empty-state"
+                      data-i18n="adminLoadingUsers"
+              >
                 Laster brukere...
               </p>
 
             </div>
 
 
-            <!-- =================================================
+            <!-- =========================================
                  NO SEARCH RESULT
-                 ================================================= -->
+                 ========================================= -->
 
             <div
                     id="userSearchEmpty"
@@ -632,14 +916,16 @@
                 🔎
               </div>
 
-              <h3>
+
+              <h3 data-i18n="adminNoUsersFound">
                 Ingen brukere funnet
               </h3>
 
-              <p>
-                Prøv et annet navn, e-post,
-                rolle eller status.
+
+              <p data-i18n="adminTryAnotherUserSearch">
+                Prøv et annet navn, e-post, rolle eller status.
               </p>
+
 
             </div>
 
@@ -663,16 +949,6 @@
 
 
 <!-- =========================================================
-     MOBILE SIDEBAR OVERLAY
-     ========================================================= -->
-
-<div
-        id="adminSidebarOverlay"
-        class="admin-sidebar-overlay"
-></div>
-
-
-<!-- =========================================================
      SUPABASE
      ========================================================= -->
 
@@ -680,7 +956,25 @@
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
 ></script>
 
+
+<!-- =========================================================
+     CONFIG
+     ========================================================= -->
+
 <script src="js/config.js"></script>
+
+
+<!-- =========================================================
+     LANGUAGE
+     Must load before users.js
+     ========================================================= -->
+
+<script src="js/language.js?v=11"></script>
+
+
+<!-- =========================================================
+     USERS JAVASCRIPT
+     ========================================================= -->
 
 <script src="js/users.js?v=3"></script>
 
@@ -691,61 +985,93 @@
 
 <script>
 
-  const mobileSidebarButton =
-          document.getElementById(
-                  "mobileSidebarButton"
-          );
-
-  const adminSidebar =
-          document.querySelector(
-                  ".admin-sidebar"
-          );
-
-  const adminSidebarOverlay =
-          document.getElementById(
-                  "adminSidebarOverlay"
-          );
-
-  const historySidebarButton =
-          document.getElementById(
-                  "historySidebarButton"
-          );
-
-  const settingsSidebarButton =
-          document.getElementById(
-                  "settingsSidebarButton"
-          );
+  document.addEventListener(
+          "DOMContentLoaded",
+          function () {
 
 
-  function closeAdminSidebar() {
+            // =================================================
+            // ELEMENTS
+            // =================================================
 
-    if (adminSidebar) {
-
-      adminSidebar.classList.remove(
-              "open"
-      );
-
-    }
-
-
-    if (adminSidebarOverlay) {
-
-      adminSidebarOverlay.classList.remove(
-              "visible"
-      );
-
-    }
-
-  }
+            const mobileSidebarButton =
+                    document.getElementById(
+                            "mobileSidebarButton"
+                    );
 
 
-  if (mobileSidebarButton) {
+            const adminSidebar =
+                    document.getElementById(
+                            "adminSidebar"
+                    );
 
-    mobileSidebarButton.addEventListener(
-            "click",
-            function () {
 
-              if (adminSidebar) {
+            const adminSidebarOverlay =
+                    document.getElementById(
+                            "adminSidebarOverlay"
+                    );
+
+
+            const historySidebarButton =
+                    document.getElementById(
+                            "historySidebarButton"
+                    );
+
+
+            const settingsSidebarButton =
+                    document.getElementById(
+                            "settingsSidebarButton"
+                    );
+
+
+            // =================================================
+            // TRANSLATION HELPER
+            // =================================================
+
+            function adminTranslate(
+                    key,
+                    fallback
+            ) {
+
+              if (
+                      window.CleanPlanI18n &&
+                      typeof window.CleanPlanI18n.t ===
+                      "function"
+              ) {
+
+                const translated =
+                        window.CleanPlanI18n.t(
+                                key
+                        );
+
+
+                if (
+                        translated &&
+                        translated !==
+                        key
+                ) {
+
+                  return translated;
+
+                }
+
+              }
+
+
+              return fallback;
+
+            }
+
+
+            // =================================================
+            // OPEN SIDEBAR
+            // =================================================
+
+            function openAdminSidebar() {
+
+              if (
+                      adminSidebar
+              ) {
 
                 adminSidebar.classList.add(
                         "open"
@@ -754,7 +1080,13 @@
               }
 
 
-              if (adminSidebarOverlay) {
+              if (
+                      adminSidebarOverlay
+              ) {
+
+                adminSidebarOverlay.hidden =
+                        false;
+
 
                 adminSidebarOverlay.classList.add(
                         "visible"
@@ -763,51 +1095,187 @@
               }
 
             }
-    );
-
-  }
 
 
-  if (adminSidebarOverlay) {
+            // =================================================
+            // CLOSE SIDEBAR
+            // =================================================
 
-    adminSidebarOverlay.addEventListener(
-            "click",
-            closeAdminSidebar
-    );
+            function closeAdminSidebar() {
 
-  }
+              if (
+                      adminSidebar
+              ) {
+
+                adminSidebar.classList.remove(
+                        "open"
+                );
+
+              }
 
 
-  if (historySidebarButton) {
+              if (
+                      adminSidebarOverlay
+              ) {
 
-    historySidebarButton.addEventListener(
-            "click",
-            function () {
+                adminSidebarOverlay.classList.remove(
+                        "visible"
+                );
 
-              window.alert(
-                      "Historikk kommer i et senere steg."
+
+                adminSidebarOverlay.hidden =
+                        true;
+
+              }
+
+            }
+
+
+            // =================================================
+            // MOBILE MENU
+            // =================================================
+
+            if (
+                    mobileSidebarButton
+            ) {
+
+              mobileSidebarButton.addEventListener(
+                      "click",
+                      function () {
+
+                        if (
+                                adminSidebar &&
+                                adminSidebar.classList.contains(
+                                        "open"
+                                )
+                        ) {
+
+                          closeAdminSidebar();
+
+                        } else {
+
+                          openAdminSidebar();
+
+                        }
+
+                      }
               );
 
             }
-    );
-
-  }
 
 
-  if (settingsSidebarButton) {
+            // =================================================
+            // OVERLAY
+            // =================================================
 
-    settingsSidebarButton.addEventListener(
-            "click",
-            function () {
+            if (
+                    adminSidebarOverlay
+            ) {
 
-              window.alert(
-                      "Innstillinger kommer i et senere steg."
+              adminSidebarOverlay.addEventListener(
+                      "click",
+                      closeAdminSidebar
               );
 
             }
-    );
 
-  }
+
+            // =================================================
+            // HISTORY
+            // =================================================
+
+            if (
+                    historySidebarButton
+            ) {
+
+              historySidebarButton.addEventListener(
+                      "click",
+                      function () {
+
+                        window.alert(
+                                adminTranslate(
+                                        "adminHistoryComingSoon",
+                                        "Historikk kommer i et senere steg."
+                                )
+                        );
+
+                      }
+              );
+
+            }
+
+
+            // =================================================
+            // SETTINGS
+            // =================================================
+
+            if (
+                    settingsSidebarButton
+            ) {
+
+              settingsSidebarButton.addEventListener(
+                      "click",
+                      function () {
+
+                        window.alert(
+                                adminTranslate(
+                                        "adminSettingsComingSoon",
+                                        "Innstillinger kommer i et senere steg."
+                                )
+                        );
+
+                      }
+              );
+
+            }
+
+
+            // =================================================
+            // ESCAPE
+            // =================================================
+
+            document.addEventListener(
+                    "keydown",
+                    function (
+                            event
+                    ) {
+
+                      if (
+                              event.key ===
+                              "Escape"
+                      ) {
+
+                        closeAdminSidebar();
+
+                      }
+
+                    }
+            );
+
+
+            // =================================================
+            // DESKTOP RESIZE
+            // =================================================
+
+            window.addEventListener(
+                    "resize",
+                    function () {
+
+                      if (
+                              window.innerWidth >
+                              900
+                      ) {
+
+                        closeAdminSidebar();
+
+                      }
+
+                    }
+            );
+
+
+          }
+  );
 
 </script>
 

@@ -1,5 +1,5 @@
 // ============================================================
-// CLEANING APP
+// CLEANPLAN
 // PROPERTIES
 // ============================================================
 
@@ -9,25 +9,39 @@
 // ============================================================
 
 const propertyForm =
-    document.getElementById("propertyForm");
+    document.getElementById(
+        "propertyForm"
+    );
 
 const propertyNameInput =
-    document.getElementById("propertyName");
+    document.getElementById(
+        "propertyName"
+    );
 
 const propertyAddressInput =
-    document.getElementById("propertyAddress");
+    document.getElementById(
+        "propertyAddress"
+    );
 
 const floorCountInput =
-    document.getElementById("floorCount");
+    document.getElementById(
+        "floorCount"
+    );
 
 const savePropertyButton =
-    document.getElementById("savePropertyButton");
+    document.getElementById(
+        "savePropertyButton"
+    );
 
 const propertyMessage =
-    document.getElementById("propertyMessage");
+    document.getElementById(
+        "propertyMessage"
+    );
 
 const propertyList =
-    document.getElementById("propertyList");
+    document.getElementById(
+        "propertyList"
+    );
 
 const registeredPropertiesContent =
     document.getElementById(
@@ -75,18 +89,233 @@ const propertySearchEmpty =
     );
 
 const logoutButton =
-    document.getElementById("logoutButton");
+    document.getElementById(
+        "logoutButton"
+    );
 
 const backButton =
-    document.getElementById("backButton");
+    document.getElementById(
+        "backButton"
+    );
 
 
 // ============================================================
-// PROPERTY LIST UI STATE
+// HEADER PROFILE
+// ============================================================
+
+const adminName =
+    document.getElementById(
+        "adminName"
+    );
+
+const adminRole =
+    document.getElementById(
+        "adminRole"
+    );
+
+const adminInitial =
+    document.getElementById(
+        "adminInitial"
+    );
+
+
+// ============================================================
+// STATE
 // ============================================================
 
 let activePropertyCount =
     0;
+
+let currentProfile =
+    null;
+
+let currentSession =
+    null;
+
+let currentProperties =
+    [];
+
+
+// ============================================================
+// I18N HELPER
+// ============================================================
+
+function t(
+    key,
+    params = {},
+    fallback = ""
+) {
+
+    if (
+        window.CleanPlanI18n &&
+        typeof window.CleanPlanI18n.t ===
+        "function"
+    ) {
+
+        const translated =
+            window.CleanPlanI18n.t(
+                key,
+                params
+            );
+
+
+        if (
+            translated &&
+            translated !==
+            key
+        ) {
+
+            return translated;
+
+        }
+
+    }
+
+
+    let text =
+        fallback ||
+        key;
+
+
+    Object.entries(
+        params
+    ).forEach(
+        function (
+            [paramKey, value]
+        ) {
+
+            text =
+                text.replaceAll(
+                    "{" +
+                    paramKey +
+                    "}",
+                    String(value)
+                );
+
+        }
+    );
+
+
+    return text;
+
+}
+
+
+// ============================================================
+// CURRENT LANGUAGE
+// ============================================================
+
+function getCurrentLanguageCode() {
+
+    if (
+        window.CleanPlanI18n &&
+        typeof window.CleanPlanI18n.getLanguage ===
+        "function"
+    ) {
+
+        return (
+            window.CleanPlanI18n.getLanguage() ||
+            "no"
+        );
+
+    }
+
+
+    return "no";
+
+}
+
+
+// ============================================================
+// CURRENT LOCALE
+// ============================================================
+
+function getCurrentLocale() {
+
+    return (
+        getCurrentLanguageCode() ===
+        "en"
+            ? "en-GB"
+            : "nb-NO"
+    );
+
+}
+
+
+// ============================================================
+// MESSAGE
+// ============================================================
+
+function showPropertyMessage(
+    message,
+    type = ""
+) {
+
+    if (
+        !propertyMessage
+    ) {
+
+        return;
+
+    }
+
+
+    propertyMessage.textContent =
+        message;
+
+
+    propertyMessage.className =
+        "message " +
+        type;
+
+}
+
+
+// ============================================================
+// LOGOUT
+// ============================================================
+
+if (
+    logoutButton
+) {
+
+    logoutButton.addEventListener(
+        "click",
+        async function () {
+
+            await supabaseClient
+                .auth
+                .signOut();
+
+
+            window.location.href =
+                "index.html";
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// BACK TO DASHBOARD
+// ============================================================
+
+if (
+    backButton
+) {
+
+    backButton.addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                "admin.html";
+
+        }
+    );
+
+}
 
 
 // ============================================================
@@ -95,9 +324,12 @@ let activePropertyCount =
 
 function updatePropertyToggleButton() {
 
-    if (!togglePropertyListButton) {
+    if (
+        !togglePropertyListButton
+    ) {
 
         return;
+
     }
 
 
@@ -109,17 +341,29 @@ function updatePropertyToggleButton() {
 
     togglePropertyListButton.setAttribute(
         "aria-expanded",
-        String(isOpen)
+        String(
+            isOpen
+        )
     );
 
 
-    if (togglePropertyListText) {
+    if (
+        togglePropertyListText
+    ) {
 
         togglePropertyListText.textContent =
             (
                 isOpen
-                    ? "Skjul boliger"
-                    : "Vis boliger"
+                    ? t(
+                        "adminHideProperties",
+                        {},
+                        "Skjul boliger"
+                    )
+                    : t(
+                        "adminShowProperties",
+                        {},
+                        "Vis boliger"
+                    )
             ) +
             " (" +
             activePropertyCount +
@@ -128,7 +372,9 @@ function updatePropertyToggleButton() {
     }
 
 
-    if (togglePropertyListChevron) {
+    if (
+        togglePropertyListChevron
+    ) {
 
         togglePropertyListChevron.textContent =
             isOpen
@@ -148,9 +394,12 @@ function setPropertyListOpen(
     shouldOpen
 ) {
 
-    if (!registeredPropertiesContent) {
+    if (
+        !registeredPropertiesContent
+    ) {
 
         return;
+
     }
 
 
@@ -188,19 +437,36 @@ function updatePropertySearchResultText(
     visibleCount
 ) {
 
-    if (!propertySearchResultText) {
+    if (
+        !propertySearchResultText
+    ) {
 
         return;
+
     }
 
 
     propertySearchResultText.textContent =
-        visibleCount +
-        (
-            visibleCount === 1
-                ? " bolig funnet"
-                : " boliger funnet"
-        );
+        visibleCount ===
+        1
+            ? t(
+                "adminPropertySingularFound",
+                {
+                    count:
+                    visibleCount
+                },
+                visibleCount +
+                " bolig funnet"
+            )
+            : t(
+                "adminPropertyPluralFound",
+                {
+                    count:
+                    visibleCount
+                },
+                visibleCount +
+                " boliger funnet"
+            );
 
 }
 
@@ -211,17 +477,23 @@ function updatePropertySearchResultText(
 
 function filterPropertyList() {
 
-    if (!propertyList) {
+    if (
+        !propertyList
+    ) {
 
         return;
+
     }
 
 
     const query =
         propertySearchInput
-            ? propertySearchInput.value
+            ? propertySearchInput
+                .value
                 .trim()
-                .toLocaleLowerCase("nb-NO")
+                .toLocaleLowerCase(
+                    getCurrentLocale()
+                )
             : "";
 
 
@@ -238,7 +510,9 @@ function filterPropertyList() {
 
 
     rows.forEach(
-        function (row) {
+        function (
+            row
+        ) {
 
             const searchableText =
                 (
@@ -247,7 +521,7 @@ function filterPropertyList() {
                     ""
                 )
                     .toLocaleLowerCase(
-                        "nb-NO"
+                        getCurrentLocale()
                     );
 
 
@@ -262,7 +536,9 @@ function filterPropertyList() {
                 !matches;
 
 
-            if (matches) {
+            if (
+                matches
+            ) {
 
                 visibleCount +=
                     1;
@@ -273,21 +549,28 @@ function filterPropertyList() {
     );
 
 
-    if (clearPropertySearchButton) {
+    if (
+        clearPropertySearchButton
+    ) {
 
         clearPropertySearchButton.hidden =
-            query.length === 0;
+            query.length ===
+            0;
 
     }
 
 
-    if (propertySearchEmpty) {
+    if (
+        propertySearchEmpty
+    ) {
 
         propertySearchEmpty.hidden =
             !(
                 query &&
-                rows.length > 0 &&
-                visibleCount === 0
+                rows.length >
+                0 &&
+                visibleCount ===
+                0
             );
 
     }
@@ -306,7 +589,9 @@ function filterPropertyList() {
 // TOGGLE REGISTERED PROPERTIES
 // ============================================================
 
-if (togglePropertyListButton) {
+if (
+    togglePropertyListButton
+) {
 
     togglePropertyListButton.addEventListener(
         "click",
@@ -332,7 +617,9 @@ if (togglePropertyListButton) {
 // SEARCH REGISTERED PROPERTIES
 // ============================================================
 
-if (propertySearchInput) {
+if (
+    propertySearchInput
+) {
 
     propertySearchInput.addEventListener(
         "input",
@@ -346,15 +633,20 @@ if (propertySearchInput) {
 // CLEAR PROPERTY SEARCH
 // ============================================================
 
-if (clearPropertySearchButton) {
+if (
+    clearPropertySearchButton
+) {
 
     clearPropertySearchButton.addEventListener(
         "click",
         function () {
 
-            if (!propertySearchInput) {
+            if (
+                !propertySearchInput
+            ) {
 
                 return;
+
             }
 
 
@@ -374,58 +666,106 @@ if (clearPropertySearchButton) {
 
 
 // ============================================================
-// MESSAGE
+// UPDATE ADMIN PROFILE UI
 // ============================================================
 
-function showPropertyMessage(
-    message,
-    type = ""
+function updateAdminProfileUi(
+    profile,
+    session
 ) {
 
-    propertyMessage.textContent =
-        message;
+    if (
+        !profile
+    ) {
 
-    propertyMessage.className =
-        "message " + type;
-}
+        return;
 
-
-// ============================================================
-// LOGOUT
-// ============================================================
-
-if (logoutButton) {
-
-    logoutButton.addEventListener(
-        "click",
-        async function () {
-
-            await supabaseClient.auth.signOut();
-
-            window.location.href =
-                "index.html";
-
-        }
-    );
-
-}
+    }
 
 
-// ============================================================
-// BACK TO DASHBOARD
-// ============================================================
+    // ========================================================
+    // DISPLAY NAME
+    // ========================================================
 
-if (backButton) {
+    const profileName =
+        typeof profile.full_name ===
+        "string"
+            ? profile.full_name.trim()
+            : "";
 
-    backButton.addEventListener(
-        "click",
-        function () {
 
-            window.location.href =
-                "admin.html";
+    const metadataName =
+        typeof session?.user
+            ?.user_metadata
+            ?.full_name ===
+        "string"
+            ? session.user
+                .user_metadata
+                .full_name
+                .trim()
+            : "";
 
-        }
-    );
+
+    const emailName =
+        session?.user?.email
+            ? session.user.email
+                .split("@")[0]
+                .trim()
+            : "";
+
+
+    const displayName =
+        profileName ||
+        metadataName ||
+        emailName ||
+        "Administrator";
+
+
+    // ========================================================
+    // NAME
+    // ========================================================
+
+    if (
+        adminName
+    ) {
+
+        adminName.textContent =
+            displayName;
+
+    }
+
+
+    // ========================================================
+    // ROLE
+    // ========================================================
+
+    if (
+        adminRole
+    ) {
+
+        adminRole.textContent =
+            profile.role ===
+            "superadmin"
+                ? "Superadmin"
+                : "Admin";
+
+    }
+
+
+    // ========================================================
+    // INITIAL
+    // ========================================================
+
+    if (
+        adminInitial
+    ) {
+
+        adminInitial.textContent =
+            displayName
+                .charAt(0)
+                .toUpperCase();
+
+    }
 
 }
 
@@ -437,11 +777,19 @@ if (backButton) {
 async function checkAdmin() {
 
     const {
-        data: { session },
+        data: {
+            session
+        },
         error: sessionError
     } =
-        await supabaseClient.auth.getSession();
+        await supabaseClient
+            .auth
+            .getSession();
 
+
+    // ========================================================
+    // SESSION
+    // ========================================================
 
     if (
         sessionError ||
@@ -451,18 +799,26 @@ async function checkAdmin() {
         window.location.href =
             "index.html";
 
+
         return null;
+
     }
 
+
+    // ========================================================
+    // PROFILE
+    // ========================================================
 
     const {
         data: profile,
         error
     } =
         await supabaseClient
-            .from("profiles")
+            .from(
+                "profiles"
+            )
             .select(
-                "full_name, role, is_active"
+                "id, full_name, email, role, is_active"
             )
             .eq(
                 "id",
@@ -470,6 +826,10 @@ async function checkAdmin() {
             )
             .single();
 
+
+    // ========================================================
+    // PROFILE ERROR
+    // ========================================================
 
     if (
         error ||
@@ -481,48 +841,76 @@ async function checkAdmin() {
             error
         );
 
-        await supabaseClient.auth.signOut();
+
+        await supabaseClient
+            .auth
+            .signOut();
+
 
         window.location.href =
             "index.html";
 
+
         return null;
+
     }
 
+
+    // ========================================================
+    // ACCESS CONTROL
+    // ========================================================
 
     if (
         !profile.is_active ||
         (
-            profile.role !== "superadmin" &&
-            profile.role !== "admin"
+            profile.role !==
+            "superadmin" &&
+            profile.role !==
+            "admin"
         )
     ) {
 
-        await supabaseClient.auth.signOut();
+        await supabaseClient
+            .auth
+            .signOut();
+
 
         window.location.href =
             "index.html";
 
+
         return null;
-    }
-
-
-    const adminName =
-        document.getElementById(
-            "adminName"
-        );
-
-
-    if (adminName) {
-
-        adminName.textContent =
-            profile.full_name;
 
     }
+
+
+    // ========================================================
+    // CACHE CURRENT USER
+    // ========================================================
+
+    currentProfile =
+        profile;
+
+
+    currentSession =
+        session;
+
+
+    // ========================================================
+    // HEADER PROFILE
+    // ========================================================
+
+    updateAdminProfileUi(
+        profile,
+        session
+    );
 
 
     return {
+        session:
         session,
+
+        profile:
         profile
     };
 
@@ -541,17 +929,24 @@ function createDeactivatedSection() {
         );
 
 
-    if (section) {
+    if (
+        section
+    ) {
 
         return section;
+
     }
 
 
     section =
-        document.createElement("section");
+        document.createElement(
+            "section"
+        );
+
 
     section.id =
         "deactivatedPropertiesSection";
+
 
     section.className =
         "properties-section";
@@ -559,17 +954,24 @@ function createDeactivatedSection() {
 
     section.innerHTML = `
 
-<h2>
-Deaktiverte boliger
-</h2>
+        <h2>
+            ${t(
+        "adminDeactivatedProperties",
+        {},
+        "Deaktiverte boliger"
+    )}
+        </h2>
 
-<p class="section-description">
-    Deaktiverte boliger kan gjenopprettes
-    i opptil 2 måneder.
-</p>
+        <p class="section-description">
+            ${t(
+        "adminDeactivatedPropertiesDescription",
+        {},
+        "Deaktiverte boliger kan gjenopprettes i opptil 2 måneder."
+    )}
+        </p>
 
-<div id="deactivatedPropertyList">
-</div>
+        <div id="deactivatedPropertyList">
+        </div>
 
     `;
 
@@ -578,12 +980,16 @@ Deaktiverte boliger
         document.querySelector(
             ".admin-properties-layout"
         ) ||
-        propertyList.parentElement;
+        propertyList?.parentElement;
 
 
-    if (parent) {
+    if (
+        parent
+    ) {
 
-        parent.appendChild(section);
+        parent.appendChild(
+            section
+        );
 
     }
 
@@ -597,11 +1003,13 @@ Deaktiverte boliger
 // FORMAT DATE
 // ============================================================
 
-function formatNorwegianDate(
+function formatLocalizedDate(
     value
 ) {
 
-    if (!value) {
+    if (
+        !value
+    ) {
 
         return "";
 
@@ -609,7 +1017,9 @@ function formatNorwegianDate(
 
 
     const date =
-        new Date(value);
+        new Date(
+            value
+        );
 
 
     if (
@@ -624,11 +1034,16 @@ function formatNorwegianDate(
 
 
     return date.toLocaleDateString(
-        "no-NO",
+        getCurrentLocale(),
         {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric"
+            day:
+                "2-digit",
+
+            month:
+                "2-digit",
+
+            year:
+                "numeric"
         }
     );
 
@@ -639,11 +1054,13 @@ function formatNorwegianDate(
 // FORMAT DATE + TIME
 // ============================================================
 
-function formatNorwegianDateTime(
+function formatLocalizedDateTime(
     value
 ) {
 
-    if (!value) {
+    if (
+        !value
+    ) {
 
         return "";
 
@@ -651,7 +1068,9 @@ function formatNorwegianDateTime(
 
 
     const date =
-        new Date(value);
+        new Date(
+            value
+        );
 
 
     if (
@@ -666,14 +1085,25 @@ function formatNorwegianDateTime(
 
 
     return date.toLocaleString(
-        "no-NO",
+        getCurrentLocale(),
         {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
+            day:
+                "2-digit",
+
+            month:
+                "2-digit",
+
+            year:
+                "numeric",
+
+            hour:
+                "2-digit",
+
+            minute:
+                "2-digit",
+
+            second:
+                "2-digit"
         }
     );
 
@@ -688,33 +1118,85 @@ function getAuditActionLabel(
     action
 ) {
 
-    switch (action) {
+    switch (
+        action
+        ) {
 
         case "created":
-            return "🟢 Opprettet av";
+
+            return (
+                "🟢 " +
+                t(
+                    "adminAuditCreatedBy",
+                    {},
+                    "Opprettet av"
+                )
+            );
+
 
         case "updated":
-            return "✏️ Endret av";
+
+            return (
+                "✏️ " +
+                t(
+                    "adminAuditUpdatedBy",
+                    {},
+                    "Endret av"
+                )
+            );
+
 
         case "deactivated":
-            return "🔴 Deaktivert av";
+
+            return (
+                "🔴 " +
+                t(
+                    "adminAuditDeactivatedBy",
+                    {},
+                    "Deaktivert av"
+                )
+            );
+
 
         case "restored":
-            return "↩️ Gjenopprettet av";
+
+            return (
+                "↩️ " +
+                t(
+                    "adminAuditRestoredBy",
+                    {},
+                    "Gjenopprettet av"
+                )
+            );
+
 
         case "deleted":
-            return "🗑️ Permanent slettet av";
 
         case "permanently_deleted":
-            return "🗑️ Permanent slettet av";
+
+            return (
+                "🗑️ " +
+                t(
+                    "adminAuditPermanentlyDeletedBy",
+                    {},
+                    "Permanent slettet av"
+                )
+            );
+
 
         default:
-            return "ℹ️ " + action;
+
+            return (
+                "ℹ️ " +
+                (
+                    action ||
+                    ""
+                )
+            );
 
     }
 
 }
-
 
 // ============================================================
 // LOAD PROPERTY HISTORY
@@ -724,7 +1206,9 @@ async function loadPropertyHistory(
     propertyId
 ) {
 
-    if (!propertyId) {
+    if (
+        !propertyId
+    ) {
 
         return [];
 
@@ -745,18 +1229,25 @@ async function loadPropertyHistory(
             );
 
 
-    if (error) {
+    if (
+        error
+    ) {
 
         console.error(
             "LOAD PROPERTY HISTORY ERROR:",
             error
         );
 
+
         return null;
+
     }
 
 
-    return data || [];
+    return (
+        data ||
+        []
+    );
 
 }
 
@@ -769,93 +1260,118 @@ function createHistoryHtml(
     history
 ) {
 
-    if (history === null) {
+    if (
+        history ===
+        null
+    ) {
 
         return `
 
-<div class="property-history-error">
+            <div class="property-history-error">
 
-    <p class="message error">
-    Kunne ikke hente historikken.
-</p>
+                <p class="message error">
+                    ${t(
+            "adminCouldNotLoadHistory",
+            {},
+            "Kunne ikke hente historikken."
+        )}
+                </p>
 
-</div>
+            </div>
 
-`;
+        `;
 
     }
 
 
     if (
         !history ||
-        history.length === 0
+        history.length ===
+        0
     ) {
 
         return `
 
-<div class="property-history">
+            <div class="property-history">
 
-    <p class="empty-state">
-    Ingen aktivitet registrert.
-</p>
+                <p class="empty-state">
+                    ${t(
+            "adminNoActivityRegistered",
+            {},
+            "Ingen aktivitet registrert."
+        )}
+                </p>
 
-</div>
+            </div>
 
-`;
+        `;
 
     }
 
 
     return `
 
-<div class="property-history">
+        <div class="property-history">
 
-    <h4>
-        📋 Aktivitet / historikk
-</h4>
+            <h4>
+                📋
+                ${t(
+        "adminActivityHistory",
+        {},
+        "Aktivitet / historikk"
+    )}
+            </h4>
 
-<div class="property-history-list">
+            <div class="property-history-list">
 
-    ${history.map(
-        entry => `
+                ${history
+        .map(
+            function (
+                entry
+            ) {
 
-<div class="property-history-item">
+                return `
 
-    <div class="property-history-action">
+                                <div class="property-history-item">
 
-        ${getAuditActionLabel(
-            entry.action
+                                    <div class="property-history-action">
+                                        ${getAuditActionLabel(
+                    entry.action
+                )}
+                                    </div>
+
+                                    <div class="property-history-user">
+                                        ${escapeHtml(
+                    entry.performed_by_name ||
+                    t(
+                        "adminUnknownUser",
+                        {},
+                        "Ukjent bruker"
+                    )
+                )}
+                                    </div>
+
+                                    <div class="property-history-time">
+                                        ${formatLocalizedDateTime(
+                    entry.performed_at
+                )}
+                                    </div>
+
+                                </div>
+
+                            `;
+
+            }
+        )
+        .join(
+            ""
         )}
 
-    </div>
+            </div>
 
-    <div class="property-history-user">
+        </div>
 
-        ${escapeHtml(
-            entry.performed_by_name ||
-            "Ukjent bruker"
-        )}
-
-    </div>
-
-    <div class="property-history-time">
-
-        ${formatNorwegianDateTime(
-            entry.performed_at
-        )}
-
-    </div>
-
-</div>
-
-`
-    ).join("")}
-
-</div>
-
-</div>
-
-`;
+    `;
 
 }
 
@@ -869,7 +1385,9 @@ async function togglePropertyHistory(
 ) {
 
     const propertyId =
-        button.dataset.propertyId;
+        button.dataset
+            .propertyId;
+
 
     const historyContainer =
         document.getElementById(
@@ -878,9 +1396,13 @@ async function togglePropertyHistory(
         );
 
 
-    if (!propertyId || !historyContainer) {
+    if (
+        !propertyId ||
+        !historyContainer
+    ) {
 
         return;
+
     }
 
 
@@ -889,23 +1411,46 @@ async function togglePropertyHistory(
         "none";
 
 
-    if (isOpen) {
+    // ========================================================
+    // CLOSE
+    // ========================================================
+
+    if (
+        isOpen
+    ) {
 
         historyContainer.style.display =
             "none";
 
+
         button.textContent =
-            "📋 Historikk";
+            "📋 " +
+            t(
+                "adminHistory",
+                {},
+                "Historikk"
+            );
+
 
         return;
+
     }
 
+
+    // ========================================================
+    // OPEN
+    // ========================================================
 
     button.disabled =
         true;
 
+
     button.textContent =
-        "Laster...";
+        t(
+            "loading",
+            {},
+            "Laster..."
+        );
 
 
     const history =
@@ -927,119 +1472,85 @@ async function togglePropertyHistory(
     button.disabled =
         false;
 
+
     button.textContent =
-        "📋 Skjul historikk";
+        "📋 " +
+        t(
+            "adminHideHistory",
+            {},
+            "Skjul historikk"
+        );
 
 }
 
+
 // ============================================================
-// LOAD PROPERTIES
+// ESCAPE HTML
 // ============================================================
 
-async function loadProperties() {
+function escapeHtml(
+    value
+) {
 
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from("properties")
-            .select(
-                "id, name, address, floor_count, is_active, created_at, deactivated_at, scheduled_deletion_at"
-            )
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
-
-
-    if (error) {
-
-        console.error(
-            "LOAD PROPERTIES ERROR:",
-            error
+    const div =
+        document.createElement(
+            "div"
         );
 
 
-        propertyList.innerHTML = `
-<p class="message error">
-    Kunne ikke hente boliger.
-</p>
-`;
+    div.textContent =
+        value ??
+        "";
 
 
-        activePropertyCount =
-            0;
+    return div.innerHTML;
+
+}
 
 
-        if (propertyCountBadge) {
+// ============================================================
+// RENDER ACTIVE PROPERTIES
+// ============================================================
 
-            propertyCountBadge.textContent =
-                "0";
+function renderActiveProperties(
+    activeProperties
+) {
 
-        }
-
-
-        updatePropertyToggleButton();
-
-        updatePropertySearchResultText(
-            0
-        );
-
+    if (
+        !propertyList
+    ) {
 
         return;
-    }
-
-
-    const activeProperties =
-        (data || []).filter(
-            property =>
-                property.is_active === true
-        );
-
-
-    const deactivatedProperties =
-        (data || []).filter(
-            property =>
-                property.is_active === false
-        );
-
-
-    activePropertyCount =
-        activeProperties.length;
-
-
-    if (propertyCountBadge) {
-
-        propertyCountBadge.textContent =
-            String(
-                activePropertyCount
-            );
 
     }
-
-
-    updatePropertyToggleButton();
 
 
     // ========================================================
-    // ACTIVE PROPERTIES
+    // EMPTY
     // ========================================================
 
     if (
-        activeProperties.length === 0
+        !activeProperties ||
+        activeProperties.length ===
+        0
     ) {
 
         propertyList.innerHTML = `
-<p class="empty-state">
-    Ingen aktive boliger er opprettet ennå.
-</p>
-`;
+
+            <p class="empty-state">
+                ${t(
+            "adminNoActiveProperties",
+            {},
+            "Ingen aktive boliger er opprettet ennå."
+        )}
+            </p>
+
+        `;
 
 
-        if (propertySearchEmpty) {
+        if (
+            propertySearchEmpty
+        ) {
 
             propertySearchEmpty.hidden =
                 true;
@@ -1051,11 +1562,22 @@ async function loadProperties() {
             0
         );
 
-    } else {
 
-        propertyList.innerHTML =
-            activeProperties.map(
-                property => {
+        return;
+
+    }
+
+
+    // ========================================================
+    // RENDER
+    // ========================================================
+
+    propertyList.innerHTML =
+        activeProperties
+            .map(
+                function (
+                    property
+                ) {
 
                     const searchText =
                         (
@@ -1071,86 +1593,128 @@ async function loadProperties() {
                         )
                             .trim()
                             .toLocaleLowerCase(
-                                "nb-NO"
+                                getCurrentLocale()
                             );
+
+
+                    const floorText =
+                        t(
+                            property.floor_count ===
+                            1
+                                ? "adminOneFloor"
+                                : "adminMultipleFloors",
+                            {
+                                count:
+                                property.floor_count
+                            },
+                            property.floor_count +
+                            " etasje(r)"
+                        );
 
 
                     return `
 
-<div
-    class="property-row"
-    data-search-text="${escapeHtml(searchText)}"
->
+                        <div
+                                class="property-row"
+                                data-search-text="${escapeHtml(
+                        searchText
+                    )}"
+                        >
 
-    <div class="property-content">
+                            <div class="property-content">
 
-        <h3>
-            🏠 ${escapeHtml(property.name)}
-        </h3>
+                                <h3>
+                                    🏠
+                                    ${escapeHtml(
+                        property.name
+                    )}
+                                </h3>
 
-        <p>
-            ${escapeHtml(property.address)}
-        </p>
+                                <p>
+                                    ${escapeHtml(
+                        property.address
+                    )}
+                                </p>
 
-        <div class="property-meta">
+                                <div class="property-meta">
 
-            <span>
-                ${property.floor_count}
-                etasje(r)
-            </span>
+                                    <span>
+                                        ${floorText}
+                                    </span>
 
-        </div>
+                                </div>
 
-    </div>
-
-
-    <div class="property-actions">
-
-        <button
-            type="button"
-            class="secondary-button property-open-button"
-            data-property-id="${property.id}"
-        >
-            Åpne →
-        </button>
-
-        <button
-            type="button"
-            class="secondary-button property-history-button"
-            data-property-id="${property.id}"
-        >
-            📋 Historikk
-        </button>
-
-        <button
-            type="button"
-            class="secondary-button property-deactivate-button"
-            data-property-id="${property.id}"
-            data-property-name="${escapeHtml(property.name)}"
-        >
-            Deaktiver bolig
-        </button>
-
-    </div>
+                            </div>
 
 
-    <div
-        id="property-history-${property.id}"
-        class="property-history-container"
-        style="display: none;"
-    ></div>
+                            <div class="property-actions">
 
-</div>
+                                <button
+                                        type="button"
+                                        class="secondary-button property-open-button"
+                                        data-property-id="${property.id}"
+                                >
+                                    ${t(
+                        "adminOpen",
+                        {},
+                        "Åpne"
+                    )}
+                                    →
+                                </button>
 
-`;
+                                <button
+                                        type="button"
+                                        class="secondary-button property-history-button"
+                                        data-property-id="${property.id}"
+                                >
+                                    📋
+                                    ${t(
+                        "adminHistory",
+                        {},
+                        "Historikk"
+                    )}
+                                </button>
+
+                                <button
+                                        type="button"
+                                        class="secondary-button property-deactivate-button"
+                                        data-property-id="${property.id}"
+                                        data-property-name="${escapeHtml(
+                        property.name
+                    )}"
+                                >
+                                    ${t(
+                        "adminDeactivateProperty",
+                        {},
+                        "Deaktiver bolig"
+                    )}
+                                </button>
+
+                            </div>
+
+
+                            <div
+                                    id="property-history-${property.id}"
+                                    class="property-history-container"
+                                    style="display: none;"
+                            ></div>
+
+                        </div>
+
+                    `;
 
                 }
-            ).join("");
+            )
+            .join(
+                ""
+            );
 
 
-        filterPropertyList();
+    // ========================================================
+    // FILTER CURRENT SEARCH
+    // ========================================================
 
-    }
+    filterPropertyList();
 
 
     // ========================================================
@@ -1158,29 +1722,36 @@ async function loadProperties() {
     // ========================================================
 
     const openButtons =
-        document.querySelectorAll(
+        propertyList.querySelectorAll(
             ".property-open-button"
         );
 
 
     openButtons.forEach(
-        function (button) {
+        function (
+            button
+        ) {
 
             button.addEventListener(
                 "click",
                 function () {
 
                     const propertyId =
-                        button.dataset.propertyId;
+                        button.dataset
+                            .propertyId;
 
 
-                    if (!propertyId) {
+                    if (
+                        !propertyId
+                    ) {
 
                         console.error(
                             "PROPERTY ID MANGLER"
                         );
 
+
                         return;
+
                     }
 
 
@@ -1208,7 +1779,9 @@ async function loadProperties() {
 
 
     historyButtons.forEach(
-        function (button) {
+        function (
+            button
+        ) {
 
             button.addEventListener(
                 "click",
@@ -1230,53 +1803,76 @@ async function loadProperties() {
     // ========================================================
 
     const deactivateButtons =
-        document.querySelectorAll(
+        propertyList.querySelectorAll(
             ".property-deactivate-button"
         );
 
 
     deactivateButtons.forEach(
-        function (button) {
+        function (
+            button
+        ) {
 
             button.addEventListener(
                 "click",
                 async function () {
 
                     const propertyId =
-                        button.dataset.propertyId;
+                        button.dataset
+                            .propertyId;
+
 
                     const propertyName =
-                        button.dataset.propertyName;
+                        button.dataset
+                            .propertyName;
 
 
-                    if (!propertyId) {
+                    if (
+                        !propertyId
+                    ) {
 
                         return;
+
                     }
 
 
                     const confirmed =
                         window.confirm(
-                            "Vil du deaktivere boligen \"" +
-                            propertyName +
-                            "\"?\n\n" +
-                            "Boligen blir ikke slettet med en gang. " +
-                            "Den kan gjenopprettes i 2 måneder " +
-                            "før permanent sletting."
+                            t(
+                                "adminConfirmDeactivateProperty",
+                                {
+                                    name:
+                                    propertyName
+                                },
+                                "Vil du deaktivere boligen \"" +
+                                propertyName +
+                                "\"?\n\n" +
+                                "Boligen blir ikke slettet med en gang. " +
+                                "Den kan gjenopprettes i 2 måneder " +
+                                "før permanent sletting."
+                            )
                         );
 
 
-                    if (!confirmed) {
+                    if (
+                        !confirmed
+                    ) {
 
                         return;
+
                     }
 
 
                     button.disabled =
                         true;
 
+
                     button.textContent =
-                        "Deaktiverer...";
+                        t(
+                            "adminDeactivating",
+                            {},
+                            "Deaktiverer..."
+                        );
 
 
                     const {
@@ -1293,7 +1889,13 @@ async function loadProperties() {
                             );
 
 
-                    if (error) {
+                    // ================================================
+                    // RPC ERROR
+                    // ================================================
+
+                    if (
+                        error
+                    ) {
 
                         console.error(
                             "DEACTIVATE PROPERTY ERROR:",
@@ -1302,7 +1904,11 @@ async function loadProperties() {
 
 
                         showPropertyMessage(
-                            "Kunne ikke deaktivere boligen.",
+                            t(
+                                "adminCouldNotDeactivateProperty",
+                                {},
+                                "Kunne ikke deaktivere boligen."
+                            ),
                             "error"
                         );
 
@@ -1310,17 +1916,34 @@ async function loadProperties() {
                         button.disabled =
                             false;
 
+
                         button.textContent =
-                            "Deaktiver bolig";
+                            t(
+                                "adminDeactivateProperty",
+                                {},
+                                "Deaktiver bolig"
+                            );
+
 
                         return;
+
                     }
 
 
-                    if (!result) {
+                    // ================================================
+                    // RPC RETURNED FALSE
+                    // ================================================
+
+                    if (
+                        !result
+                    ) {
 
                         showPropertyMessage(
-                            "Boligen kunne ikke deaktiveres.",
+                            t(
+                                "adminPropertyCouldNotBeDeactivated",
+                                {},
+                                "Boligen kunne ikke deaktiveres."
+                            ),
                             "error"
                         );
 
@@ -1328,15 +1951,30 @@ async function loadProperties() {
                         button.disabled =
                             false;
 
+
                         button.textContent =
-                            "Deaktiver bolig";
+                            t(
+                                "adminDeactivateProperty",
+                                {},
+                                "Deaktiver bolig"
+                            );
+
 
                         return;
+
                     }
 
 
+                    // ================================================
+                    // SUCCESS
+                    // ================================================
+
                     showPropertyMessage(
-                        "Boligen ble deaktivert.",
+                        t(
+                            "adminPropertyDeactivated",
+                            {},
+                            "Boligen ble deaktivert."
+                        ),
                         "success"
                     );
 
@@ -1347,15 +1985,6 @@ async function loadProperties() {
             );
 
         }
-    );
-
-
-    // ========================================================
-    // DEACTIVATED PROPERTIES
-    // ========================================================
-
-    renderDeactivatedProperties(
-        deactivatedProperties
     );
 
 }
@@ -1379,21 +2008,36 @@ function renderDeactivatedProperties(
         );
 
 
-    if (!list) {
+    if (
+        !section ||
+        !list
+    ) {
 
         return;
+
     }
 
 
+    // ========================================================
+    // NONE
+    // ========================================================
+
     if (
         !properties ||
-        properties.length === 0
+        properties.length ===
+        0
     ) {
 
         section.style.display =
             "none";
 
+
+        list.innerHTML =
+            "";
+
+
         return;
+
     }
 
 
@@ -1401,91 +2045,182 @@ function renderDeactivatedProperties(
         "";
 
 
-    list.innerHTML =
-        properties.map(
-            property => {
+    // ========================================================
+    // UPDATE TRANSLATED SECTION HEADING
+    // ========================================================
 
-                const deletionDate =
-                    formatNorwegianDate(
-                        property.scheduled_deletion_at
-                    );
-
-
-                return `
-
-<div class="property-row">
-
-    <div class="property-content">
-
-        <h3>
-            🏠 ${escapeHtml(property.name)}
-        </h3>
-
-        <p>
-            ${escapeHtml(property.address)}
-        </p>
-
-        <div class="property-meta">
-
-            <span>
-                ${property.floor_count}
-                etasje(r)
-            </span>
-
-            <span>
-                Deaktivert:
-                ${formatNorwegianDate(
-                    property.deactivated_at
-                )}
-            </span>
-
-            <span>
-                Permanent sletting:
-                ${deletionDate}
-            </span>
-
-        </div>
-
-    </div>
+    const sectionHeading =
+        section.querySelector(
+            "h2"
+        );
 
 
-    <div class="property-actions">
-
-        <button
-            type="button"
-            class="secondary-button property-history-button"
-            data-property-id="${property.id}"
-        >
-            📋 Historikk
-        </button>
-
-        <button
-            type="button"
-            class="primary-button property-restore-button"
-            data-property-id="${property.id}"
-        >
-            ↩ Gjenopprett bolig
-        </button>
-
-    </div>
+    const sectionDescription =
+        section.querySelector(
+            ".section-description"
+        );
 
 
-    <div
-        id="property-history-${property.id}"
-        class="property-history-container"
-        style="display: none;"
-    ></div>
+    if (
+        sectionHeading
+    ) {
 
-</div>
+        sectionHeading.textContent =
+            t(
+                "adminDeactivatedProperties",
+                {},
+                "Deaktiverte boliger"
+            );
 
-`;
+    }
 
-            }
-        ).join("");
+
+    if (
+        sectionDescription
+    ) {
+
+        sectionDescription.textContent =
+            t(
+                "adminDeactivatedPropertiesDescription",
+                {},
+                "Deaktiverte boliger kan gjenopprettes i opptil 2 måneder."
+            );
+
+    }
 
 
     // ========================================================
-    // HISTORY BUTTONS FOR DEACTIVATED PROPERTIES
+    // LIST
+    // ========================================================
+
+    list.innerHTML =
+        properties
+            .map(
+                function (
+                    property
+                ) {
+
+                    const deletionDate =
+                        formatLocalizedDate(
+                            property.scheduled_deletion_at
+                        );
+
+
+                    const floorText =
+                        t(
+                            property.floor_count ===
+                            1
+                                ? "adminOneFloor"
+                                : "adminMultipleFloors",
+                            {
+                                count:
+                                property.floor_count
+                            },
+                            property.floor_count +
+                            " etasje(r)"
+                        );
+
+
+                    return `
+
+                        <div class="property-row">
+
+                            <div class="property-content">
+
+                                <h3>
+                                    🏠
+                                    ${escapeHtml(
+                        property.name
+                    )}
+                                </h3>
+
+                                <p>
+                                    ${escapeHtml(
+                        property.address
+                    )}
+                                </p>
+
+                                <div class="property-meta">
+
+                                    <span>
+                                        ${floorText}
+                                    </span>
+
+                                    <span>
+                                        ${t(
+                        "adminDeactivated",
+                        {},
+                        "Deaktivert"
+                    )}:
+                                        ${formatLocalizedDate(
+                        property.deactivated_at
+                    )}
+                                    </span>
+
+                                    <span>
+                                        ${t(
+                        "adminPermanentDeletion",
+                        {},
+                        "Permanent sletting"
+                    )}:
+                                        ${deletionDate}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="property-actions">
+
+                                <button
+                                        type="button"
+                                        class="secondary-button property-history-button"
+                                        data-property-id="${property.id}"
+                                >
+                                    📋
+                                    ${t(
+                        "adminHistory",
+                        {},
+                        "Historikk"
+                    )}
+                                </button>
+
+                                <button
+                                        type="button"
+                                        class="primary-button property-restore-button"
+                                        data-property-id="${property.id}"
+                                >
+                                    ↩
+                                    ${t(
+                        "adminRestoreProperty",
+                        {},
+                        "Gjenopprett bolig"
+                    )}
+                                </button>
+
+                            </div>
+
+
+                            <div
+                                    id="property-history-${property.id}"
+                                    class="property-history-container"
+                                    style="display: none;"
+                            ></div>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join(
+                ""
+            );
+
+
+    // ========================================================
+    // HISTORY BUTTONS
     // ========================================================
 
     const historyButtons =
@@ -1495,7 +2230,9 @@ function renderDeactivatedProperties(
 
 
     historyButtons.forEach(
-        function (button) {
+        function (
+            button
+        ) {
 
             button.addEventListener(
                 "click",
@@ -1523,39 +2260,57 @@ function renderDeactivatedProperties(
 
 
     restoreButtons.forEach(
-        function (button) {
+        function (
+            button
+        ) {
 
             button.addEventListener(
                 "click",
                 async function () {
 
                     const propertyId =
-                        button.dataset.propertyId;
+                        button.dataset
+                            .propertyId;
 
 
-                    if (!propertyId) {
+                    if (
+                        !propertyId
+                    ) {
 
                         return;
+
                     }
 
 
                     const confirmed =
                         window.confirm(
-                            "Vil du gjenopprette denne boligen?"
+                            t(
+                                "adminConfirmRestoreProperty",
+                                {},
+                                "Vil du gjenopprette denne boligen?"
+                            )
                         );
 
 
-                    if (!confirmed) {
+                    if (
+                        !confirmed
+                    ) {
 
                         return;
+
                     }
 
 
                     button.disabled =
                         true;
 
+
                     button.textContent =
-                        "Gjenoppretter...";
+                        t(
+                            "adminRestoring",
+                            {},
+                            "Gjenoppretter..."
+                        );
 
 
                     const {
@@ -1572,7 +2327,13 @@ function renderDeactivatedProperties(
                             );
 
 
-                    if (error) {
+                    // ================================================
+                    // RPC ERROR
+                    // ================================================
+
+                    if (
+                        error
+                    ) {
 
                         console.error(
                             "RESTORE PROPERTY ERROR:",
@@ -1581,7 +2342,11 @@ function renderDeactivatedProperties(
 
 
                         showPropertyMessage(
-                            "Kunne ikke gjenopprette boligen.",
+                            t(
+                                "adminCouldNotRestoreProperty",
+                                {},
+                                "Kunne ikke gjenopprette boligen."
+                            ),
                             "error"
                         );
 
@@ -1589,18 +2354,35 @@ function renderDeactivatedProperties(
                         button.disabled =
                             false;
 
+
                         button.textContent =
-                            "↩ Gjenopprett bolig";
+                            "↩ " +
+                            t(
+                                "adminRestoreProperty",
+                                {},
+                                "Gjenopprett bolig"
+                            );
+
 
                         return;
+
                     }
 
 
-                    if (!result) {
+                    // ================================================
+                    // RPC FALSE
+                    // ================================================
+
+                    if (
+                        !result
+                    ) {
 
                         showPropertyMessage(
-                            "Boligen kunne ikke gjenopprettes. " +
-                            "2-månedersfristen kan være utløpt.",
+                            t(
+                                "adminPropertyCouldNotBeRestored",
+                                {},
+                                "Boligen kunne ikke gjenopprettes. 2-månedersfristen kan være utløpt."
+                            ),
                             "error"
                         );
 
@@ -1608,15 +2390,31 @@ function renderDeactivatedProperties(
                         button.disabled =
                             false;
 
+
                         button.textContent =
-                            "↩ Gjenopprett bolig";
+                            "↩ " +
+                            t(
+                                "adminRestoreProperty",
+                                {},
+                                "Gjenopprett bolig"
+                            );
+
 
                         return;
+
                     }
 
 
+                    // ================================================
+                    // SUCCESS
+                    // ================================================
+
                     showPropertyMessage(
-                        "Boligen ble gjenopprettet.",
+                        t(
+                            "adminPropertyRestored",
+                            {},
+                            "Boligen ble gjenopprettet."
+                        ),
                         "success"
                     );
 
@@ -1633,186 +2431,584 @@ function renderDeactivatedProperties(
 
 
 // ============================================================
-// ESCAPE HTML
+// LOAD PROPERTIES
 // ============================================================
 
-function escapeHtml(value) {
+async function loadProperties() {
 
-    const div =
-        document.createElement("div");
+    if (
+        !propertyList
+    ) {
 
-    div.textContent =
-        value ?? "";
+        return;
 
-    return div.innerHTML;
+    }
+
+
+    // ========================================================
+    // LOADING
+    // ========================================================
+
+    propertyList.innerHTML = `
+
+        <p class="empty-state">
+            ${t(
+        "adminLoadingProperties",
+        {},
+        "Laster boliger..."
+    )}
+        </p>
+
+    `;
+
+
+    // ========================================================
+    // DATABASE
+    // ========================================================
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from(
+                "properties"
+            )
+            .select(
+                "id, name, address, floor_count, is_active, created_at, deactivated_at, scheduled_deletion_at"
+            )
+            .order(
+                "created_at",
+                {
+                    ascending:
+                        false
+                }
+            );
+
+
+    // ========================================================
+    // ERROR
+    // ========================================================
+
+    if (
+        error
+    ) {
+
+        console.error(
+            "LOAD PROPERTIES ERROR:",
+            error
+        );
+
+
+        currentProperties =
+            [];
+
+
+        activePropertyCount =
+            0;
+
+
+        propertyList.innerHTML = `
+
+            <p class="message error">
+                ${t(
+            "adminCouldNotLoadProperties",
+            {},
+            "Kunne ikke hente boliger."
+        )}
+            </p>
+
+        `;
+
+
+        if (
+            propertyCountBadge
+        ) {
+
+            propertyCountBadge.textContent =
+                "0";
+
+        }
+
+
+        updatePropertyToggleButton();
+
+
+        updatePropertySearchResultText(
+            0
+        );
+
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // CACHE
+    // ========================================================
+
+    currentProperties =
+        data ||
+        [];
+
+
+    // ========================================================
+    // SPLIT ACTIVE / DEACTIVATED
+    // ========================================================
+
+    const activeProperties =
+        currentProperties.filter(
+            function (
+                property
+            ) {
+
+                return (
+                    property.is_active ===
+                    true
+                );
+
+            }
+        );
+
+
+    const deactivatedProperties =
+        currentProperties.filter(
+            function (
+                property
+            ) {
+
+                return (
+                    property.is_active ===
+                    false
+                );
+
+            }
+        );
+
+
+    // ========================================================
+    // COUNT
+    // ========================================================
+
+    activePropertyCount =
+        activeProperties.length;
+
+
+    if (
+        propertyCountBadge
+    ) {
+
+        propertyCountBadge.textContent =
+            String(
+                activePropertyCount
+            );
+
+    }
+
+
+    updatePropertyToggleButton();
+
+
+    // ========================================================
+    // RENDER
+    // ========================================================
+
+    renderActiveProperties(
+        activeProperties
+    );
+
+
+    renderDeactivatedProperties(
+        deactivatedProperties
+    );
 
 }
-
 
 // ============================================================
 // CREATE PROPERTY
 // ============================================================
 
-propertyForm.addEventListener(
-    "submit",
-    async function (event) {
+if (
+    propertyForm
+) {
 
-        event.preventDefault();
-
-
-        const name =
-            propertyNameInput.value.trim();
-
-        const address =
-            propertyAddressInput.value.trim();
-
-        const floorCount =
-            Number(
-                floorCountInput.value
-            );
-
-
-        // ----------------------------------------------------
-        // VALIDATION
-        // ----------------------------------------------------
-
-        if (
-            !name ||
-            !address ||
-            !floorCount ||
-            floorCount < 1
+    propertyForm.addEventListener(
+        "submit",
+        async function (
+            event
         ) {
 
-            showPropertyMessage(
-                "Fyll inn alle feltene.",
-                "error"
-            );
-
-            return;
-        }
+            event.preventDefault();
 
 
-        // ----------------------------------------------------
-        // DISABLE BUTTON
-        // ----------------------------------------------------
-
-        savePropertyButton.disabled =
-            true;
-
-        savePropertyButton.textContent =
-            "Lagrer...";
+            const name =
+                propertyNameInput
+                    ? propertyNameInput
+                        .value
+                        .trim()
+                    : "";
 
 
-        showPropertyMessage("");
+            const address =
+                propertyAddressInput
+                    ? propertyAddressInput
+                        .value
+                        .trim()
+                    : "";
 
 
-        // ----------------------------------------------------
-        // INSERT
-        // ----------------------------------------------------
-
-        const {
-            error
-        } =
-            await supabaseClient
-                .from("properties")
-                .insert({
-
-                    name:
-                    name,
-
-                    address:
-                    address,
-
-                    floor_count:
-                    floorCount,
-
-                    is_active:
-                        true
-
-                });
+            const floorCount =
+                floorCountInput
+                    ? Number(
+                        floorCountInput.value
+                    )
+                    : 0;
 
 
-        // ----------------------------------------------------
-        // INSERT ERROR
-        // ----------------------------------------------------
-
-        if (error) {
-
-            console.error(
-                "CREATE PROPERTY ERROR:",
-                error
-            );
-
+            // ========================================================
+            // VALIDATION
+            // ========================================================
 
             if (
-                error.code === "23505"
+                !name ||
+                !address ||
+                !floorCount ||
+                floorCount <
+                1
             ) {
 
                 showPropertyMessage(
-                    "Denne adressen er allerede registrert.",
+                    t(
+                        "adminFillAllFields",
+                        {},
+                        "Fyll inn alle feltene."
+                    ),
                     "error"
                 );
 
-            } else {
 
-                showPropertyMessage(
-                    "Kunne ikke lagre boligen.",
-                    "error"
-                );
+                return;
 
             }
 
 
-            savePropertyButton.disabled =
-                false;
+            // ========================================================
+            // DISABLE BUTTON
+            // ========================================================
 
-            savePropertyButton.textContent =
-                "Lagre bolig";
+            if (
+                savePropertyButton
+            ) {
 
-            return;
+                savePropertyButton.disabled =
+                    true;
+
+
+                savePropertyButton.textContent =
+                    t(
+                        "adminSaving",
+                        {},
+                        "Lagrer..."
+                    );
+
+            }
+
+
+            showPropertyMessage(
+                ""
+            );
+
+
+            // ========================================================
+            // INSERT
+            // ========================================================
+
+            const {
+                error
+            } =
+                await supabaseClient
+                    .from(
+                        "properties"
+                    )
+                    .insert(
+                        {
+                            name:
+                            name,
+
+                            address:
+                            address,
+
+                            floor_count:
+                            floorCount,
+
+                            is_active:
+                                true
+                        }
+                    );
+
+
+            // ========================================================
+            // INSERT ERROR
+            // ========================================================
+
+            if (
+                error
+            ) {
+
+                console.error(
+                    "CREATE PROPERTY ERROR:",
+                    error
+                );
+
+
+                if (
+                    error.code ===
+                    "23505"
+                ) {
+
+                    showPropertyMessage(
+                        t(
+                            "adminAddressAlreadyRegistered",
+                            {},
+                            "Denne adressen er allerede registrert."
+                        ),
+                        "error"
+                    );
+
+                } else {
+
+                    showPropertyMessage(
+                        t(
+                            "adminCouldNotSaveProperty",
+                            {},
+                            "Kunne ikke lagre boligen."
+                        ),
+                        "error"
+                    );
+
+                }
+
+
+                if (
+                    savePropertyButton
+                ) {
+
+                    savePropertyButton.disabled =
+                        false;
+
+
+                    savePropertyButton.textContent =
+                        t(
+                            "adminSaveProperty",
+                            {},
+                            "Lagre bolig"
+                        );
+
+                }
+
+
+                return;
+
+            }
+
+
+            // ========================================================
+            // SUCCESS
+            // ========================================================
+
+            showPropertyMessage(
+                t(
+                    "adminPropertySaved",
+                    {},
+                    "Boligen ble lagret."
+                ),
+                "success"
+            );
+
+
+            propertyForm.reset();
+
+
+            if (
+                floorCountInput
+            ) {
+
+                floorCountInput.value =
+                    "1";
+
+            }
+
+
+            // ========================================================
+            // RELOAD
+            // ========================================================
+
+            await loadProperties();
+
+
+            // ========================================================
+            // ENABLE BUTTON
+            // ========================================================
+
+            if (
+                savePropertyButton
+            ) {
+
+                savePropertyButton.disabled =
+                    false;
+
+
+                savePropertyButton.textContent =
+                    t(
+                        "adminSaveProperty",
+                        {},
+                        "Lagre bolig"
+                    );
+
+            }
+
         }
+    );
+
+}
 
 
-        // ----------------------------------------------------
-        // SUCCESS
-        // ----------------------------------------------------
+// ============================================================
+// REFRESH DYNAMIC LANGUAGE
+// ============================================================
 
-        showPropertyMessage(
-            "Boligen ble lagret.",
-            "success"
+function refreshPropertiesLanguage() {
+
+    // ========================================================
+    // PROFILE
+    // ========================================================
+
+    if (
+        currentProfile &&
+        currentSession
+    ) {
+
+        updateAdminProfileUi(
+            currentProfile,
+            currentSession
+        );
+
+    }
+
+
+    // ========================================================
+    // BUTTONS / COUNTS
+    // ========================================================
+
+    updatePropertyToggleButton();
+
+
+    // ========================================================
+    // RERENDER FROM CACHE
+    // NO SUPABASE CALL
+    // ========================================================
+
+    const activeProperties =
+        currentProperties.filter(
+            function (
+                property
+            ) {
+
+                return (
+                    property.is_active ===
+                    true
+                );
+
+            }
         );
 
 
-        propertyForm.reset();
+    const deactivatedProperties =
+        currentProperties.filter(
+            function (
+                property
+            ) {
+
+                return (
+                    property.is_active ===
+                    false
+                );
+
+            }
+        );
 
 
-        floorCountInput.value =
-            "1";
+    activePropertyCount =
+        activeProperties.length;
 
 
-        // ----------------------------------------------------
-        // RELOAD LIST
-        // ----------------------------------------------------
+    if (
+        propertyCountBadge
+    ) {
 
-        await loadProperties();
+        propertyCountBadge.textContent =
+            String(
+                activePropertyCount
+            );
+
+    }
 
 
-        // ----------------------------------------------------
-        // ENABLE BUTTON
-        // ----------------------------------------------------
+    renderActiveProperties(
+        activeProperties
+    );
 
-        savePropertyButton.disabled =
-            false;
+
+    renderDeactivatedProperties(
+        deactivatedProperties
+    );
+
+
+    // ========================================================
+    // SEARCH RESULT
+    // ========================================================
+
+    filterPropertyList();
+
+
+    // ========================================================
+    // SAVE BUTTON
+    // ========================================================
+
+    if (
+        savePropertyButton &&
+        !savePropertyButton.disabled
+    ) {
 
         savePropertyButton.textContent =
-            "Lagre bolig";
+            t(
+                "adminSaveProperty",
+                {},
+                "Lagre bolig"
+            );
+
+    }
+
+}
+
+
+// ============================================================
+// LANGUAGE CHANGE
+// ============================================================
+
+window.addEventListener(
+    "cleanplan:languagechange",
+    function () {
+
+        refreshPropertiesLanguage();
 
     }
 );
 
 
 // ============================================================
-// START
+// INIT
 // ============================================================
 
 async function initPropertiesPage() {
@@ -1821,33 +3017,37 @@ async function initPropertiesPage() {
         await checkAdmin();
 
 
-    if (!result) {
+    if (
+        !result
+    ) {
 
         return;
+
     }
 
 
-    // --------------------------------------------------------
-    // REGISTERED PROPERTIES START COLLAPSED
-    // --------------------------------------------------------
+    // ========================================================
+    // COLLAPSED BY DEFAULT
+    // ========================================================
 
     setPropertyListOpen(
         false
     );
 
 
-    // --------------------------------------------------------
+    // ========================================================
     // LOAD PROPERTIES
-    // --------------------------------------------------------
+    // ========================================================
 
     await loadProperties();
 
 
-    // --------------------------------------------------------
-    // MAKE SURE COUNTS ARE CORRECT AFTER LOADING
-    // --------------------------------------------------------
+    // ========================================================
+    // FINAL UI SYNC
+    // ========================================================
 
     updatePropertyToggleButton();
+
 
     filterPropertyList();
 
@@ -1855,7 +3055,8 @@ async function initPropertiesPage() {
 
 
 // ============================================================
-// INITIALIZE PAGE
+// INITIALIZE
 // ============================================================
 
 initPropertiesPage();
+

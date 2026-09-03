@@ -10,7 +10,9 @@
           content="width=device-width, initial-scale=1.0"
   >
 
-  <title>CleanPlan - Boliger</title>
+  <title data-i18n-title="adminPropertiesPageTitle">
+    CleanPlan - Boliger
+  </title>
 
   <link
           rel="stylesheet"
@@ -34,131 +36,157 @@
        SIDEBAR
        ===================================================== -->
 
-  <aside class="admin-sidebar">
+  <aside
+          id="adminSidebar"
+          class="admin-sidebar"
+  >
 
 
-    <!-- BRAND -->
+    <!-- =================================================
+         BRAND
+         ================================================= -->
 
     <div class="admin-sidebar-brand">
 
-      <span class="admin-sidebar-logo">
-        🧹
-      </span>
+            <span class="admin-sidebar-logo">
+                🧹
+            </span>
 
       <span>
-        CleanPlan
-      </span>
+                CleanPlan
+            </span>
 
     </div>
 
 
-    <!-- ROLE -->
+    <!-- =================================================
+         ROLE
+         ================================================= -->
 
-    <div class="admin-sidebar-section-label">
+    <div
+            class="admin-sidebar-section-label"
+            data-i18n="adminRoleLabel"
+    >
       ADMIN
     </div>
 
 
-    <!-- NAVIGATION -->
+    <!-- =================================================
+         NAVIGATION
+         ================================================= -->
 
     <nav class="admin-sidebar-nav">
 
+
+      <!-- DASHBOARD -->
 
       <a
               href="admin.html"
               class="admin-sidebar-link"
       >
 
-        <span class="admin-sidebar-icon">
-          ▦
-        </span>
+                <span class="admin-sidebar-icon">
+                    ▦
+                </span>
 
-        <span>
-          Dashboard
-        </span>
+        <span data-i18n="adminDashboard">
+                    Dashboard
+                </span>
 
       </a>
 
+
+      <!-- PROPERTIES -->
 
       <a
               href="properties.html"
               class="admin-sidebar-link active"
       >
 
-        <span class="admin-sidebar-icon">
-          🏠
-        </span>
+                <span class="admin-sidebar-icon">
+                    🏠
+                </span>
 
-        <span>
-          Boliger
-        </span>
+        <span data-i18n="adminProperties">
+                    Boliger
+                </span>
 
       </a>
 
+
+      <!-- FLOORS -->
 
       <a
               href="properties.html"
               class="admin-sidebar-link"
       >
 
-        <span class="admin-sidebar-icon">
-          ▤
-        </span>
+                <span class="admin-sidebar-icon">
+                    ▤
+                </span>
 
-        <span>
-          Etasjer
-        </span>
+        <span data-i18n="adminFloors">
+                    Etasjer
+                </span>
 
       </a>
 
+
+      <!-- RESIDENTS -->
 
       <a
               href="admin-residents.html"
               class="admin-sidebar-link"
       >
 
-        <span class="admin-sidebar-icon">
-          👥
-        </span>
+                <span class="admin-sidebar-icon">
+                    👥
+                </span>
 
-        <span>
-          Beboere
-        </span>
+        <span data-i18n="adminResidents">
+                    Beboere
+                </span>
 
       </a>
 
+
+      <!-- CLEANING PLAN -->
 
       <a
               href="admin-cleaning-plan.html"
               class="admin-sidebar-link"
       >
 
-        <span class="admin-sidebar-icon">
-          🧹
-        </span>
+                <span class="admin-sidebar-icon">
+                    🧹
+                </span>
 
-        <span>
-          Rengjøringsplan
-        </span>
+        <span data-i18n="adminCleaningPlan">
+                    Rengjøringsplan
+                </span>
 
       </a>
 
+
+      <!-- USERS -->
 
       <a
               href="users.html"
               class="admin-sidebar-link"
       >
 
-        <span class="admin-sidebar-icon">
-          👤
-        </span>
+                <span class="admin-sidebar-icon">
+                    👤
+                </span>
 
-        <span>
-          Brukere
-        </span>
+        <span data-i18n="adminUsers">
+                    Brukere
+                </span>
 
       </a>
 
+
+      <!-- HISTORY -->
 
       <button
               type="button"
@@ -166,16 +194,18 @@
               id="historySidebarButton"
       >
 
-        <span class="admin-sidebar-icon">
-          ↺
-        </span>
+                <span class="admin-sidebar-icon">
+                    ↺
+                </span>
 
-        <span>
-          Historikk
-        </span>
+        <span data-i18n="adminHistory">
+                    Historikk
+                </span>
 
       </button>
 
+
+      <!-- SETTINGS -->
 
       <button
               type="button"
@@ -183,13 +213,13 @@
               id="settingsSidebarButton"
       >
 
-        <span class="admin-sidebar-icon">
-          ⚙
-        </span>
+                <span class="admin-sidebar-icon">
+                    ⚙
+                </span>
 
-        <span>
-          Innstillinger
-        </span>
+        <span data-i18n="adminSettings">
+                    Innstillinger
+                </span>
 
       </button>
 
@@ -197,7 +227,9 @@
     </nav>
 
 
-    <!-- SIDEBAR BOTTOM -->
+    <!-- =================================================
+         SIDEBAR BOTTOM
+         ================================================= -->
 
     <div class="admin-sidebar-bottom">
 
@@ -207,13 +239,13 @@
               type="button"
       >
 
-        <span>
-          ↪
-        </span>
+                <span>
+                    ↪
+                </span>
 
-        <span>
-          Logg ut
-        </span>
+        <span data-i18n="adminLogout">
+                    Logg ut
+                </span>
 
       </button>
 
@@ -230,10 +262,14 @@
   <div class="admin-main-area">
 
 
-    <!-- TOP HEADER -->
+    <!-- =================================================
+         TOP HEADER
+         ================================================= -->
 
     <header class="admin-main-header">
 
+
+      <!-- MOBILE MENU -->
 
       <div>
 
@@ -242,6 +278,7 @@
                 class="admin-mobile-menu-button"
                 type="button"
                 aria-label="Åpne meny"
+                data-i18n-aria-label="adminOpenMenu"
         >
           ☰
         </button>
@@ -249,7 +286,16 @@
       </div>
 
 
+      <!-- =================================================
+           HEADER RIGHT SIDE
+           ================================================= -->
+
       <div class="admin-header-profile">
+
+
+        <!-- =================================================
+             PROFILE TEXT
+             ================================================= -->
 
         <div class="admin-header-profile-text">
 
@@ -257,20 +303,167 @@
             Administrator
           </strong>
 
-          <span>
-            Admin
-          </span>
+          <span id="adminRole">
+                        Admin
+                    </span>
 
         </div>
 
+
+        <!-- =================================================
+             LANGUAGE SELECTOR
+             ================================================= -->
+
+        <div class="language-selector admin-language-selector">
+
+
+          <button
+                  type="button"
+                  class="language-button"
+                  id="languageButton"
+                  aria-haspopup="true"
+                  aria-controls="languageModal"
+                  aria-expanded="false"
+          >
+
+                        <span class="language-button-globe">
+                            🌐
+                        </span>
+
+            <span id="selectedLanguageName">
+                            NO
+                        </span>
+
+            <span class="language-button-chevron">
+                            ▾
+                        </span>
+
+          </button>
+
+
+          <!-- LANGUAGE MODAL -->
+
+          <div
+                  id="languageModal"
+                  class="language-modal"
+                  hidden
+          >
+
+            <section class="language-modal-card">
+
+
+              <!-- SEARCH -->
+
+              <div class="language-search-wrapper">
+
+                                <span class="language-search-icon">
+                                    🔍
+                                </span>
+
+                <input
+                        type="search"
+                        id="languageSearchInput"
+                        class="language-search-input"
+                        placeholder="Søk etter språk..."
+                        data-i18n-placeholder="languageSearchPlaceholder"
+                        autocomplete="off"
+                        aria-label="Søk etter språk"
+                        data-i18n-aria-label="languageSearchAriaLabel"
+                >
+
+                <button
+                        type="button"
+                        id="clearLanguageSearchButton"
+                        class="language-search-clear"
+                        aria-label="Tøm søk"
+                        data-i18n-aria-label="clearLanguageSearch"
+                        hidden
+                >
+                  ×
+                </button>
+
+              </div>
+
+
+              <!-- RESULT INFO -->
+
+              <div class="language-list-info">
+
+                                <span id="languageResultText">
+                                    Laster språk...
+                                </span>
+
+              </div>
+
+
+              <!-- LANGUAGE LIST -->
+
+              <div
+                      id="languageList"
+                      class="language-list"
+                      role="listbox"
+                      aria-label="Tilgjengelige språk"
+                      data-i18n-aria-label="availableLanguages"
+              >
+
+                <div class="language-loading-state">
+
+                                    <span class="language-loading-icon">
+                                        🌐
+                                    </span>
+
+                  <p data-i18n="loadingAvailableLanguages">
+                    Laster tilgjengelige språk...
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <!-- EMPTY SEARCH -->
+
+              <div
+                      id="languageSearchEmpty"
+                      class="language-search-empty"
+                      hidden
+              >
+
+                <div class="language-search-empty-icon">
+                  🔎
+                </div>
+
+                <h3 data-i18n="noLanguagesFound">
+                  Ingen språk funnet
+                </h3>
+
+                <p data-i18n="tryAnotherSearch">
+                  Prøv et annet søk.
+                </p>
+
+              </div>
+
+
+            </section>
+
+          </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             PROFILE AVATAR
+             ================================================= -->
 
         <div class="admin-profile-avatar">
 
-          <span id="adminInitial">
-            A
-          </span>
+                    <span id="adminInitial">
+                        A
+                    </span>
 
         </div>
+
 
       </div>
 
@@ -285,21 +478,27 @@
     <main class="admin-dashboard-main">
 
 
-      <!-- PAGE HEADER -->
+      <!-- =================================================
+           PAGE HEADER
+           ================================================= -->
 
       <section class="admin-properties-page-header">
 
+
         <div>
 
-          <p class="admin-dashboard-eyebrow">
+          <p
+                  class="admin-dashboard-eyebrow"
+                  data-i18n="adminAdministratorEyebrow"
+          >
             ADMINISTRATOR
           </p>
 
-          <h1>
+          <h1 data-i18n="adminProperties">
             Boliger
           </h1>
 
-          <p>
+          <p data-i18n="adminPropertiesPageDescription">
             Administrer boliger og etasjer.
           </p>
 
@@ -311,15 +510,24 @@
                 class="secondary-button"
                 type="button"
         >
-          ← Dashboard
+
+                    <span aria-hidden="true">
+                        ←
+                    </span>
+
+          <span data-i18n="adminDashboard">
+                        Dashboard
+                    </span>
+
         </button>
+
 
       </section>
 
 
-      <!-- ===================================================
+      <!-- =================================================
            MAIN GRID
-           =================================================== -->
+           ================================================= -->
 
       <div class="admin-properties-layout">
 
@@ -331,6 +539,8 @@
         <section class="dashboard-card admin-property-form-card">
 
 
+          <!-- CARD HEADING -->
+
           <div class="admin-properties-card-heading">
 
             <div class="admin-action-icon">
@@ -340,13 +550,12 @@
 
             <div>
 
-              <h2>
+              <h2 data-i18n="adminAddProperty">
                 Legg til bolig
               </h2>
 
-              <p>
-                Opprett en ny bolig som skal brukes
-                i CleanPlan.
+              <p data-i18n="adminAddPropertyDescription">
+                Opprett en ny bolig som skal brukes i CleanPlan.
               </p>
 
             </div>
@@ -354,12 +563,21 @@
           </div>
 
 
+          <!-- =================================================
+               PROPERTY FORM
+               ================================================= -->
+
           <form id="propertyForm">
 
 
+            <!-- PROPERTY NAME -->
+
             <div class="form-group admin-property-form-group">
 
-              <label for="propertyName">
+              <label
+                      for="propertyName"
+                      data-i18n="adminPropertyName"
+              >
                 Bolignavn
               </label>
 
@@ -367,15 +585,21 @@
                       type="text"
                       id="propertyName"
                       placeholder="For eksempel Hovedbolig"
+                      data-i18n-placeholder="adminPropertyNamePlaceholder"
                       required
               >
 
             </div>
 
 
+            <!-- ADDRESS -->
+
             <div class="form-group admin-property-form-group">
 
-              <label for="propertyAddress">
+              <label
+                      for="propertyAddress"
+                      data-i18n="adminPropertyAddress"
+              >
                 Adresse
               </label>
 
@@ -383,15 +607,21 @@
                       type="text"
                       id="propertyAddress"
                       placeholder="For eksempel Nye Sandviksveien 46"
+                      data-i18n-placeholder="adminPropertyAddressPlaceholder"
                       required
               >
 
             </div>
 
 
+            <!-- FLOOR COUNT -->
+
             <div class="form-group admin-property-form-group">
 
-              <label for="floorCount">
+              <label
+                      for="floorCount"
+                      data-i18n="adminFloorCount"
+              >
                 Antall etasjer
               </label>
 
@@ -407,14 +637,26 @@
             </div>
 
 
+            <!-- SAVE PROPERTY -->
+
             <button
                     type="submit"
                     class="primary-button admin-property-save-button"
                     id="savePropertyButton"
             >
-              + Lagre bolig
+
+                            <span aria-hidden="true">
+                                +
+                            </span>
+
+              <span data-i18n="adminSaveProperty">
+                                Lagre bolig
+                            </span>
+
             </button>
 
+
+            <!-- MESSAGE -->
 
             <p
                     id="propertyMessage"
@@ -423,6 +665,7 @@
 
 
           </form>
+
 
         </section>
 
@@ -434,10 +677,14 @@
         <section class="dashboard-card admin-property-list-card">
 
 
-          <!-- HEADER -->
+          <!-- =================================================
+               HEADER
+               ================================================= -->
 
           <div class="admin-property-list-header">
 
+
+            <!-- LEFT -->
 
             <div class="admin-property-list-heading">
 
@@ -450,7 +697,7 @@
 
                 <div class="admin-property-title-row">
 
-                  <h2>
+                  <h2 data-i18n="adminRegisteredProperties">
                     Registrerte boliger
                   </h2>
 
@@ -458,22 +705,25 @@
                           id="propertyCountBadge"
                           class="admin-property-number-badge"
                   >
-                    0
-                  </span>
+                                        0
+                                    </span>
 
                 </div>
 
 
-                <p>
+                <p data-i18n="adminPropertiesAccessDescription">
                   Boliger du har tilgang til å administrere.
                 </p>
 
               </div>
 
+
             </div>
 
 
-            <!-- SHOW / HIDE BUTTON -->
+            <!-- =================================================
+                 SHOW / HIDE
+                 ================================================= -->
 
             <button
                     id="togglePropertyListButton"
@@ -483,16 +733,16 @@
                     aria-controls="registeredPropertiesContent"
             >
 
-              <span id="togglePropertyListText">
-                Vis boliger
-              </span>
+                            <span id="togglePropertyListText">
+                                Vis boliger (0)
+                            </span>
 
               <span
                       id="togglePropertyListChevron"
                       class="admin-property-toggle-chevron"
               >
-                ⌄
-              </span>
+                                ⌄
+                            </span>
 
             </button>
 
@@ -502,7 +752,6 @@
 
           <!-- =================================================
                COLLAPSIBLE CONTENT
-               Hidden by default
                ================================================= -->
 
           <div
@@ -512,16 +761,18 @@
           >
 
 
-            <!-- SEARCH AREA -->
+            <!-- =================================================
+                 SEARCH
+                 ================================================= -->
 
             <div class="admin-property-search-area">
 
 
               <div class="admin-property-search-wrapper">
 
-                <span class="admin-property-search-icon">
-                  🔍
-                </span>
+                                <span class="admin-property-search-icon">
+                                    🔍
+                                </span>
 
 
                 <input
@@ -529,8 +780,10 @@
                         id="propertySearchInput"
                         class="admin-property-search-input"
                         placeholder="Søk etter bolignavn eller adresse..."
+                        data-i18n-placeholder="adminPropertySearchPlaceholder"
                         autocomplete="off"
                         aria-label="Søk etter bolig"
+                        data-i18n-aria-label="adminPropertySearchAria"
                 >
 
 
@@ -539,6 +792,7 @@
                         class="admin-property-search-clear"
                         type="button"
                         aria-label="Tøm søk"
+                        data-i18n-aria-label="clearLanguageSearch"
                         hidden
                 >
                   ×
@@ -549,9 +803,9 @@
 
               <div class="admin-property-search-info">
 
-                <span id="propertySearchResultText">
-                  0 boliger funnet
-                </span>
+                                <span id="propertySearchResultText">
+                                    0 boliger funnet
+                                </span>
 
               </div>
 
@@ -559,18 +813,25 @@
             </div>
 
 
-            <!-- PROPERTY LIST -->
+            <!-- =================================================
+                 PROPERTY LIST
+                 ================================================= -->
 
             <div id="propertyList">
 
-              <p class="empty-state">
+              <p
+                      class="empty-state"
+                      data-i18n="adminLoadingProperties"
+              >
                 Laster boliger...
               </p>
 
             </div>
 
 
-            <!-- NO SEARCH RESULT -->
+            <!-- =================================================
+                 NO SEARCH RESULT
+                 ================================================= -->
 
             <div
                     id="propertySearchEmpty"
@@ -582,11 +843,11 @@
                 🔎
               </div>
 
-              <h3>
+              <h3 data-i18n="adminNoPropertiesFound">
                 Ingen boliger funnet
               </h3>
 
-              <p>
+              <p data-i18n="adminTryAnotherPropertySearch">
                 Prøv et annet bolignavn eller en annen adresse.
               </p>
 
@@ -629,9 +890,16 @@
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
 ></script>
 
+
+<!-- =========================================================
+     CLEANPLAN JAVASCRIPT
+     ========================================================= -->
+
 <script src="js/config.js"></script>
 
-<script src="js/properties.js?v=3"></script>
+<script src="js/language.js?v=10"></script>
+
+<script src="js/properties.js?v=10"></script>
 
 
 <!-- =========================================================
@@ -640,30 +908,29 @@
 
 <script>
 
+  // ============================================================
+  // ELEMENTS
+  // ============================================================
 
   const mobileSidebarButton =
           document.getElementById(
                   "mobileSidebarButton"
           );
 
-
   const adminSidebar =
-          document.querySelector(
-                  ".admin-sidebar"
+          document.getElementById(
+                  "adminSidebar"
           );
-
 
   const adminSidebarOverlay =
           document.getElementById(
                   "adminSidebarOverlay"
           );
 
-
   const historySidebarButton =
           document.getElementById(
                   "historySidebarButton"
           );
-
 
   const settingsSidebarButton =
           document.getElementById(
@@ -671,9 +938,71 @@
           );
 
 
+  // ============================================================
+  // TRANSLATION HELPER
+  // ============================================================
+
+  function adminTranslate(
+          key
+  ) {
+
+    if (
+            window.CleanPlanI18n &&
+            typeof window.CleanPlanI18n.t ===
+            "function"
+    ) {
+
+      return window.CleanPlanI18n.t(
+              key
+      );
+
+    }
+
+
+    return key;
+
+  }
+
+
+  // ============================================================
+  // OPEN SIDEBAR
+  // ============================================================
+
+  function openAdminSidebar() {
+
+    if (
+            adminSidebar
+    ) {
+
+      adminSidebar.classList.add(
+              "open"
+      );
+
+    }
+
+
+    if (
+            adminSidebarOverlay
+    ) {
+
+      adminSidebarOverlay.classList.add(
+              "visible"
+      );
+
+    }
+
+  }
+
+
+  // ============================================================
+  // CLOSE SIDEBAR
+  // ============================================================
+
   function closeAdminSidebar() {
 
-    if (adminSidebar) {
+    if (
+            adminSidebar
+    ) {
 
       adminSidebar.classList.remove(
               "open"
@@ -682,7 +1011,9 @@
     }
 
 
-    if (adminSidebarOverlay) {
+    if (
+            adminSidebarOverlay
+    ) {
 
       adminSidebarOverlay.classList.remove(
               "visible"
@@ -693,26 +1024,30 @@
   }
 
 
-  if (mobileSidebarButton) {
+  // ============================================================
+  // MOBILE MENU
+  // ============================================================
+
+  if (
+          mobileSidebarButton
+  ) {
 
     mobileSidebarButton.addEventListener(
             "click",
             function () {
 
-              if (adminSidebar) {
+              if (
+                      adminSidebar &&
+                      adminSidebar.classList.contains(
+                              "open"
+                      )
+              ) {
 
-                adminSidebar.classList.add(
-                        "open"
-                );
+                closeAdminSidebar();
 
-              }
+              } else {
 
-
-              if (adminSidebarOverlay) {
-
-                adminSidebarOverlay.classList.add(
-                        "visible"
-                );
+                openAdminSidebar();
 
               }
 
@@ -722,7 +1057,13 @@
   }
 
 
-  if (adminSidebarOverlay) {
+  // ============================================================
+  // OVERLAY
+  // ============================================================
+
+  if (
+          adminSidebarOverlay
+  ) {
 
     adminSidebarOverlay.addEventListener(
             "click",
@@ -732,14 +1073,66 @@
   }
 
 
-  if (historySidebarButton) {
+  // ============================================================
+  // ESCAPE
+  // ============================================================
+
+  document.addEventListener(
+          "keydown",
+          function (
+                  event
+          ) {
+
+            if (
+                    event.key ===
+                    "Escape"
+            ) {
+
+              closeAdminSidebar();
+
+            }
+
+          }
+  );
+
+
+  // ============================================================
+  // RESET SIDEBAR ON DESKTOP
+  // ============================================================
+
+  window.addEventListener(
+          "resize",
+          function () {
+
+            if (
+                    window.innerWidth >
+                    900
+            ) {
+
+              closeAdminSidebar();
+
+            }
+
+          }
+  );
+
+
+  // ============================================================
+  // HISTORY
+  // ============================================================
+
+  if (
+          historySidebarButton
+  ) {
 
     historySidebarButton.addEventListener(
             "click",
             function () {
 
               window.alert(
-                      "Historikk kommer i et senere steg."
+                      adminTranslate(
+                              "adminHistoryComingSoon"
+                      )
               );
 
             }
@@ -748,21 +1141,28 @@
   }
 
 
-  if (settingsSidebarButton) {
+  // ============================================================
+  // SETTINGS
+  // ============================================================
+
+  if (
+          settingsSidebarButton
+  ) {
 
     settingsSidebarButton.addEventListener(
             "click",
             function () {
 
               window.alert(
-                      "Innstillinger kommer i et senere steg."
+                      adminTranslate(
+                              "adminSettingsComingSoon"
+                      )
               );
 
             }
     );
 
   }
-
 
 </script>
 
@@ -770,3 +1170,7 @@
 </body>
 
 </html>
+
+<script src="js/config.js"></script>
+<script src="js/language.js?v=11"></script>
+<script src="js/properties.js?v=10"></script>

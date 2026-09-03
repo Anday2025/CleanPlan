@@ -1,6 +1,6 @@
 // ============================================================
-// CLEANING APP
-// RESIDENTS
+// CLEANPLAN
+// ADMIN RESIDENTS
 // ============================================================
 
 
@@ -9,31 +9,49 @@
 // ============================================================
 
 const residentForm =
-    document.getElementById("residentForm");
+    document.getElementById(
+        "residentForm"
+    );
 
 const residentProfileSelect =
-    document.getElementById("residentProfile");
+    document.getElementById(
+        "residentProfile"
+    );
 
 const residentPropertySelect =
-    document.getElementById("residentProperty");
+    document.getElementById(
+        "residentProperty"
+    );
 
 const residentFloorSelect =
-    document.getElementById("residentFloor");
+    document.getElementById(
+        "residentFloor"
+    );
 
 const saveResidentButton =
-    document.getElementById("saveResidentButton");
+    document.getElementById(
+        "saveResidentButton"
+    );
 
 const residentMessage =
-    document.getElementById("residentMessage");
+    document.getElementById(
+        "residentMessage"
+    );
 
 const residentList =
-    document.getElementById("residentList");
+    document.getElementById(
+        "residentList"
+    );
 
 const logoutButton =
-    document.getElementById("logoutButton");
+    document.getElementById(
+        "logoutButton"
+    );
 
 const backButton =
-    document.getElementById("backButton");
+    document.getElementById(
+        "backButton"
+    );
 
 
 // ============================================================
@@ -90,15 +108,142 @@ const residentSearchEmpty =
 // CURRENT USER
 // ============================================================
 
-let currentSession = null;
-let currentProfile = null;
+let currentSession =
+    null;
+
+let currentProfile =
+    null;
+
+
+// ============================================================
+// DATA CACHE
+// ============================================================
+
+let availableResidentProfiles =
+    [];
+
+let availableProperties =
+    [];
+
+let currentPropertyFloors =
+    [];
+
+let currentResidents =
+    [];
 
 
 // ============================================================
 // RESIDENT LIST STATE
 // ============================================================
 
-let activeResidentCount = 0;
+let activeResidentCount =
+    0;
+
+
+// ============================================================
+// I18N HELPER
+// ============================================================
+
+function t(
+    key,
+    params = {},
+    fallback = ""
+) {
+
+    if (
+        window.CleanPlanI18n &&
+        typeof window.CleanPlanI18n.t ===
+        "function"
+    ) {
+
+        const translated =
+            window.CleanPlanI18n.t(
+                key,
+                params
+            );
+
+
+        if (
+            translated &&
+            translated !==
+            key
+        ) {
+
+            return translated;
+
+        }
+
+    }
+
+
+    let text =
+        fallback ||
+        key;
+
+
+    Object.entries(
+        params
+    ).forEach(
+        function (
+            [paramKey, value]
+        ) {
+
+            text =
+                text.replaceAll(
+                    "{" +
+                    paramKey +
+                    "}",
+                    String(value)
+                );
+
+        }
+    );
+
+
+    return text;
+
+}
+
+
+// ============================================================
+// CURRENT LANGUAGE
+// ============================================================
+
+function getCurrentLanguageCode() {
+
+    if (
+        window.CleanPlanI18n &&
+        typeof window.CleanPlanI18n.getLanguage ===
+        "function"
+    ) {
+
+        return (
+            window.CleanPlanI18n.getLanguage() ||
+            "no"
+        );
+
+    }
+
+
+    return "no";
+
+}
+
+
+// ============================================================
+// CURRENT LOCALE
+// ============================================================
+
+function getCurrentLocale() {
+
+    return (
+        getCurrentLanguageCode() ===
+        "en"
+            ? "en-GB"
+            : "nb-NO"
+    );
+
+}
 
 
 // ============================================================
@@ -110,16 +255,22 @@ function showResidentMessage(
     type = ""
 ) {
 
-    if (!residentMessage) {
+    if (
+        !residentMessage
+    ) {
+
         return;
+
     }
 
 
     residentMessage.textContent =
         message;
 
+
     residentMessage.className =
-        "message " + type;
+        "message " +
+        type;
 
 }
 
@@ -128,13 +279,18 @@ function showResidentMessage(
 // LOGOUT
 // ============================================================
 
-if (logoutButton) {
+if (
+    logoutButton
+) {
 
     logoutButton.addEventListener(
         "click",
         async function () {
 
-            await supabaseClient.auth.signOut();
+            await supabaseClient
+                .auth
+                .signOut();
+
 
             window.location.href =
                 "index.html";
@@ -149,7 +305,9 @@ if (logoutButton) {
 // BACK TO DASHBOARD
 // ============================================================
 
-if (backButton) {
+if (
+    backButton
+) {
 
     backButton.addEventListener(
         "click",
@@ -165,22 +323,7 @@ if (backButton) {
 
 
 // ============================================================
-// RESIDENT WORD
-// ============================================================
-
-function getResidentWord(
-    count
-) {
-
-    return count === 1
-        ? "beboer"
-        : "beboere";
-
-}
-
-
-// ============================================================
-// UPDATE TOGGLE BUTTON
+// UPDATE RESIDENT TOGGLE BUTTON
 // ============================================================
 
 function updateResidentsToggleButton() {
@@ -189,28 +332,45 @@ function updateResidentsToggleButton() {
         !toggleResidentsButton ||
         !registeredResidentsContent
     ) {
+
         return;
+
     }
 
 
     const isOpen =
-        !registeredResidentsContent.hidden;
+        !registeredResidentsContent
+            .hidden;
 
 
-    if (toggleResidentsText) {
+    if (
+        toggleResidentsText
+    ) {
 
         toggleResidentsText.textContent =
             (
                 isOpen
-                    ? "Skjul beboere"
-                    : "Vis beboere"
+                    ? t(
+                        "adminHideResidents",
+                        {},
+                        "Skjul beboere"
+                    )
+                    : t(
+                        "adminShowResidents",
+                        {},
+                        "Vis beboere"
+                    )
             ) +
-            ` (${activeResidentCount})`;
+            " (" +
+            activeResidentCount +
+            ")";
 
     }
 
 
-    if (toggleResidentsIcon) {
+    if (
+        toggleResidentsIcon
+    ) {
 
         toggleResidentsIcon.textContent =
             isOpen
@@ -238,8 +398,12 @@ function setResidentListOpen(
     shouldOpen
 ) {
 
-    if (!registeredResidentsContent) {
+    if (
+        !registeredResidentsContent
+    ) {
+
         return;
+
     }
 
 
@@ -277,14 +441,36 @@ function updateResidentSearchCount(
     visibleCount
 ) {
 
-    if (!residentSearchCount) {
+    if (
+        !residentSearchCount
+    ) {
+
         return;
+
     }
 
 
     residentSearchCount.textContent =
-        `${visibleCount} ` +
-        `${getResidentWord(visibleCount)} funnet`;
+        visibleCount ===
+        1
+            ? t(
+                "adminResidentSingularFound",
+                {
+                    count:
+                    visibleCount
+                },
+                visibleCount +
+                " beboer funnet"
+            )
+            : t(
+                "adminResidentPluralFound",
+                {
+                    count:
+                    visibleCount
+                },
+                visibleCount +
+                " beboere funnet"
+            );
 
 }
 
@@ -295,43 +481,53 @@ function updateResidentSearchCount(
 
 function filterResidentList() {
 
-    if (!residentList) {
+    if (
+        !residentList
+    ) {
+
         return;
+
     }
 
 
     const query =
         residentSearchInput
-            ? residentSearchInput.value
+            ? residentSearchInput
+                .value
                 .trim()
                 .toLocaleLowerCase(
-                    "nb-NO"
+                    getCurrentLocale()
                 )
             : "";
 
 
     const rows =
         Array.from(
-            residentList.querySelectorAll(
-                ".admin-resident-row"
-            )
+            residentList
+                .querySelectorAll(
+                    ".admin-resident-row"
+                )
         );
 
 
-    let visibleCount = 0;
+    let visibleCount =
+        0;
 
 
     rows.forEach(
-        function (row) {
+        function (
+            row
+        ) {
 
             const searchableText =
                 (
-                    row.dataset.searchText ||
+                    row.dataset
+                        .searchText ||
                     row.textContent ||
                     ""
                 )
                     .toLocaleLowerCase(
-                        "nb-NO"
+                        getCurrentLocale()
                     );
 
 
@@ -346,9 +542,12 @@ function filterResidentList() {
                 !matches;
 
 
-            if (matches) {
+            if (
+                matches
+            ) {
 
-                visibleCount += 1;
+                visibleCount +=
+                    1;
 
             }
 
@@ -356,21 +555,28 @@ function filterResidentList() {
     );
 
 
-    if (clearResidentSearchButton) {
+    if (
+        clearResidentSearchButton
+    ) {
 
         clearResidentSearchButton.hidden =
-            query.length === 0;
+            query.length ===
+            0;
 
     }
 
 
-    if (residentSearchEmpty) {
+    if (
+        residentSearchEmpty
+    ) {
 
         residentSearchEmpty.hidden =
             !(
                 query &&
-                rows.length > 0 &&
-                visibleCount === 0
+                rows.length >
+                0 &&
+                visibleCount ===
+                0
             );
 
     }
@@ -389,19 +595,26 @@ function filterResidentList() {
 // TOGGLE RESIDENT LIST
 // ============================================================
 
-if (toggleResidentsButton) {
+if (
+    toggleResidentsButton
+) {
 
     toggleResidentsButton.addEventListener(
         "click",
         function () {
 
-            if (!registeredResidentsContent) {
+            if (
+                !registeredResidentsContent
+            ) {
+
                 return;
+
             }
 
 
             setResidentListOpen(
-                registeredResidentsContent.hidden
+                registeredResidentsContent
+                    .hidden
             );
 
         }
@@ -414,7 +627,9 @@ if (toggleResidentsButton) {
 // SEARCH RESIDENTS
 // ============================================================
 
-if (residentSearchInput) {
+if (
+    residentSearchInput
+) {
 
     residentSearchInput.addEventListener(
         "input",
@@ -428,14 +643,20 @@ if (residentSearchInput) {
 // CLEAR RESIDENT SEARCH
 // ============================================================
 
-if (clearResidentSearchButton) {
+if (
+    clearResidentSearchButton
+) {
 
     clearResidentSearchButton.addEventListener(
         "click",
         function () {
 
-            if (!residentSearchInput) {
+            if (
+                !residentSearchInput
+            ) {
+
                 return;
+
             }
 
 
@@ -466,7 +687,9 @@ async function checkAdmin() {
         },
         error: sessionError
     } =
-        await supabaseClient.auth.getSession();
+        await supabaseClient
+            .auth
+            .getSession();
 
 
     if (
@@ -487,7 +710,9 @@ async function checkAdmin() {
         error
     } =
         await supabaseClient
-            .from("profiles")
+            .from(
+                "profiles"
+            )
             .select(
                 "full_name, role, is_active"
             )
@@ -509,7 +734,9 @@ async function checkAdmin() {
         );
 
 
-        await supabaseClient.auth.signOut();
+        await supabaseClient
+            .auth
+            .signOut();
 
 
         window.location.href =
@@ -531,7 +758,9 @@ async function checkAdmin() {
         )
     ) {
 
-        await supabaseClient.auth.signOut();
+        await supabaseClient
+            .auth
+            .signOut();
 
 
         window.location.href =
@@ -543,19 +772,53 @@ async function checkAdmin() {
     }
 
 
+    // ========================================================
+    // ADMIN NAME
+    // ========================================================
+
     const adminName =
         document.getElementById(
             "adminName"
         );
 
 
-    if (adminName) {
+    if (
+        adminName
+    ) {
 
         adminName.textContent =
-            profile.full_name;
+            profile.full_name ||
+            "Administrator";
 
     }
 
+
+    // ========================================================
+    // ADMIN ROLE
+    // ========================================================
+
+    const adminRole =
+        document.getElementById(
+            "adminRole"
+        );
+
+
+    if (
+        adminRole
+    ) {
+
+        adminRole.textContent =
+            profile.role ===
+            "superadmin"
+                ? "Superadmin"
+                : "Admin";
+
+    }
+
+
+    // ========================================================
+    // ADMIN INITIAL
+    // ========================================================
 
     const adminInitial =
         document.getElementById(
@@ -571,7 +834,9 @@ async function checkAdmin() {
         adminInitial.textContent =
             profile.full_name
                 .trim()
-                .charAt(0)
+                .charAt(
+                    0
+                )
                 .toUpperCase();
 
     }
@@ -579,6 +844,7 @@ async function checkAdmin() {
 
     currentSession =
         session;
+
 
     currentProfile =
         profile;
@@ -593,20 +859,106 @@ async function checkAdmin() {
 
 
 // ============================================================
-// LOAD USER PROFILES
+// RENDER USER PROFILE OPTIONS
 // ============================================================
 
-async function loadUserProfiles() {
+function renderUserProfiles() {
 
-    if (!residentProfileSelect) {
+    if (
+        !residentProfileSelect
+    ) {
+
         return;
+
+    }
+
+
+    if (
+        !availableResidentProfiles ||
+        availableResidentProfiles.length ===
+        0
+    ) {
+
+        residentProfileSelect.innerHTML = `
+
+            <option value="">
+                ${t(
+            "adminNoActiveResidentUsers",
+            {},
+            "Ingen aktive beboerbrukere"
+        )}
+            </option>
+
+        `;
+
+
+        return;
+
     }
 
 
     residentProfileSelect.innerHTML = `
 
         <option value="">
-            Laster brukerprofiler...
+            ${t(
+            "adminSelectResidentProfile",
+            {},
+            "Velg brukerprofil"
+        )}
+        </option>
+
+    ` +
+        availableResidentProfiles
+            .map(
+                function (
+                    profile
+                ) {
+
+                    return `
+
+                        <option value="${profile.id}">
+                            ${escapeHtml(
+                        profile.full_name
+                    )}
+                            — ${escapeHtml(
+                        profile.email
+                    )}
+                        </option>
+
+                    `;
+
+                }
+            )
+            .join(
+                ""
+            );
+
+}
+
+
+// ============================================================
+// LOAD USER PROFILES
+// ============================================================
+
+async function loadUserProfiles() {
+
+    if (
+        !residentProfileSelect
+    ) {
+
+        return;
+
+    }
+
+
+    residentProfileSelect.innerHTML = `
+
+        <option value="">
+            ${t(
+        "adminLoadingUserProfiles",
+        {},
+        "Laster brukerprofiler..."
+    )}
         </option>
 
     `;
@@ -617,7 +969,9 @@ async function loadUserProfiles() {
         error
     } =
         await supabaseClient
-            .from("profiles")
+            .from(
+                "profiles"
+            )
             .select(
                 "id, full_name, email, role, is_active"
             )
@@ -628,12 +982,15 @@ async function loadUserProfiles() {
             .order(
                 "full_name",
                 {
-                    ascending: true
+                    ascending:
+                        true
                 }
             );
 
 
-    if (error) {
+    if (
+        error
+    ) {
 
         console.error(
             "LOAD PROFILES ERROR:",
@@ -641,10 +998,18 @@ async function loadUserProfiles() {
         );
 
 
+        availableResidentProfiles =
+            [];
+
+
         residentProfileSelect.innerHTML = `
 
             <option value="">
-                Kunne ikke hente brukerprofiler
+                ${t(
+            "adminCouldNotLoadUserProfiles",
+            {},
+            "Kunne ikke hente brukerprofiler"
+        )}
             </option>
 
         `;
@@ -655,22 +1020,55 @@ async function loadUserProfiles() {
     }
 
 
-    const profiles =
-        (data || []).filter(
-            profile =>
-                profile.role ===
-                "resident"
-        );
+    availableResidentProfiles =
+        (data || [])
+            .filter(
+                function (
+                    profile
+                ) {
+
+                    return (
+                        profile.role ===
+                        "resident"
+                    );
+
+                }
+            );
+
+
+    renderUserProfiles();
+
+}
+
+// ============================================================
+// RENDER PROPERTY OPTIONS
+// ============================================================
+
+function renderProperties() {
+
+    if (
+        !residentPropertySelect
+    ) {
+
+        return;
+
+    }
 
 
     if (
-        profiles.length === 0
+        !availableProperties ||
+        availableProperties.length ===
+        0
     ) {
 
-        residentProfileSelect.innerHTML = `
+        residentPropertySelect.innerHTML = `
 
             <option value="">
-                Ingen aktive beboerbrukere
+                ${t(
+            "adminNoPropertiesAvailable",
+            {},
+            "Ingen boliger tilgjengelig"
+        )}
             </option>
 
         `;
@@ -681,27 +1079,41 @@ async function loadUserProfiles() {
     }
 
 
-    residentProfileSelect.innerHTML = `
+    residentPropertySelect.innerHTML = `
 
         <option value="">
-            Velg brukerprofil
+            ${t(
+            "adminSelectProperty",
+            {},
+            "Velg bolig"
+        )}
         </option>
 
     ` +
-        profiles.map(
-            profile => `
+        availableProperties
+            .map(
+                function (
+                    property
+                ) {
 
-                <option value="${profile.id}">
-                    ${escapeHtml(
-                profile.full_name
-            )}
-                    — ${escapeHtml(
-                profile.email
-            )}
-                </option>
+                    return `
 
-            `
-        ).join("");
+                        <option value="${property.id}">
+                            ${escapeHtml(
+                        property.name
+                    )}
+                            — ${escapeHtml(
+                        property.address
+                    )}
+                        </option>
+
+                    `;
+
+                }
+            )
+            .join(
+                ""
+            );
 
 }
 
@@ -712,15 +1124,23 @@ async function loadUserProfiles() {
 
 async function loadProperties() {
 
-    if (!residentPropertySelect) {
+    if (
+        !residentPropertySelect
+    ) {
+
         return;
+
     }
 
 
     residentPropertySelect.innerHTML = `
 
         <option value="">
-            Laster boliger...
+            ${t(
+        "adminLoadingProperties",
+        {},
+        "Laster boliger..."
+    )}
         </option>
 
     `;
@@ -731,7 +1151,9 @@ async function loadProperties() {
         error
     } =
         await supabaseClient
-            .from("properties")
+            .from(
+                "properties"
+            )
             .select(
                 "id, name, address, floor_count"
             )
@@ -742,12 +1164,15 @@ async function loadProperties() {
             .order(
                 "name",
                 {
-                    ascending: true
+                    ascending:
+                        true
                 }
             );
 
 
-    if (error) {
+    if (
+        error
+    ) {
 
         console.error(
             "LOAD PROPERTIES ERROR:",
@@ -755,13 +1180,72 @@ async function loadProperties() {
         );
 
 
+        availableProperties =
+            [];
+
+
         residentPropertySelect.innerHTML = `
 
             <option value="">
-                Kunne ikke hente boliger
+                ${t(
+            "adminCouldNotLoadProperties",
+            {},
+            "Kunne ikke hente boliger"
+        )}
             </option>
 
         `;
+
+
+        return;
+
+    }
+
+
+    availableProperties =
+        data || [];
+
+
+    renderProperties();
+
+}
+
+
+// ============================================================
+// RENDER FLOOR OPTIONS
+// ============================================================
+
+function renderFloorOptions() {
+
+    if (
+        !residentFloorSelect
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        !residentPropertySelect ||
+        !residentPropertySelect.value
+    ) {
+
+        residentFloorSelect.innerHTML = `
+
+            <option value="">
+                ${t(
+            "adminSelectPropertyFirst",
+            {},
+            "Velg bolig først"
+        )}
+            </option>
+
+        `;
+
+
+        residentFloorSelect.disabled =
+            true;
 
 
         return;
@@ -770,17 +1254,26 @@ async function loadProperties() {
 
 
     if (
-        !data ||
-        data.length === 0
+        !currentPropertyFloors ||
+        currentPropertyFloors.length ===
+        0
     ) {
 
-        residentPropertySelect.innerHTML = `
+        residentFloorSelect.innerHTML = `
 
             <option value="">
-                Ingen boliger tilgjengelig
+                ${t(
+            "adminNoFloorsAvailable",
+            {},
+            "Ingen etasjer tilgjengelig"
+        )}
             </option>
 
         `;
+
+
+        residentFloorSelect.disabled =
+            true;
 
 
         return;
@@ -788,27 +1281,55 @@ async function loadProperties() {
     }
 
 
-    residentPropertySelect.innerHTML = `
+    residentFloorSelect.innerHTML = `
 
         <option value="">
-            Velg bolig
+            ${t(
+            "adminSelectFloor",
+            {},
+            "Velg etasje"
+        )}
         </option>
 
     ` +
-        data.map(
-            property => `
+        currentPropertyFloors
+            .map(
+                function (
+                    floor
+                ) {
 
-                <option value="${property.id}">
-                    ${escapeHtml(
-                property.name
-            )}
-                    — ${escapeHtml(
-                property.address
-            )}
-                </option>
+                    const floorName =
+                        floor.name ||
+                        t(
+                            "floorNumber",
+                            {
+                                floor:
+                                floor.floor_number
+                            },
+                            floor.floor_number +
+                            ". etasje"
+                        );
 
-            `
-        ).join("");
+
+                    return `
+
+                        <option value="${floor.id}">
+                            ${escapeHtml(
+                        floorName
+                    )}
+                        </option>
+
+                    `;
+
+                }
+            )
+            .join(
+                ""
+            );
+
+
+    residentFloorSelect.disabled =
+        false;
 
 }
 
@@ -821,8 +1342,12 @@ async function loadFloors(
     propertyId
 ) {
 
-    if (!residentFloorSelect) {
+    if (
+        !residentFloorSelect
+    ) {
+
         return;
+
     }
 
 
@@ -830,16 +1355,15 @@ async function loadFloors(
         true;
 
 
-    if (!propertyId) {
+    currentPropertyFloors =
+        [];
 
-        residentFloorSelect.innerHTML = `
 
-            <option value="">
-                Velg bolig først
-            </option>
+    if (
+        !propertyId
+    ) {
 
-        `;
-
+        renderFloorOptions();
 
         return;
 
@@ -849,7 +1373,11 @@ async function loadFloors(
     residentFloorSelect.innerHTML = `
 
         <option value="">
-            Laster etasjer...
+            ${t(
+        "adminLoadingFloors",
+        {},
+        "Laster etasjer..."
+    )}
         </option>
 
     `;
@@ -860,7 +1388,9 @@ async function loadFloors(
         error
     } =
         await supabaseClient
-            .from("floors")
+            .from(
+                "floors"
+            )
             .select(
                 "id, floor_number, name"
             )
@@ -871,12 +1401,15 @@ async function loadFloors(
             .order(
                 "floor_number",
                 {
-                    ascending: true
+                    ascending:
+                        true
                 }
             );
 
 
-    if (error) {
+    if (
+        error
+    ) {
 
         console.error(
             "LOAD FLOORS ERROR:",
@@ -887,7 +1420,11 @@ async function loadFloors(
         residentFloorSelect.innerHTML = `
 
             <option value="">
-                Kunne ikke hente etasjer
+                ${t(
+            "adminCouldNotLoadFloors",
+            {},
+            "Kunne ikke hente etasjer"
+        )}
             </option>
 
         `;
@@ -898,48 +1435,11 @@ async function loadFloors(
     }
 
 
-    if (
-        !data ||
-        data.length === 0
-    ) {
-
-        residentFloorSelect.innerHTML = `
-
-            <option value="">
-                Ingen etasjer tilgjengelig
-            </option>
-
-        `;
+    currentPropertyFloors =
+        data || [];
 
 
-        return;
-
-    }
-
-
-    residentFloorSelect.innerHTML = `
-
-        <option value="">
-            Velg etasje
-        </option>
-
-    ` +
-        data.map(
-            floor => `
-
-                <option value="${floor.id}">
-                    ${escapeHtml(
-                floor.name ||
-                `${floor.floor_number}. etasje`
-            )}
-                </option>
-
-            `
-        ).join("");
-
-
-    residentFloorSelect.disabled =
-        false;
+    renderFloorOptions();
 
 }
 
@@ -948,14 +1448,17 @@ async function loadFloors(
 // PROPERTY CHANGE
 // ============================================================
 
-if (residentPropertySelect) {
+if (
+    residentPropertySelect
+) {
 
     residentPropertySelect.addEventListener(
         "change",
         async function () {
 
             const propertyId =
-                residentPropertySelect.value;
+                residentPropertySelect
+                    .value;
 
 
             await loadFloors(
@@ -969,20 +1472,237 @@ if (residentPropertySelect) {
 
 
 // ============================================================
+// RENDER RESIDENTS
+// ============================================================
+
+function renderResidents() {
+
+    if (
+        !residentList
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        !currentResidents ||
+        currentResidents.length ===
+        0
+    ) {
+
+        residentList.innerHTML = `
+
+            <p class="empty-state">
+                ${t(
+            "adminNoResidentsRegistered",
+            {},
+            "Ingen beboere er registrert ennå."
+        )}
+            </p>
+
+        `;
+
+
+        if (
+            residentSearchEmpty
+        ) {
+
+            residentSearchEmpty.hidden =
+                true;
+
+        }
+
+
+        return;
+
+    }
+
+
+    residentList.innerHTML =
+        currentResidents
+            .map(
+                function (
+                    resident
+                ) {
+
+                    const profile =
+                        resident.profiles;
+
+                    const property =
+                        resident.properties;
+
+                    const floor =
+                        resident.floors;
+
+
+                    const residentName =
+                        profile
+                            ? profile.full_name
+                            : t(
+                                "adminUnknownUser",
+                                {},
+                                "Ukjent bruker"
+                            );
+
+
+                    const residentEmail =
+                        profile
+                            ? profile.email
+                            : "";
+
+
+                    const propertyName =
+                        property
+                            ? property.name
+                            : t(
+                                "adminUnknownProperty",
+                                {},
+                                "Ukjent bolig"
+                            );
+
+
+                    const propertyAddress =
+                        property
+                            ? property.address
+                            : "";
+
+
+                    const floorName =
+                        floor
+                            ? (
+                                floor.name ||
+                                t(
+                                    "floorNumber",
+                                    {
+                                        floor:
+                                        floor.floor_number
+                                    },
+                                    floor.floor_number +
+                                    ". etasje"
+                                )
+                            )
+                            : t(
+                                "adminNoFloor",
+                                {},
+                                "Ingen etasje"
+                            );
+
+
+                    const searchText =
+                        (
+                            residentName +
+                            " " +
+                            residentEmail +
+                            " " +
+                            propertyName +
+                            " " +
+                            propertyAddress +
+                            " " +
+                            floorName
+                        )
+                            .trim()
+                            .toLocaleLowerCase(
+                                getCurrentLocale()
+                            );
+
+
+                    return `
+
+                        <div
+                            class="property-row admin-resident-row"
+                            data-search-text="${escapeHtml(
+                        searchText
+                    )}"
+                        >
+
+                            <div class="property-content">
+
+                                <h3>
+                                    👤 ${escapeHtml(
+                        residentName
+                    )}
+                                </h3>
+
+
+                                <p>
+                                    ${escapeHtml(
+                        residentEmail
+                    )}
+                                </p>
+
+
+                                <div class="property-meta">
+
+                                    <span>
+                                        🏠 ${escapeHtml(
+                        propertyName
+                    )}
+                                    </span>
+
+                                    <span>
+                                        ${escapeHtml(
+                        floorName
+                    )}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="property-actions">
+
+                                <span class="status-active">
+                                    ${t(
+                        "active",
+                        {},
+                        "Aktiv"
+                    )}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join(
+                ""
+            );
+
+
+    filterResidentList();
+
+}
+
+
+// ============================================================
 // LOAD RESIDENTS
 // ============================================================
 
 async function loadResidents() {
 
-    if (!residentList) {
+    if (
+        !residentList
+    ) {
+
         return;
+
     }
 
 
     residentList.innerHTML = `
 
         <p class="empty-state">
-            Laster beboere...
+            ${t(
+        "adminLoadingResidents",
+        {},
+        "Laster beboere..."
+    )}
         </p>
 
     `;
@@ -993,7 +1713,9 @@ async function loadResidents() {
         error
     } =
         await supabaseClient
-            .from("residents")
+            .from(
+                "residents"
+            )
             .select(`
                 id,
                 profile_id,
@@ -1024,12 +1746,15 @@ async function loadResidents() {
             .order(
                 "created_at",
                 {
-                    ascending: false
+                    ascending:
+                        false
                 }
             );
 
 
-    if (error) {
+    if (
+        error
+    ) {
 
         console.error(
             "LOAD RESIDENTS ERROR:",
@@ -1037,11 +1762,17 @@ async function loadResidents() {
         );
 
 
+        currentResidents =
+            [];
+
+
         activeResidentCount =
             0;
 
 
-        if (residentCountBadge) {
+        if (
+            residentCountBadge
+        ) {
 
             residentCountBadge.textContent =
                 "0";
@@ -1060,7 +1791,11 @@ async function loadResidents() {
         residentList.innerHTML = `
 
             <p class="message error">
-                Kunne ikke hente beboere.
+                ${t(
+            "adminCouldNotLoadResidents",
+            {},
+            "Kunne ikke hente beboere."
+        )}
             </p>
 
         `;
@@ -1071,15 +1806,17 @@ async function loadResidents() {
     }
 
 
-    const residents =
+    currentResidents =
         data || [];
 
 
     activeResidentCount =
-        residents.length;
+        currentResidents.length;
 
 
-    if (residentCountBadge) {
+    if (
+        residentCountBadge
+    ) {
 
         residentCountBadge.textContent =
             String(
@@ -1097,171 +1834,23 @@ async function loadResidents() {
     );
 
 
-    if (
-        residents.length === 0
-    ) {
-
-        residentList.innerHTML = `
-
-            <p class="empty-state">
-                Ingen beboere er registrert ennå.
-            </p>
-
-        `;
-
-
-        if (residentSearchEmpty) {
-
-            residentSearchEmpty.hidden =
-                true;
-
-        }
-
-
-        return;
-
-    }
-
-
-    residentList.innerHTML =
-        residents.map(
-            resident => {
-
-                const profile =
-                    resident.profiles;
-
-                const property =
-                    resident.properties;
-
-                const floor =
-                    resident.floors;
-
-
-                const residentName =
-                    profile
-                        ? profile.full_name
-                        : "Ukjent bruker";
-
-
-                const residentEmail =
-                    profile
-                        ? profile.email
-                        : "";
-
-
-                const propertyName =
-                    property
-                        ? property.name
-                        : "Ukjent bolig";
-
-
-                const propertyAddress =
-                    property
-                        ? property.address
-                        : "";
-
-
-                const floorName =
-                    floor
-                        ? (
-                            floor.name ||
-                            `${floor.floor_number}. etasje`
-                        )
-                        : "Ingen etasje";
-
-
-                const searchText =
-                    (
-                        residentName +
-                        " " +
-                        residentEmail +
-                        " " +
-                        propertyName +
-                        " " +
-                        propertyAddress +
-                        " " +
-                        floorName
-                    )
-                        .trim()
-                        .toLocaleLowerCase(
-                            "nb-NO"
-                        );
-
-
-                return `
-
-                    <div
-                        class="property-row admin-resident-row"
-                        data-search-text="${escapeHtml(
-                    searchText
-                )}"
-                    >
-
-                        <div class="property-content">
-
-                            <h3>
-                                👤 ${escapeHtml(
-                    residentName
-                )}
-                            </h3>
-
-
-                            <p>
-                                ${escapeHtml(
-                    residentEmail
-                )}
-                            </p>
-
-
-                            <div class="property-meta">
-
-                                <span>
-                                    🏠 ${escapeHtml(
-                    propertyName
-                )}
-                                </span>
-
-                                <span>
-                                    ${escapeHtml(
-                    floorName
-                )}
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="property-actions">
-
-                            <span class="status-active">
-                                Aktiv
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-            }
-        ).join("");
-
-
-    filterResidentList();
+    renderResidents();
 
 }
-
 
 // ============================================================
 // CREATE RESIDENT
 // ============================================================
 
-if (residentForm) {
+if (
+    residentForm
+) {
 
     residentForm.addEventListener(
         "submit",
-        async function (event) {
+        async function (
+            event
+        ) {
 
             event.preventDefault();
 
@@ -1282,6 +1871,10 @@ if (residentForm) {
                     : "";
 
 
+            // ========================================================
+            // VALIDATION
+            // ========================================================
+
             if (
                 !profileId ||
                 !propertyId ||
@@ -1289,7 +1882,11 @@ if (residentForm) {
             ) {
 
                 showResidentMessage(
-                    "Velg brukerprofil, bolig og etasje.",
+                    t(
+                        "adminSelectProfilePropertyFloor",
+                        {},
+                        "Velg brukerprofil, bolig og etasje."
+                    ),
                     "error"
                 );
 
@@ -1299,13 +1896,24 @@ if (residentForm) {
             }
 
 
-            if (saveResidentButton) {
+            // ========================================================
+            // DISABLE SAVE BUTTON
+            // ========================================================
+
+            if (
+                saveResidentButton
+            ) {
 
                 saveResidentButton.disabled =
                     true;
 
+
                 saveResidentButton.textContent =
-                    "Oppretter...";
+                    t(
+                        "adminCreatingResident",
+                        {},
+                        "Oppretter..."
+                    );
 
             }
 
@@ -1315,29 +1923,43 @@ if (residentForm) {
             );
 
 
+            // ========================================================
+            // INSERT
+            // ========================================================
+
             const {
                 error
             } =
                 await supabaseClient
-                    .from("residents")
-                    .insert({
+                    .from(
+                        "residents"
+                    )
+                    .insert(
+                        {
 
-                        profile_id:
-                        profileId,
+                            profile_id:
+                            profileId,
 
-                        property_id:
-                        propertyId,
+                            property_id:
+                            propertyId,
 
-                        floor_id:
-                        floorId,
+                            floor_id:
+                            floorId,
 
-                        is_active:
-                            true
+                            is_active:
+                                true
 
-                    });
+                        }
+                    );
 
 
-            if (error) {
+            // ========================================================
+            // ERROR
+            // ========================================================
+
+            if (
+                error
+            ) {
 
                 console.error(
                     "CREATE RESIDENT ERROR:",
@@ -1351,27 +1973,56 @@ if (residentForm) {
                 ) {
 
                     showResidentMessage(
-                        "Denne brukeren er allerede registrert.",
+                        t(
+                            "adminResidentAlreadyRegistered",
+                            {},
+                            "Denne brukeren er allerede registrert."
+                        ),
+                        "error"
+                    );
+
+                } else if (
+                    error.code ===
+                    "42501"
+                ) {
+
+                    showResidentMessage(
+                        t(
+                            "adminNoPermissionCreateResident",
+                            {},
+                            "Du har ikke tilgang til å opprette denne beboeren."
+                        ),
                         "error"
                     );
 
                 } else {
 
                     showResidentMessage(
-                        "Kunne ikke opprette beboer.",
+                        t(
+                            "adminCouldNotCreateResident",
+                            {},
+                            "Kunne ikke opprette beboer."
+                        ),
                         "error"
                     );
 
                 }
 
 
-                if (saveResidentButton) {
+                if (
+                    saveResidentButton
+                ) {
 
                     saveResidentButton.disabled =
                         false;
 
+
                     saveResidentButton.textContent =
-                        "Opprett beboer";
+                        t(
+                            "adminCreateResident",
+                            {},
+                            "Opprett beboer"
+                        );
 
                 }
 
@@ -1381,21 +2032,43 @@ if (residentForm) {
             }
 
 
+            // ========================================================
+            // SUCCESS
+            // ========================================================
+
             showResidentMessage(
-                "Beboeren ble opprettet.",
+                t(
+                    "adminResidentCreated",
+                    {},
+                    "Beboeren ble opprettet."
+                ),
                 "success"
             );
 
 
+            // ========================================================
+            // RESET FORM
+            // ========================================================
+
             residentForm.reset();
 
 
-            if (residentFloorSelect) {
+            currentPropertyFloors =
+                [];
+
+
+            if (
+                residentFloorSelect
+            ) {
 
                 residentFloorSelect.innerHTML = `
 
                     <option value="">
-                        Velg bolig først
+                        ${t(
+                    "adminSelectPropertyFirst",
+                    {},
+                    "Velg bolig først"
+                )}
                     </option>
 
                 `;
@@ -1407,31 +2080,38 @@ if (residentForm) {
             }
 
 
-            /*
-             * Reload list.
-             * This automatically updates:
-             * - resident count
-             * - toggle button count
-             * - search results
-             */
+            // ========================================================
+            // RELOAD RESIDENTS
+            // ========================================================
 
             await loadResidents();
 
 
-            /*
-             * Refresh available resident profiles too.
-             */
+            // ========================================================
+            // REFRESH AVAILABLE RESIDENT PROFILES
+            // ========================================================
 
             await loadUserProfiles();
 
 
-            if (saveResidentButton) {
+            // ========================================================
+            // ENABLE SAVE BUTTON
+            // ========================================================
+
+            if (
+                saveResidentButton
+            ) {
 
                 saveResidentButton.disabled =
                     false;
 
+
                 saveResidentButton.textContent =
-                    "Opprett beboer";
+                    t(
+                        "adminCreateResident",
+                        {},
+                        "Opprett beboer"
+                    );
 
             }
 
@@ -1456,12 +2136,215 @@ function escapeHtml(
 
 
     div.textContent =
-        value ?? "";
+        value ??
+        "";
 
 
     return div.innerHTML;
 
 }
+
+
+// ============================================================
+// REFRESH DYNAMIC TEXTS
+// ============================================================
+
+function refreshResidentPageLanguage() {
+
+    // --------------------------------------------------------
+    // TOGGLE BUTTON
+    // --------------------------------------------------------
+
+    updateResidentsToggleButton();
+
+
+    // --------------------------------------------------------
+    // SEARCH COUNT
+    // --------------------------------------------------------
+
+    if (
+        residentSearchInput &&
+        residentSearchInput.value.trim()
+    ) {
+
+        const visibleRows =
+            Array.from(
+                residentList
+                    ? residentList.querySelectorAll(
+                        ".admin-resident-row"
+                    )
+                    : []
+            )
+                .filter(
+                    function (
+                        row
+                    ) {
+
+                        return (
+                            !row.hidden
+                        );
+
+                    }
+                );
+
+
+        updateResidentSearchCount(
+            visibleRows.length
+        );
+
+    } else {
+
+        updateResidentSearchCount(
+            activeResidentCount
+        );
+
+    }
+
+
+    // --------------------------------------------------------
+    // USER PROFILE OPTIONS
+    // --------------------------------------------------------
+
+    if (
+        availableResidentProfiles.length >
+        0
+    ) {
+
+        const selectedProfileId =
+            residentProfileSelect
+                ? residentProfileSelect.value
+                : "";
+
+
+        renderUserProfiles();
+
+
+        if (
+            residentProfileSelect &&
+            selectedProfileId
+        ) {
+
+            residentProfileSelect.value =
+                selectedProfileId;
+
+        }
+
+    }
+
+
+    // --------------------------------------------------------
+    // PROPERTY OPTIONS
+    // --------------------------------------------------------
+
+    if (
+        availableProperties.length >
+        0
+    ) {
+
+        const selectedPropertyId =
+            residentPropertySelect
+                ? residentPropertySelect.value
+                : "";
+
+
+        renderProperties();
+
+
+        if (
+            residentPropertySelect &&
+            selectedPropertyId
+        ) {
+
+            residentPropertySelect.value =
+                selectedPropertyId;
+
+        }
+
+    }
+
+
+    // --------------------------------------------------------
+    // FLOOR OPTIONS
+    // --------------------------------------------------------
+
+    if (
+        residentPropertySelect &&
+        residentPropertySelect.value
+    ) {
+
+        const selectedFloorId =
+            residentFloorSelect
+                ? residentFloorSelect.value
+                : "";
+
+
+        renderFloorOptions();
+
+
+        if (
+            residentFloorSelect &&
+            selectedFloorId
+        ) {
+
+            residentFloorSelect.value =
+                selectedFloorId;
+
+        }
+
+    } else {
+
+        renderFloorOptions();
+
+    }
+
+
+    // --------------------------------------------------------
+    // RESIDENT LIST
+    // --------------------------------------------------------
+
+    renderResidents();
+
+
+    // --------------------------------------------------------
+    // SAVE BUTTON
+    // --------------------------------------------------------
+
+    if (
+        saveResidentButton &&
+        !saveResidentButton.disabled
+    ) {
+
+        saveResidentButton.textContent =
+            t(
+                "adminCreateResident",
+                {},
+                "Opprett beboer"
+            );
+
+    }
+
+
+    // --------------------------------------------------------
+    // REFILTER
+    // --------------------------------------------------------
+
+    filterResidentList();
+
+}
+
+
+// ============================================================
+// LANGUAGE CHANGE
+// ============================================================
+
+window.addEventListener(
+    "cleanplan:languagechange",
+    function () {
+
+        refreshResidentPageLanguage();
+
+    }
+);
 
 
 // ============================================================
@@ -1474,33 +2357,44 @@ async function initResidentsPage() {
         await checkAdmin();
 
 
-    if (!result) {
+    if (
+        !result
+    ) {
 
         return;
 
     }
 
 
-    /*
-     * Keep registered residents collapsed
-     * when the page first opens.
-     */
+    // ========================================================
+    // KEEP REGISTERED RESIDENTS COLLAPSED
+    // ========================================================
 
     setResidentListOpen(
         false
     );
 
 
-    await Promise.all([
+    // ========================================================
+    // LOAD PAGE DATA
+    // ========================================================
 
-        loadUserProfiles(),
+    await Promise.all(
+        [
 
-        loadProperties(),
+            loadUserProfiles(),
 
-        loadResidents()
+            loadProperties(),
 
-    ]);
+            loadResidents()
 
+        ]
+    );
+
+
+    // ========================================================
+    // FINAL UI UPDATE
+    // ========================================================
 
     updateResidentsToggleButton();
 
@@ -1510,4 +2404,10 @@ async function initResidentsPage() {
 }
 
 
+// ============================================================
+// INITIALIZE PAGE
+// ============================================================
+
 initResidentsPage();
+
+

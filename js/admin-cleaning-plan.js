@@ -1,5 +1,5 @@
 // ============================================================
-// CLEANING APP
+// CLEANPLAN
 // ADMIN CLEANING PLAN
 // ============================================================
 
@@ -21,6 +21,16 @@ const backButton =
 const adminName =
     document.getElementById(
         "adminName"
+    );
+
+const adminRole =
+    document.getElementById(
+        "adminRole"
+    );
+
+const adminInitial =
+    document.getElementById(
+        "adminInitial"
     );
 
 const propertySelect =
@@ -139,16 +149,111 @@ let isSavingTaskOrder =
 
 
 // ============================================================
+// I18N HELPER
+// ============================================================
+
+function t(
+    key,
+    params = {},
+    fallback = ""
+) {
+
+    if (
+        window.CleanPlanI18n &&
+        typeof window.CleanPlanI18n.t ===
+        "function"
+    ) {
+
+        const translated =
+            window.CleanPlanI18n.t(
+                key,
+                params
+            );
+
+
+        if (
+            translated &&
+            translated !==
+            key
+        ) {
+
+            return translated;
+
+        }
+
+    }
+
+
+    let text =
+        fallback ||
+        key;
+
+
+    Object.entries(
+        params
+    ).forEach(
+        function (
+            [paramKey, value]
+        ) {
+
+            text =
+                text.replaceAll(
+                    "{" +
+                    paramKey +
+                    "}",
+                    String(value)
+                );
+
+        }
+    );
+
+
+    return text;
+
+}
+
+
+// ============================================================
+// CURRENT LANGUAGE
+// ============================================================
+
+function getCurrentLanguageCode() {
+
+    if (
+        window.CleanPlanI18n &&
+        typeof window.CleanPlanI18n.getLanguage ===
+        "function"
+    ) {
+
+        return (
+            window.CleanPlanI18n.getLanguage() ||
+            "no"
+        );
+
+    }
+
+
+    return "no";
+
+}
+
+
+// ============================================================
 // LOGOUT
 // ============================================================
 
-if (logoutButton) {
+if (
+    logoutButton
+) {
 
     logoutButton.addEventListener(
         "click",
         async function () {
 
-            await supabaseClient.auth.signOut();
+            await supabaseClient
+                .auth
+                .signOut();
+
 
             window.location.href =
                 "index.html";
@@ -163,7 +268,9 @@ if (logoutButton) {
 // BACK
 // ============================================================
 
-if (backButton) {
+if (
+    backButton
+) {
 
     backButton.addEventListener(
         "click",
@@ -187,7 +294,9 @@ function showTaskMessage(
     type = ""
 ) {
 
-    if (!taskMessage) {
+    if (
+        !taskMessage
+    ) {
 
         return;
 
@@ -199,7 +308,8 @@ function showTaskMessage(
 
 
     taskMessage.className =
-        "message " + type;
+        "message " +
+        type;
 
 }
 
@@ -216,7 +326,9 @@ async function checkAdminAccess() {
         },
         error: sessionError
     } =
-        await supabaseClient.auth.getSession();
+        await supabaseClient
+            .auth
+            .getSession();
 
 
     if (
@@ -256,11 +368,14 @@ async function checkAdminAccess() {
     ) {
 
         console.error(
+            "PROFILE ERROR:",
             profileError
         );
 
 
-        await supabaseClient.auth.signOut();
+        await supabaseClient
+            .auth
+            .signOut();
 
 
         window.location.href =
@@ -282,7 +397,9 @@ async function checkAdminAccess() {
         )
     ) {
 
-        await supabaseClient.auth.signOut();
+        await supabaseClient
+            .auth
+            .signOut();
 
 
         window.location.href =
@@ -298,10 +415,59 @@ async function checkAdminAccess() {
         profile;
 
 
-    if (adminName) {
+    // ========================================================
+    // ADMIN NAME
+    // ========================================================
+
+    if (
+        adminName
+    ) {
 
         adminName.textContent =
-            profile.full_name;
+            profile.full_name ||
+            "Administrator";
+
+    }
+
+
+    // ========================================================
+    // ADMIN ROLE
+    // ========================================================
+
+    if (
+        adminRole
+    ) {
+
+        adminRole.textContent =
+            profile.role ===
+            "superadmin"
+                ? "Superadmin"
+                : "Admin";
+
+    }
+
+
+    // ========================================================
+    // ADMIN INITIAL
+    // ========================================================
+
+    if (
+        adminInitial
+    ) {
+
+        const initialSource =
+            profile.full_name ||
+            profile.email ||
+            "A";
+
+
+        adminInitial.textContent =
+            initialSource
+                .trim()
+                .charAt(
+                    0
+                )
+                .toUpperCase();
 
     }
 
@@ -312,78 +478,39 @@ async function checkAdminAccess() {
 
 
 // ============================================================
-// LOAD PROPERTIES
-// ============================================================
-
-async function loadProperties() {
-
-    const {
-        data,
-        error
-    } =
-        await supabaseClient
-            .from(
-                "properties"
-            )
-            .select(
-                "id, name, address, is_active"
-            )
-            .eq(
-                "is_active",
-                true
-            )
-            .order(
-                "name",
-                {
-                    ascending: true
-                }
-            );
-
-
-    if (error) {
-
-        console.error(
-            "LOAD PROPERTIES ERROR:",
-            error
-        );
-
-        return;
-
-    }
-
-
-    properties =
-        data || [];
-
-
-    renderProperties();
-
-}
-
-
-// ============================================================
 // RENDER PROPERTIES
 // ============================================================
 
 function renderProperties() {
 
-    if (!propertySelect) {
+    if (
+        !propertySelect
+    ) {
 
         return;
 
     }
 
 
-    propertySelect.innerHTML =
-        `
-            <option value="">
-                Velg bolig
-            </option>
-        `;
+    const selectedPropertyId =
+        propertySelect.value;
+
+
+    propertySelect.innerHTML = `
+        <option value="">
+            ${t(
+        "adminSelectProperty",
+        {},
+        "Velg bolig"
+    )}
+        </option>
+    `;
 
 
     properties.forEach(
-        function (property) {
+        function (
+            property
+        ) {
 
             const option =
                 document.createElement(
@@ -406,6 +533,215 @@ function renderProperties() {
         }
     );
 
+
+    if (
+        selectedPropertyId &&
+        properties.some(
+            function (
+                property
+            ) {
+
+                return (
+                    property.id ===
+                    selectedPropertyId
+                );
+
+            }
+        )
+    ) {
+
+        propertySelect.value =
+            selectedPropertyId;
+
+    }
+
+}
+
+
+// ============================================================
+// LOAD PROPERTIES
+// ============================================================
+
+async function loadProperties() {
+
+    if (
+        propertySelect
+    ) {
+
+        propertySelect.innerHTML = `
+            <option value="">
+                ${t(
+            "adminLoadingProperties",
+            {},
+            "Laster boliger..."
+        )}
+            </option>
+        `;
+
+    }
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from(
+                "properties"
+            )
+            .select(
+                "id, name, address, is_active"
+            )
+            .eq(
+                "is_active",
+                true
+            )
+            .order(
+                "name",
+                {
+                    ascending:
+                        true
+                }
+            );
+
+
+    if (
+        error
+    ) {
+
+        console.error(
+            "LOAD PROPERTIES ERROR:",
+            error
+        );
+
+
+        properties =
+            [];
+
+
+        if (
+            propertySelect
+        ) {
+
+            propertySelect.innerHTML = `
+                <option value="">
+                    ${t(
+                "adminCouldNotLoadProperties",
+                {},
+                "Kunne ikke hente boliger"
+            )}
+                </option>
+            `;
+
+        }
+
+
+        return;
+
+    }
+
+
+    properties =
+        data || [];
+
+
+    renderProperties();
+
+}
+
+
+// ============================================================
+// RENDER FLOORS
+// ============================================================
+
+function renderFloors() {
+
+    if (
+        !floorSelect
+    ) {
+
+        return;
+
+    }
+
+
+    const selectedFloorId =
+        floorSelect.value;
+
+
+    floorSelect.innerHTML = `
+        <option value="">
+            ${t(
+        "adminSelectFloor",
+        {},
+        "Velg etasje"
+    )}
+        </option>
+    `;
+
+
+    floors.forEach(
+        function (
+            floor
+        ) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                floor.id;
+
+
+            option.textContent =
+                floor.name ||
+                t(
+                    "adminFloorNumberDisplay",
+                    {
+                        floor:
+                        floor.floor_number
+                    },
+                    "Etasje " +
+                    floor.floor_number
+                );
+
+
+            floorSelect.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    floorSelect.disabled =
+        floors.length ===
+        0;
+
+
+    if (
+        selectedFloorId &&
+        floors.some(
+            function (
+                floor
+            ) {
+
+                return (
+                    floor.id ===
+                    selectedFloorId
+                );
+
+            }
+        )
+    ) {
+
+        floorSelect.value =
+            selectedFloorId;
+
+    }
+
 }
 
 
@@ -427,14 +763,19 @@ async function loadFloors(
         [];
 
 
-    if (floorSelect) {
+    if (
+        floorSelect
+    ) {
 
-        floorSelect.innerHTML =
-            `
-                <option value="">
-                    Velg etasje
-                </option>
-            `;
+        floorSelect.innerHTML = `
+            <option value="">
+                ${t(
+            "adminSelectFloor",
+            {},
+            "Velg etasje"
+        )}
+            </option>
+        `;
 
 
         floorSelect.disabled =
@@ -443,7 +784,9 @@ async function loadFloors(
     }
 
 
-    if (taskManagementSection) {
+    if (
+        taskManagementSection
+    ) {
 
         taskManagementSection.hidden =
             true;
@@ -451,9 +794,28 @@ async function loadFloors(
     }
 
 
-    if (!propertyId) {
+    if (
+        !propertyId
+    ) {
 
         return;
+
+    }
+
+
+    if (
+        floorSelect
+    ) {
+
+        floorSelect.innerHTML = `
+            <option value="">
+                ${t(
+            "adminLoadingFloors",
+            {},
+            "Laster etasjer..."
+        )}
+            </option>
+        `;
 
     }
 
@@ -476,17 +838,38 @@ async function loadFloors(
             .order(
                 "floor_number",
                 {
-                    ascending: true
+                    ascending:
+                        true
                 }
             );
 
 
-    if (error) {
+    if (
+        error
+    ) {
 
         console.error(
             "LOAD FLOORS ERROR:",
             error
         );
+
+
+        if (
+            floorSelect
+        ) {
+
+            floorSelect.innerHTML = `
+                <option value="">
+                    ${t(
+                "adminCouldNotLoadFloors",
+                {},
+                "Kunne ikke hente etasjer"
+            )}
+                </option>
+            `;
+
+        }
+
 
         return;
 
@@ -497,34 +880,7 @@ async function loadFloors(
         data || [];
 
 
-    floors.forEach(
-        function (floor) {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-
-            option.value =
-                floor.id;
-
-
-            option.textContent =
-                floor.name ||
-                floor.floor_number;
-
-
-            floorSelect.appendChild(
-                option
-            );
-
-        }
-    );
-
-
-    floorSelect.disabled =
-        false;
+    renderFloors();
 
 }
 
@@ -535,8 +891,19 @@ async function loadFloors(
 
 function getSelectedProperty() {
 
+    if (
+        !propertySelect
+    ) {
+
+        return null;
+
+    }
+
+
     return properties.find(
-        function (property) {
+        function (
+            property
+        ) {
 
             return (
                 property.id ===
@@ -544,7 +911,7 @@ function getSelectedProperty() {
             );
 
         }
-    );
+    ) || null;
 
 }
 
@@ -555,8 +922,19 @@ function getSelectedProperty() {
 
 function getSelectedFloor() {
 
+    if (
+        !floorSelect
+    ) {
+
+        return null;
+
+    }
+
+
     return floors.find(
-        function (floor) {
+        function (
+            floor
+        ) {
 
             return (
                 floor.id ===
@@ -564,7 +942,63 @@ function getSelectedFloor() {
             );
 
         }
-    );
+    ) || null;
+
+}
+
+
+// ============================================================
+// UPDATE SELECTED LOCATION TEXT
+// ============================================================
+
+function updateSelectedLocationText() {
+
+    if (
+        !selectedLocationText
+    ) {
+
+        return;
+
+    }
+
+
+    const property =
+        getSelectedProperty();
+
+    const floor =
+        getSelectedFloor();
+
+
+    if (
+        !property ||
+        !floor
+    ) {
+
+        selectedLocationText.textContent =
+            "-";
+
+        return;
+
+    }
+
+
+    const floorLabel =
+        floor.name ||
+        t(
+            "adminFloorNumberDisplay",
+            {
+                floor:
+                floor.floor_number
+            },
+            "Etasje " +
+            floor.floor_number
+        );
+
+
+    selectedLocationText.textContent =
+        property.name +
+        " • " +
+        floorLabel;
 
 }
 
@@ -611,7 +1045,8 @@ function getCurrentWeekFriday() {
 
     const month =
         String(
-            date.getMonth() + 1
+            date.getMonth() +
+            1
         ).padStart(
             2,
             "0"
@@ -687,7 +1122,9 @@ async function getOrCreatePlan() {
             .maybeSingle();
 
 
-    if (planError) {
+    if (
+        planError
+    ) {
 
         console.error(
             "LOAD PLAN ERROR:",
@@ -696,7 +1133,11 @@ async function getOrCreatePlan() {
 
 
         showTaskMessage(
-            "Kunne ikke hente rengjøringsplanen.",
+            t(
+                "adminCouldNotLoadCleaningPlan",
+                {},
+                "Kunne ikke hente rengjøringsplanen."
+            ),
             "error"
         );
 
@@ -706,7 +1147,9 @@ async function getOrCreatePlan() {
     }
 
 
-    if (existingPlan) {
+    if (
+        existingPlan
+    ) {
 
         currentPlan =
             existingPlan;
@@ -723,7 +1166,15 @@ async function getOrCreatePlan() {
 
     const floorLabel =
         floor.name ||
-        floor.floor_number;
+        t(
+            "adminFloorNumberDisplay",
+            {
+                floor:
+                floor.floor_number
+            },
+            "Etasje " +
+            floor.floor_number
+        );
 
 
     const {
@@ -734,33 +1185,37 @@ async function getOrCreatePlan() {
             .from(
                 "cleaning_plans"
             )
-            .insert({
+            .insert(
+                {
 
-                property_id:
-                property.id,
+                    property_id:
+                    property.id,
 
-                floor_id:
-                floor.id,
+                    floor_id:
+                    floor.id,
 
-                name:
-                    property.name +
-                    " - " +
-                    floorLabel,
+                    name:
+                        property.name +
+                        " - " +
+                        floorLabel,
 
-                start_date:
-                    getCurrentWeekFriday(),
+                    start_date:
+                        getCurrentWeekFriday(),
 
-                is_active:
-                    true
+                    is_active:
+                        true
 
-            })
+                }
+            )
             .select(
                 "id, property_id, floor_id, name, start_date, is_active"
             )
             .single();
 
 
-    if (createError) {
+    if (
+        createError
+    ) {
 
         console.error(
             "CREATE PLAN ERROR:",
@@ -769,7 +1224,11 @@ async function getOrCreatePlan() {
 
 
         showTaskMessage(
-            "Kunne ikke opprette rengjøringsplanen.",
+            t(
+                "adminCouldNotCreateCleaningPlan",
+                {},
+                "Kunne ikke opprette rengjøringsplanen."
+            ),
             "error"
         );
 
@@ -809,6 +1268,7 @@ async function loadCurrentPlan() {
         currentPlan =
             null;
 
+
         return;
 
     }
@@ -836,7 +1296,9 @@ async function loadCurrentPlan() {
             .maybeSingle();
 
 
-    if (error) {
+    if (
+        error
+    ) {
 
         console.error(
             "LOAD CURRENT PLAN ERROR:",
@@ -854,7 +1316,8 @@ async function loadCurrentPlan() {
 
 
     currentPlan =
-        data || null;
+        data ||
+        null;
 
 }
 
@@ -872,7 +1335,9 @@ async function loadTasks() {
     await loadCurrentPlan();
 
 
-    if (!currentPlan) {
+    if (
+        !currentPlan
+    ) {
 
         renderTasks();
 
@@ -912,12 +1377,15 @@ async function loadTasks() {
             .order(
                 "sort_order",
                 {
-                    ascending: true
+                    ascending:
+                        true
                 }
             );
 
 
-    if (error) {
+    if (
+        error
+    ) {
 
         console.error(
             "LOAD TASKS ERROR:",
@@ -926,7 +1394,11 @@ async function loadTasks() {
 
 
         showTaskMessage(
-            "Kunne ikke hente oppgavene.",
+            t(
+                "adminCouldNotLoadTasks",
+                {},
+                "Kunne ikke hente oppgavene."
+            ),
             "error"
         );
 
@@ -939,11 +1411,14 @@ async function loadTasks() {
     currentTasks =
         (data || [])
             .filter(
-                function (item) {
+                function (
+                    item
+                ) {
 
                     return (
                         item.cleaning_tasks &&
-                        item.cleaning_tasks.is_active
+                        item.cleaning_tasks
+                            .is_active
                     );
 
                 }
@@ -954,14 +1429,15 @@ async function loadTasks() {
 
 }
 
-
 // ============================================================
 // RENDER TASKS
 // ============================================================
 
 function renderTasks() {
 
-    if (!taskList) {
+    if (
+        !taskList
+    ) {
 
         return;
 
@@ -972,10 +1448,14 @@ function renderTasks() {
         "";
 
 
-    if (taskCount) {
+    if (
+        taskCount
+    ) {
 
         taskCount.textContent =
-            currentTasks.length;
+            String(
+                currentTasks.length
+            );
 
     }
 
@@ -989,7 +1469,9 @@ function renderTasks() {
         0
     ) {
 
-        if (taskEmptyState) {
+        if (
+            taskEmptyState
+        ) {
 
             taskEmptyState.hidden =
                 false;
@@ -997,7 +1479,9 @@ function renderTasks() {
         }
 
 
-        if (taskTableWrapper) {
+        if (
+            taskTableWrapper
+        ) {
 
             taskTableWrapper.hidden =
                 true;
@@ -1006,6 +1490,7 @@ function renderTasks() {
 
 
         updateNextOrder();
+
 
         return;
 
@@ -1016,7 +1501,9 @@ function renderTasks() {
     // TASKS FOUND
     // ========================================================
 
-    if (taskEmptyState) {
+    if (
+        taskEmptyState
+    ) {
 
         taskEmptyState.hidden =
             true;
@@ -1024,7 +1511,9 @@ function renderTasks() {
     }
 
 
-    if (taskTableWrapper) {
+    if (
+        taskTableWrapper
+    ) {
 
         taskTableWrapper.hidden =
             false;
@@ -1037,7 +1526,10 @@ function renderTasks() {
     // ========================================================
 
     currentTasks.sort(
-        function (a, b) {
+        function (
+            a,
+            b
+        ) {
 
             return (
                 a.sort_order -
@@ -1062,7 +1554,9 @@ function renderTasks() {
                 item.cleaning_tasks;
 
 
-            if (!task) {
+            if (
+                !task
+            ) {
 
                 return;
 
@@ -1116,21 +1610,22 @@ function renderTasks() {
 
 
             dragHandle.title =
-                "Dra for å endre rekkefølgen";
+                t(
+                    "adminDragToReorder",
+                    {},
+                    "Dra for å endre rekkefølgen"
+                );
 
 
             dragHandle.setAttribute(
                 "aria-label",
-                "Dra oppgaven for å endre rekkefølgen"
+                t(
+                    "adminDragTaskAria",
+                    {},
+                    "Dra oppgaven for å endre rekkefølgen"
+                )
             );
 
-
-            /*
-                Håndtaket starter drag-operasjonen.
-
-                Selve raden flyttes i tabellen.
-                Hele raden brukes også som drag-bilde.
-            */
 
             dragHandle.draggable =
                 true;
@@ -1142,9 +1637,13 @@ function renderTasks() {
 
             dragHandle.addEventListener(
                 "dragstart",
-                function (event) {
+                function (
+                    event
+                ) {
 
-                    if (isSavingTaskOrder) {
+                    if (
+                        isSavingTaskOrder
+                    ) {
 
                         event.preventDefault();
 
@@ -1162,39 +1661,42 @@ function renderTasks() {
                     );
 
 
-                    if (event.dataTransfer) {
+                    if (
+                        event.dataTransfer
+                    ) {
 
-                        event.dataTransfer.effectAllowed =
+                        event.dataTransfer
+                            .effectAllowed =
                             "move";
 
 
-                        event.dataTransfer.setData(
-                            "text/plain",
-                            item.id
-                        );
+                        event.dataTransfer
+                            .setData(
+                                "text/plain",
+                                item.id
+                            );
 
-
-                        /*
-                            Selv om drag starter fra ⋮⋮,
-                            skal hele raden vises mens vi drar.
-                        */
 
                         try {
 
-                            event.dataTransfer.setDragImage(
-                                row,
-                                30,
-                                Math.max(
-                                    1,
-                                    row.offsetHeight / 2
-                                )
-                            );
+                            event.dataTransfer
+                                .setDragImage(
+                                    row,
+                                    30,
+                                    Math.max(
+                                        1,
+                                        row.offsetHeight /
+                                        2
+                                    )
+                                );
 
                         }
-                        catch (error) {
+                        catch (
+                            error
+                            ) {
 
                             console.warn(
-                                "Kunne ikke sette drag-bilde:",
+                                "Could not set drag image:",
                                 error
                             );
 
@@ -1221,13 +1723,6 @@ function renderTasks() {
 
                     clearDragOverStates();
 
-
-                    /*
-                        Raden har allerede blitt flyttet i DOM-en
-                        av dragover.
-
-                        Nå lagrer vi den faktiske rekkefølgen.
-                    */
 
                     await saveTaskOrderFromTable();
 
@@ -1260,7 +1755,10 @@ function renderTasks() {
 
 
             orderCell.textContent =
-                index + 1;
+                String(
+                    index +
+                    1
+                );
 
 
             row.appendChild(
@@ -1297,7 +1795,9 @@ function renderTasks() {
             );
 
 
-            if (task.description) {
+            if (
+                task.description
+            ) {
 
                 const description =
                     document.createElement(
@@ -1368,7 +1868,12 @@ function renderTasks() {
 
 
             editButton.textContent =
-                "✏️ Rediger";
+                "✏️ " +
+                t(
+                    "adminEdit",
+                    {},
+                    "Rediger"
+                );
 
 
             editButton.addEventListener(
@@ -1402,7 +1907,12 @@ function renderTasks() {
 
 
             deleteButton.textContent =
-                "🗑 Slett";
+                "🗑 " +
+                t(
+                    "adminDelete",
+                    {},
+                    "Slett"
+                );
 
 
             deleteButton.addEventListener(
@@ -1443,7 +1953,9 @@ function renderTasks() {
 
             row.addEventListener(
                 "dragover",
-                function (event) {
+                function (
+                    event
+                ) {
 
                     if (
                         !draggedTaskId ||
@@ -1457,17 +1969,15 @@ function renderTasks() {
                     }
 
 
-                    /*
-                        preventDefault() er nødvendig for at
-                        nettleseren skal tillate dropping her.
-                    */
-
                     event.preventDefault();
 
 
-                    if (event.dataTransfer) {
+                    if (
+                        event.dataTransfer
+                    ) {
 
-                        event.dataTransfer.dropEffect =
+                        event.dataTransfer
+                            .dropEffect =
                             "move";
 
                     }
@@ -1480,15 +1990,20 @@ function renderTasks() {
                     const draggedRow =
                         Array
                             .from(
-                                taskList.querySelectorAll(
-                                    ".admin-cleaning-sortable-row"
-                                )
+                                taskList
+                                    .querySelectorAll(
+                                        ".admin-cleaning-sortable-row"
+                                    )
                             )
                             .find(
-                                function (currentRow) {
+                                function (
+                                    currentRow
+                                ) {
 
                                     return (
-                                        currentRow.dataset.itemId ===
+                                        currentRow
+                                            .dataset
+                                            .itemId ===
                                         draggedTaskId
                                     );
 
@@ -1496,7 +2011,9 @@ function renderTasks() {
                             );
 
 
-                    if (!draggedRow) {
+                    if (
+                        !draggedRow
+                    ) {
 
                         return;
 
@@ -1560,13 +2077,6 @@ function renderTasks() {
                     }
 
 
-                    /*
-                        Oppdater tallene med én gang.
-
-                        Hvis oppgave 9 flyttes til plass 2,
-                        skal skjermen vise 1,2,3... direkte.
-                    */
-
                     updateVisibleTaskNumbers();
 
                 }
@@ -1579,14 +2089,9 @@ function renderTasks() {
 
             row.addEventListener(
                 "drop",
-                function (event) {
-
-                    /*
-                        Ikke lagre her.
-
-                        dragend lagrer rekkefølgen én gang
-                        når brukeren slipper oppgaven.
-                    */
+                function (
+                    event
+                ) {
 
                     event.preventDefault();
 
@@ -1617,7 +2122,9 @@ function renderTasks() {
 
 function updateVisibleTaskNumbers() {
 
-    if (!taskList) {
+    if (
+        !taskList
+    ) {
 
         return;
 
@@ -1642,10 +2149,15 @@ function updateVisibleTaskNumbers() {
                 );
 
 
-            if (numberCell) {
+            if (
+                numberCell
+            ) {
 
                 numberCell.textContent =
-                    index + 1;
+                    String(
+                        index +
+                        1
+                    );
 
             }
 
@@ -1661,7 +2173,9 @@ function updateVisibleTaskNumbers() {
 
 function clearDragOverStates() {
 
-    if (!taskList) {
+    if (
+        !taskList
+    ) {
 
         return;
 
@@ -1673,7 +2187,9 @@ function clearDragOverStates() {
             ".admin-cleaning-sortable-row"
         )
         .forEach(
-            function (row) {
+            function (
+                row
+            ) {
 
                 row.classList.remove(
                     "drag-over-top",
@@ -1718,6 +2234,7 @@ async function saveTaskOrderFromTable() {
         draggedTaskId =
             null;
 
+
         return;
 
     }
@@ -1738,12 +2255,16 @@ async function saveTaskOrderFromTable() {
     ) {
 
         const itemId =
-            rows[index].dataset.itemId;
+            rows[index]
+                .dataset
+                .itemId;
 
 
         const item =
             currentTasks.find(
-                function (currentItem) {
+                function (
+                    currentItem
+                ) {
 
                     return (
                         currentItem.id ===
@@ -1754,21 +2275,26 @@ async function saveTaskOrderFromTable() {
             );
 
 
-        if (!item) {
+        if (
+            !item
+        ) {
 
             continue;
 
         }
 
 
-        orderedItems.push({
+        orderedItems.push(
+            {
 
-            ...item,
+                ...item,
 
-            sort_order:
-                index + 1
+                sort_order:
+                    index +
+                    1
 
-        });
+            }
+        );
 
     }
 
@@ -1779,7 +2305,7 @@ async function saveTaskOrderFromTable() {
     ) {
 
         console.error(
-            "TASK ORDER ERROR: Kunne ikke finne alle oppgavene."
+            "TASK ORDER ERROR: Could not find all tasks."
         );
 
 
@@ -1802,7 +2328,10 @@ async function saveTaskOrderFromTable() {
     const oldOrder =
         [...currentTasks]
             .sort(
-                function (a, b) {
+                function (
+                    a,
+                    b
+                ) {
 
                     return (
                         a.sort_order -
@@ -1812,7 +2341,9 @@ async function saveTaskOrderFromTable() {
                 }
             )
             .map(
-                function (item) {
+                function (
+                    item
+                ) {
 
                     return item.id;
 
@@ -1822,7 +2353,9 @@ async function saveTaskOrderFromTable() {
 
     const newOrder =
         orderedItems.map(
-            function (item) {
+            function (
+                item
+            ) {
 
                 return item.id;
 
@@ -1850,7 +2383,9 @@ async function saveTaskOrderFromTable() {
         null;
 
 
-    if (!changed) {
+    if (
+        !changed
+    ) {
 
         updateVisibleTaskNumbers();
 
@@ -1868,7 +2403,11 @@ async function saveTaskOrderFromTable() {
 
 
     showTaskMessage(
-        "Lagrer ny rekkefølge...",
+        t(
+            "adminSavingNewOrder",
+            {},
+            "Lagrer ny rekkefølge..."
+        ),
         "info"
     );
 
@@ -1883,10 +2422,16 @@ async function saveTaskOrderFromTable() {
         false;
 
 
-    if (!saved) {
+    if (
+        !saved
+    ) {
 
         showTaskMessage(
-            "Kunne ikke lagre den nye rekkefølgen.",
+            t(
+                "adminCouldNotSaveNewOrder",
+                {},
+                "Kunne ikke lagre den nye rekkefølgen."
+            ),
             "error"
         );
 
@@ -1904,7 +2449,11 @@ async function saveTaskOrderFromTable() {
 
 
     showTaskMessage(
-        "Rekkefølgen ble lagret.",
+        t(
+            "adminOrderSaved",
+            {},
+            "Rekkefølgen ble lagret."
+        ),
         "success"
     );
 
@@ -1939,8 +2488,6 @@ async function saveDraggedTaskOrder(
     //
     // cleaning_plan_items has unique:
     // plan_id + sort_order
-    //
-    // Therefore all rows are moved temporarily first.
     // ========================================================
 
     for (
@@ -1965,19 +2512,23 @@ async function saveDraggedTaskOrder(
                 .from(
                     "cleaning_plan_items"
                 )
-                .update({
+                .update(
+                    {
 
-                    sort_order:
-                    temporaryOrder
+                        sort_order:
+                        temporaryOrder
 
-                })
+                    }
+                )
                 .eq(
                     "id",
                     item.id
                 );
 
 
-        if (error) {
+        if (
+            error
+        ) {
 
             console.error(
                 "TEMPORARY TASK ORDER ERROR:",
@@ -2008,7 +2559,8 @@ async function saveDraggedTaskOrder(
 
 
         const newOrder =
-            index + 1;
+            index +
+            1;
 
 
         const {
@@ -2018,19 +2570,23 @@ async function saveDraggedTaskOrder(
                 .from(
                     "cleaning_plan_items"
                 )
-                .update({
+                .update(
+                    {
 
-                    sort_order:
-                    newOrder
+                        sort_order:
+                        newOrder
 
-                })
+                    }
+                )
                 .eq(
                     "id",
                     item.id
                 );
 
 
-        if (error) {
+        if (
+            error
+        ) {
 
             console.error(
                 "SAVE TASK ORDER ERROR:",
@@ -2061,7 +2617,8 @@ async function saveDraggedTaskOrder(
 
 
         const newOrder =
-            index + 1;
+            index +
+            1;
 
 
         const {
@@ -2071,23 +2628,27 @@ async function saveDraggedTaskOrder(
                 .from(
                     "cleaning_tasks"
                 )
-                .update({
+                .update(
+                    {
 
-                    sort_order:
-                    newOrder,
+                        sort_order:
+                        newOrder,
 
-                    updated_at:
-                        new Date()
-                            .toISOString()
+                        updated_at:
+                            new Date()
+                                .toISOString()
 
-                })
+                    }
+                )
                 .eq(
                     "id",
                     item.task_id
                 );
 
 
-        if (error) {
+        if (
+            error
+        ) {
 
             console.error(
                 "SAVE CLEANING TASK ORDER ERROR:",
@@ -2131,6 +2692,7 @@ function updateNextOrder() {
         taskOrder.value =
             1;
 
+
         return;
 
     }
@@ -2139,7 +2701,9 @@ function updateNextOrder() {
     const largestOrder =
         Math.max(
             ...currentTasks.map(
-                function (item) {
+                function (
+                    item
+                ) {
 
                     return item.sort_order;
 
@@ -2149,10 +2713,10 @@ function updateNextOrder() {
 
 
     taskOrder.value =
-        largestOrder + 1;
+        largestOrder +
+        1;
 
 }
-
 
 // ============================================================
 // RESET FORM
@@ -2164,30 +2728,47 @@ function resetTaskForm() {
         null;
 
 
-    if (taskForm) {
+    if (
+        taskForm
+    ) {
 
         taskForm.reset();
 
     }
 
 
-    if (taskFormTitle) {
+    if (
+        taskFormTitle
+    ) {
 
         taskFormTitle.textContent =
-            "Legg til ny oppgave";
+            t(
+                "adminAddNewCleaningTask",
+                {},
+                "Legg til ny oppgave"
+            );
 
     }
 
 
-    if (saveTaskButton) {
+    if (
+        saveTaskButton
+    ) {
 
         saveTaskButton.textContent =
-            "+ Legg til oppgave";
+            "+ " +
+            t(
+                "adminAddTask",
+                {},
+                "Legg til oppgave"
+            );
 
     }
 
 
-    if (cancelEditButton) {
+    if (
+        cancelEditButton
+    ) {
 
         cancelEditButton.hidden =
             true;
@@ -2198,7 +2779,6 @@ function resetTaskForm() {
     updateNextOrder();
 
 }
-
 
 
 // ============================================================
@@ -2213,7 +2793,9 @@ function startEditTask(
         item.cleaning_tasks;
 
 
-    if (!task) {
+    if (
+        !task
+    ) {
 
         return;
 
@@ -2224,23 +2806,31 @@ function startEditTask(
         task.id;
 
 
-    if (taskName) {
+    if (
+        taskName
+    ) {
 
         taskName.value =
-            task.name || "";
+            task.name ||
+            "";
 
     }
 
 
-    if (taskDescription) {
+    if (
+        taskDescription
+    ) {
 
         taskDescription.value =
-            task.description || "";
+            task.description ||
+            "";
 
     }
 
 
-    if (taskOrder) {
+    if (
+        taskOrder
+    ) {
 
         taskOrder.value =
             item.sort_order;
@@ -2248,23 +2838,37 @@ function startEditTask(
     }
 
 
-    if (taskFormTitle) {
+    if (
+        taskFormTitle
+    ) {
 
         taskFormTitle.textContent =
-            "Rediger oppgave";
+            t(
+                "adminEditTask",
+                {},
+                "Rediger oppgave"
+            );
 
     }
 
 
-    if (saveTaskButton) {
+    if (
+        saveTaskButton
+    ) {
 
         saveTaskButton.textContent =
-            "Lagre endringer";
+            t(
+                "adminSaveChanges",
+                {},
+                "Lagre endringer"
+            );
 
     }
 
 
-    if (cancelEditButton) {
+    if (
+        cancelEditButton
+    ) {
 
         cancelEditButton.hidden =
             false;
@@ -2277,7 +2881,9 @@ function startEditTask(
     );
 
 
-    if (taskName) {
+    if (
+        taskName
+    ) {
 
         taskName.focus();
 
@@ -2290,7 +2896,9 @@ function startEditTask(
 // CANCEL EDIT
 // ============================================================
 
-if (cancelEditButton) {
+if (
+    cancelEditButton
+) {
 
     cancelEditButton.addEventListener(
         "click",
@@ -2313,11 +2921,15 @@ if (cancelEditButton) {
 // SAVE TASK
 // ============================================================
 
-if (taskForm) {
+if (
+    taskForm
+) {
 
     taskForm.addEventListener(
         "submit",
-        async function (event) {
+        async function (
+            event
+        ) {
 
             event.preventDefault();
 
@@ -2335,7 +2947,11 @@ if (taskForm) {
             ) {
 
                 showTaskMessage(
-                    "Velg bolig og etasje først.",
+                    t(
+                        "adminSelectPropertyAndFloorFirst",
+                        {},
+                        "Velg bolig og etasje først."
+                    ),
                     "error"
                 );
 
@@ -2346,21 +2962,33 @@ if (taskForm) {
 
 
             const name =
-                taskName.value.trim();
+                taskName
+                    ? taskName.value.trim()
+                    : "";
 
             const description =
-                taskDescription.value.trim();
+                taskDescription
+                    ? taskDescription.value.trim()
+                    : "";
 
             const order =
                 Number(
-                    taskOrder.value
+                    taskOrder
+                        ? taskOrder.value
+                        : 0
                 );
 
 
-            if (!name) {
+            if (
+                !name
+            ) {
 
                 showTaskMessage(
-                    "Skriv inn en oppgave.",
+                    t(
+                        "adminEnterTask",
+                        {},
+                        "Skriv inn en oppgave."
+                    ),
                     "error"
                 );
 
@@ -2371,12 +2999,19 @@ if (taskForm) {
 
 
             if (
-                !Number.isInteger(order) ||
-                order < 1
+                !Number.isInteger(
+                    order
+                ) ||
+                order <
+                1
             ) {
 
                 showTaskMessage(
-                    "Rekkefølgen må være 1 eller høyere.",
+                    t(
+                        "adminTaskOrderMinimum",
+                        {},
+                        "Rekkefølgen må være 1 eller høyere."
+                    ),
                     "error"
                 );
 
@@ -2386,10 +3021,26 @@ if (taskForm) {
             }
 
 
-            if (saveTaskButton) {
+            if (
+                saveTaskButton
+            ) {
 
                 saveTaskButton.disabled =
                     true;
+
+
+                saveTaskButton.textContent =
+                    editingTaskId
+                        ? t(
+                            "adminSavingChanges",
+                            {},
+                            "Lagrer endringer..."
+                        )
+                        : t(
+                            "adminAddingTask",
+                            {},
+                            "Legger til..."
+                        );
 
             }
 
@@ -2401,7 +3052,9 @@ if (taskForm) {
                 // EDIT EXISTING TASK
                 // =================================================
 
-                if (editingTaskId) {
+                if (
+                    editingTaskId
+                ) {
 
                     await updateTask(
                         editingTaskId,
@@ -2429,14 +3082,39 @@ if (taskForm) {
 
                 }
 
-
             }
             finally {
 
-                if (saveTaskButton) {
+                if (
+                    saveTaskButton
+                ) {
 
                     saveTaskButton.disabled =
                         false;
+
+
+                    if (
+                        editingTaskId
+                    ) {
+
+                        saveTaskButton.textContent =
+                            t(
+                                "adminSaveChanges",
+                                {},
+                                "Lagre endringer"
+                            );
+
+                    } else {
+
+                        saveTaskButton.textContent =
+                            "+ " +
+                            t(
+                                "adminAddTask",
+                                {},
+                                "Legg til oppgave"
+                            );
+
+                    }
 
                 }
 
@@ -2446,7 +3124,6 @@ if (taskForm) {
     );
 
 }
-
 
 
 // ============================================================
@@ -2460,10 +3137,13 @@ async function translateCleaningText(
 
     const cleanedTexts =
         texts.map(
-            function (text) {
+            function (
+                text
+            ) {
 
                 return (
-                    typeof text === "string"
+                    typeof text ===
+                    "string"
                         ? text.trim()
                         : ""
                 );
@@ -2494,15 +3174,22 @@ async function translateCleaningText(
             );
 
 
-    if (error) {
+    if (
+        error
+    ) {
 
         console.error(
             "TRANSLATION FUNCTION ERROR:",
             error
         );
 
+
         throw new Error(
-            "Kunne ikke oversette rengjøringsoppgaven."
+            t(
+                "adminCouldNotTranslateCleaningTask",
+                {},
+                "Kunne ikke oversette rengjøringsoppgaven."
+            )
         );
 
     }
@@ -2520,8 +3207,13 @@ async function translateCleaningText(
             data
         );
 
+
         throw new Error(
-            "Ugyldig svar fra oversettelsestjenesten."
+            t(
+                "adminInvalidTranslationResponse",
+                {},
+                "Ugyldig svar fra oversettelsestjenesten."
+            )
         );
 
     }
@@ -2560,7 +3252,9 @@ async function createTask(
         await getOrCreatePlan();
 
 
-    if (!plan) {
+    if (
+        !plan
+    ) {
 
         return;
 
@@ -2574,7 +3268,10 @@ async function createTask(
     const sortedItems =
         [...currentTasks]
             .sort(
-                function (a, b) {
+                function (
+                    a,
+                    b
+                ) {
 
                     return (
                         b.sort_order -
@@ -2601,20 +3298,24 @@ async function createTask(
                     .from(
                         "cleaning_plan_items"
                     )
-                    .update({
+                    .update(
+                        {
 
-                        sort_order:
-                            item.sort_order +
-                            1
+                            sort_order:
+                                item.sort_order +
+                                1
 
-                    })
+                        }
+                    )
                     .eq(
                         "id",
                         item.id
                     );
 
 
-            if (error) {
+            if (
+                error
+            ) {
 
                 console.error(
                     "SHIFT ORDER ERROR:",
@@ -2623,7 +3324,11 @@ async function createTask(
 
 
                 showTaskMessage(
-                    "Kunne ikke oppdatere rekkefølgen.",
+                    t(
+                        "adminCouldNotUpdateTaskOrder",
+                        {},
+                        "Kunne ikke oppdatere rekkefølgen."
+                    ),
                     "error"
                 );
 
@@ -2649,35 +3354,39 @@ async function createTask(
             .from(
                 "cleaning_tasks"
             )
-            .insert({
+            .insert(
+                {
 
-                property_id:
-                property.id,
+                    property_id:
+                    property.id,
 
-                floor_id:
-                floor.id,
+                    floor_id:
+                    floor.id,
 
-                name:
-                name,
+                    name:
+                    name,
 
-                description:
-                    description ||
-                    null,
+                    description:
+                        description ||
+                        null,
 
-                sort_order:
-                order,
+                    sort_order:
+                    order,
 
-                is_active:
-                    true
+                    is_active:
+                        true
 
-            })
+                }
+            )
             .select(
                 "id"
             )
             .single();
 
 
-    if (taskError) {
+    if (
+        taskError
+    ) {
 
         console.error(
             "CREATE TASK ERROR:",
@@ -2691,15 +3400,36 @@ async function createTask(
         ) {
 
             showTaskMessage(
-                "Denne oppgaven finnes allerede på denne etasjen.",
+                t(
+                    "adminTaskAlreadyExistsOnFloor",
+                    {},
+                    "Denne oppgaven finnes allerede på denne etasjen."
+                ),
                 "error"
             );
 
-        }
-        else {
+        } else if (
+            taskError.code ===
+            "42501"
+        ) {
 
             showTaskMessage(
-                "Kunne ikke opprette oppgaven.",
+                t(
+                    "adminNoPermissionCreateTask",
+                    {},
+                    "Du har ikke tilgang til å opprette denne oppgaven."
+                ),
+                "error"
+            );
+
+        } else {
+
+            showTaskMessage(
+                t(
+                    "adminCouldNotCreateTask",
+                    {},
+                    "Kunne ikke opprette oppgaven."
+                ),
                 "error"
             );
 
@@ -2725,21 +3455,25 @@ async function createTask(
             .from(
                 "cleaning_plan_items"
             )
-            .insert({
+            .insert(
+                {
 
-                plan_id:
-                plan.id,
+                    plan_id:
+                    plan.id,
 
-                task_id:
-                createdTask.id,
+                    task_id:
+                    createdTask.id,
 
-                sort_order:
-                order
+                    sort_order:
+                    order
 
-            });
+                }
+            );
 
 
-    if (itemError) {
+    if (
+        itemError
+    ) {
 
         console.error(
             "CREATE PLAN ITEM ERROR:",
@@ -2759,7 +3493,11 @@ async function createTask(
 
 
         showTaskMessage(
-            "Kunne ikke koble oppgaven til rengjøringsplanen.",
+            t(
+                "adminCouldNotConnectTaskToPlan",
+                {},
+                "Kunne ikke koble oppgaven til rengjøringsplanen."
+            ),
             "error"
         );
 
@@ -2774,6 +3512,10 @@ async function createTask(
 
     // ========================================================
     // CREATE NO + EN TRANSLATIONS
+    //
+    // IMPORTANT:
+    // Google Translation API is called SERVER-SIDE
+    // through the Supabase Edge Function.
     // ========================================================
 
     const {
@@ -2807,7 +3549,8 @@ async function createTask(
     if (
         translationError ||
         !translationData ||
-        translationData.success !== true
+        translationData.success !==
+        true
     ) {
 
         console.error(
@@ -2818,14 +3561,20 @@ async function createTask(
 
 
         showTaskMessage(
-            "Oppgaven ble opprettet, men oversettelsen kunne ikke lagres.",
+            t(
+                "adminTaskCreatedTranslationFailed",
+                {},
+                "Oppgaven ble opprettet, men oversettelsen kunne ikke lagres."
+            ),
             "error"
         );
 
 
         resetTaskForm();
 
+
         await loadTasks();
+
 
         return;
 
@@ -2833,7 +3582,11 @@ async function createTask(
 
 
     showTaskMessage(
-        "Oppgaven ble lagt til.",
+        t(
+            "adminTaskAdded",
+            {},
+            "Oppgaven ble lagt til."
+        ),
         "success"
     );
 
@@ -2859,7 +3612,9 @@ async function updateTask(
 
     const currentItem =
         currentTasks.find(
-            function (item) {
+            function (
+                item
+            ) {
 
                 return (
                     item.task_id ===
@@ -2870,10 +3625,16 @@ async function updateTask(
         );
 
 
-    if (!currentItem) {
+    if (
+        !currentItem
+    ) {
 
         showTaskMessage(
-            "Kunne ikke finne oppgaven.",
+            t(
+                "adminCouldNotFindTask",
+                {},
+                "Kunne ikke finne oppgaven."
+            ),
             "error"
         );
 
@@ -2903,19 +3664,23 @@ async function updateTask(
                 .from(
                     "cleaning_plan_items"
                 )
-                .update({
+                .update(
+                    {
 
-                    sort_order:
-                        1000000
+                        sort_order:
+                            1000000
 
-                })
+                    }
+                )
                 .eq(
                     "id",
                     currentItem.id
                 );
 
 
-        if (temporaryError) {
+        if (
+            temporaryError
+        ) {
 
             console.error(
                 "TEMPORARY TASK ORDER ERROR:",
@@ -2924,7 +3689,11 @@ async function updateTask(
 
 
             showTaskMessage(
-                "Kunne ikke endre rekkefølgen.",
+                t(
+                    "adminCouldNotChangeTaskOrder",
+                    {},
+                    "Kunne ikke endre rekkefølgen."
+                ),
                 "error"
             );
 
@@ -2946,7 +3715,9 @@ async function updateTask(
             const affectedItems =
                 currentTasks
                     .filter(
-                        function (item) {
+                        function (
+                            item
+                        ) {
 
                             return (
                                 item.id !==
@@ -2960,7 +3731,10 @@ async function updateTask(
                         }
                     )
                     .sort(
-                        function (a, b) {
+                        function (
+                            a,
+                            b
+                        ) {
 
                             return (
                                 b.sort_order -
@@ -2982,20 +3756,24 @@ async function updateTask(
                         .from(
                             "cleaning_plan_items"
                         )
-                        .update({
+                        .update(
+                            {
 
-                            sort_order:
-                                item.sort_order +
-                                1
+                                sort_order:
+                                    item.sort_order +
+                                    1
 
-                        })
+                            }
+                        )
                         .eq(
                             "id",
                             item.id
                         );
 
 
-                if (error) {
+                if (
+                    error
+                ) {
 
                     console.error(
                         "MOVE TASK UP ERROR:",
@@ -3004,7 +3782,11 @@ async function updateTask(
 
 
                     showTaskMessage(
-                        "Kunne ikke endre rekkefølgen.",
+                        t(
+                            "adminCouldNotChangeTaskOrder",
+                            {},
+                            "Kunne ikke endre rekkefølgen."
+                        ),
                         "error"
                     );
 
@@ -3030,7 +3812,9 @@ async function updateTask(
             const affectedItems =
                 currentTasks
                     .filter(
-                        function (item) {
+                        function (
+                            item
+                        ) {
 
                             return (
                                 item.id !==
@@ -3044,7 +3828,10 @@ async function updateTask(
                         }
                     )
                     .sort(
-                        function (a, b) {
+                        function (
+                            a,
+                            b
+                        ) {
 
                             return (
                                 a.sort_order -
@@ -3066,20 +3853,24 @@ async function updateTask(
                         .from(
                             "cleaning_plan_items"
                         )
-                        .update({
+                        .update(
+                            {
 
-                            sort_order:
-                                item.sort_order -
-                                1
+                                sort_order:
+                                    item.sort_order -
+                                    1
 
-                        })
+                            }
+                        )
                         .eq(
                             "id",
                             item.id
                         );
 
 
-                if (error) {
+                if (
+                    error
+                ) {
 
                     console.error(
                         "MOVE TASK DOWN ERROR:",
@@ -3088,7 +3879,11 @@ async function updateTask(
 
 
                     showTaskMessage(
-                        "Kunne ikke endre rekkefølgen.",
+                        t(
+                            "adminCouldNotChangeTaskOrder",
+                            {},
+                            "Kunne ikke endre rekkefølgen."
+                        ),
                         "error"
                     );
 
@@ -3116,19 +3911,23 @@ async function updateTask(
                 .from(
                     "cleaning_plan_items"
                 )
-                .update({
+                .update(
+                    {
 
-                    sort_order:
-                    newOrder
+                        sort_order:
+                        newOrder
 
-                })
+                    }
+                )
                 .eq(
                     "id",
                     currentItem.id
                 );
 
 
-        if (finalOrderError) {
+        if (
+            finalOrderError
+        ) {
 
             console.error(
                 "FINAL TASK ORDER ERROR:",
@@ -3137,7 +3936,11 @@ async function updateTask(
 
 
             showTaskMessage(
-                "Kunne ikke lagre rekkefølgen.",
+                t(
+                    "adminCouldNotSaveTaskOrder",
+                    {},
+                    "Kunne ikke lagre rekkefølgen."
+                ),
                 "error"
             );
 
@@ -3163,30 +3966,34 @@ async function updateTask(
             .from(
                 "cleaning_tasks"
             )
-            .update({
+            .update(
+                {
 
-                name:
-                name,
+                    name:
+                    name,
 
-                description:
-                    description ||
-                    null,
+                    description:
+                        description ||
+                        null,
 
-                sort_order:
-                newOrder,
+                    sort_order:
+                    newOrder,
 
-                updated_at:
-                    new Date()
-                        .toISOString()
+                    updated_at:
+                        new Date()
+                            .toISOString()
 
-            })
+                }
+            )
             .eq(
                 "id",
                 taskId
             );
 
 
-    if (error) {
+    if (
+        error
+    ) {
 
         console.error(
             "UPDATE TASK ERROR:",
@@ -3200,15 +4007,36 @@ async function updateTask(
         ) {
 
             showTaskMessage(
-                "Denne oppgaven finnes allerede.",
+                t(
+                    "adminTaskAlreadyExists",
+                    {},
+                    "Denne oppgaven finnes allerede."
+                ),
                 "error"
             );
 
-        }
-        else {
+        } else if (
+            error.code ===
+            "42501"
+        ) {
 
             showTaskMessage(
-                "Kunne ikke oppdatere oppgaven.",
+                t(
+                    "adminNoPermissionUpdateTask",
+                    {},
+                    "Du har ikke tilgang til å oppdatere denne oppgaven."
+                ),
+                "error"
+            );
+
+        } else {
+
+            showTaskMessage(
+                t(
+                    "adminCouldNotUpdateTask",
+                    {},
+                    "Kunne ikke oppdatere oppgaven."
+                ),
                 "error"
             );
 
@@ -3255,10 +4083,6 @@ async function updateTask(
             );
 
 
-    // ========================================================
-    // TRANSLATION ERROR
-    // ========================================================
-
     if (
         translationError ||
         !translationData ||
@@ -3274,7 +4098,11 @@ async function updateTask(
 
 
         showTaskMessage(
-            "Oppgaven ble oppdatert, men oversettelsen kunne ikke oppdateres.",
+            t(
+                "adminTaskUpdatedTranslationFailed",
+                {},
+                "Oppgaven ble oppdatert, men oversettelsen kunne ikke oppdateres."
+            ),
             "error"
         );
 
@@ -3295,7 +4123,11 @@ async function updateTask(
     // ========================================================
 
     showTaskMessage(
-        "Oppgaven ble oppdatert.",
+        t(
+            "adminTaskUpdated",
+            {},
+            "Oppgaven ble oppdatert."
+        ),
         "success"
     );
 
@@ -3306,7 +4138,6 @@ async function updateTask(
     await loadTasks();
 
 }
-
 
 // ============================================================
 // DELETE TASK
@@ -3320,15 +4151,33 @@ async function deleteTask(
         item.cleaning_tasks;
 
 
+    if (
+        !task
+    ) {
+
+        return;
+
+    }
+
+
     const confirmed =
         window.confirm(
-            'Vil du slette oppgaven "' +
-            task.name +
-            '"?'
+            t(
+                "adminConfirmDeleteTask",
+                {
+                    name:
+                    task.name
+                },
+                'Vil du slette oppgaven "' +
+                task.name +
+                '"?'
+            )
         );
 
 
-    if (!confirmed) {
+    if (
+        !confirmed
+    ) {
 
         return;
 
@@ -3349,7 +4198,9 @@ async function deleteTask(
             );
 
 
-    if (error) {
+    if (
+        error
+    ) {
 
         console.error(
             "DELETE TASK ERROR:",
@@ -3357,10 +4208,32 @@ async function deleteTask(
         );
 
 
-        showTaskMessage(
-            "Kunne ikke slette oppgaven.",
-            "error"
-        );
+        if (
+            error.code ===
+            "42501"
+        ) {
+
+            showTaskMessage(
+                t(
+                    "adminNoPermissionDeleteTask",
+                    {},
+                    "Du har ikke tilgang til å slette denne oppgaven."
+                ),
+                "error"
+            );
+
+        } else {
+
+            showTaskMessage(
+                t(
+                    "adminCouldNotDeleteTask",
+                    {},
+                    "Kunne ikke slette oppgaven."
+                ),
+                "error"
+            );
+
+        }
 
 
         return;
@@ -3369,7 +4242,11 @@ async function deleteTask(
 
 
     showTaskMessage(
-        "Oppgaven ble slettet.",
+        t(
+            "adminTaskDeleted",
+            {},
+            "Oppgaven ble slettet."
+        ),
         "success"
     );
 
@@ -3397,7 +4274,10 @@ async function normalizeTaskOrder() {
     const items =
         [...currentTasks]
             .sort(
-                function (a, b) {
+                function (
+                    a,
+                    b
+                ) {
 
                     return (
                         a.sort_order -
@@ -3408,12 +4288,12 @@ async function normalizeTaskOrder() {
             );
 
 
-    /*
-        Bruk midlertidige verdier først.
-
-        Dette unngår konflikt med unique constraint:
-        plan_id + sort_order.
-    */
+    // ========================================================
+    // TEMPORARY VALUES
+    //
+    // Prevent conflict with unique:
+    // plan_id + sort_order
+    // ========================================================
 
     for (
         let index = 0;
@@ -3428,20 +4308,24 @@ async function normalizeTaskOrder() {
                 .from(
                     "cleaning_plan_items"
                 )
-                .update({
+                .update(
+                    {
 
-                    sort_order:
-                        2000000 +
-                        index
+                        sort_order:
+                            2000000 +
+                            index
 
-                })
+                    }
+                )
                 .eq(
                     "id",
                     items[index].id
                 );
 
 
-        if (error) {
+        if (
+            error
+        ) {
 
             console.error(
                 "NORMALIZE TEMP ORDER ERROR:",
@@ -3456,9 +4340,9 @@ async function normalizeTaskOrder() {
     }
 
 
-    /*
-        Nå kan vi trygt sette 1, 2, 3, 4...
-    */
+    // ========================================================
+    // SAVE 1, 2, 3, 4...
+    // ========================================================
 
     for (
         let index = 0;
@@ -3467,12 +4351,17 @@ async function normalizeTaskOrder() {
     ) {
 
         const expectedOrder =
-            index + 1;
+            index +
+            1;
 
 
         const item =
             items[index];
 
+
+        // ----------------------------------------------------
+        // PLAN ITEM
+        // ----------------------------------------------------
 
         const {
             error: itemError
@@ -3481,19 +4370,23 @@ async function normalizeTaskOrder() {
                 .from(
                     "cleaning_plan_items"
                 )
-                .update({
+                .update(
+                    {
 
-                    sort_order:
-                    expectedOrder
+                        sort_order:
+                        expectedOrder
 
-                })
+                    }
+                )
                 .eq(
                     "id",
                     item.id
                 );
 
 
-        if (itemError) {
+        if (
+            itemError
+        ) {
 
             console.error(
                 "NORMALIZE PLAN ITEM ERROR:",
@@ -3506,6 +4399,10 @@ async function normalizeTaskOrder() {
         }
 
 
+        // ----------------------------------------------------
+        // CLEANING TASK
+        // ----------------------------------------------------
+
         const {
             error: taskError
         } =
@@ -3513,23 +4410,27 @@ async function normalizeTaskOrder() {
                 .from(
                     "cleaning_tasks"
                 )
-                .update({
+                .update(
+                    {
 
-                    sort_order:
-                    expectedOrder,
+                        sort_order:
+                        expectedOrder,
 
-                    updated_at:
-                        new Date()
-                            .toISOString()
+                        updated_at:
+                            new Date()
+                                .toISOString()
 
-                })
+                    }
+                )
                 .eq(
                     "id",
                     item.task_id
                 );
 
 
-        if (taskError) {
+        if (
+            taskError
+        ) {
 
             console.error(
                 "NORMALIZE CLEANING TASK ERROR:",
@@ -3550,7 +4451,9 @@ async function normalizeTaskOrder() {
 // PROPERTY CHANGE
 // ============================================================
 
-if (propertySelect) {
+if (
+    propertySelect
+) {
 
     propertySelect.addEventListener(
         "change",
@@ -3568,6 +4471,16 @@ if (propertySelect) {
                 null;
 
 
+            if (
+                selectedLocationText
+            ) {
+
+                selectedLocationText.textContent =
+                    "-";
+
+            }
+
+
             await loadFloors(
                 propertySelect.value
             );
@@ -3582,7 +4495,9 @@ if (propertySelect) {
 // FLOOR CHANGE
 // ============================================================
 
-if (floorSelect) {
+if (
+    floorSelect
+) {
 
     floorSelect.addEventListener(
         "change",
@@ -3612,10 +4527,22 @@ if (floorSelect) {
                 !floor
             ) {
 
-                if (taskManagementSection) {
+                if (
+                    taskManagementSection
+                ) {
 
                     taskManagementSection.hidden =
                         true;
+
+                }
+
+
+                if (
+                    selectedLocationText
+                ) {
+
+                    selectedLocationText.textContent =
+                        "-";
 
                 }
 
@@ -3625,20 +4552,12 @@ if (floorSelect) {
             }
 
 
-            if (selectedLocationText) {
-
-                selectedLocationText.textContent =
-                    property.name +
-                    " • " +
-                    (
-                        floor.name ||
-                        floor.floor_number
-                    );
-
-            }
+            updateSelectedLocationText();
 
 
-            if (taskManagementSection) {
+            if (
+                taskManagementSection
+            ) {
 
                 taskManagementSection.hidden =
                     false;
@@ -3655,6 +4574,197 @@ if (floorSelect) {
 
 
 // ============================================================
+// REFRESH DYNAMIC LANGUAGE
+// ============================================================
+
+function refreshCleaningPlanLanguage() {
+
+    // ========================================================
+    // PROPERTY SELECT
+    // ========================================================
+
+    if (
+        propertySelect &&
+        properties.length >
+        0
+    ) {
+
+        const selectedPropertyId =
+            propertySelect.value;
+
+
+        renderProperties();
+
+
+        if (
+            selectedPropertyId
+        ) {
+
+            propertySelect.value =
+                selectedPropertyId;
+
+        }
+
+    }
+
+
+    // ========================================================
+    // FLOOR SELECT
+    // ========================================================
+
+    if (
+        floorSelect
+    ) {
+
+        const selectedFloorId =
+            floorSelect.value;
+
+
+        if (
+            floors.length >
+            0
+        ) {
+
+            renderFloors();
+
+
+            if (
+                selectedFloorId
+            ) {
+
+                floorSelect.value =
+                    selectedFloorId;
+
+            }
+
+        } else if (
+            !propertySelect ||
+            !propertySelect.value
+        ) {
+
+            floorSelect.innerHTML = `
+                <option value="">
+                    ${t(
+                "adminSelectFloor",
+                {},
+                "Velg etasje"
+            )}
+                </option>
+            `;
+
+
+            floorSelect.disabled =
+                true;
+
+        }
+
+    }
+
+
+    // ========================================================
+    // SELECTED LOCATION
+    // ========================================================
+
+    updateSelectedLocationText();
+
+
+    // ========================================================
+    // FORM TITLE + SAVE BUTTON
+    // ========================================================
+
+    if (
+        editingTaskId
+    ) {
+
+        if (
+            taskFormTitle
+        ) {
+
+            taskFormTitle.textContent =
+                t(
+                    "adminEditTask",
+                    {},
+                    "Rediger oppgave"
+                );
+
+        }
+
+
+        if (
+            saveTaskButton &&
+            !saveTaskButton.disabled
+        ) {
+
+            saveTaskButton.textContent =
+                t(
+                    "adminSaveChanges",
+                    {},
+                    "Lagre endringer"
+                );
+
+        }
+
+    } else {
+
+        if (
+            taskFormTitle
+        ) {
+
+            taskFormTitle.textContent =
+                t(
+                    "adminAddNewCleaningTask",
+                    {},
+                    "Legg til ny oppgave"
+                );
+
+        }
+
+
+        if (
+            saveTaskButton &&
+            !saveTaskButton.disabled
+        ) {
+
+            saveTaskButton.textContent =
+                "+ " +
+                t(
+                    "adminAddTask",
+                    {},
+                    "Legg til oppgave"
+                );
+
+        }
+
+    }
+
+
+    // ========================================================
+    // TASK TABLE
+    // Re-render cached tasks only.
+    // No Supabase call.
+    // No Google Translation API call.
+    // ========================================================
+
+    renderTasks();
+
+}
+
+
+// ============================================================
+// LANGUAGE CHANGE
+// ============================================================
+
+window.addEventListener(
+    "cleanplan:languagechange",
+    function () {
+
+        refreshCleaningPlanLanguage();
+
+    }
+);
+
+
+// ============================================================
 // INITIALIZE
 // ============================================================
 
@@ -3664,7 +4774,9 @@ async function initAdminCleaningPlan() {
         await checkAdminAccess();
 
 
-    if (!allowed) {
+    if (
+        !allowed
+    ) {
 
         return;
 
@@ -3672,6 +4784,9 @@ async function initAdminCleaningPlan() {
 
 
     await loadProperties();
+
+
+    refreshCleaningPlanLanguage();
 
 }
 
