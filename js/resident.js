@@ -1835,21 +1835,27 @@ async function loadCleaningTasks() {
             )
             .select(
                 `
-                id,
-                plan_id,
-                task_id,
-                sort_order,
+            id,
+            plan_id,
+            task_id,
+            sort_order,
 
-                cleaning_tasks (
-                    id,
-                    property_id,
-                    floor_id,
+            cleaning_tasks (
+                id,
+                property_id,
+                floor_id,
+                name,
+                description,
+                sort_order,
+                is_active,
+
+                cleaning_task_translations (
+                    language_code,
                     name,
-                    description,
-                    sort_order,
-                    is_active
+                    description
                 )
-                `
+            )
+            `
             )
             .eq(
                 "plan_id",
@@ -1862,7 +1868,6 @@ async function loadCleaningTasks() {
                         true
                 }
             );
-
 
     if (error) {
 
@@ -4118,6 +4123,68 @@ function createCleaningTaskElement(
     }
 
 
+    // ========================================================
+    // CURRENT LANGUAGE
+    // ========================================================
+
+    const languageCode =
+        getCurrentLanguageCode();
+
+
+    // ========================================================
+    // FIND TRANSLATION
+    // ========================================================
+
+    const translations =
+        Array.isArray(
+            task.cleaning_task_translations
+        )
+            ? task.cleaning_task_translations
+            : [];
+
+
+    const selectedTranslation =
+        translations.find(
+            function (translation) {
+
+                return (
+                    translation.language_code ===
+                    languageCode
+                );
+
+            }
+        );
+
+
+    // ========================================================
+    // DISPLAY VALUES
+    //
+    // Translation is preferred.
+    // Original task text is the fallback.
+    // ========================================================
+
+    const displayName =
+        (
+            selectedTranslation &&
+            selectedTranslation.name
+        )
+            ? selectedTranslation.name
+            : task.name;
+
+
+    const displayDescription =
+        (
+            selectedTranslation &&
+            selectedTranslation.description
+        )
+            ? selectedTranslation.description
+            : task.description;
+
+
+    // ========================================================
+    // ROW
+    // ========================================================
+
     const row =
         document.createElement(
             "label"
@@ -4127,6 +4194,10 @@ function createCleaningTaskElement(
     row.className =
         "resident-cleaning-task";
 
+
+    // ========================================================
+    // CHECKBOX
+    // ========================================================
 
     const checkbox =
         document.createElement(
@@ -4152,6 +4223,10 @@ function createCleaningTaskElement(
         );
 
 
+    // ========================================================
+    // CONTENT
+    // ========================================================
+
     const content =
         document.createElement(
             "div"
@@ -4162,6 +4237,10 @@ function createCleaningTaskElement(
         "resident-cleaning-task-content";
 
 
+    // ========================================================
+    // TASK NAME
+    // ========================================================
+
     const title =
         document.createElement(
             "strong"
@@ -4169,7 +4248,7 @@ function createCleaningTaskElement(
 
 
     title.textContent =
-        task.name ||
+        displayName ||
         t(
             "cleaningTask"
         );
@@ -4180,7 +4259,11 @@ function createCleaningTaskElement(
     );
 
 
-    if (task.description) {
+    // ========================================================
+    // TASK DESCRIPTION
+    // ========================================================
+
+    if (displayDescription) {
 
         const description =
             document.createElement(
@@ -4189,7 +4272,7 @@ function createCleaningTaskElement(
 
 
         description.textContent =
-            task.description;
+            displayDescription;
 
 
         content.appendChild(
@@ -4198,6 +4281,10 @@ function createCleaningTaskElement(
 
     }
 
+
+    // ========================================================
+    // ADD ELEMENTS
+    // ========================================================
 
     row.appendChild(
         checkbox
@@ -4208,6 +4295,10 @@ function createCleaningTaskElement(
         content
     );
 
+
+    // ========================================================
+    // CHECKBOX CHANGE
+    // ========================================================
 
     checkbox.addEventListener(
         "change",

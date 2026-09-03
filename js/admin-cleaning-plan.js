@@ -637,6 +637,7 @@ function getCurrentWeekFriday() {
 
 }
 
+
 // ============================================================
 // LOAD OR CREATE CLEANING PLAN
 // ============================================================
@@ -2105,6 +2106,7 @@ async function saveDraggedTaskOrder(
 
 }
 
+
 // ============================================================
 // NEXT ORDER
 // ============================================================
@@ -2198,6 +2200,7 @@ function resetTaskForm() {
 }
 
 
+
 // ============================================================
 // EDIT TASK
 // ============================================================
@@ -2210,6 +2213,13 @@ function startEditTask(
         item.cleaning_tasks;
 
 
+    if (!task) {
+
+        return;
+
+    }
+
+
     editingTaskId =
         task.id;
 
@@ -2217,7 +2227,7 @@ function startEditTask(
     if (taskName) {
 
         taskName.value =
-            task.name;
+            task.name || "";
 
     }
 
@@ -2267,7 +2277,11 @@ function startEditTask(
     );
 
 
-    taskName.focus();
+    if (taskName) {
+
+        taskName.focus();
+
+    }
 
 }
 
@@ -2430,6 +2444,102 @@ if (taskForm) {
 
         }
     );
+
+}
+
+
+
+// ============================================================
+// TRANSLATE CLEANING TEXT
+// ============================================================
+
+async function translateCleaningText(
+    texts,
+    targetLanguage
+) {
+
+    const cleanedTexts =
+        texts.map(
+            function (text) {
+
+                return (
+                    typeof text === "string"
+                        ? text.trim()
+                        : ""
+                );
+
+            }
+        );
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .functions
+            .invoke(
+                "translate-cleaning-text",
+                {
+                    body: {
+
+                        texts:
+                        cleanedTexts,
+
+                        target:
+                        targetLanguage
+
+                    }
+                }
+            );
+
+
+    if (error) {
+
+        console.error(
+            "TRANSLATION FUNCTION ERROR:",
+            error
+        );
+
+        throw new Error(
+            "Kunne ikke oversette rengjøringsoppgaven."
+        );
+
+    }
+
+
+    if (
+        !data ||
+        !Array.isArray(
+            data.translations
+        )
+    ) {
+
+        console.error(
+            "INVALID TRANSLATION RESPONSE:",
+            data
+        );
+
+        throw new Error(
+            "Ugyldig svar fra oversettelsestjenesten."
+        );
+
+    }
+
+
+    return {
+
+        translations:
+        data.translations,
+
+        detectedSourceLanguages:
+            Array.isArray(
+                data.detectedSourceLanguages
+            )
+                ? data.detectedSourceLanguages
+                : []
+
+    };
 
 }
 
@@ -2662,6 +2772,66 @@ async function createTask(
     }
 
 
+    // ========================================================
+    // CREATE NO + EN TRANSLATIONS
+    // ========================================================
+
+    const {
+        data: translationData,
+        error: translationError
+    } =
+        await supabaseClient
+            .functions
+            .invoke(
+                "translate-cleaning-text",
+                {
+                    body: {
+
+                        action:
+                            "translate-and-save-task",
+
+                        taskId:
+                        createdTask.id,
+
+                        name:
+                        name,
+
+                        description:
+                        description
+
+                    }
+                }
+            );
+
+
+    if (
+        translationError ||
+        !translationData ||
+        translationData.success !== true
+    ) {
+
+        console.error(
+            "CREATE TASK TRANSLATIONS ERROR:",
+            translationError ||
+            translationData
+        );
+
+
+        showTaskMessage(
+            "Oppgaven ble opprettet, men oversettelsen kunne ikke lagres.",
+            "error"
+        );
+
+
+        resetTaskForm();
+
+        await loadTasks();
+
+        return;
+
+    }
+
+
     showTaskMessage(
         "Oppgaven ble lagt til.",
         "success"
@@ -2748,6 +2918,7 @@ async function updateTask(
         if (temporaryError) {
 
             console.error(
+                "TEMPORARY TASK ORDER ERROR:",
                 temporaryError
             );
 
@@ -2982,7 +3153,7 @@ async function updateTask(
 
 
     // ========================================================
-    // UPDATE TASK
+    // UPDATE CLEANING TASK
     // ========================================================
 
     const {
@@ -3051,6 +3222,77 @@ async function updateTask(
 
     }
 
+
+    // ========================================================
+    // UPDATE NO + EN TRANSLATIONS
+    // ========================================================
+
+    const {
+        data: translationData,
+        error: translationError
+    } =
+        await supabaseClient
+            .functions
+            .invoke(
+                "translate-cleaning-text",
+                {
+                    body: {
+
+                        action:
+                            "translate-and-save-task",
+
+                        taskId:
+                        taskId,
+
+                        name:
+                        name,
+
+                        description:
+                        description
+
+                    }
+                }
+            );
+
+
+    // ========================================================
+    // TRANSLATION ERROR
+    // ========================================================
+
+    if (
+        translationError ||
+        !translationData ||
+        translationData.success !==
+        true
+    ) {
+
+        console.error(
+            "UPDATE TASK TRANSLATIONS ERROR:",
+            translationError ||
+            translationData
+        );
+
+
+        showTaskMessage(
+            "Oppgaven ble oppdatert, men oversettelsen kunne ikke oppdateres.",
+            "error"
+        );
+
+
+        resetTaskForm();
+
+
+        await loadTasks();
+
+
+        return;
+
+    }
+
+
+    // ========================================================
+    // SUCCESS
+    // ========================================================
 
     showTaskMessage(
         "Oppgaven ble oppdatert.",
