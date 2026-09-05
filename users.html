@@ -1,25 +1,27 @@
 <!DOCTYPE html>
+
 <html lang="no">
+
 
 <head>
 
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-  <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0"
-  >
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
 
-  <title
-          data-i18n-title="adminUsersPageTitle"
-  >
-    CleanPlan - Brukere
-  </title>
+    <title
+            data-i18n-title="adminUsersPageTitle"
+    >
+        CleanPlan - Brukere
+    </title>
 
-  <link
-          rel="stylesheet"
-          href="css/style.css"
-  >
+    <link
+            rel="stylesheet"
+            href="css/style.css"
+    >
 
 </head>
 
@@ -45,753 +47,668 @@
 <div class="admin-app-layout">
 
 
-  <!-- =====================================================
-       SIDEBAR
-       ===================================================== -->
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
 
-  <aside
-          id="adminSidebar"
-          class="admin-sidebar"
-  >
+    <aside
+            id="adminSidebar"
+            class="admin-sidebar"
+    >
 
 
-    <!-- =================================================
-         BRAND
-         ================================================= -->
+        <!-- =================================================
+             BRAND
+             ================================================= -->
 
-    <div class="admin-sidebar-brand">
+        <div class="admin-sidebar-brand">
 
             <span class="admin-sidebar-logo">
                 🧹
             </span>
 
-      <span>
+            <span>
                 CleanPlan
             </span>
 
-    </div>
+        </div>
 
 
-    <!-- =================================================
-         ROLE
-         ================================================= -->
+        <!-- =================================================
+             ROLE
+             ================================================= -->
 
-    <div
-            class="admin-sidebar-section-label"
-            data-i18n="adminRoleLabel"
-    >
-      ADMIN
-    </div>
-
-
-    <!-- =================================================
-         NAVIGATION
-         ================================================= -->
-
-    <nav class="admin-sidebar-nav">
+        <div
+                class="admin-sidebar-section-label"
+                data-i18n="adminRoleLabel"
+        >
+            ADMIN
+        </div>
 
 
-      <!-- =============================================
-           DASHBOARD
-           ============================================= -->
+        <!-- =================================================
+             NAVIGATION
+             ================================================= -->
 
-      <a
-              href="admin.html"
-              class="admin-sidebar-link"
-      >
+        <nav class="admin-sidebar-nav">
+
+
+            <!-- DASHBOARD -->
+
+            <a
+                    href="admin.html"
+                    class="admin-sidebar-link"
+            >
 
                 <span class="admin-sidebar-icon">
                     ▦
                 </span>
 
-        <span data-i18n="adminDashboard">
+                <span data-i18n="adminDashboard">
                     Dashboard
                 </span>
 
-      </a>
+            </a>
 
 
-      <!-- =============================================
-           PROPERTIES
-           ============================================= -->
+            <!-- PROPERTIES -->
 
-      <a
-              href="properties.html"
-              class="admin-sidebar-link"
-      >
+            <a
+                    href="properties.html"
+                    class="admin-sidebar-link"
+            >
 
                 <span class="admin-sidebar-icon">
                     🏠
                 </span>
 
-        <span data-i18n="adminProperties">
+                <span data-i18n="adminProperties">
                     Boliger
                 </span>
 
-      </a>
+            </a>
 
 
-      <!-- =============================================
-           FLOORS
-           ============================================= -->
+            <!-- FLOORS -->
 
-      <a
-              href="properties.html"
-              class="admin-sidebar-link"
-      >
+            <a
+                    href="properties.html"
+                    class="admin-sidebar-link"
+            >
 
                 <span class="admin-sidebar-icon">
                     ▤
                 </span>
 
-        <span data-i18n="adminFloors">
+                <span data-i18n="adminFloors">
                     Etasjer
                 </span>
 
-      </a>
+            </a>
 
 
-      <!-- =============================================
-           RESIDENTS
-           ============================================= -->
+            <!-- RESIDENTS -->
 
-      <a
-              href="admin-residents.html"
-              class="admin-sidebar-link"
-      >
+            <a
+                    href="admin-residents.html"
+                    class="admin-sidebar-link"
+            >
 
                 <span class="admin-sidebar-icon">
                     👥
                 </span>
 
-        <span data-i18n="adminResidents">
+                <span data-i18n="adminResidents">
                     Beboere
                 </span>
 
-      </a>
+            </a>
 
 
-      <!-- =============================================
-           CLEANING PLAN
-           ============================================= -->
+            <!-- CLEANING PLAN -->
 
-      <a
-              href="admin-cleaning-plan.html"
-              class="admin-sidebar-link"
-      >
+            <a
+                    href="admin-cleaning-plan.html"
+                    class="admin-sidebar-link"
+            >
 
                 <span class="admin-sidebar-icon">
                     🧹
                 </span>
 
-        <span data-i18n="adminCleaningPlan">
+                <span data-i18n="adminCleaningPlan">
                     Rengjøringsplan
                 </span>
 
-      </a>
+            </a>
 
 
-      <!-- =============================================
-           USERS
-           ============================================= -->
+            <!-- USERS -->
 
-      <a
-              href="users.html"
-              class="admin-sidebar-link active"
-      >
+            <a
+                    href="users.html"
+                    class="admin-sidebar-link active"
+            >
 
                 <span class="admin-sidebar-icon">
                     👤
                 </span>
 
-        <span data-i18n="adminUsers">
+                <span data-i18n="adminUsers">
                     Brukere
                 </span>
 
-      </a>
+            </a>
 
 
-      <!-- =============================================
-           HISTORY
-           ============================================= -->
+            <!-- HISTORY -->
 
-      <button
-              type="button"
-              class="admin-sidebar-link"
-              id="historySidebarButton"
-      >
+            <button
+                    type="button"
+                    class="admin-sidebar-link"
+                    id="historySidebarButton"
+            >
 
                 <span class="admin-sidebar-icon">
                     ↺
                 </span>
 
-        <span data-i18n="adminHistory">
+                <span data-i18n="adminHistory">
                     Historikk
                 </span>
 
-      </button>
+            </button>
 
 
-      <!-- =============================================
-           SETTINGS
-           ============================================= -->
+            <!-- SETTINGS -->
 
-      <button
-              type="button"
-              class="admin-sidebar-link"
-              id="settingsSidebarButton"
-      >
+            <button
+                    type="button"
+                    class="admin-sidebar-link"
+                    id="settingsSidebarButton"
+            >
 
                 <span class="admin-sidebar-icon">
                     ⚙
                 </span>
 
-        <span data-i18n="adminSettings">
+                <span data-i18n="adminSettings">
                     Innstillinger
                 </span>
 
-      </button>
+            </button>
 
 
-    </nav>
+        </nav>
 
 
-    <!-- =================================================
-         SIDEBAR BOTTOM
-         ================================================= -->
+        <!-- =================================================
+             SIDEBAR BOTTOM
+             ================================================= -->
 
-    <div class="admin-sidebar-bottom">
+        <div class="admin-sidebar-bottom">
 
-      <button
-              id="logoutButton"
-              class="admin-sidebar-logout"
-              type="button"
-      >
+            <button
+                    id="logoutButton"
+                    class="admin-sidebar-logout"
+                    type="button"
+            >
 
                 <span>
                     ↪
                 </span>
 
-        <span data-i18n="adminLogout">
+                <span data-i18n="adminLogout">
                     Logg ut
                 </span>
 
-      </button>
+            </button>
 
-    </div>
-
-
-  </aside>
+        </div>
 
 
-  <!-- =====================================================
-       MAIN AREA
-       ===================================================== -->
-
-  <div class="admin-main-area">
+    </aside>
 
 
-    <!-- =================================================
-         TOP HEADER
-         ================================================= -->
+    <!-- =====================================================
+         MAIN AREA
+         ===================================================== -->
 
-    <header class="admin-main-header">
-
-
-      <!-- =============================================
-           MOBILE MENU
-           ============================================= -->
-
-      <div>
-
-        <button
-                id="mobileSidebarButton"
-                class="admin-mobile-menu-button"
-                type="button"
-                aria-label="Åpne meny"
-                data-i18n-aria-label="adminOpenMenu"
-        >
-          ☰
-        </button>
-
-      </div>
+    <div class="admin-main-area">
 
 
-      <!-- =============================================
-           PROFILE + LANGUAGE
-           ============================================= -->
+        <!-- =================================================
+             TOP HEADER
+             ================================================= -->
 
-      <div class="admin-header-profile">
+        <header class="admin-main-header">
 
 
-        <!-- =========================================
-             PROFILE TEXT
-             ========================================= -->
+            <!-- MOBILE MENU -->
 
-        <div class="admin-header-profile-text">
+            <div>
 
-          <strong id="adminName">
-            Administrator
-          </strong>
+                <button
+                        id="mobileSidebarButton"
+                        class="admin-mobile-menu-button"
+                        type="button"
+                        aria-label="Åpne meny"
+                        data-i18n-aria-label="adminOpenMenu"
+                >
+                    ☰
+                </button>
 
-          <span id="adminRole">
+            </div>
+
+
+            <!-- PROFILE + LANGUAGE -->
+
+            <div class="admin-header-profile">
+
+
+                <!-- PROFILE TEXT -->
+
+                <div class="admin-header-profile-text">
+
+                    <strong id="adminName">
+                        Administrator
+                    </strong>
+
+                    <span id="adminRole">
                         Admin
                     </span>
 
-        </div>
+                </div>
 
 
-        <!-- =========================================
-             LANGUAGE SELECTOR
-             ========================================= -->
+                <!-- =================================================
+                     SMALL LANGUAGE SWITCHER
+                     ================================================= -->
 
-        <div class="language-selector admin-language-selector">
+                <div
+                        class="language-switcher"
+                        id="languageSwitcher"
+                >
 
-
-          <button
-                  id="languageButton"
-                  class="language-button"
-                  type="button"
-                  aria-haspopup="listbox"
-                  aria-expanded="false"
-          >
+                    <button
+                            type="button"
+                            class="language-current"
+                            id="languageCurrentButton"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            data-i18n-aria-label="languageSelectorAria"
+                    >
 
                         <span
-                                class="language-button-globe"
-                                aria-hidden="true"
+                                class="language-current-flag"
+                                id="currentLanguageFlag"
                         >
-                            🌐
+                            🇳🇴
                         </span>
 
-            <span id="selectedLanguageName">
+                        <span
+                                class="language-current-code"
+                                id="currentLanguageCode"
+                        >
                             NO
                         </span>
 
-            <span
-                    class="language-button-chevron"
-                    aria-hidden="true"
-            >
+                        <span class="language-current-arrow">
                             ▾
                         </span>
 
-          </button>
+                    </button>
 
 
-          <!-- =====================================
-               LANGUAGE MODAL
-               ===================================== -->
+                    <div
+                            class="language-menu"
+                            id="languageMenu"
+                            role="listbox"
+                            hidden
+                    >
 
-          <div
-                  id="languageModal"
-                  class="language-modal"
-                  hidden
-          >
+                        <button
+                                type="button"
+                                class="language-option"
+                                data-language="no"
+                                role="option"
+                                aria-selected="true"
+                        >
 
-
-            <!-- ================================
-                 SEARCH
-                 ================================ -->
-
-            <div class="language-search-wrapper">
-
-              <input
-                      id="languageSearchInput"
-                      class="language-search-input"
-                      type="search"
-                      placeholder="Søk etter språk..."
-                      aria-label="Søk etter språk"
-                      data-i18n-placeholder="languageSearchPlaceholder"
-                      data-i18n-aria-label="languageSearchAriaLabel"
-                      autocomplete="off"
-              >
-
-
-              <button
-                      id="clearLanguageSearchButton"
-                      class="language-search-clear"
-                      type="button"
-                      aria-label="Tøm søk"
-                      data-i18n-aria-label="clearLanguageSearch"
-                      hidden
-              >
-                ×
-              </button>
-
-            </div>
-
-
-            <!-- ================================
-                 RESULT TEXT
-                 ================================ -->
-
-            <div
-                    id="languageResultText"
-                    class="language-result-text"
-                    aria-live="polite"
-            >
-            </div>
-
-
-            <!-- ================================
-                 LANGUAGE LIST
-                 ================================ -->
-
-            <div
-                    id="languageList"
-                    class="language-list"
-                    role="listbox"
-                    aria-label="Tilgjengelige språk"
-                    data-i18n-aria-label="availableLanguages"
-            >
-
-              <p
-                      class="language-loading"
-                      data-i18n="loadingAvailableLanguages"
-              >
-                Laster tilgjengelige språk...
-              </p>
-
-            </div>
-
-
-            <!-- ================================
-                 EMPTY SEARCH
-                 ================================ -->
-
-            <div
-                    id="languageSearchEmpty"
-                    class="language-search-empty"
-                    hidden
-            >
-
-              <strong data-i18n="noLanguagesFound">
-                Ingen språk funnet
-              </strong>
-
-              <span data-i18n="tryAnotherSearch">
-                                Prøv et annet søk.
+                            <span class="language-option-flag">
+                                🇳🇴
                             </span>
 
-            </div>
+                            <span class="language-option-code">
+                                NO
+                            </span>
+
+                        </button>
 
 
-          </div>
+                        <button
+                                type="button"
+                                class="language-option"
+                                data-language="en"
+                                role="option"
+                                aria-selected="false"
+                        >
+
+                            <span class="language-option-flag">
+                                🇬🇧
+                            </span>
+
+                            <span class="language-option-code">
+                                EN
+                            </span>
+
+                        </button>
+
+                    </div>
 
 
-        </div>
+                </div>
 
 
-        <!-- =========================================
-             AVATAR
-             ========================================= -->
+                <!-- AVATAR -->
 
-        <div class="admin-profile-avatar">
+                <div class="admin-profile-avatar">
 
                     <span id="adminInitial">
                         A
                     </span>
 
-        </div>
+                </div>
 
 
-      </div>
+            </div>
 
 
-    </header>
+        </header>
 
 
-    <!-- =====================================================
-         MAIN CONTENT
-         ===================================================== -->
+        <!-- =====================================================
+             MAIN CONTENT
+             ===================================================== -->
 
-    <main class="admin-dashboard-main">
-
-
-      <!-- =================================================
-           PAGE HEADER
-           ================================================= -->
-
-      <section class="admin-users-page-header">
+        <main class="admin-dashboard-main">
 
 
-        <div>
+            <!-- =================================================
+                 PAGE HEADER
+                 ================================================= -->
 
-          <p
-                  class="admin-dashboard-eyebrow"
-                  data-i18n="adminAdministratorEyebrow"
-          >
-            ADMINISTRATOR
-          </p>
+            <section class="admin-users-page-header">
 
 
-          <h1 data-i18n="adminUsers">
-            Brukere
-          </h1>
+                <div>
+
+                    <p
+                            class="admin-dashboard-eyebrow"
+                            data-i18n="adminAdministratorEyebrow"
+                    >
+                        ADMINISTRATOR
+                    </p>
 
 
-          <p data-i18n="adminUsersPageDescription">
-            Opprett og administrer brukere og roller.
-          </p>
-
-        </div>
+                    <h1 data-i18n="adminUsers">
+                        Brukere
+                    </h1>
 
 
-        <button
-                id="backButton"
-                class="secondary-button"
-                type="button"
-        >
+                    <p data-i18n="adminUsersPageDescription">
+                        Opprett og administrer brukere og roller.
+                    </p>
+
+                </div>
+
+
+                <button
+                        id="backButton"
+                        class="secondary-button"
+                        type="button"
+                >
 
                     <span aria-hidden="true">
                         ←
                     </span>
 
-          <span data-i18n="adminDashboard">
+                    <span data-i18n="adminDashboard">
                         Dashboard
                     </span>
 
-        </button>
+                </button>
 
 
-      </section>
+            </section>
 
 
-      <!-- ===================================================
-           MAIN GRID
-           =================================================== -->
+            <!-- ===================================================
+                 MAIN GRID
+                 =================================================== -->
 
-      <div class="admin-users-layout">
-
-
-        <!-- =================================================
-             CREATE USER
-             ================================================= -->
-
-        <section class="dashboard-card admin-user-form-card">
+            <div class="admin-users-layout">
 
 
-          <div class="admin-users-card-heading">
+                <!-- =================================================
+                     CREATE USER
+                     ================================================= -->
+
+                <section class="dashboard-card admin-user-form-card">
 
 
-            <div class="admin-action-icon">
-              👤
-            </div>
+                    <div class="admin-users-card-heading">
 
 
-            <div>
-
-              <h2 data-i18n="adminCreateUser">
-                Opprett bruker
-              </h2>
+                        <div class="admin-action-icon">
+                            👤
+                        </div>
 
 
-              <p data-i18n="adminCreateUserDescription">
-                Opprett en ny bruker for CleanPlan. Brukeren mottar en sikker lenke på e-post for å sette sitt eget passord.
-              </p>
+                        <div>
 
-            </div>
-
-
-          </div>
+                            <h2 data-i18n="adminCreateUser">
+                                Opprett bruker
+                            </h2>
 
 
-          <form id="userForm">
+                            <p data-i18n="adminCreateUserDescription">
+                                Opprett en ny bruker for CleanPlan. Brukeren mottar en sikker lenke på e-post for å sette sitt eget passord.
+                            </p>
+
+                        </div>
 
 
-            <!-- =========================================
-                 NAME
-                 ========================================= -->
-
-            <div class="form-group admin-user-form-group">
-
-              <label
-                      for="fullName"
-                      data-i18n="adminNameLabel"
-              >
-                Navn
-              </label>
+                    </div>
 
 
-              <input
-                      type="text"
-                      id="fullName"
-                      name="fullName"
-                      placeholder="For eksempel Ola Nordmann"
-                      data-i18n-placeholder="adminNamePlaceholder"
-                      autocomplete="name"
-                      required
-              >
-
-            </div>
+                    <form id="userForm">
 
 
-            <!-- =========================================
-                 EMAIL
-                 ========================================= -->
+                        <!-- NAME -->
 
-            <div class="form-group admin-user-form-group">
+                        <div class="form-group admin-user-form-group">
 
-              <label
-                      for="email"
-                      data-i18n="emailLabel"
-              >
-                E-post
-              </label>
+                            <label
+                                    for="fullName"
+                                    data-i18n="adminNameLabel"
+                            >
+                                Navn
+                            </label>
 
 
-              <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      placeholder="fornavn@example.com"
-                      autocomplete="email"
-                      required
-              >
+                            <input
+                                    type="text"
+                                    id="fullName"
+                                    name="fullName"
+                                    placeholder="For eksempel Ola Nordmann"
+                                    data-i18n-placeholder="adminNamePlaceholder"
+                                    autocomplete="name"
+                                    required
+                            >
 
-            </div>
-
-
-            <!-- =========================================
-                 ROLE
-                 ========================================= -->
-
-            <div class="form-group admin-user-form-group">
-
-              <label
-                      for="role"
-                      data-i18n="adminRole"
-              >
-                Rolle
-              </label>
+                        </div>
 
 
-              <select
-                      id="role"
-                      name="role"
-                      required
-              >
+                        <!-- EMAIL -->
 
-                <option
-                        value=""
-                        selected
-                        disabled
-                        data-i18n="adminSelectRole"
-                >
-                  Velg rolle
-                </option>
+                        <div class="form-group admin-user-form-group">
 
-              </select>
+                            <label
+                                    for="email"
+                                    data-i18n="emailLabel"
+                            >
+                                E-post
+                            </label>
 
 
-            </div>
+                            <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="fornavn@example.com"
+                                    autocomplete="email"
+                                    required
+                            >
+
+                        </div>
 
 
-            <!-- =========================================
-                 CREATE BUTTON
-                 ========================================= -->
+                        <!-- ROLE -->
 
-            <button
-                    type="submit"
-                    class="primary-button admin-user-create-button"
-                    id="createUserButton"
-            >
+                        <div class="form-group admin-user-form-group">
+
+                            <label
+                                    for="role"
+                                    data-i18n="adminRole"
+                            >
+                                Rolle
+                            </label>
+
+
+                            <select
+                                    id="role"
+                                    name="role"
+                                    required
+                            >
+
+                                <option
+                                        value=""
+                                        selected
+                                        disabled
+                                        data-i18n="adminSelectRole"
+                                >
+                                    Velg rolle
+                                </option>
+
+                            </select>
+
+
+                        </div>
+
+
+                        <!-- CREATE BUTTON -->
+
+                        <button
+                                type="submit"
+                                class="primary-button admin-user-create-button"
+                                id="createUserButton"
+                        >
 
                             <span aria-hidden="true">
                                 +
                             </span>
 
-              <span data-i18n="adminCreateUser">
+                            <span data-i18n="adminCreateUser">
                                 Opprett bruker
                             </span>
 
-            </button>
+                        </button>
 
 
-            <!-- =========================================
-                 MESSAGE
-                 ========================================= -->
+                        <!-- MESSAGE -->
 
-            <p
-                    id="userMessage"
-                    class="message"
-                    role="alert"
-                    aria-live="polite"
-            ></p>
+                        <p
+                                id="userMessage"
+                                class="message"
+                                role="alert"
+                                aria-live="polite"
+                        ></p>
 
 
-          </form>
+                    </form>
 
 
-        </section>
+                </section>
 
 
-        <!-- =================================================
-             USER LIST
-             ================================================= -->
+                <!-- =================================================
+     USER LIST
+     ================================================= -->
 
-        <section class="dashboard-card admin-user-list-card">
-
-
-          <!-- =============================================
-               HEADER
-               ============================================= -->
-
-          <div class="admin-user-list-header">
+                <section class="dashboard-card admin-user-list-card">
 
 
-            <div class="admin-user-list-heading">
+                    <!-- =============================================
+                         HEADER
+                         ============================================= -->
+
+                    <div class="admin-user-list-header">
 
 
-              <div
-                      class="admin-user-list-icon"
-                      aria-hidden="true"
-              >
-                👤
-              </div>
+                        <div class="admin-user-list-heading">
 
 
-              <div>
+                            <div
+                                    class="admin-user-list-icon"
+                                    aria-hidden="true"
+                            >
+                                👤
+                            </div>
 
 
-                <div class="admin-user-title-row">
-
-                  <h2 data-i18n="adminRegisteredUsers">
-                    Registrerte brukere
-                  </h2>
+                            <div>
 
 
-                  <span
-                          id="userCountBadge"
-                          class="admin-user-number-badge"
-                  >
+                                <div class="admin-user-title-row">
+
+                                    <h2 data-i18n="adminRegisteredUsers">
+                                        Registrerte brukere
+                                    </h2>
+
+
+                                    <span
+                                            id="userCountBadge"
+                                            class="admin-user-number-badge"
+                                    >
                                         0
                                     </span>
 
-                </div>
+                                </div>
 
 
-                <p data-i18n="adminUsersAccessDescription">
-                  Brukerprofiler du har tilgang til å administrere.
-                </p>
+                                <p data-i18n="adminUsersAccessDescription">
+                                    Brukerprofiler du har tilgang til å administrere.
+                                </p>
 
 
-              </div>
+                            </div>
 
 
-            </div>
+                        </div>
 
 
-            <!-- =========================================
-                 SHOW / HIDE BUTTON
-                 ========================================= -->
+                        <!-- =========================================
+                             SHOW / HIDE BUTTON
+                             ========================================= -->
 
-            <button
-                    id="toggleUsersButton"
-                    type="button"
-                    class="admin-users-toggle-button"
-                    aria-expanded="false"
-                    aria-controls="registeredUsersContent"
-            >
+                        <button
+                                id="toggleUsersButton"
+                                type="button"
+                                class="admin-users-toggle-button"
+                                aria-expanded="false"
+                                aria-controls="registeredUsersContent"
+                        >
 
                             <span
                                     id="toggleUsersText"
@@ -801,39 +718,39 @@
                             </span>
 
 
-              <span
-                      id="toggleUsersIcon"
-                      class="admin-users-toggle-icon"
-                      aria-hidden="true"
-              >
+                            <span
+                                    id="toggleUsersIcon"
+                                    class="admin-users-toggle-icon"
+                                    aria-hidden="true"
+                            >
                                 ⌄
                             </span>
 
-            </button>
+                        </button>
 
 
-          </div>
+                    </div>
 
 
-          <!-- =============================================
-               COLLAPSIBLE CONTENT
-               ============================================= -->
+                    <!-- =============================================
+                         COLLAPSIBLE CONTENT
+                         ============================================= -->
 
-          <div
-                  id="registeredUsersContent"
-                  class="admin-registered-users-content"
-                  hidden
-          >
-
-
-            <!-- =========================================
-                 SEARCH
-                 ========================================= -->
-
-            <div class="admin-users-search-row">
+                    <div
+                            id="registeredUsersContent"
+                            class="admin-registered-users-content"
+                            hidden
+                    >
 
 
-              <div class="admin-users-search-field">
+                        <!-- =========================================
+                             SEARCH
+                             ========================================= -->
+
+                        <div class="admin-users-search-row">
+
+
+                            <div class="admin-users-search-field">
 
 
                                 <span
@@ -844,105 +761,105 @@
                                 </span>
 
 
-                <input
-                        id="userSearchInput"
-                        type="search"
-                        class="admin-users-search-input"
-                        placeholder="Søk etter navn, e-post, rolle eller status..."
-                        data-i18n-placeholder="adminUserSearchPlaceholder"
-                        autocomplete="off"
-                        aria-label="Søk etter bruker"
-                        data-i18n-aria-label="adminUserSearchAria"
-                >
+                                <input
+                                        id="userSearchInput"
+                                        type="search"
+                                        class="admin-users-search-input"
+                                        placeholder="Søk etter navn, e-post, rolle eller status..."
+                                        data-i18n-placeholder="adminUserSearchPlaceholder"
+                                        autocomplete="off"
+                                        aria-label="Søk etter bruker"
+                                        data-i18n-aria-label="adminUserSearchAria"
+                                >
 
 
-                <button
-                        id="clearUserSearchButton"
-                        type="button"
-                        class="admin-users-search-clear"
-                        aria-label="Tøm søk"
-                        data-i18n-aria-label="clearLanguageSearch"
-                        hidden
-                >
-                  ×
-                </button>
+                                <button
+                                        id="clearUserSearchButton"
+                                        type="button"
+                                        class="admin-users-search-clear"
+                                        aria-label="Tøm søk"
+                                        data-i18n-aria-label="clearLanguageSearch"
+                                        hidden
+                                >
+                                    ×
+                                </button>
 
 
-              </div>
+                            </div>
 
 
-              <div class="admin-users-search-info">
+                            <div class="admin-users-search-info">
 
                                 <span id="userSearchCount">
                                     0 brukere funnet
                                 </span>
 
-              </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- =========================================
+                             USER LIST
+                             ========================================= -->
+
+                        <div id="userList">
+
+                            <p
+                                    class="empty-state"
+                                    data-i18n="adminLoadingUsers"
+                            >
+                                Laster brukere...
+                            </p>
+
+                        </div>
+
+
+                        <!-- =========================================
+                             NO SEARCH RESULT
+                             ========================================= -->
+
+                        <div
+                                id="userSearchEmpty"
+                                class="admin-user-search-empty"
+                                hidden
+                        >
+
+                            <div
+                                    class="admin-user-search-empty-icon"
+                                    aria-hidden="true"
+                            >
+                                🔎
+                            </div>
+
+
+                            <h3 data-i18n="adminNoUsersFound">
+                                Ingen brukere funnet
+                            </h3>
+
+
+                            <p data-i18n="adminTryAnotherUserSearch">
+                                Prøv et annet navn, e-post, rolle eller status.
+                            </p>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
 
 
             </div>
 
 
-            <!-- =========================================
-                 USER LIST
-                 ========================================= -->
-
-            <div id="userList">
-
-              <p
-                      class="empty-state"
-                      data-i18n="adminLoadingUsers"
-              >
-                Laster brukere...
-              </p>
-
-            </div>
+        </main>
 
 
-            <!-- =========================================
-                 NO SEARCH RESULT
-                 ========================================= -->
-
-            <div
-                    id="userSearchEmpty"
-                    class="admin-user-search-empty"
-                    hidden
-            >
-
-              <div
-                      class="admin-user-search-empty-icon"
-                      aria-hidden="true"
-              >
-                🔎
-              </div>
-
-
-              <h3 data-i18n="adminNoUsersFound">
-                Ingen brukere funnet
-              </h3>
-
-
-              <p data-i18n="adminTryAnotherUserSearch">
-                Prøv et annet navn, e-post, rolle eller status.
-              </p>
-
-
-            </div>
-
-
-          </div>
-
-
-        </section>
-
-
-      </div>
-
-
-    </main>
-
-
-  </div>
+    </div>
 
 
 </div>
@@ -969,7 +886,7 @@
      Must load before users.js
      ========================================================= -->
 
-<script src="js/language.js?v=11"></script>
+<script src="js/language.js?v=12"></script>
 
 
 <!-- =========================================================
@@ -985,9 +902,9 @@
 
 <script>
 
-  document.addEventListener(
-          "DOMContentLoaded",
-          function () {
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
 
 
             // =================================================
@@ -995,33 +912,33 @@
             // =================================================
 
             const mobileSidebarButton =
-                    document.getElementById(
-                            "mobileSidebarButton"
-                    );
+                document.getElementById(
+                    "mobileSidebarButton"
+                );
 
 
             const adminSidebar =
-                    document.getElementById(
-                            "adminSidebar"
-                    );
+                document.getElementById(
+                    "adminSidebar"
+                );
 
 
             const adminSidebarOverlay =
-                    document.getElementById(
-                            "adminSidebarOverlay"
-                    );
+                document.getElementById(
+                    "adminSidebarOverlay"
+                );
 
 
             const historySidebarButton =
-                    document.getElementById(
-                            "historySidebarButton"
-                    );
+                document.getElementById(
+                    "historySidebarButton"
+                );
 
 
             const settingsSidebarButton =
-                    document.getElementById(
-                            "settingsSidebarButton"
-                    );
+                document.getElementById(
+                    "settingsSidebarButton"
+                );
 
 
             // =================================================
@@ -1029,36 +946,36 @@
             // =================================================
 
             function adminTranslate(
-                    key,
-                    fallback
+                key,
+                fallback
             ) {
 
-              if (
-                      window.CleanPlanI18n &&
-                      typeof window.CleanPlanI18n.t ===
-                      "function"
-              ) {
+                if (
+                    window.CleanPlanI18n &&
+                    typeof window.CleanPlanI18n.t ===
+                    "function"
+                ) {
 
-                const translated =
+                    const translated =
                         window.CleanPlanI18n.t(
-                                key
+                            key
                         );
 
 
-                if (
+                    if (
                         translated &&
                         translated !==
                         key
-                ) {
+                    ) {
 
-                  return translated;
+                        return translated;
+
+                    }
 
                 }
 
-              }
 
-
-              return fallback;
+                return fallback;
 
             }
 
@@ -1069,30 +986,30 @@
 
             function openAdminSidebar() {
 
-              if (
-                      adminSidebar
-              ) {
+                if (
+                    adminSidebar
+                ) {
 
-                adminSidebar.classList.add(
+                    adminSidebar.classList.add(
                         "open"
-                );
+                    );
 
-              }
+                }
 
 
-              if (
-                      adminSidebarOverlay
-              ) {
+                if (
+                    adminSidebarOverlay
+                ) {
 
-                adminSidebarOverlay.hidden =
+                    adminSidebarOverlay.hidden =
                         false;
 
 
-                adminSidebarOverlay.classList.add(
+                    adminSidebarOverlay.classList.add(
                         "visible"
-                );
+                    );
 
-              }
+                }
 
             }
 
@@ -1103,30 +1020,30 @@
 
             function closeAdminSidebar() {
 
-              if (
-                      adminSidebar
-              ) {
+                if (
+                    adminSidebar
+                ) {
 
-                adminSidebar.classList.remove(
+                    adminSidebar.classList.remove(
                         "open"
-                );
+                    );
 
-              }
+                }
 
 
-              if (
-                      adminSidebarOverlay
-              ) {
+                if (
+                    adminSidebarOverlay
+                ) {
 
-                adminSidebarOverlay.classList.remove(
+                    adminSidebarOverlay.classList.remove(
                         "visible"
-                );
+                    );
 
 
-                adminSidebarOverlay.hidden =
+                    adminSidebarOverlay.hidden =
                         true;
 
-              }
+                }
 
             }
 
@@ -1136,30 +1053,30 @@
             // =================================================
 
             if (
-                    mobileSidebarButton
+                mobileSidebarButton
             ) {
 
-              mobileSidebarButton.addEventListener(
-                      "click",
-                      function () {
+                mobileSidebarButton.addEventListener(
+                    "click",
+                    function () {
 
                         if (
-                                adminSidebar &&
-                                adminSidebar.classList.contains(
-                                        "open"
-                                )
+                            adminSidebar &&
+                            adminSidebar.classList.contains(
+                                "open"
+                            )
                         ) {
 
-                          closeAdminSidebar();
+                            closeAdminSidebar();
 
                         } else {
 
-                          openAdminSidebar();
+                            openAdminSidebar();
 
                         }
 
-                      }
-              );
+                    }
+                );
 
             }
 
@@ -1169,38 +1086,37 @@
             // =================================================
 
             if (
-                    adminSidebarOverlay
+                adminSidebarOverlay
             ) {
 
-              adminSidebarOverlay.addEventListener(
-                      "click",
-                      closeAdminSidebar
-              );
+                adminSidebarOverlay.addEventListener(
+                    "click",
+                    closeAdminSidebar
+                );
 
             }
-
 
             // =================================================
             // HISTORY
             // =================================================
 
             if (
-                    historySidebarButton
+                historySidebarButton
             ) {
 
-              historySidebarButton.addEventListener(
-                      "click",
-                      function () {
+                historySidebarButton.addEventListener(
+                    "click",
+                    function () {
 
                         window.alert(
-                                adminTranslate(
-                                        "adminHistoryComingSoon",
-                                        "Historikk kommer i et senere steg."
-                                )
+                            adminTranslate(
+                                "adminHistoryComingSoon",
+                                "Historikk kommer i et senere steg."
+                            )
                         );
 
-                      }
-              );
+                    }
+                );
 
             }
 
@@ -1210,22 +1126,22 @@
             // =================================================
 
             if (
-                    settingsSidebarButton
+                settingsSidebarButton
             ) {
 
-              settingsSidebarButton.addEventListener(
-                      "click",
-                      function () {
+                settingsSidebarButton.addEventListener(
+                    "click",
+                    function () {
 
                         window.alert(
-                                adminTranslate(
-                                        "adminSettingsComingSoon",
-                                        "Innstillinger kommer i et senere steg."
-                                )
+                            adminTranslate(
+                                "adminSettingsComingSoon",
+                                "Innstillinger kommer i et senere steg."
+                            )
                         );
 
-                      }
-              );
+                    }
+                );
 
             }
 
@@ -1235,21 +1151,21 @@
             // =================================================
 
             document.addEventListener(
-                    "keydown",
-                    function (
-                            event
-                    ) {
+                "keydown",
+                function (
+                    event
+                ) {
 
-                      if (
-                              event.key ===
-                              "Escape"
-                      ) {
+                    if (
+                        event.key ===
+                        "Escape"
+                    ) {
 
                         closeAdminSidebar();
 
-                      }
-
                     }
+
+                }
             );
 
 
@@ -1258,28 +1174,29 @@
             // =================================================
 
             window.addEventListener(
-                    "resize",
-                    function () {
+                "resize",
+                function () {
 
-                      if (
-                              window.innerWidth >
-                              900
-                      ) {
+                    if (
+                        window.innerWidth >
+                        900
+                    ) {
 
                         closeAdminSidebar();
 
-                      }
-
                     }
+
+                }
             );
 
 
-          }
-  );
+        }
+    );
 
 </script>
 
 
 </body>
+
 
 </html>

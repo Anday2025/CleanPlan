@@ -1,1113 +1,1569 @@
 <!DOCTYPE html>
+
 <html lang="no">
 
 <head>
 
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-  <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0"
-  >
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
 
-  <title data-i18n-title="residentPageTitle">
-    CleanPlan - Min side
-  </title>
+    <title data-i18n-title="residentPageTitle">
+        CleanPlan - Min side
+    </title>
 
-  <link
-          rel="stylesheet"
-          href="css/style.css"
-  >
+    <link
+            rel="stylesheet"
+            href="css/style.css"
+    >
 
 </head>
 
 
-<body>
+<body class="resident-admin-layout-body">
 
 
 <!-- =========================================================
-     TOPBAR
+     MOBILE SIDEBAR OVERLAY
      ========================================================= -->
 
-<header class="topbar">
-
-  <div class="brand">
-
-    <span class="brand-icon">
-      🧹
-    </span>
-
-    <span>
-      CleanPlan
-    </span>
-
-  </div>
-
-
-  <div class="topbar-right">
-
-    <span id="residentName">
-      Beboer
-    </span>
-
-
-    <!-- =====================================================
-         LANGUAGE SELECTOR
-         ===================================================== -->
-
-    <div class="language-selector">
-
-      <button
-              type="button"
-              class="language-button"
-              id="languageButton"
-              aria-haspopup="true"
-              aria-controls="languageModal"
-              aria-expanded="false"
-      >
-
-        <span class="language-button-globe">
-          🌐
-        </span>
-
-        <span id="selectedLanguageName">
-          NO
-        </span>
-
-        <span class="language-button-chevron">
-          ▾
-        </span>
-
-      </button>
-
-
-      <div
-              id="languageModal"
-              class="language-modal"
-              hidden
-      >
-
-        <section class="language-modal-card">
-
-
-          <div class="language-search-wrapper">
-
-            <span class="language-search-icon">
-              🔍
-            </span>
-
-            <input
-                    type="search"
-                    id="languageSearchInput"
-                    class="language-search-input"
-                    placeholder="Søk etter språk..."
-                    data-i18n-placeholder="languageSearchPlaceholder"
-                    autocomplete="off"
-                    aria-label="Søk etter språk"
-                    data-i18n-aria-label="languageSearchAriaLabel"
-            >
-
-            <button
-                    type="button"
-                    id="clearLanguageSearchButton"
-                    class="language-search-clear"
-                    aria-label="Tøm søk"
-                    data-i18n-aria-label="clearLanguageSearch"
-                    hidden
-            >
-              ×
-            </button>
-
-          </div>
-
-
-          <div class="language-list-info">
-
-            <span id="languageResultText">
-              Laster språk...
-            </span>
-
-          </div>
-
-
-          <div
-                  id="languageList"
-                  class="language-list"
-                  role="listbox"
-                  aria-label="Tilgjengelige språk"
-                  data-i18n-aria-label="availableLanguages"
-          >
-
-            <div class="language-loading-state">
-
-              <span class="language-loading-icon">
-                🌐
-              </span>
-
-              <p data-i18n="loadingAvailableLanguages">
-                Laster tilgjengelige språk...
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div
-                  id="languageSearchEmpty"
-                  class="language-search-empty"
-                  hidden
-          >
-
-            <div class="language-search-empty-icon">
-              🔎
-            </div>
-
-            <h3 data-i18n="noLanguagesFound">
-              Ingen språk funnet
-            </h3>
-
-            <p data-i18n="tryAnotherSearch">
-              Prøv et annet søk.
-            </p>
-
-          </div>
-
-        </section>
-
-      </div>
-
-    </div>
-
-
-    <button
-            id="logoutButton"
-            class="logout-button"
-            type="button"
-            data-i18n="logout"
-    >
-      Logg ut
-    </button>
-
-  </div>
-
-</header>
+<div
+        id="residentSidebarOverlay"
+        class="resident-sidebar-overlay"
+        hidden
+></div>
 
 
 <!-- =========================================================
-     MAIN
+     RESIDENT APP
      ========================================================= -->
 
-<main class="dashboard resident-dashboard">
-
-
-  <!-- =====================================================
-       PAGE HEADER
-       ===================================================== -->
-
-  <div class="page-header resident-page-header">
-
-    <div>
-
-      <p
-              class="eyebrow"
-              data-i18n="residentRole"
-      >
-        BEBOER
-      </p>
-
-      <h1 id="welcomeTitle">
-        Velkommen
-      </h1>
-
-      <p
-              class="welcome-text"
-              data-i18n="residentWelcomeDescription"
-      >
-        Her finner du boligen din, rengjøringsplanen og dine kommende rengjøringsuker.
-      </p>
-
-    </div>
+<div class="resident-app-layout">
 
 
     <!-- =====================================================
-         CLEANING HISTORY BUTTON
+         SIDEBAR
          ===================================================== -->
 
-    <button
-            id="cleaningHistoryButton"
-            type="button"
-            class="resident-history-button"
-            aria-expanded="false"
-            aria-controls="cleaningHistorySection"
+    <aside
+            id="residentSidebar"
+            class="resident-sidebar"
     >
-    <span>
-      📋
-    </span>
-
-      <span data-i18n="cleaningHistory">
-      Logg
-    </span>
-
-    </button>
-
-  </div>
-
-
-  <!-- =====================================================
-       LOADING
-       ===================================================== -->
-
-  <section
-          id="loadingSection"
-          class="dashboard-card"
-  >
-
-    <h2 data-i18n="loading">
-      Laster...
-    </h2>
-
-    <p data-i18n="residentLoadingDescription">
-      Henter kontoen og rengjøringsplanen din.
-    </p>
-
-  </section>
-
-
-  <!-- =====================================================
-       WAITING FOR PROPERTY ASSIGNMENT
-       ===================================================== -->
-
-  <section
-          id="waitingSection"
-          class="dashboard-card"
-          hidden
-  >
-
-    <div class="section-header">
-
-      <div>
-
-        <h2>
-          🏠
-          <span data-i18n="propertyAssociation">
-            Boligtilknytning
-          </span>
-        </h2>
-
-        <p data-i18n="accountActive">
-          Kontoen din er aktiv.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="empty-state">
-
-      <h3 data-i18n="notAssignedProperty">
-        Du er ikke tilknyttet en bolig ennå
-      </h3>
-
-      <p data-i18n="notAssignedPropertyDescription">
-        Kontoen din er opprettet og klar til bruk, men administrator har ikke koblet deg til en bolig og etasje ennå.
-      </p>
-
-      <p data-i18n="contactAdministratorProperty">
-        Kontakt administrator dersom du mener at boligtilknytningen allerede skulle vært registrert.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       RESIDENT INFORMATION
-       ===================================================== -->
-
-  <section
-          id="residentSection"
-          class="dashboard-card resident-property-card"
-          hidden
-  >
-
-    <div class="section-header">
-
-      <div>
-
-        <h2>
-          🏠
-          <span data-i18n="myProperty">
-            Min bolig
-          </span>
-        </h2>
-
-        <p data-i18n="registeredPropertyFloor">
-          Din registrerte bolig og etasje.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="property-row">
-
-      <div>
-
-        <h3 id="propertyName">
-          Bolig
-        </h3>
-
-        <p id="propertyAddress">
-          -
-        </p>
-
-
-        <div class="property-meta">
-
-          <span id="floorName">
-            Etasje: -
-          </span>
-
-          <span
-                  class="status-active"
-                  data-i18n="active"
-          >
-            Aktiv
-          </span>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       CLEANING PLAN
-       ===================================================== -->
-
-  <section
-          id="cleaningSection"
-          class="resident-cleaning-section"
-          hidden
-  >
-
-
-    <!-- ===================================================
-         SECTION HEADER
-         =================================================== -->
-
-    <div class="resident-cleaning-heading">
-
-      <div>
-
-        <h2>
-          🧹
-          <span data-i18n="cleaningPlan">
-            Rengjøringsplan
-          </span>
-        </h2>
-
-        <p id="cleaningPlanSubtitle">
-          Oppgavene for din bolig og etasje.
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <!-- ===================================================
-         NO PLAN
-         =================================================== -->
-
-    <div
-            id="noCleaningPlanState"
-            class="dashboard-card empty-state"
-            hidden
-    >
-
-      <h3 data-i18n="noCleaningPlanYet">
-        Ingen rengjøringsplan ennå
-      </h3>
-
-      <p data-i18n="noCleaningPlanDescription">
-        Administrator har ikke opprettet en rengjøringsplan for etasjen din ennå.
-      </p>
-
-    </div>
-
-
-    <!-- ===================================================
-         CLEANING PLAN CONTENT
-         =================================================== -->
-
-    <div
-            id="cleaningPlanContent"
-            hidden
-    >
-
-
-      <!-- =================================================
-           THIS WEEK
-           ================================================= -->
-
-      <section class="resident-week-card">
-
-        <div class="resident-week-card-header">
-
-          <div>
-
-            <p
-                    class="resident-week-eyebrow"
-                    data-i18n="thisWeek"
-            >
-              DENNE UKEN
-            </p>
-
-            <h2 id="currentWeekHeading">
-              Rengjøring denne uken
-            </h2>
-
-          </div>
-
-
-          <span
-                  id="currentWeekStatus"
-                  class="resident-week-status"
-          >
-            Planlagt
-          </span>
-
-        </div>
-
-
-        <div class="resident-week-details">
-
-
-          <div class="resident-week-detail">
-
-            <span
-                    class="resident-week-detail-label"
-                    data-i18n="date"
-            >
-              Dato
-            </span>
-
-            <strong id="currentWeekDate">
-              -
-            </strong>
-
-          </div>
-
-
-          <div class="resident-week-detail">
-
-            <span
-                    class="resident-week-detail-label"
-                    data-i18n="responsible"
-            >
-              Ansvarlig
-            </span>
-
-            <strong id="currentWeekResponsible">
-              -
-            </strong>
-
-          </div>
-
-
-          <div class="resident-week-detail">
-
-            <span
-                    class="resident-week-detail-label"
-                    data-i18n="time"
-            >
-              Tid
-            </span>
-
-            <strong>
-              08:00–18:00
-            </strong>
-
-          </div>
-
-
-          <div class="resident-week-detail">
-
-            <span
-                    class="resident-week-detail-label"
-                    data-i18n="floor"
-            >
-              Etasje
-            </span>
-
-            <strong id="currentWeekFloor">
-              -
-            </strong>
-
-          </div>
-
-
-        </div>
-
-
-        <p
-                class="resident-week-warning"
-                data-i18n="thursdayFallbackWarning"
-        >
-          Hvis fredag ikke er mulig, skal rengjøringen utføres på torsdag.
-        </p>
-
-      </section>
-
-
-      <!-- =================================================
-           MAIN GRID
-           ================================================= -->
-
-      <div class="resident-plan-grid">
 
 
         <!-- =================================================
-             LEFT COLUMN
+             BRAND
              ================================================= -->
 
-        <div class="resident-plan-left">
+        <div class="resident-sidebar-brand">
 
-
-          <!-- ===============================================
-               WEEK NAVIGATION
-               =============================================== -->
-
-          <section class="dashboard-card resident-week-navigation-card">
-
-            <div class="resident-card-title">
-
-              <div>
-
-                <h3 data-i18n="cleaningPlan">
-                  Rengjøringsplan
-                </h3>
-
-                <p data-i18n="viewPreviousUpcomingWeeks">
-                  Se tidligere og kommende uker.
-                </p>
-
-              </div>
-
-            </div>
-
-
-            <div class="resident-week-navigation">
-
-              <button
-                      id="previousWeekButton"
-                      type="button"
-                      class="resident-week-nav-button"
-              >
-                ←
-                <span data-i18n="previous">
-                  Forrige
-                </span>
-              </button>
-
-
-              <div class="resident-selected-week">
-
-                <strong id="selectedWeekNumber">
-                  Uke -
-                </strong>
-
-                <span id="selectedWeekYear">
-                  -
-                </span>
-
-              </div>
-
-
-              <button
-                      id="nextWeekButton"
-                      type="button"
-                      class="resident-week-nav-button"
-              >
-                <span data-i18n="next">
-                  Neste
-                </span>
-                →
-              </button>
-
-            </div>
-
-
-            <div
-                    id="weekPreviewList"
-                    class="resident-week-preview-list"
-            >
-            </div>
-
-          </section>
-
-
-          <!-- ===============================================
-               SELECTED WEEK INFORMATION
-               =============================================== -->
-
-          <section class="dashboard-card resident-selected-week-card">
-
-            <h3 data-i18n="selectedWeek">
-              Valgt uke
-            </h3>
-
-
-            <div class="resident-selected-week-info">
-
-              <div>
-
-                <span data-i18n="date">
-                  Dato
-                </span>
-
-                <strong id="selectedWeekDate">
-                  -
-                </strong>
-
-              </div>
-
-
-              <div>
-
-                <span data-i18n="responsible">
-                  Ansvarlig
-                </span>
-
-                <strong id="selectedWeekResponsible">
-                  -
-                </strong>
-
-              </div>
-
-
-              <div>
-
-                <span data-i18n="status">
-                  Status
-                </span>
-
-                <strong id="selectedWeekStatus">
-                  Planlagt
-                </strong>
-
-              </div>
-
-            </div>
-
-          </section>
-
-
-        </div>
-
-
-        <!-- =================================================
-             MIDDLE COLUMN
-             ================================================= -->
-
-        <section class="dashboard-card resident-cleaning-task-card">
-
-          <div class="resident-card-title">
-
-            <div>
-
-              <h3 data-i18n="cleaningTasks">
-                Rengjøringsoppgaver
-              </h3>
-
-              <p id="taskPermissionMessage">
-                Oppgavene er opprettet av administrator.
-              </p>
-
-            </div>
-
-
-            <span
-                    id="cleaningTaskCount"
-                    class="resident-task-count"
-            >
-              0 oppgaver
+            <span class="resident-sidebar-logo">
+                🧹
             </span>
-
-          </div>
-
-
-          <!-- ===============================================
-               NO TASKS
-               =============================================== -->
-
-          <div
-                  id="noCleaningTasksState"
-                  class="empty-state"
-                  hidden
-          >
-
-            <p data-i18n="noCleaningTasks">
-              Det er ingen rengjøringsoppgaver registrert ennå.
-            </p>
-
-          </div>
-
-
-          <!-- ===============================================
-               TASK LIST
-               =============================================== -->
-
-          <div
-                  id="cleaningTasksWrapper"
-                  class="resident-cleaning-task-list"
-                  hidden
-          >
-
-            <div id="cleaningTaskList">
-            </div>
-
-          </div>
-
-
-          <!-- ===============================================
-               PERMISSION INFO
-               =============================================== -->
-
-          <div
-                  id="cleaningPermissionNotice"
-                  class="resident-permission-notice"
-          >
 
             <span>
-              🔒
+                CleanPlan
             </span>
-
-            <span id="cleaningPermissionText">
-              Kun den ansvarlige beboeren kan fullføre denne uken.
-            </span>
-
-          </div>
-
-        </section>
-
-        <!-- =================================================
-     RIGHT COLUMN
-     ================================================= -->
-
-        <div class="resident-plan-right">
-
-
-          <!-- ===============================================
-               DOCUMENTATION
-               =============================================== -->
-
-          <section class="dashboard-card resident-document-card">
-
-            <div class="resident-card-title">
-
-              <div>
-
-                <h3>
-                  📷
-                  <span data-i18n="documentWork">
-                    Dokumenter arbeidet
-                  </span>
-                </h3>
-
-                <p data-i18n="documentWorkDescription">
-                  Ta nye bilder med kameraet etter at rengjøringen er utført.
-                </p>
-
-              </div>
-
-            </div>
-
-
-            <!--
-                 Direct camera only.
-
-                 JavaScript opens the device camera directly
-                 with navigator.mediaDevices.getUserMedia().
-
-                 No file or gallery input is used.
-            -->
-
-
-            <button
-                    id="cameraButton"
-                    type="button"
-                    class="resident-camera-button"
-                    disabled
-            >
-              📷
-              <span data-i18n="takePhoto">
-                Ta bilde
-              </span>
-            </button>
-
-
-            <div
-                    id="photoPreviewGrid"
-                    class="resident-photo-preview-grid"
-            >
-            </div>
-
-
-            <div class="resident-photo-footer">
-
-              <span id="photoCount">
-                Bilder (0/10)
-              </span>
-
-              <span data-i18n="maxTenPhotos">
-                Maks 10 bilder
-              </span>
-
-            </div>
-
-          </section>
-
-
-          <!-- ===============================================
-               CONFIRM AND SIGN
-               =============================================== -->
-
-          <section class="dashboard-card resident-confirm-card">
-
-            <div class="resident-card-title">
-
-              <div>
-
-                <h3>
-
-                  <span data-i18n="confirmAndSign">
-                    Bekreft og signer
-                  </span>
-                </h3>
-
-                <p data-i18n="confirmAndSignDescription">
-                  Bekreft når alle oppgavene er utført og dokumentasjonen er lagt til.
-                </p>
-
-              </div>
-
-            </div>
-
-
-            <div class="resident-confirm-info">
-
-              <div>
-
-                <span data-i18n="signedBy">
-                  Signeres av
-                </span>
-
-                <strong id="signedByName">
-                  -
-                </strong>
-
-              </div>
-
-
-              <div>
-
-                <span data-i18n="week">
-                  Uke
-                </span>
-
-                <strong id="confirmWeekNumber">
-                  -
-                </strong>
-
-              </div>
-
-            </div>
-
-
-            <button
-                    id="confirmCleaningButton"
-                    type="button"
-                    class="resident-confirm-button"
-                    disabled
-            >
-
-              <span data-i18n="confirmCleaningCompleted">
-                Bekreft og signer rengjøring utført
-              </span>
-            </button>
-
-
-            <p
-                    id="responsibleOnlyMessage"
-                    class="resident-confirm-note"
-            >
-              🔒 Kun den ansvarlige for denne uken kan fullføre rengjøringen.
-            </p>
-
-          </section>
-
 
         </div>
 
 
-      </div>
+        <!-- =================================================
+             ROLE
+             ================================================= -->
 
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =====================================================
-     CLEANING HISTORY
-     ===================================================== -->
-
-  <section
-          id="cleaningHistorySection"
-          class="resident-history-section"
-          hidden
-  >
-
-
-    <!-- ===================================================
-         HISTORY HEADER
-         =================================================== -->
-
-    <div class="resident-history-heading">
-
-      <div>
-
-        <p
-                class="eyebrow"
-                data-i18n="cleaningHistoryEyebrow"
+        <div
+                class="resident-sidebar-section-label"
+                data-i18n="residentRole"
         >
-          HISTORIKK
-        </p>
-
-        <h2>
-          📋
-          <span data-i18n="cleaningHistory">
-            Logg
-          </span>
-        </h2>
-
-        <p data-i18n="cleaningHistoryDescription">
-          Se tidligere rengjøringsuker og dokumentasjon for boligen og etasjen din.
-        </p>
-
-      </div>
+            BEBOER
+        </div>
 
 
-      <button
-              id="closeCleaningHistoryButton"
-              type="button"
-              class="resident-history-close-button"
-              aria-label="Lukk historikk"
-              data-i18n-aria-label="closeCleaningHistory"
-      >
-        ×
-      </button>
+        <!-- =================================================
+             NAVIGATION
+             ================================================= -->
+
+        <nav class="resident-sidebar-nav">
+
+
+            <!-- DASHBOARD -->
+
+            <a
+                    href="#residentDashboardHome"
+                    class="resident-sidebar-link active"
+                    id="residentDashboardNav"
+            >
+
+                <span class="resident-sidebar-icon">
+                    ▦
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <!-- MY PROPERTY -->
+
+            <a
+                    href="#residentSection"
+                    class="resident-sidebar-link"
+                    id="residentPropertyNav"
+            >
+
+                <span class="resident-sidebar-icon">
+                    🏠
+                </span>
+
+                <span data-i18n="myProperty">
+                    Min bolig
+                </span>
+
+            </a>
+
+
+            <!-- CLEANING PLAN -->
+
+            <a
+                    href="#cleaningSection"
+                    class="resident-sidebar-link"
+                    id="residentCleaningNav"
+            >
+
+                <span class="resident-sidebar-icon">
+                    🧹
+                </span>
+
+                <span data-i18n="cleaningPlan">
+                    Rengjøringsplan
+                </span>
+
+            </a>
+
+
+            <!-- PHOTOS -->
+
+            <a
+                    href="#residentPhotosSection"
+                    class="resident-sidebar-link"
+                    id="residentPhotosNav"
+            >
+
+                <span class="resident-sidebar-icon">
+                    📷
+                </span>
+
+                <span>
+                    Bilder
+                </span>
+
+            </a>
+
+
+            <!-- HISTORY -->
+
+            <button
+                    id="cleaningHistoryButton"
+                    type="button"
+                    class="resident-sidebar-link resident-sidebar-button"
+                    aria-expanded="false"
+                    aria-controls="cleaningHistorySection"
+            >
+
+                <span class="resident-sidebar-icon">
+                    ↺
+                </span>
+
+                <span data-i18n="cleaningHistory">
+                    Historikk
+                </span>
+
+            </button>
+
+
+        </nav>
+
+
+        <!-- =================================================
+             SIDEBAR BOTTOM
+             ================================================= -->
+
+        <div class="resident-sidebar-bottom">
+
+            <button
+                    id="logoutButton"
+                    class="resident-sidebar-logout"
+                    type="button"
+            >
+
+                <span>
+                    ↪
+                </span>
+
+                <span data-i18n="logout">
+                    Logg ut
+                </span>
+
+            </button>
+
+        </div>
+
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN AREA
+         ===================================================== -->
+
+    <div class="resident-main-area">
+
+
+        <!-- =================================================
+             TOP HEADER
+             ================================================= -->
+
+        <header class="resident-main-header">
+
+
+            <!-- MOBILE MENU -->
+
+            <button
+                    id="residentMobileMenuButton"
+                    class="resident-mobile-menu-button"
+                    type="button"
+                    aria-label="Åpne meny"
+            >
+                ☰
+            </button>
+
+
+            <!-- =================================================
+                 HEADER RIGHT
+                 ================================================= -->
+
+            <div class="resident-header-profile">
+
+
+                <!-- =================================================
+                     LANGUAGE
+                     ================================================= -->
+
+                <div
+                        class="language-switcher"
+                        id="languageSwitcher"
+                >
+
+                    <button
+                            type="button"
+                            class="language-current"
+                            id="languageCurrentButton"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            data-i18n-aria-label="languageSelectorAria"
+                    >
+
+                        <span
+                                class="language-current-flag"
+                                id="currentLanguageFlag"
+                        >
+                            🇳🇴
+                        </span>
+
+                        <span
+                                class="language-current-code"
+                                id="currentLanguageCode"
+                        >
+                            NO
+                        </span>
+
+                        <span class="language-current-arrow">
+                            ▾
+                        </span>
+
+                    </button>
+
+
+                    <div
+                            class="language-menu"
+                            id="languageMenu"
+                            role="listbox"
+                            hidden
+                    >
+
+
+                        <!-- NORWEGIAN -->
+
+                        <button
+                                type="button"
+                                class="language-option"
+                                data-language="no"
+                                role="option"
+                                aria-selected="true"
+                        >
+
+                            <span class="language-option-flag">
+                                🇳🇴
+                            </span>
+
+                            <span class="language-option-code">
+                                NO
+                            </span>
+
+                        </button>
+
+
+                        <!-- ENGLISH -->
+
+                        <button
+                                type="button"
+                                class="language-option"
+                                data-language="en"
+                                role="option"
+                                aria-selected="false"
+                        >
+
+                            <span class="language-option-flag">
+                                🇬🇧
+                            </span>
+
+                            <span class="language-option-code">
+                                EN
+                            </span>
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- =================================================
+                     AVATAR
+                     ================================================= -->
+
+                <div
+                        class="resident-header-avatar"
+                        id="residentInitial"
+                        aria-hidden="true"
+                >
+                    B
+                </div>
+
+
+                <!-- =================================================
+                     PROFILE TEXT
+                     ================================================= -->
+
+                <div class="resident-header-profile-text">
+
+                    <strong id="residentName">
+                        Beboer
+                    </strong>
+
+                    <span data-i18n="residentRole">
+                        Beboer
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+        <!-- =================================================
+             MAIN CONTENT
+             ================================================= -->
+
+        <main
+                id="residentDashboardTop"
+                class="resident-dashboard-modern"
+        >
+
+
+            <!-- =================================================
+                 PAGE HEADER
+                 ================================================= -->
+
+            <section class="resident-modern-welcome">
+
+                <p
+                        class="resident-modern-eyebrow"
+                        data-i18n="residentRole"
+                >
+                    BEBOER
+                </p>
+
+                <h1 id="welcomeTitle">
+                    Velkommen
+                </h1>
+
+                <p
+                        class="resident-modern-welcome-text"
+                        data-i18n="residentWelcomeDescription"
+                >
+                    Her finner du boligen din, rengjøringsplanen og dine kommende rengjøringsuker.
+                </p>
+
+            </section>
+
+
+            <!-- =================================================
+                 LOADING
+                 ================================================= -->
+
+            <section
+                    id="loadingSection"
+                    class="dashboard-card"
+            >
+
+                <h2 data-i18n="loading">
+                    Laster...
+                </h2>
+
+                <p data-i18n="residentLoadingDescription">
+                    Henter kontoen og rengjøringsplanen din.
+                </p>
+
+            </section>
+
+
+            <!-- =================================================
+                 WAITING FOR PROPERTY ASSIGNMENT
+                 ================================================= -->
+
+            <section
+                    id="waitingSection"
+                    class="dashboard-card"
+                    hidden
+            >
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+
+                            🏠
+
+                            <span data-i18n="propertyAssociation">
+                                Boligtilknytning
+                            </span>
+
+                        </h2>
+
+                        <p data-i18n="accountActive">
+                            Kontoen din er aktiv.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="empty-state">
+
+                    <h3 data-i18n="notAssignedProperty">
+                        Du er ikke tilknyttet en bolig ennå
+                    </h3>
+
+                    <p data-i18n="notAssignedPropertyDescription">
+                        Kontoen din er opprettet og klar til bruk, men administrator har ikke koblet deg til en bolig og etasje ennå.
+                    </p>
+
+                    <p data-i18n="contactAdministratorProperty">
+                        Kontakt administrator dersom du mener at boligtilknytningen allerede skulle vært registrert.
+                    </p>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 DASHBOARD HOME
+                 ================================================= -->
+
+            <section
+                    id="residentDashboardHome"
+                    class="resident-dashboard-home"
+                    hidden
+            >
+
+
+                <div class="resident-dashboard-section-heading">
+
+                    <p class="resident-modern-eyebrow">
+                        OVERSIKT
+                    </p>
+
+                    <h2>
+                        Administrer CleanPlan
+                    </h2>
+
+                    <p>
+                        Velg området du vil åpne.
+                    </p>
+
+                </div>
+
+
+                <div class="resident-dashboard-menu-grid">
+
+
+                    <!-- MY PROPERTY -->
+
+                    <article class="resident-dashboard-menu-card">
+
+                        <div class="resident-dashboard-menu-icon">
+                            🏠
+                        </div>
+
+                        <h2 data-i18n="myProperty">
+                            Min bolig
+                        </h2>
+
+                        <p>
+                            Se registrert bolig, adresse og etasje.
+                        </p>
+
+                        <button
+                                id="openResidentPropertyButton"
+                                type="button"
+                                class="resident-dashboard-open-button"
+                        >
+
+                            <span>
+                                Åpne bolig
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </button>
+
+                    </article>
+
+
+                    <!-- CLEANING SCHEDULE -->
+
+                    <article class="resident-dashboard-menu-card">
+
+                        <div class="resident-dashboard-menu-icon">
+                            🧹
+                        </div>
+
+                        <h2 data-i18n="cleaningPlan">
+                            Rengjøringsplan
+                        </h2>
+
+                        <p>
+                            Se rengjøringsuker, oppgaver og hvem som er ansvarlig.
+                        </p>
+
+                        <button
+                                id="openResidentCleaningButton"
+                                type="button"
+                                class="resident-dashboard-open-button"
+                        >
+
+                            <span>
+                                Åpne rengjøringsplan
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </button>
+
+                    </article>
+
+
+                    <!-- PHOTOS -->
+
+                    <article class="resident-dashboard-menu-card">
+
+                        <div class="resident-dashboard-menu-icon">
+                            📷
+                        </div>
+
+                        <h2>
+                            Bilder
+                        </h2>
+
+                        <p>
+                            Dokumenter rengjøringen med bilder fra kameraet.
+                        </p>
+
+                        <button
+                                id="openResidentPhotosButton"
+                                type="button"
+                                class="resident-dashboard-open-button"
+                        >
+
+                            <span>
+                                Åpne bilder
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </button>
+
+                    </article>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 MY PROPERTY PAGE
+                 ================================================= -->
+
+            <section
+                    id="residentSection"
+                    class="resident-page-section"
+                    hidden
+            >
+
+
+                <div class="resident-page-heading">
+
+                    <div>
+
+                        <p class="resident-modern-eyebrow">
+                            MIN BOLIG
+                        </p>
+
+                        <h2 data-i18n="myProperty">
+                            Min bolig
+                        </h2>
+
+                        <p data-i18n="registeredPropertyFloor">
+                            Din registrerte bolig og etasje.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <section class="dashboard-card resident-modern-property-card">
+
+
+                    <div class="resident-modern-property-content">
+
+                        <div>
+
+                            <h3 id="propertyName">
+                                Bolig
+                            </h3>
+
+                            <p
+                                    id="propertyAddress"
+                                    class="resident-modern-property-address"
+                            >
+                                -
+                            </p>
+
+                            <div class="resident-modern-property-meta">
+
+                                <span id="floorName">
+                                    Etasje: -
+                                </span>
+
+                                <span
+                                        class="status-active"
+                                        data-i18n="active"
+                                >
+                                    Aktiv
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </section>
+
+
+            </section>
+
+            <!-- =================================================
+     CLEANING PLAN PAGE
+     ================================================= -->
+
+            <section
+                    id="cleaningSection"
+                    class="resident-cleaning-section resident-cleaning-section-modern"
+                    hidden
+            >
+
+
+                <p
+                        id="cleaningPlanSubtitle"
+                        hidden
+                ></p>
+
+
+                <!-- =================================================
+                     PAGE HEADING
+                     ================================================= -->
+
+                <div class="resident-page-heading">
+
+                    <div>
+
+                        <p class="resident-modern-eyebrow">
+                            RENGJØRINGSPLAN
+                        </p>
+
+                        <h2 data-i18n="cleaningPlan">
+                            Rengjøringsplan
+                        </h2>
+
+                        <p>
+                            Se rengjøringsuker, oppgaver og hvem som er ansvarlig.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     NEXT CLEANING
+                     ================================================= -->
+
+                <section
+                        id="residentNextCleaningCard"
+                        class="dashboard-card resident-next-cleaning-card"
+                        hidden
+                >
+
+                    <div class="resident-next-cleaning-icon">
+                        ✓
+                    </div>
+
+
+                    <div>
+
+                        <span class="resident-next-cleaning-label">
+                            Neste rengjøring
+                        </span>
+
+                        <strong id="residentNextCleaningDate">
+                            -
+                        </strong>
+
+                        <span>
+                            08:00–18:00
+                        </span>
+
+
+                        <div class="resident-next-cleaning-meta">
+
+                            <span id="residentNextCleaningWeek">
+                                Uke -
+                            </span>
+
+                            <span id="residentNextCleaningFloor">
+                                -
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     NO CLEANING PLAN
+                     ================================================= -->
+
+                <div
+                        id="noCleaningPlanState"
+                        class="dashboard-card empty-state"
+                        hidden
+                >
+
+                    <h3 data-i18n="noCleaningPlanYet">
+                        Ingen rengjøringsplan ennå
+                    </h3>
+
+                    <p data-i18n="noCleaningPlanDescription">
+                        Administrator har ikke opprettet en rengjøringsplan for etasjen din ennå.
+                    </p>
+
+                </div>
+
+
+                <!-- =================================================
+                     CLEANING PLAN CONTENT
+                     ================================================= -->
+
+                <div
+                        id="cleaningPlanContent"
+                        hidden
+                >
+
+
+                    <!-- =================================================
+                         CURRENT WEEK
+                         ================================================= -->
+
+                    <section class="dashboard-card resident-week-card resident-week-card-modern">
+
+
+                        <div class="resident-week-card-header">
+
+
+                            <div>
+
+                                <p
+                                        class="resident-week-eyebrow"
+                                        data-i18n="thisWeek"
+                                >
+                                    DENNE UKEN
+                                </p>
+
+                                <h2 id="currentWeekHeading">
+                                    Rengjøring denne uken
+                                </h2>
+
+                            </div>
+
+
+                            <span
+                                    id="currentWeekStatus"
+                                    class="resident-week-status"
+                            >
+                                Planlagt
+                            </span>
+
+
+                        </div>
+
+
+                        <div class="resident-week-details">
+
+
+                            <div class="resident-week-detail">
+
+                                <span
+                                        class="resident-week-detail-label"
+                                        data-i18n="date"
+                                >
+                                    Dato
+                                </span>
+
+                                <strong id="currentWeekDate">
+                                    -
+                                </strong>
+
+                            </div>
+
+
+                            <div class="resident-week-detail">
+
+                                <span
+                                        class="resident-week-detail-label"
+                                        data-i18n="time"
+                                >
+                                    Tid
+                                </span>
+
+                                <strong>
+                                    08:00–18:00
+                                </strong>
+
+                            </div>
+
+
+                            <div class="resident-week-detail">
+
+                                <span
+                                        class="resident-week-detail-label"
+                                        data-i18n="responsible"
+                                >
+                                    Ansvarlig
+                                </span>
+
+                                <strong id="currentWeekResponsible">
+                                    -
+                                </strong>
+
+                            </div>
+
+
+                            <div class="resident-week-detail">
+
+                                <span
+                                        class="resident-week-detail-label"
+                                        data-i18n="floor"
+                                >
+                                    Etasje
+                                </span>
+
+                                <strong id="currentWeekFloor">
+                                    -
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <p
+                                class="resident-week-warning"
+                                data-i18n="thursdayFallbackWarning"
+                        >
+                            Hvis fredag ikke er mulig, skal rengjøringen utføres på torsdag.
+                        </p>
+
+
+                    </section>
+
+
+                    <!-- =================================================
+                         MAIN CONTENT GRID
+                         ================================================= -->
+
+                    <div class="resident-modern-main-grid">
+
+
+                        <!-- =================================================
+                             LEFT COLUMN
+                             ================================================= -->
+
+                        <div class="resident-modern-left-column">
+
+
+                            <!-- =============================================
+                                 WEEK NAVIGATION
+                                 ============================================= -->
+
+                            <section class="dashboard-card resident-week-navigation-card">
+
+
+                                <div class="resident-card-title">
+
+                                    <div>
+
+                                        <h3 data-i18n="cleaningPlan">
+                                            Rengjøringsplan
+                                        </h3>
+
+                                        <p data-i18n="viewPreviousUpcomingWeeks">
+                                            Se tidligere og kommende uker.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="resident-week-navigation">
+
+
+                                    <button
+                                            id="previousWeekButton"
+                                            type="button"
+                                            class="resident-week-nav-button"
+                                    >
+
+                                        ←
+
+                                        <span data-i18n="previous">
+                                            Forrige
+                                        </span>
+
+                                    </button>
+
+
+                                    <div class="resident-selected-week">
+
+                                        <strong id="selectedWeekNumber">
+                                            Uke -
+                                        </strong>
+
+                                        <span id="selectedWeekYear">
+                                            -
+                                        </span>
+
+                                    </div>
+
+
+                                    <button
+                                            id="nextWeekButton"
+                                            type="button"
+                                            class="resident-week-nav-button"
+                                    >
+
+                                        <span data-i18n="next">
+                                            Neste
+                                        </span>
+
+                                        →
+
+                                    </button>
+
+
+                                </div>
+
+
+                                <div
+                                        id="weekPreviewList"
+                                        class="resident-week-preview-list"
+                                >
+                                </div>
+
+
+                            </section>
+
+
+                            <!-- =============================================
+                                 SELECTED WEEK
+                                 ============================================= -->
+
+                            <section class="dashboard-card resident-selected-week-card">
+
+
+                                <h3 data-i18n="selectedWeek">
+                                    Valgt uke
+                                </h3>
+
+
+                                <div class="resident-selected-week-info">
+
+
+                                    <div>
+
+                                        <span data-i18n="date">
+                                            Dato
+                                        </span>
+
+                                        <strong id="selectedWeekDate">
+                                            -
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span data-i18n="responsible">
+                                            Ansvarlig
+                                        </span>
+
+                                        <strong id="selectedWeekResponsible">
+                                            -
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span data-i18n="status">
+                                            Status
+                                        </span>
+
+                                        <strong id="selectedWeekStatus">
+                                            Planlagt
+                                        </strong>
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </section>
+
+
+                        </div>
+
+
+                        <!-- =================================================
+                             MIDDLE COLUMN - TASKS
+                             ================================================= -->
+
+                        <section class="dashboard-card resident-cleaning-task-card">
+
+
+                            <div class="resident-card-title">
+
+
+                                <div>
+
+                                    <h3 data-i18n="cleaningTasks">
+                                        Rengjøringsoppgaver
+                                    </h3>
+
+                                    <p id="taskPermissionMessage">
+                                        Oppgavene er opprettet av administrator.
+                                    </p>
+
+                                </div>
+
+
+                                <span
+                                        id="cleaningTaskCount"
+                                        class="resident-task-count"
+                                >
+                                    0 oppgaver
+                                </span>
+
+
+                            </div>
+
+
+                            <!-- =============================================
+                                 NO TASKS
+                                 ============================================= -->
+
+                            <div
+                                    id="noCleaningTasksState"
+                                    class="empty-state"
+                                    hidden
+                            >
+
+                                <p data-i18n="noCleaningTasks">
+                                    Det er ingen rengjøringsoppgaver registrert ennå.
+                                </p>
+
+                            </div>
+
+
+                            <!-- =============================================
+                                 TASK LIST
+                                 ============================================= -->
+
+                            <div
+                                    id="cleaningTasksWrapper"
+                                    class="resident-cleaning-task-list"
+                                    hidden
+                            >
+
+                                <div id="cleaningTaskList">
+                                </div>
+
+                            </div>
+
+
+                            <!-- =============================================
+                                 PERMISSION NOTICE
+                                 ============================================= -->
+
+                            <div
+                                    id="cleaningPermissionNotice"
+                                    class="resident-permission-notice"
+                            >
+
+                                <span>
+                                    🔒
+                                </span>
+
+                                <span id="cleaningPermissionText">
+                                    Kun den ansvarlige beboeren kan fullføre denne uken.
+                                </span>
+
+                            </div>
+
+
+                        </section>
+
+
+                        <!-- =================================================
+                             RIGHT COLUMN - SIGNING
+                             ================================================= -->
+
+                        <div class="resident-modern-right-column">
+
+
+                            <!-- =============================================
+                                 CONFIRM AND SIGN
+                                 ============================================= -->
+
+                            <section class="dashboard-card resident-confirm-card">
+
+
+                                <div class="resident-card-title">
+
+
+                                    <div>
+
+                                        <h3 data-i18n="confirmAndSign">
+                                            Bekreft og signer
+                                        </h3>
+
+                                        <p data-i18n="confirmAndSignDescription">
+                                            Bekreft når alle oppgavene er utført og dokumentasjonen er lagt til.
+                                        </p>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="resident-confirm-info">
+
+
+                                    <div>
+
+                                        <span data-i18n="signedBy">
+                                            Signeres av
+                                        </span>
+
+                                        <strong id="signedByName">
+                                            -
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span data-i18n="week">
+                                            Uke
+                                        </span>
+
+                                        <strong id="confirmWeekNumber">
+                                            -
+                                        </strong>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <button
+                                        id="confirmCleaningButton"
+                                        type="button"
+                                        class="resident-confirm-button"
+                                        disabled
+                                >
+
+                                    <span data-i18n="confirmCleaningCompleted">
+                                        Bekreft og signer rengjøring utført
+                                    </span>
+
+                                </button>
+
+
+                                <p
+                                        id="responsibleOnlyMessage"
+                                        class="resident-confirm-note"
+                                >
+                                    🔒 Kun den ansvarlige for denne uken kan fullføre rengjøringen.
+                                </p>
+
+
+                            </section>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =================================================
+     PHOTOS PAGE
+     ================================================= -->
+
+            <section
+                    id="residentPhotosSection"
+                    class="resident-page-section"
+                    hidden
+            >
+
+
+                <div class="resident-page-heading">
+
+                    <div>
+
+                        <p class="resident-modern-eyebrow">
+                            BILDER
+                        </p>
+
+                        <h2>
+                            📷 Bilder
+                        </h2>
+
+                        <p>
+                            Dokumenter utført rengjøring med kameraet.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <section
+                        id="residentDocumentationSection"
+                        class="dashboard-card resident-document-card"
+                >
+
+
+                    <div class="resident-card-title">
+
+
+                        <div>
+
+                            <h3>
+
+                                📷
+
+                                <span data-i18n="documentWork">
+                                    Dokumenter arbeidet
+                                </span>
+
+                            </h3>
+
+                            <p data-i18n="documentWorkDescription">
+                                Ta nye bilder med kameraet etter at rengjøringen er utført.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!--
+                         Direct camera only.
+                         No gallery/file upload.
+                    -->
+
+
+                    <button
+                            id="cameraButton"
+                            type="button"
+                            class="resident-camera-button"
+                            disabled
+                    >
+
+                        📷
+
+                        <span data-i18n="takePhoto">
+                            Ta bilde
+                        </span>
+
+                    </button>
+
+
+                    <div
+                            id="photoPreviewGrid"
+                            class="resident-photo-preview-grid"
+                    >
+                    </div>
+
+
+                    <div class="resident-photo-footer">
+
+                        <span id="photoCount">
+                            Bilder (0/10)
+                        </span>
+
+                        <span data-i18n="maxTenPhotos">
+                            Maks 10 bilder
+                        </span>
+
+                    </div>
+
+
+                </section>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 CLEANING HISTORY
+                 ================================================= -->
+
+            <section
+                    id="cleaningHistorySection"
+                    class="resident-history-section resident-history-section-modern"
+                    hidden
+            >
+
+
+                <!-- =================================================
+                     HISTORY HEADER
+                     ================================================= -->
+
+                <div class="resident-history-heading">
+
+
+                    <div>
+
+                        <p
+                                class="resident-modern-eyebrow"
+                                data-i18n="cleaningHistoryEyebrow"
+                        >
+                            HISTORIKK
+                        </p>
+
+
+                        <h2>
+
+                            📋
+
+                            <span data-i18n="cleaningHistory">
+                                Historikk
+                            </span>
+
+                        </h2>
+
+
+                        <p data-i18n="cleaningHistoryDescription">
+                            Se tidligere rengjøringsuker og dokumentasjon for boligen og etasjen din.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                            id="closeCleaningHistoryButton"
+                            type="button"
+                            class="resident-history-close-button"
+                            aria-label="Lukk historikk"
+                            data-i18n-aria-label="closeCleaningHistory"
+                    >
+                        ×
+                    </button>
+
+
+                </div>
+
+
+                <!-- =================================================
+                     HISTORY CARD
+                     ================================================= -->
+
+                <section class="dashboard-card resident-history-card">
+
+
+                    <!-- =============================================
+                         LOADING
+                         ============================================= -->
+
+                    <div
+                            id="cleaningHistoryLoading"
+                            class="resident-history-loading"
+                            hidden
+                    >
+
+                        <p data-i18n="loadingCleaningHistory">
+                            Laster rengjøringshistorikk...
+                        </p>
+
+                    </div>
+
+
+                    <!-- =============================================
+                         EMPTY
+                         ============================================= -->
+
+                    <div
+                            id="cleaningHistoryEmpty"
+                            class="empty-state"
+                            hidden
+                    >
+
+                        <h3 data-i18n="noCleaningHistory">
+                            Ingen historikk ennå
+                        </h3>
+
+                        <p data-i18n="noCleaningHistoryDescription">
+                            Tidligere rengjøringsuker vises her når de blir tilgjengelige.
+                        </p>
+
+                    </div>
+
+
+                    <!-- =============================================
+                         HISTORY LIST
+                         ============================================= -->
+
+                    <div
+                            id="cleaningHistoryList"
+                            class="resident-history-list"
+                    >
+                    </div>
+
+
+                </section>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 ERROR
+                 ================================================= -->
+
+            <section
+                    id="errorSection"
+                    class="dashboard-card"
+                    hidden
+            >
+
+                <h2 data-i18n="couldNotLoadPage">
+                    Kunne ikke laste siden
+                </h2>
+
+                <p
+                        id="residentPageMessage"
+                        class="message error"
+                >
+                    Det oppstod en feil.
+                </p>
+
+            </section>
+
+
+        </main>
+
 
     </div>
 
 
-    <!-- ===================================================
-         HISTORY CONTENT
-         =================================================== -->
-
-    <section class="dashboard-card resident-history-card">
-
-
-      <!-- =================================================
-           LOADING
-           ================================================= -->
-
-      <div
-              id="cleaningHistoryLoading"
-              class="resident-history-loading"
-              hidden
-      >
-
-        <p data-i18n="loadingCleaningHistory">
-          Laster rengjøringshistorikk...
-        </p>
-
-      </div>
-
-
-      <!-- =================================================
-           EMPTY HISTORY
-           ================================================= -->
-
-      <div
-              id="cleaningHistoryEmpty"
-              class="empty-state"
-              hidden
-      >
-
-        <h3 data-i18n="noCleaningHistory">
-          Ingen historikk ennå
-        </h3>
-
-        <p data-i18n="noCleaningHistoryDescription">
-          Tidligere rengjøringsuker vises her når de blir tilgjengelige.
-        </p>
-
-      </div>
-
-
-      <!-- =================================================
-           HISTORY LIST
-           ================================================= -->
-
-      <div
-              id="cleaningHistoryList"
-              class="resident-history-list"
-      >
-      </div>
-
-
-    </section>
-
-
-  </section>
-
-
-  <!-- =====================================================
-       ERROR
-       ===================================================== -->
-
-  <section
-          id="errorSection"
-          class="dashboard-card"
-          hidden
-  >
-
-    <h2 data-i18n="couldNotLoadPage">
-      Kunne ikke laste siden
-    </h2>
-
-    <p
-            id="residentPageMessage"
-            class="message error"
-    >
-      Det oppstod en feil.
-    </p>
-
-  </section>
-
-
-</main>
+</div>
 
 
 <!-- =========================================================
@@ -1118,11 +1574,707 @@
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
 ></script>
 
+
 <script src="js/config.js"></script>
 
-<script src="js/language.js?v=11"></script>
 
-<script src="js/resident.js?v=5"></script>
+<script src="js/language.js?v=12"></script>
+
+
+<script src="js/resident.js?v=6"></script>
+
+
+<!-- =========================================================
+     RESIDENT SIDEBAR / VIEW NAVIGATION
+     ========================================================= -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+
+            // =================================================
+            // ELEMENTS
+            // =================================================
+
+            const residentSidebar =
+                document.getElementById(
+                    "residentSidebar"
+                );
+
+
+            const residentSidebarOverlay =
+                document.getElementById(
+                    "residentSidebarOverlay"
+                );
+
+
+            const residentMobileMenuButton =
+                document.getElementById(
+                    "residentMobileMenuButton"
+                );
+
+
+            const residentDashboardNav =
+                document.getElementById(
+                    "residentDashboardNav"
+                );
+
+
+            const residentPropertyNav =
+                document.getElementById(
+                    "residentPropertyNav"
+                );
+
+
+            const residentCleaningNav =
+                document.getElementById(
+                    "residentCleaningNav"
+                );
+
+
+            const residentPhotosNav =
+                document.getElementById(
+                    "residentPhotosNav"
+                );
+
+
+            const cleaningHistoryButton =
+                document.getElementById(
+                    "cleaningHistoryButton"
+                );
+
+
+            const closeCleaningHistoryButton =
+                document.getElementById(
+                    "closeCleaningHistoryButton"
+                );
+
+
+            const residentDashboardHome =
+                document.getElementById(
+                    "residentDashboardHome"
+                );
+
+
+            const residentSection =
+                document.getElementById(
+                    "residentSection"
+                );
+
+
+            const cleaningSection =
+                document.getElementById(
+                    "cleaningSection"
+                );
+
+
+            const residentPhotosSection =
+                document.getElementById(
+                    "residentPhotosSection"
+                );
+
+
+            const cleaningHistorySection =
+                document.getElementById(
+                    "cleaningHistorySection"
+                );
+
+
+            const openResidentPropertyButton =
+                document.getElementById(
+                    "openResidentPropertyButton"
+                );
+
+
+            const openResidentCleaningButton =
+                document.getElementById(
+                    "openResidentCleaningButton"
+                );
+
+
+            const openResidentPhotosButton =
+                document.getElementById(
+                    "openResidentPhotosButton"
+                );
+
+
+            // =================================================
+            // OPEN SIDEBAR
+            // =================================================
+
+            function openResidentSidebar() {
+
+                if (
+                    residentSidebar
+                ) {
+
+                    residentSidebar.classList.add(
+                        "open"
+                    );
+
+                }
+
+
+                if (
+                    residentSidebarOverlay
+                ) {
+
+                    residentSidebarOverlay.hidden =
+                        false;
+
+
+                    residentSidebarOverlay.classList.add(
+                        "visible"
+                    );
+
+                }
+
+            }
+
+
+            // =================================================
+            // CLOSE SIDEBAR
+            // =================================================
+
+            function closeResidentSidebar() {
+
+                if (
+                    residentSidebar
+                ) {
+
+                    residentSidebar.classList.remove(
+                        "open"
+                    );
+
+                }
+
+
+                if (
+                    residentSidebarOverlay
+                ) {
+
+                    residentSidebarOverlay.classList.remove(
+                        "visible"
+                    );
+
+
+                    residentSidebarOverlay.hidden =
+                        true;
+
+                }
+
+            }
+
+
+            // =================================================
+            // ACTIVE NAV
+            // =================================================
+
+            function setResidentActiveNav(
+                activeElement
+            ) {
+
+                const navItems =
+                    [
+                        residentDashboardNav,
+                        residentPropertyNav,
+                        residentCleaningNav,
+                        residentPhotosNav,
+                        cleaningHistoryButton
+                    ];
+
+
+                navItems.forEach(
+                    function (
+                        item
+                    ) {
+
+                        if (!item) {
+
+                            return;
+
+                        }
+
+
+                        item.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                if (activeElement) {
+
+                    activeElement.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+
+
+            // =================================================
+            // SHOW RESIDENT VIEW
+            // =================================================
+
+            function showResidentView(
+                view
+            ) {
+
+                if (
+                    residentDashboardHome
+                ) {
+
+                    residentDashboardHome.hidden =
+                        view !==
+                        "dashboard";
+
+                }
+
+
+                if (
+                    residentSection
+                ) {
+
+                    residentSection.hidden =
+                        view !==
+                        "property";
+
+                }
+
+
+                if (
+                    cleaningSection
+                ) {
+
+                    cleaningSection.hidden =
+                        view !==
+                        "cleaning";
+
+                }
+
+
+                if (
+                    residentPhotosSection
+                ) {
+
+                    residentPhotosSection.hidden =
+                        view !==
+                        "photos";
+
+                }
+
+
+                if (
+                    cleaningHistorySection
+                ) {
+
+                    cleaningHistorySection.hidden =
+                        view !==
+                        "history";
+
+                }
+
+
+                switch (
+                    view
+                    ) {
+
+                    case "property":
+
+                        setResidentActiveNav(
+                            residentPropertyNav
+                        );
+
+                        break;
+
+
+                    case "cleaning":
+
+                        setResidentActiveNav(
+                            residentCleaningNav
+                        );
+
+                        break;
+
+
+                    case "photos":
+
+                        setResidentActiveNav(
+                            residentPhotosNav
+                        );
+
+                        break;
+
+
+                    case "history":
+
+                        setResidentActiveNav(
+                            cleaningHistoryButton
+                        );
+
+                        break;
+
+
+                    default:
+
+                        setResidentActiveNav(
+                            residentDashboardNav
+                        );
+
+                        break;
+
+                }
+
+
+                window.scrollTo(
+                    {
+                        top:
+                            0,
+
+                        behavior:
+                            "smooth"
+                    }
+                );
+
+
+                closeResidentSidebar();
+
+            }
+
+
+            /*
+             * Make navigation available to resident.js.
+             */
+
+            window.showResidentView =
+                showResidentView;
+
+
+            // =================================================
+            // MOBILE MENU
+            // =================================================
+
+            if (
+                residentMobileMenuButton
+            ) {
+
+                residentMobileMenuButton.addEventListener(
+                    "click",
+                    function () {
+
+                        if (
+                            residentSidebar &&
+                            residentSidebar.classList.contains(
+                                "open"
+                            )
+                        ) {
+
+                            closeResidentSidebar();
+
+                        }
+                        else {
+
+                            openResidentSidebar();
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            // =================================================
+            // OVERLAY
+            // =================================================
+
+            if (
+                residentSidebarOverlay
+            ) {
+
+                residentSidebarOverlay.addEventListener(
+                    "click",
+                    closeResidentSidebar
+                );
+
+            }
+
+
+            // =================================================
+            // ESCAPE
+            // =================================================
+
+            document.addEventListener(
+                "keydown",
+                function (
+                    event
+                ) {
+
+                    if (
+                        event.key ===
+                        "Escape"
+                    ) {
+
+                        closeResidentSidebar();
+
+                    }
+
+                }
+            );
+
+
+            // =================================================
+            // RESIZE
+            // =================================================
+
+            window.addEventListener(
+                "resize",
+                function () {
+
+                    if (
+                        window.innerWidth >
+                        900
+                    ) {
+
+                        closeResidentSidebar();
+
+                    }
+
+                }
+            );
+
+
+            // =================================================
+            // DASHBOARD NAV
+            // =================================================
+
+            if (
+                residentDashboardNav
+            ) {
+
+                residentDashboardNav.addEventListener(
+                    "click",
+                    function (
+                        event
+                    ) {
+
+                        event.preventDefault();
+
+
+                        showResidentView(
+                            "dashboard"
+                        );
+
+                    }
+                );
+
+            }
+
+
+            // =================================================
+            // PROPERTY NAV
+            // =================================================
+
+            if (
+                residentPropertyNav
+            ) {
+
+                residentPropertyNav.addEventListener(
+                    "click",
+                    function (
+                        event
+                    ) {
+
+                        event.preventDefault();
+
+
+                        showResidentView(
+                            "property"
+                        );
+
+                    }
+                );
+
+            }
+
+
+            // =================================================
+            // CLEANING NAV
+            // =================================================
+
+            if (
+                residentCleaningNav
+            ) {
+
+                residentCleaningNav.addEventListener(
+                    "click",
+                    function (
+                        event
+                    ) {
+
+                        event.preventDefault();
+
+
+                        showResidentView(
+                            "cleaning"
+                        );
+
+                    }
+                );
+
+            }
+
+
+            // =================================================
+            // PHOTOS NAV
+            // =================================================
+
+            if (
+                residentPhotosNav
+            ) {
+
+                residentPhotosNav.addEventListener(
+                    "click",
+                    function (
+                        event
+                    ) {
+
+                        event.preventDefault();
+
+
+                        showResidentView(
+                            "photos"
+                        );
+
+                    }
+                );
+
+            }
+
+
+            // =================================================
+            // DASHBOARD -> PROPERTY
+            // =================================================
+
+            if (
+                openResidentPropertyButton
+            ) {
+
+                openResidentPropertyButton.addEventListener(
+                    "click",
+                    function () {
+
+                        showResidentView(
+                            "property"
+                        );
+
+                    }
+                );
+
+            }
+
+
+            // =================================================
+            // DASHBOARD -> CLEANING
+            // =================================================
+
+            if (
+                openResidentCleaningButton
+            ) {
+
+                openResidentCleaningButton.addEventListener(
+                    "click",
+                    function () {
+
+                        showResidentView(
+                            "cleaning"
+                        );
+
+                    }
+                );
+
+            }
+
+
+            // =================================================
+            // DASHBOARD -> PHOTOS
+            // =================================================
+
+            if (
+                openResidentPhotosButton
+            ) {
+
+                openResidentPhotosButton.addEventListener(
+                    "click",
+                    function () {
+
+                        showResidentView(
+                            "photos"
+                        );
+
+                    }
+                );
+
+            }
+
+
+            // =================================================
+            // HISTORY
+            //
+            // resident.js loads the actual history data.
+            // This listener only controls the visible page.
+            // =================================================
+
+            if (
+                cleaningHistoryButton
+            ) {
+
+                cleaningHistoryButton.addEventListener(
+                    "click",
+                    function () {
+
+                        showResidentView(
+                            "history"
+                        );
+
+                    }
+                );
+
+            }
+
+
+            // =================================================
+            // CLOSE HISTORY
+            // =================================================
+
+            if (
+                closeCleaningHistoryButton
+            ) {
+
+                closeCleaningHistoryButton.addEventListener(
+                    "click",
+                    function () {
+
+                        showResidentView(
+                            "dashboard"
+                        );
+
+                    }
+                );
+
+            }
+
+
+        }
+    );
+
+</script>
 
 
 </body>

@@ -21904,3 +21904,7169 @@ input[type="text"] {
     }
 
 }
+
+/* ============================================================
+   CLEANPLAN
+   NEW COMPACT LANGUAGE SWITCHER
+   ============================================================ */
+
+
+/* ============================================================
+   LANGUAGE SWITCHER WRAPPER
+   ============================================================ */
+
+.language-switcher {
+
+    position: relative;
+
+    z-index: 2500;
+
+    width: auto;
+
+    min-width: 0;
+
+    flex: 0 0 auto;
+
+}
+
+
+/* ============================================================
+   CURRENT LANGUAGE BUTTON
+   Small pill: 🇳🇴 NO ▾ / 🇬🇧 EN ▾
+   ============================================================ */
+
+.language-current {
+
+    width: auto;
+
+    min-width: 76px;
+
+    height: 38px;
+
+    min-height: 38px;
+
+    padding:
+            0 10px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    border:
+            1.5px solid #315efb;
+
+    border-radius: 999px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #24415f;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    box-shadow:
+            0 2px 7px
+            rgba(
+                    30,
+                    60,
+                    95,
+                    0.07
+            );
+
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            box-shadow 0.15s ease,
+            transform 0.15s ease;
+
+}
+
+
+/* ============================================================
+   CURRENT LANGUAGE BUTTON HOVER
+   ============================================================ */
+
+.language-current:hover {
+
+    background: #f7f9ff;
+
+    border-color: #244bd4;
+
+    box-shadow:
+            0 4px 11px
+            rgba(
+                    49,
+                    94,
+                    251,
+                    0.13
+            );
+
+    transform:
+            translateY(-1px);
+
+}
+
+
+/* ============================================================
+   CURRENT LANGUAGE BUTTON OPEN
+   ============================================================ */
+
+.language-current[aria-expanded="true"] {
+
+    background: #f7f9ff;
+
+    border-color: #244bd4;
+
+    box-shadow:
+            0 0 0 3px
+            rgba(
+                    49,
+                    94,
+                    251,
+                    0.10
+            );
+
+}
+
+
+/* ============================================================
+   FLAG
+   ============================================================ */
+
+.language-current-flag {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    font-size: 16px;
+
+    line-height: 1;
+
+}
+
+
+/* ============================================================
+   LANGUAGE CODE
+   ============================================================ */
+
+.language-current-code {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 19px;
+
+    color: #24415f;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    line-height: 1;
+
+    letter-spacing: 0.15px;
+
+}
+
+
+/* ============================================================
+   ARROW
+   ============================================================ */
+
+.language-current-arrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    margin-left: 1px;
+
+    color: #667085;
+
+    font-size: 10px;
+
+    line-height: 1;
+
+    transition:
+            transform 0.15s ease;
+
+}
+
+
+/* ============================================================
+   ROTATE ARROW WHEN OPEN
+   ============================================================ */
+
+.language-current[aria-expanded="true"]
+.language-current-arrow {
+
+    transform:
+            rotate(180deg);
+
+}
+
+
+/* ============================================================
+   LANGUAGE MENU
+   ============================================================ */
+
+.language-menu {
+
+    position: absolute;
+
+    z-index: 5000;
+
+    top:
+            calc(
+                    100% + 7px
+            );
+
+    right: 0;
+
+    left: auto;
+
+    width: 112px;
+
+    min-width: 112px;
+
+    padding: 5px;
+
+    overflow: hidden;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 14px 34px
+            rgba(
+                    20,
+                    40,
+                    65,
+                    0.16
+            );
+
+}
+
+
+/* ============================================================
+   LANGUAGE MENU HIDDEN
+   ============================================================ */
+
+.language-menu[hidden] {
+
+    display: none !important;
+
+}
+
+
+/* ============================================================
+   LANGUAGE OPTION
+   ============================================================ */
+
+.language-option {
+
+    width: 100%;
+
+    min-height: 36px;
+
+    padding:
+            7px 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: 8px;
+
+    border: 0;
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #344054;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+            background 0.12s ease,
+            color 0.12s ease;
+
+}
+
+
+/* ============================================================
+   LANGUAGE OPTION HOVER
+   ============================================================ */
+
+.language-option:hover {
+
+    background: #f1f4f8;
+
+}
+
+
+/* ============================================================
+   ACTIVE LANGUAGE
+   ============================================================ */
+
+.language-option.active,
+.language-option[aria-selected="true"] {
+
+    background: #edf6ef;
+
+    color: #19753a;
+
+}
+
+
+/* ============================================================
+   LANGUAGE OPTION FLAG
+   ============================================================ */
+
+.language-option-flag {
+
+    width: 20px;
+
+    min-width: 20px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    font-size: 16px;
+
+    line-height: 1;
+
+}
+
+
+/* ============================================================
+   LANGUAGE OPTION CODE
+   ============================================================ */
+
+.language-option-code {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    min-width: 0;
+
+    color: inherit;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    line-height: 1;
+
+}
+
+
+/* ============================================================
+   ACCESSIBILITY FOCUS
+   ============================================================ */
+
+.language-current:focus-visible,
+.language-option:focus-visible {
+
+    outline:
+            3px solid
+            rgba(
+                    49,
+                    94,
+                    251,
+                    0.22
+            );
+
+    outline-offset: 2px;
+
+}
+
+
+/* ============================================================
+   ADMIN HEADER
+   Keep selector compact beside profile + avatar
+   ============================================================ */
+
+.admin-header-profile
+.language-switcher {
+
+    width: auto;
+
+    min-width: 76px;
+
+    flex:
+            0 0 auto;
+
+}
+
+
+/* ============================================================
+   ADMIN LANGUAGE BUTTON
+   ============================================================ */
+
+.admin-header-profile
+.language-current {
+
+    min-width: 76px;
+
+    height: 38px;
+
+    min-height: 38px;
+
+}
+
+
+/* ============================================================
+   ADMIN LANGUAGE DROPDOWN
+   ============================================================ */
+
+.admin-header-profile
+.language-menu {
+
+    right: 0;
+
+    left: auto;
+
+}
+
+
+/* ============================================================
+   ADMIN FIXED HEADER
+   Dropdown must appear above page content
+   ============================================================ */
+
+.admin-main-header {
+
+    overflow: visible;
+
+}
+
+
+.admin-main-header
+.admin-header-profile {
+
+    overflow: visible;
+
+}
+
+
+/* ============================================================
+   FLOORS PAGE TOP HEADER
+   floors.html currently uses .admin-top-header
+   ============================================================ */
+
+.admin-top-header {
+
+    overflow: visible;
+
+}
+
+
+.admin-top-header
+.admin-header-profile {
+
+    overflow: visible;
+
+}
+
+
+/* ============================================================
+   RESIDENT TOPBAR LANGUAGE
+   ============================================================ */
+
+.topbar-right
+.language-switcher {
+
+    width: auto;
+
+    min-width: 76px;
+
+    flex:
+            0 0 auto;
+
+}
+
+
+/* ============================================================
+   RESIDENT LANGUAGE BUTTON
+   ============================================================ */
+
+.topbar-right
+.language-current {
+
+    min-width: 76px;
+
+    height: 36px;
+
+    min-height: 36px;
+
+    padding:
+            0 9px;
+
+}
+
+
+/* ============================================================
+   RESIDENT LANGUAGE MENU
+   ============================================================ */
+
+.topbar-right
+.language-menu {
+
+    right: 0;
+
+    left: auto;
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+
+    /* --------------------------------------------------------
+       COMPACT BUTTON
+       -------------------------------------------------------- */
+
+    .language-current {
+
+        min-width: 70px;
+
+        height: 34px;
+
+        min-height: 34px;
+
+        padding:
+                0 8px;
+
+        gap: 4px;
+
+        font-size: 11px;
+
+    }
+
+
+    .language-current-flag {
+
+        font-size: 15px;
+
+    }
+
+
+    .language-current-code {
+
+        min-width: 17px;
+
+        font-size: 11px;
+
+    }
+
+
+    .language-current-arrow {
+
+        font-size: 9px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       MENU
+       -------------------------------------------------------- */
+
+    .language-menu {
+
+        width: 108px;
+
+        min-width: 108px;
+
+    }
+
+
+    .language-option {
+
+        min-height: 34px;
+
+        padding:
+                6px 7px;
+
+        gap: 7px;
+
+    }
+
+
+    .language-option-flag {
+
+        font-size: 15px;
+
+    }
+
+
+    .language-option-code {
+
+        font-size: 11px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       ADMIN
+       -------------------------------------------------------- */
+
+    .admin-header-profile
+    .language-switcher {
+
+        min-width: 70px;
+
+    }
+
+
+    .admin-header-profile
+    .language-current {
+
+        min-width: 70px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       RESIDENT
+       -------------------------------------------------------- */
+
+    .topbar-right
+    .language-switcher {
+
+        min-width: 70px;
+
+    }
+
+
+    .topbar-right
+    .language-current {
+
+        min-width: 70px;
+
+        height: 34px;
+
+        min-height: 34px;
+
+    }
+
+}
+
+
+/* ============================================================
+   VERY SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 390px) {
+
+    .language-current {
+
+        min-width: 66px;
+
+        padding:
+                0 6px;
+
+    }
+
+
+    .language-current-flag {
+
+        font-size: 14px;
+
+    }
+
+
+    .language-current-code {
+
+        font-size: 10px;
+
+    }
+
+
+    .language-menu {
+
+        width: 104px;
+
+        min-width: 104px;
+
+    }
+
+}
+
+/* ============================================================
+   COMPACT LANGUAGE SWITCHER - CLEAN VERSION
+   ============================================================ */
+
+.language-switcher {
+    position: relative;
+    z-index: 2500;
+    width: auto;
+    min-width: 0;
+    flex: 0 0 auto;
+}
+
+
+/* ============================================================
+   CURRENT BUTTON
+   ============================================================ */
+
+.language-current {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px; /* mindre avstand mellom flagg og NO/EN */
+
+    min-width: 78px;
+    height: 40px;
+    padding: 0 12px;
+
+    border: 1px solid #d7dee7;   /* ikke blå */
+    border-radius: 999px;
+    background: #ffffff;
+    color: #22324a;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.language-current:hover {
+    background: #f8fafc;
+    border-color: #d7dee7;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+.language-current[aria-expanded="true"] {
+    background: #f8fafc;
+    border-color: #d7dee7;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+
+/* ============================================================
+   REMOVE BLUE FOCUS RING
+   ============================================================ */
+
+.language-current:focus,
+.language-current:focus-visible,
+.language-option:focus,
+.language-option:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+
+/* ============================================================
+   FLAG + CODE
+   ============================================================ */
+
+.language-current-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    line-height: 1;
+    margin: 0;
+}
+
+.language-current-code {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+}
+
+.language-current-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    line-height: 1;
+    margin-left: 2px;
+    color: #667085;
+    transition: transform 0.15s ease;
+}
+
+.language-current[aria-expanded="true"] .language-current-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* ============================================================
+   MENU
+   ============================================================ */
+
+.language-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    left: auto;
+    z-index: 5000;
+
+    width: 122px;
+    min-width: 122px;
+    padding: 6px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+}
+
+.language-menu[hidden] {
+    display: none !important;
+}
+
+
+/* ============================================================
+   OPTION
+   ============================================================ */
+
+.language-option {
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px; /* mindre avstand */
+
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #22324a;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: left;
+    cursor: pointer;
+}
+
+.language-option:hover {
+    background: #f8fafc;
+}
+
+.language-option.active,
+.language-option[aria-selected="true"] {
+    background: #edf7ef;
+    color: #1f7a39;
+}
+
+.language-option-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    min-width: 0;
+    font-size: 16px;
+    line-height: 1;
+    margin: 0;
+}
+
+.language-option-code {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    min-width: 0;      /* viktig */
+    margin: 0;         /* viktig */
+    padding: 0;        /* viktig */
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+}
+
+
+/* ============================================================
+   ADMIN HEADER
+   ============================================================ */
+
+.admin-header-profile .language-switcher {
+    width: auto;
+    min-width: 0;
+    flex: 0 0 auto;
+}
+
+.admin-header-profile .language-menu {
+    right: 0;
+    left: auto;
+}
+
+
+/* ============================================================
+   RESIDENT TOPBAR
+   ============================================================ */
+
+.topbar-right .language-switcher {
+    width: auto;
+    min-width: 0;
+    flex: 0 0 auto;
+}
+
+.topbar-right .language-menu {
+    right: 0;
+    left: auto;
+}
+
+/* ============================================================
+   ADMIN LANGUAGE OPTION SPACING FIX
+   Keep flag and NO / EN close together
+   ============================================================ */
+
+.admin-header-profile
+.language-option {
+
+    justify-content: flex-start !important;
+
+    gap: 6px !important;
+
+}
+
+
+.admin-header-profile
+.language-option-code {
+
+    margin-left: 0 !important;
+
+    flex: 0 0 auto !important;
+
+    min-width: 0 !important;
+
+    width: auto !important;
+
+    text-align: left !important;
+
+}
+
+
+.admin-header-profile
+.language-option-flag {
+
+    flex: 0 0 auto !important;
+
+    width: auto !important;
+
+    min-width: 0 !important;
+
+    margin: 0 !important;
+
+}
+
+/* ============================================================
+   RESIDENT MODERN LAYOUT
+   DEL 1 / 2
+
+   SIDEBAR
+   HEADER
+   MAIN AREA
+   TOP OVERVIEW
+   ============================================================ */
+
+
+/* ============================================================
+   BODY
+   ============================================================ */
+
+.resident-admin-layout-body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    background: #f4f6f9;
+
+    color: #172033;
+
+}
+
+
+/* ============================================================
+   APP LAYOUT
+   ============================================================ */
+
+.resident-app-layout {
+
+    min-height: 100vh;
+
+}
+
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+.resident-sidebar {
+
+    position: fixed;
+
+    z-index: 1300;
+
+    top: 0;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 245px;
+
+    padding:
+            20px 14px 18px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background:
+            linear-gradient(
+                    180deg,
+                    #132638 0%,
+                    #0c1c2c 100%
+            );
+
+    color: #ffffff;
+
+    overflow-y: auto;
+
+}
+
+
+/* ============================================================
+   SIDEBAR BRAND
+   ============================================================ */
+
+.resident-sidebar-brand {
+
+    padding:
+            4px 10px 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.2px;
+
+}
+
+
+.resident-sidebar-logo {
+
+    width: 36px;
+
+    height: 36px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 9px;
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.09
+            );
+
+    font-size: 20px;
+
+}
+
+
+/* ============================================================
+   SIDEBAR ROLE
+   ============================================================ */
+
+.resident-sidebar-section-label {
+
+    padding:
+            0 11px 9px;
+
+    color:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.46
+            );
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.2px;
+
+    text-transform: uppercase;
+
+}
+
+
+/* ============================================================
+   SIDEBAR NAVIGATION
+   ============================================================ */
+
+.resident-sidebar-nav {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+}
+
+
+/* ============================================================
+   SIDEBAR LINKS
+   ============================================================ */
+
+.resident-sidebar-link {
+
+    width: 100%;
+
+    min-height: 42px;
+
+    padding:
+            9px 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.72
+            );
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    line-height: 1.3;
+
+    text-align: left;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            color 0.15s ease,
+            transform 0.15s ease;
+
+}
+
+
+/* ============================================================
+   SIDEBAR LINK HOVER
+   ============================================================ */
+
+.resident-sidebar-link:hover {
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.07
+            );
+
+    color: #ffffff;
+
+}
+
+
+/* ============================================================
+   ACTIVE SIDEBAR LINK
+   ============================================================ */
+
+.resident-sidebar-link.active {
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.11
+            );
+
+    color: #ffffff;
+
+}
+
+
+/* ============================================================
+   SIDEBAR BUTTON
+   ============================================================ */
+
+.resident-sidebar-button {
+
+    appearance: none;
+
+}
+
+
+/* ============================================================
+   SIDEBAR ICON
+   ============================================================ */
+
+.resident-sidebar-icon {
+
+    width: 20px;
+
+    min-width: 20px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    font-size: 15px;
+
+}
+
+
+/* ============================================================
+   SIDEBAR BOTTOM
+   ============================================================ */
+
+.resident-sidebar-bottom {
+
+    margin-top: auto;
+
+    padding-top: 17px;
+
+    border-top:
+            1px solid
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.10
+            );
+
+}
+
+
+/* ============================================================
+   LOGOUT
+   ============================================================ */
+
+.resident-sidebar-logout {
+
+    width: 100%;
+
+    min-height: 40px;
+
+    padding:
+            9px 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    gap: 11px;
+
+    border:
+            1px solid
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.11
+            );
+
+    border-radius: 8px;
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.04
+            );
+
+    color:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.76
+            );
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            color 0.15s ease;
+
+}
+
+
+.resident-sidebar-logout:hover {
+
+    border-color:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.18
+            );
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.08
+            );
+
+    color: #ffffff;
+
+}
+
+
+/* ============================================================
+   MAIN AREA
+   ============================================================ */
+
+.resident-main-area {
+
+    width:
+            calc(
+                    100% - 245px
+            );
+
+    min-width: 0;
+
+    min-height: 100vh;
+
+    margin-left: 245px;
+
+    padding-top: 66px;
+
+    background: #f4f6f9;
+
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.resident-main-header {
+
+    position: fixed;
+
+    z-index: 1200;
+
+    top: 0;
+
+    left: 245px;
+
+    right: 0;
+
+    min-height: 66px;
+
+    padding:
+            0 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    border-bottom:
+            1px solid #e1e6ec;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 1px 3px
+            rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+            );
+
+    overflow: visible;
+
+}
+
+
+/* ============================================================
+   MOBILE MENU BUTTON
+   ============================================================ */
+
+.resident-mobile-menu-button {
+
+    display: none;
+
+    width: 38px;
+
+    height: 38px;
+
+    padding: 0;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #344054;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+}
+
+
+/* ============================================================
+   HEADER PROFILE
+   ============================================================ */
+
+.resident-header-profile {
+
+    margin-left: auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    min-width: 0;
+
+    overflow: visible;
+
+}
+
+
+/* ============================================================
+   PROFILE TEXT
+   ============================================================ */
+
+.resident-header-profile-text {
+
+    min-width: 0;
+
+    text-align: left;
+
+}
+
+
+.resident-header-profile-text strong {
+
+    display: block;
+
+    max-width: 220px;
+
+    overflow: hidden;
+
+    color: #344054;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    line-height: 1.25;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+.resident-header-profile-text span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: #8a94a3;
+
+    font-size: 9px;
+
+    line-height: 1.2;
+
+}
+
+
+/* ============================================================
+   AVATAR
+   ============================================================ */
+
+.resident-header-avatar {
+
+    width: 34px;
+
+    height: 34px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #e8eef5;
+
+    color: #526275;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+}
+
+
+/* ============================================================
+   MAIN DASHBOARD
+   ============================================================ */
+
+.resident-dashboard-modern {
+
+    width:
+            min(
+                    1380px,
+                    calc(
+                            100% - 56px
+                    )
+            );
+
+    margin:
+            0 auto;
+
+    padding:
+            44px 0 70px;
+
+}
+
+
+/* ============================================================
+   WELCOME
+   ============================================================ */
+
+.resident-modern-welcome {
+
+    margin-bottom: 26px;
+
+}
+
+
+.resident-modern-eyebrow {
+
+    margin:
+            0 0 7px;
+
+    color: #7a8796;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.25px;
+
+    text-transform: uppercase;
+
+}
+
+
+.resident-modern-welcome h1 {
+
+    margin:
+            0 0 8px;
+
+    color: #22334a;
+
+    font-size: 29px;
+
+    font-weight: 750;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.5px;
+
+}
+
+
+.resident-modern-welcome-text {
+
+    margin: 0;
+
+    max-width: 760px;
+
+    color: #7c8795;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   OVERVIEW GRID
+   ============================================================ */
+
+.resident-modern-overview-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(
+            0,
+            1.55fr
+        )
+        minmax(
+            260px,
+            0.75fr
+        );
+
+    gap: 18px;
+
+    margin-bottom: 22px;
+
+}
+
+
+/* ============================================================
+   PROPERTY CARD
+   ============================================================ */
+
+.resident-modern-property-card {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   CARD HEADING
+   ============================================================ */
+
+.resident-modern-card-heading {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 16px;
+
+    margin-bottom: 16px;
+
+}
+
+
+.resident-modern-card-heading h2 {
+
+    margin:
+            0 0 5px;
+
+    color: #22334a;
+
+    font-size: 18px;
+
+    line-height: 1.3;
+
+}
+
+
+.resident-modern-card-heading p {
+
+    min-height: 0;
+
+    margin: 0;
+
+    color: #8490a0;
+
+    font-size: 11px;
+
+    line-height: 1.45;
+
+}
+
+
+/* ============================================================
+   PROPERTY CONTENT
+   ============================================================ */
+
+.resident-modern-property-content {
+
+    padding-top: 3px;
+
+}
+
+
+.resident-modern-property-content h3 {
+
+    margin:
+            0 0 5px;
+
+    color: #263a52;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+}
+
+
+.resident-modern-property-address {
+
+    min-height: 0 !important;
+
+    margin:
+            0 0 13px !important;
+
+    color: #7b8795 !important;
+
+    font-size: 12px;
+
+}
+
+
+/* ============================================================
+   PROPERTY META
+   ============================================================ */
+
+.resident-modern-property-meta {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    color: #677487;
+
+    font-size: 11px;
+
+}
+
+
+/* ============================================================
+   NEXT CLEANING CARD
+   ============================================================ */
+
+.resident-next-cleaning-card {
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+}
+
+
+/* ============================================================
+   NEXT CLEANING ICON
+   ============================================================ */
+
+.resident-next-cleaning-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #e9f7ed;
+
+    color: #249346;
+
+    font-size: 18px;
+
+    font-weight: 800;
+
+}
+
+
+/* ============================================================
+   NEXT CLEANING TEXT
+   ============================================================ */
+
+.resident-next-cleaning-card > div:last-child {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+
+.resident-next-cleaning-label {
+
+    color: #8a94a3;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.4px;
+
+    text-transform: uppercase;
+
+}
+
+
+.resident-next-cleaning-card strong {
+
+    color: #283d56;
+
+    font-size: 16px;
+
+    line-height: 1.25;
+
+}
+
+
+.resident-next-cleaning-card > div:last-child > span:not(.resident-next-cleaning-label) {
+
+    color: #7e8997;
+
+    font-size: 10px;
+
+}
+
+
+/* ============================================================
+   NEXT CLEANING META
+   ============================================================ */
+
+.resident-next-cleaning-meta {
+
+    margin-top: 5px;
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+}
+
+
+.resident-next-cleaning-meta span {
+
+    padding:
+            4px 7px;
+
+    border-radius: 999px;
+
+    background: #eef3f7;
+
+    color: #607085;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   SIDEBAR OVERLAY
+   ============================================================ */
+
+.resident-sidebar-overlay {
+
+    position: fixed;
+
+    z-index: 1250;
+
+    inset: 0;
+
+    background:
+            rgba(
+                    12,
+                    28,
+                    44,
+                    0.38
+            );
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition:
+            opacity 0.18s ease,
+            visibility 0.18s ease;
+
+}
+
+
+.resident-sidebar-overlay.visible {
+
+    opacity: 1;
+
+    visibility: visible;
+
+}
+
+
+/* ============================================================
+   OVERLAY HIDDEN
+   ============================================================ */
+
+.resident-sidebar-overlay[hidden] {
+
+    display: none !important;
+
+}
+/* ============================================================
+   RESIDENT MODERN LAYOUT
+   DEL 2 / 2
+
+   MAIN GRID
+   TASKS
+   DOCUMENTATION
+   SIGNING
+   HISTORY
+   RESPONSIVE
+   ============================================================ */
+
+
+/* ============================================================
+   CLEANING SECTION
+   ============================================================ */
+
+.resident-cleaning-section-modern {
+
+    margin-top: 0;
+
+}
+
+
+/* ============================================================
+   CURRENT WEEK CARD
+   ============================================================ */
+
+.resident-week-card-modern {
+
+    margin-bottom: 22px;
+
+}
+
+
+/* ============================================================
+   MAIN GRID
+   ============================================================ */
+
+.resident-modern-main-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(260px, 0.85fr)
+        minmax(360px, 1.25fr)
+        minmax(280px, 0.9fr);
+
+    gap: 18px;
+
+    align-items: start;
+
+}
+
+
+/* ============================================================
+   GRID COLUMNS
+   ============================================================ */
+
+.resident-modern-left-column,
+.resident-modern-right-column {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+}
+
+
+/* ============================================================
+   CARD SAFETY
+   ============================================================ */
+
+.resident-modern-main-grid
+.dashboard-card {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   CARD TITLES
+   ============================================================ */
+
+.resident-card-title {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 14px;
+
+    margin-bottom: 16px;
+
+}
+
+
+.resident-card-title h3 {
+
+    margin:
+            0 0 5px;
+
+    color: #263a52;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+
+}
+
+
+.resident-card-title p {
+
+    min-height: 0;
+
+    margin: 0;
+
+    color: #8490a0;
+
+    font-size: 10px;
+
+    line-height: 1.45;
+
+}
+
+
+/* ============================================================
+   WEEK NAVIGATION CARD
+   ============================================================ */
+
+.resident-week-navigation-card {
+
+    padding: 22px;
+
+}
+
+
+/* ============================================================
+   WEEK NAVIGATION ROW
+   ============================================================ */
+
+.resident-week-navigation {
+
+    display: grid;
+
+    grid-template-columns:
+        auto
+        minmax(0, 1fr)
+        auto;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 14px;
+
+}
+
+
+/* ============================================================
+   WEEK NAV BUTTON
+   ============================================================ */
+
+.resident-week-nav-button {
+
+    min-height: 34px;
+
+    padding:
+            7px 10px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #44556c;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            color 0.15s ease;
+
+}
+
+
+.resident-week-nav-button:hover {
+
+    background: #f6f8fb;
+
+    border-color: #ccd5df;
+
+}
+
+
+/* ============================================================
+   SELECTED WEEK IN NAV
+   ============================================================ */
+
+.resident-selected-week {
+
+    min-width: 0;
+
+    text-align: center;
+
+}
+
+
+.resident-selected-week strong {
+
+    display: block;
+
+    color: #31445d;
+
+    font-size: 13px;
+
+    line-height: 1.2;
+
+}
+
+
+.resident-selected-week span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: #8b95a5;
+
+    font-size: 9px;
+
+}
+
+
+/* ============================================================
+   WEEK PREVIEW LIST
+   ============================================================ */
+
+.resident-week-preview-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+}
+
+
+/* ============================================================
+   SELECTED WEEK CARD
+   ============================================================ */
+
+.resident-selected-week-card {
+
+    padding: 22px;
+
+}
+
+
+.resident-selected-week-card > h3 {
+
+    margin:
+            0 0 15px;
+
+    color: #263a52;
+
+    font-size: 15px;
+
+}
+
+
+/* ============================================================
+   SELECTED WEEK INFO
+   ============================================================ */
+
+.resident-selected-week-info {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        );
+
+    gap: 10px;
+
+}
+
+
+.resident-selected-week-info > div {
+
+    min-width: 0;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    background: #f7f9fc;
+
+}
+
+
+.resident-selected-week-info span {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #8a94a3;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+}
+
+
+.resident-selected-week-info strong {
+
+    display: block;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #34475f;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK CARD
+   ============================================================ */
+
+.resident-cleaning-task-card {
+
+    padding: 22px;
+
+}
+
+
+/* ============================================================
+   TASK COUNT
+   ============================================================ */
+
+.resident-task-count {
+
+    flex-shrink: 0;
+
+    padding:
+            4px 8px;
+
+    border-radius: 999px;
+
+    background: #eef3f7;
+
+    color: #66778b;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK LIST
+   ============================================================ */
+
+.resident-cleaning-task-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+
+/* ============================================================
+   PERMISSION NOTICE
+   ============================================================ */
+
+.resident-permission-notice {
+
+    margin-top: 16px;
+
+    padding:
+            10px 11px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    border:
+            1px solid #e3e8ef;
+
+    border-radius: 8px;
+
+    background: #f8fafc;
+
+    color: #657386;
+
+    font-size: 11px;
+
+    line-height: 1.45;
+
+}
+
+
+/* ============================================================
+   DOCUMENTATION CARD
+   ============================================================ */
+
+.resident-document-card {
+
+    padding: 22px;
+
+    scroll-margin-top: 86px;
+
+}
+
+
+/* ============================================================
+   CAMERA BUTTON
+   ============================================================ */
+
+.resident-camera-button {
+
+    width: 100%;
+
+    min-height: 38px;
+
+    padding:
+            9px 12px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: #315efb;
+
+    color: #ffffff;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            opacity 0.15s ease;
+
+}
+
+
+.resident-camera-button:hover:not(:disabled) {
+
+    background: #244bd4;
+
+}
+
+
+.resident-camera-button:disabled {
+
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+}
+
+
+/* ============================================================
+   PHOTO GRID
+   ============================================================ */
+
+.resident-photo-preview-grid {
+
+    margin-top: 14px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0, 1fr)
+        );
+
+    gap: 7px;
+
+}
+
+
+/* ============================================================
+   PHOTO FOOTER
+   ============================================================ */
+
+.resident-photo-footer {
+
+    margin-top: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    color: #8a94a3;
+
+    font-size: 9px;
+
+}
+
+
+/* ============================================================
+   CONFIRM CARD
+   ============================================================ */
+
+.resident-confirm-card {
+
+    padding: 22px;
+
+}
+
+
+/* ============================================================
+   CONFIRM INFO
+   ============================================================ */
+
+.resident-confirm-info {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    gap: 10px;
+
+    margin-bottom: 14px;
+
+}
+
+
+.resident-confirm-info > div {
+
+    min-width: 0;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    background: #f7f9fc;
+
+}
+
+
+.resident-confirm-info span {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #8a94a3;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+}
+
+
+.resident-confirm-info strong {
+
+    display: block;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #34475f;
+
+    font-size: 10px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   CONFIRM BUTTON
+   ============================================================ */
+
+.resident-confirm-button {
+
+    width: 100%;
+
+    min-height: 40px;
+
+    padding:
+            9px 12px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: #209447;
+
+    color: #ffffff;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            opacity 0.15s ease;
+
+}
+
+
+.resident-confirm-button:hover:not(:disabled) {
+
+    background: #187b3a;
+
+}
+
+
+.resident-confirm-button:disabled {
+
+    opacity: 0.48;
+
+    cursor: not-allowed;
+
+}
+
+
+/* ============================================================
+   CONFIRM NOTE
+   ============================================================ */
+
+.resident-confirm-note {
+
+    min-height: 0 !important;
+
+    margin:
+            11px 0 0 !important;
+
+    color: #7c8797 !important;
+
+    font-size: 11px !important;
+
+    line-height: 1.45 !important;
+
+}
+
+
+/* ============================================================
+   HISTORY SECTION
+   ============================================================ */
+
+.resident-history-section-modern {
+
+    margin-top: 26px;
+
+    scroll-margin-top: 86px;
+
+}
+
+
+/* ============================================================
+   HISTORY HEADING
+   ============================================================ */
+
+.resident-history-heading {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 16px;
+
+}
+
+
+.resident-history-heading h2 {
+
+    margin:
+            0 0 6px;
+
+    color: #263a52;
+
+    font-size: 20px;
+
+}
+
+
+.resident-history-heading p {
+
+    margin: 0;
+
+    color: #7f8b99;
+
+    font-size: 11px;
+
+    line-height: 1.45;
+
+}
+
+
+/* ============================================================
+   HISTORY CLOSE
+   ============================================================ */
+
+.resident-history-close-button {
+
+    width: 34px;
+
+    height: 34px;
+
+    padding: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #667085;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+}
+
+
+/* ============================================================
+   HISTORY CARD
+   ============================================================ */
+
+.resident-history-card {
+
+    padding: 22px;
+
+}
+
+
+/* ============================================================
+   SCROLL TARGETS
+   ============================================================ */
+
+#residentDashboardTop,
+#residentSection,
+#cleaningSection {
+
+    scroll-margin-top: 86px;
+
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 1180px) {
+
+    .resident-modern-main-grid {
+
+        grid-template-columns:
+            minmax(250px, 0.9fr)
+            minmax(0, 1.4fr);
+
+    }
+
+
+    .resident-modern-right-column {
+
+        grid-column:
+                1 / -1;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE SIDEBAR / LAYOUT
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+
+    /* --------------------------------------------------------
+       SIDEBAR
+       -------------------------------------------------------- */
+
+    .resident-sidebar {
+
+        width: 245px;
+
+        transform:
+                translateX(-100%);
+
+        transition:
+                transform 0.2s ease;
+
+    }
+
+
+    .resident-sidebar.open {
+
+        transform:
+                translateX(0);
+
+    }
+
+
+    /* --------------------------------------------------------
+       MAIN
+       -------------------------------------------------------- */
+
+    .resident-main-area {
+
+        width: 100%;
+
+        margin-left: 0;
+
+        padding-top: 58px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       HEADER
+       -------------------------------------------------------- */
+
+    .resident-main-header {
+
+        left: 0;
+
+        min-height: 58px;
+
+        padding:
+                8px 14px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       MOBILE MENU BUTTON
+       -------------------------------------------------------- */
+
+    .resident-mobile-menu-button {
+
+        display: inline-flex;
+
+    }
+
+
+    /* --------------------------------------------------------
+       CONTENT WIDTH
+       -------------------------------------------------------- */
+
+    .resident-dashboard-modern {
+
+        width:
+                calc(
+                        100% - 28px
+                );
+
+        padding:
+                28px 0 50px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       OVERVIEW
+       -------------------------------------------------------- */
+
+    .resident-modern-overview-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    /* --------------------------------------------------------
+       MAIN GRID
+       -------------------------------------------------------- */
+
+    .resident-modern-main-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .resident-modern-right-column {
+
+        grid-column: auto;
+
+        display: flex;
+
+        flex-direction: column;
+
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 620px) {
+
+
+    /* --------------------------------------------------------
+       HEADER PROFILE
+       -------------------------------------------------------- */
+
+    .resident-header-profile {
+
+        gap: 6px;
+
+    }
+
+
+    .resident-header-profile-text strong {
+
+        max-width: 110px;
+
+        font-size: 10px;
+
+    }
+
+
+    .resident-header-profile-text span {
+
+        font-size: 8px;
+
+    }
+
+
+    .resident-header-avatar {
+
+        width: 32px;
+
+        height: 32px;
+
+        font-size: 10px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       WELCOME
+       -------------------------------------------------------- */
+
+    .resident-modern-welcome h1 {
+
+        font-size: 24px;
+
+    }
+
+
+    .resident-modern-welcome-text {
+
+        font-size: 12px;
+
+    }
+
+
+    /* --------------------------------------------------------
+       CURRENT WEEK DETAILS
+       -------------------------------------------------------- */
+
+    .resident-week-details {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+    }
+
+
+    /* --------------------------------------------------------
+       WEEK NAVIGATION
+       -------------------------------------------------------- */
+
+    .resident-week-navigation {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .resident-week-nav-button {
+
+        width: 100%;
+
+    }
+
+
+    .resident-selected-week {
+
+        padding:
+                5px 0;
+
+    }
+
+
+    /* --------------------------------------------------------
+       SELECTED WEEK INFO
+       -------------------------------------------------------- */
+
+    .resident-selected-week-info {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    /* --------------------------------------------------------
+       PHOTOS
+       -------------------------------------------------------- */
+
+    .resident-photo-preview-grid {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0, 1fr)
+            );
+
+    }
+
+
+    /* --------------------------------------------------------
+       CONFIRM
+       -------------------------------------------------------- */
+
+    .resident-confirm-info {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    /* --------------------------------------------------------
+       HISTORY
+       -------------------------------------------------------- */
+
+    .resident-history-heading {
+
+        gap: 12px;
+
+    }
+
+}
+
+
+/* ============================================================
+   VERY SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 390px) {
+
+    .resident-dashboard-modern {
+
+        width:
+                calc(
+                        100% - 20px
+                );
+
+    }
+
+
+    .resident-photo-preview-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .resident-header-profile-text {
+
+        display: none;
+
+    }
+
+}
+
+/* ============================================================
+   CLEANPLAN
+   RESIDENT DASHBOARD V2
+
+   DEL 1 / 4
+
+   VIEW ROUTER
+   DASHBOARD HOME
+   DASHBOARD MENU CARDS
+   PAGE HEADINGS
+   ============================================================ */
+
+
+/* ============================================================
+   RESIDENT VIEW SAFETY
+   ============================================================ */
+
+#residentDashboardHome[hidden],
+#residentSection[hidden],
+#cleaningSection[hidden],
+#residentPhotosSection[hidden],
+#cleaningHistorySection[hidden],
+#waitingSection[hidden],
+#errorSection[hidden] {
+
+    display: none !important;
+
+}
+
+
+/* ============================================================
+   DASHBOARD HOME
+   ============================================================ */
+
+.resident-dashboard-home {
+
+    width: 100%;
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   DASHBOARD SECTION HEADING
+   ============================================================ */
+
+.resident-dashboard-section-heading {
+
+    width: 100%;
+
+    margin-bottom: 26px;
+
+}
+
+
+.resident-dashboard-section-heading .resident-modern-eyebrow {
+
+    margin:
+            0 0 7px;
+
+}
+
+
+.resident-dashboard-section-heading h2 {
+
+    margin:
+            0 0 7px;
+
+    color: #22334a;
+
+    font-size: 26px;
+
+    font-weight: 750;
+
+    line-height: 1.25;
+
+    letter-spacing: -0.45px;
+
+}
+
+
+.resident-dashboard-section-heading p {
+
+    max-width: 720px;
+
+    margin: 0;
+
+    color: #7b8796;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+
+}
+
+
+/* ============================================================
+   DASHBOARD MENU GRID
+
+   Desktop:
+   2 columns.
+
+   Third card naturally falls on next row.
+   ============================================================ */
+
+.resident-dashboard-menu-grid {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(
+                    0,
+                    1fr
+            )
+        );
+
+    gap: 18px;
+
+}
+
+
+/* ============================================================
+   DASHBOARD MENU CARD
+   ============================================================ */
+
+.resident-dashboard-menu-card {
+
+    min-width: 0;
+
+    min-height: 230px;
+
+    padding: 27px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 3px 12px
+            rgba(
+                    15,
+                    23,
+                    42,
+                    0.045
+            );
+
+    transition:
+            border-color 0.18s ease,
+            box-shadow 0.18s ease,
+            transform 0.18s ease;
+
+}
+
+
+/* ============================================================
+   DASHBOARD MENU CARD HOVER
+   ============================================================ */
+
+.resident-dashboard-menu-card:hover {
+
+    border-color: #ccd6e1;
+
+    box-shadow:
+            0 8px 24px
+            rgba(
+                    15,
+                    23,
+                    42,
+                    0.075
+            );
+
+    transform:
+            translateY(-1px);
+
+}
+
+
+/* ============================================================
+   DASHBOARD CARD ICON
+   ============================================================ */
+
+.resident-dashboard-menu-icon {
+
+    width: 46px;
+
+    height: 46px;
+
+    margin-bottom: 20px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background: #f1f4f8;
+
+    color: #344b65;
+
+    font-size: 20px;
+
+}
+
+
+/* ============================================================
+   DASHBOARD CARD TITLE
+   ============================================================ */
+
+.resident-dashboard-menu-card h2 {
+
+    margin:
+            0 0 8px;
+
+    color: #263950;
+
+    font-size: 20px;
+
+    font-weight: 750;
+
+    line-height: 1.3;
+
+}
+
+
+/* ============================================================
+   DASHBOARD CARD DESCRIPTION
+   ============================================================ */
+
+.resident-dashboard-menu-card p {
+
+    min-height: 0;
+
+    margin:
+            0 0 25px;
+
+    color: #768292;
+
+    font-size: 12px;
+
+    line-height: 1.55;
+
+}
+
+
+/* ============================================================
+   DASHBOARD OPEN BUTTON
+   ============================================================ */
+
+.resident-dashboard-open-button {
+
+    min-height: 38px;
+
+    margin-top: auto;
+
+    padding:
+            9px 14px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    border:
+            1px solid #d7dee7;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #30445d;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            color 0.15s ease,
+            transform 0.15s ease;
+
+}
+
+
+/* ============================================================
+   DASHBOARD OPEN BUTTON HOVER
+   ============================================================ */
+
+.resident-dashboard-open-button:hover {
+
+    border-color: #c6d0dc;
+
+    background: #f6f8fa;
+
+    color: #21364f;
+
+    transform:
+            translateY(-1px);
+
+}
+
+
+/* ============================================================
+   DASHBOARD OPEN BUTTON ACTIVE
+   ============================================================ */
+
+.resident-dashboard-open-button:active {
+
+    transform:
+            translateY(0);
+
+}
+
+
+/* ============================================================
+   PAGE SECTION
+   ============================================================ */
+
+.resident-page-section {
+
+    width: 100%;
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   PAGE HEADING
+   ============================================================ */
+
+.resident-page-heading {
+
+    width: 100%;
+
+    margin-bottom: 24px;
+
+}
+
+
+.resident-page-heading .resident-modern-eyebrow {
+
+    margin:
+            0 0 7px;
+
+}
+
+
+.resident-page-heading h2 {
+
+    margin:
+            0 0 7px;
+
+    color: #22334a;
+
+    font-size: 26px;
+
+    font-weight: 750;
+
+    line-height: 1.25;
+
+    letter-spacing: -0.45px;
+
+}
+
+
+.resident-page-heading p {
+
+    max-width: 760px;
+
+    margin: 0;
+
+    color: #7b8796;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+
+}
+
+
+/* ============================================================
+   RESIDENT SECTION BASE CARD
+   ============================================================ */
+
+.resident-page-section .resident-card,
+.resident-page-section .dashboard-card {
+
+    border:
+            1px solid #e0e5eb;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 3px 12px
+            rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+            );
+
+}
+
+
+/* ============================================================
+   DASHBOARD EMPTY / WAITING / ERROR
+   ============================================================ */
+
+#waitingSection,
+#errorSection {
+
+    width: 100%;
+
+    max-width: 760px;
+
+    margin:
+            30px auto;
+
+}
+
+
+/* ============================================================
+   ERROR MESSAGE
+   ============================================================ */
+
+#residentPageMessage {
+
+    margin: 0;
+
+    color: #b42318;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (
+max-width: 900px
+) {
+
+    .resident-dashboard-section-heading h2,
+    .resident-page-heading h2 {
+
+        font-size: 24px;
+
+    }
+
+
+    .resident-dashboard-menu-card {
+
+        min-height: 215px;
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (
+max-width: 700px
+) {
+
+    .resident-dashboard-menu-grid {
+
+        grid-template-columns:
+            1fr;
+
+        gap: 14px;
+
+    }
+
+
+    .resident-dashboard-menu-card {
+
+        min-height: 190px;
+
+        padding: 22px;
+
+    }
+
+
+    .resident-dashboard-menu-icon {
+
+        width: 42px;
+
+        height: 42px;
+
+        margin-bottom: 16px;
+
+        font-size: 18px;
+
+    }
+
+
+    .resident-dashboard-menu-card h2 {
+
+        font-size: 18px;
+
+    }
+
+
+    .resident-dashboard-section-heading,
+    .resident-page-heading {
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .resident-dashboard-section-heading h2,
+    .resident-page-heading h2 {
+
+        font-size: 22px;
+
+    }
+
+
+    .resident-dashboard-section-heading p,
+    .resident-page-heading p {
+
+        font-size: 12px;
+
+    }
+
+}
+
+
+/* ============================================================
+   CLEANPLAN
+   RESIDENT DASHBOARD V2
+
+   DEL 2 / 4
+
+   PROPERTY PAGE
+   NEXT CLEANING
+   CLEANING PLAN
+   WEEK CARDS
+   ============================================================ */
+
+
+/* ============================================================
+   PROPERTY PAGE
+   ============================================================ */
+
+#residentSection {
+
+    width: 100%;
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   PROPERTY CARD
+   ============================================================ */
+
+#residentSection
+.resident-modern-property-card {
+
+    width: 100%;
+
+    max-width: 860px;
+
+    padding: 28px;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 3px 12px
+            rgba(
+                    15,
+                    23,
+                    42,
+                    0.045
+            );
+
+}
+
+
+/* ============================================================
+   PROPERTY CONTENT
+   ============================================================ */
+
+#residentSection
+.resident-modern-property-content {
+
+    padding-top: 0;
+
+}
+
+
+#residentSection
+.resident-modern-property-content h3 {
+
+    margin:
+            0 0 6px;
+
+    color: #24384f;
+
+    font-size: 20px;
+
+    font-weight: 750;
+
+    line-height: 1.3;
+
+}
+
+
+/* ============================================================
+   PROPERTY ADDRESS
+   ============================================================ */
+
+#residentSection
+.resident-modern-property-address {
+
+    margin:
+            0 0 18px !important;
+
+    color: #748193 !important;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   PROPERTY META
+   ============================================================ */
+
+#residentSection
+.resident-modern-property-meta {
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+}
+
+
+/* ============================================================
+   PROPERTY META ITEMS
+   ============================================================ */
+
+#residentSection
+.resident-modern-property-meta span {
+
+    padding:
+            7px 10px;
+
+    border:
+            1px solid #e1e6ec;
+
+    border-radius: 8px;
+
+    background: #f7f9fb;
+
+    color: #5f6f83;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   NEXT CLEANING CARD
+   ============================================================ */
+
+#residentNextCleaningCard {
+
+    width: 100%;
+
+    max-width: 860px;
+
+    margin-top: 18px;
+
+    padding: 20px 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    border:
+            1px solid #cfe8d6;
+
+    border-radius: 14px;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #f5fcf7 0%,
+                    #edf9f1 100%
+            );
+
+    box-shadow:
+            0 3px 12px
+            rgba(
+                    32,
+                    148,
+                    71,
+                    0.07
+            );
+
+}
+
+
+/* ============================================================
+   NEXT CLEANING CARD HIDDEN
+   ============================================================ */
+
+#residentNextCleaningCard[hidden] {
+
+    display: none !important;
+
+}
+
+
+/* ============================================================
+   NEXT CLEANING ICON
+   ============================================================ */
+
+#residentNextCleaningCard
+.resident-next-cleaning-icon {
+
+    width: 46px;
+
+    height: 46px;
+
+    flex-shrink: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #dff3e5;
+
+    color: #218943;
+
+    font-size: 19px;
+
+}
+
+
+/* ============================================================
+   NEXT CLEANING TEXT AREA
+   ============================================================ */
+
+#residentNextCleaningCard
+> div:last-child {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+}
+
+
+/* ============================================================
+   NEXT CLEANING LABEL
+   ============================================================ */
+
+#residentNextCleaningCard
+.resident-next-cleaning-label {
+
+    color: #6d8a76;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.65px;
+
+    text-transform: uppercase;
+
+}
+
+
+/* ============================================================
+   NEXT CLEANING DATE
+   ============================================================ */
+
+#residentNextCleaningDate {
+
+    color: #234330;
+
+    font-size: 17px;
+
+    font-weight: 750;
+
+    line-height: 1.3;
+
+}
+
+
+/* ============================================================
+   NEXT CLEANING META
+   ============================================================ */
+
+#residentNextCleaningCard
+.resident-next-cleaning-meta {
+
+    margin-top: 3px;
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+}
+
+
+/* ============================================================
+   NEXT CLEANING META PILLS
+   ============================================================ */
+
+#residentNextCleaningWeek,
+#residentNextCleaningFloor {
+
+    padding:
+            4px 8px;
+
+    border:
+            1px solid #d6e9dc;
+
+    border-radius: 999px;
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.72
+            );
+
+    color: #54705d;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   CLEANING PAGE
+   ============================================================ */
+
+#cleaningSection {
+
+    width: 100%;
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   CLEANING CONTENT
+   ============================================================ */
+
+#cleaningPlanContent {
+
+    width: 100%;
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   CLEANING CONTENT HIDDEN
+   ============================================================ */
+
+#cleaningPlanContent[hidden] {
+
+    display: none !important;
+
+}
+
+
+/* ============================================================
+   NO CLEANING PLAN
+   ============================================================ */
+
+#noCleaningPlanState {
+
+    width: 100%;
+
+    max-width: 720px;
+
+    padding: 28px;
+
+    border:
+            1px dashed #d7dee7;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    color: #768292;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+
+    text-align: center;
+
+}
+
+
+/* ============================================================
+   CURRENT WEEK CARD
+   ============================================================ */
+
+.resident-week-card-modern {
+
+    width: 100%;
+
+    margin-bottom: 20px;
+
+    padding: 22px;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 3px 12px
+            rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+            );
+
+}
+
+
+/* ============================================================
+   CURRENT WEEK HEADING ROW
+   ============================================================ */
+
+.resident-week-card-modern
+.resident-card-title {
+
+    margin-bottom: 18px;
+
+}
+
+
+/* ============================================================
+   CURRENT WEEK TITLE
+   ============================================================ */
+
+#currentWeekHeading {
+
+    margin: 0;
+
+    color: #263a52;
+
+    font-size: 18px;
+
+    font-weight: 750;
+
+}
+
+
+/* ============================================================
+   CURRENT WEEK STATUS
+   ============================================================ */
+
+#currentWeekStatus {
+
+    min-height: 25px;
+
+    padding:
+            5px 9px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 999px;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    line-height: 1;
+
+}
+
+
+/* ============================================================
+   CURRENT WEEK STATUS - PLANNED
+   ============================================================ */
+
+#currentWeekStatus.planned {
+
+    background: #eef3ff;
+
+    color: #4264b2;
+
+}
+
+
+/* ============================================================
+   CURRENT WEEK STATUS - WAITING
+   ============================================================ */
+
+#currentWeekStatus.waiting {
+
+    background: #fff6dd;
+
+    color: #946200;
+
+}
+
+
+/* ============================================================
+   CURRENT WEEK STATUS - EXPIRED
+   ============================================================ */
+
+#currentWeekStatus.expired {
+
+    background: #fbeaec;
+
+    color: #b42318;
+
+}
+
+
+/* ============================================================
+   CURRENT WEEK STATUS - COMPLETED
+   ============================================================ */
+
+#currentWeekStatus.completed {
+
+    background: #e5f6ea;
+
+    color: #218943;
+
+}
+
+
+/* ============================================================
+   CLEANING MAIN GRID
+   ============================================================ */
+
+#cleaningSection
+.resident-modern-main-grid {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(
+            250px,
+            0.82fr
+        )
+        minmax(
+            380px,
+            1.3fr
+        )
+        minmax(
+            270px,
+            0.88fr
+        );
+
+    gap: 18px;
+
+    align-items: start;
+
+}
+
+
+/* ============================================================
+   CLEANING GRID COLUMNS
+   ============================================================ */
+
+#cleaningSection
+.resident-modern-left-column,
+#cleaningSection
+.resident-modern-right-column {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+}
+
+
+/* ============================================================
+   CLEANING CARDS
+   ============================================================ */
+
+#cleaningSection
+.resident-week-navigation-card,
+
+#cleaningSection
+.resident-selected-week-card,
+
+#cleaningSection
+.resident-cleaning-task-card,
+
+#cleaningSection
+.resident-confirm-card {
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 3px 12px
+            rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+            );
+
+}
+
+
+/* ============================================================
+   WEEK NAVIGATION CARD
+   ============================================================ */
+
+#cleaningSection
+.resident-week-navigation-card {
+
+    padding: 20px;
+
+}
+
+
+/* ============================================================
+   WEEK NAVIGATION
+   ============================================================ */
+
+#cleaningSection
+.resident-week-navigation {
+
+    display: grid;
+
+    grid-template-columns:
+        auto
+        minmax(
+            0,
+            1fr
+        )
+        auto;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 14px;
+
+}
+
+
+/* ============================================================
+   WEEK NAV BUTTON
+   ============================================================ */
+
+#cleaningSection
+.resident-week-nav-button {
+
+    min-width: 36px;
+
+    min-height: 36px;
+
+    padding:
+            7px 10px;
+
+    border:
+            1px solid #dce3ea;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #46586d;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            transform 0.15s ease;
+
+}
+
+
+/* ============================================================
+   WEEK NAV BUTTON HOVER
+   ============================================================ */
+
+#cleaningSection
+.resident-week-nav-button:hover {
+
+    border-color: #c8d2dd;
+
+    background: #f6f8fa;
+
+    transform:
+            translateY(-1px);
+
+}
+
+
+/* ============================================================
+   SELECTED WEEK TOP
+   ============================================================ */
+
+#cleaningSection
+.resident-selected-week {
+
+    min-width: 0;
+
+    text-align: center;
+
+}
+
+
+/* ============================================================
+   SELECTED WEEK NUMBER
+   ============================================================ */
+
+#selectedWeekNumber {
+
+    display: block;
+
+    color: #31465f;
+
+    font-size: 13px;
+
+    font-weight: 750;
+
+}
+
+
+/* ============================================================
+   SELECTED WEEK YEAR
+   ============================================================ */
+
+#selectedWeekYear {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: #8b96a5;
+
+    font-size: 9px;
+
+}
+
+
+/* ============================================================
+   WEEK PREVIEW LIST
+   ============================================================ */
+
+#weekPreviewList {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+}
+
+
+/* ============================================================
+   WEEK PREVIEW ITEM
+
+   Generated by resident.js.
+   ============================================================ */
+
+.resident-week-preview-item {
+
+    width: 100%;
+
+    min-width: 0;
+
+    min-height: 52px;
+
+    padding:
+            9px 10px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(
+            92px,
+            0.7fr
+        )
+        minmax(
+            0,
+            1.3fr
+        );
+
+    align-items: center;
+
+    gap: 10px;
+
+    border:
+            1px solid #e2e7ed;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #344054;
+
+    font-family: inherit;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease;
+
+}
+
+
+/* ============================================================
+   WEEK PREVIEW HOVER
+   ============================================================ */
+
+.resident-week-preview-item:hover {
+
+    border-color: #ccd5df;
+
+    background: #f8fafc;
+
+}
+
+
+/* ============================================================
+   WEEK PREVIEW ACTIVE
+   ============================================================ */
+
+.resident-week-preview-item.active {
+
+    border-color: #9fb4d0;
+
+    background: #f1f6fc;
+
+}
+
+
+/* ============================================================
+   CURRENT WEEK PREVIEW
+   ============================================================ */
+
+.resident-week-preview-item.current {
+
+    box-shadow:
+            inset 3px 0 0
+            #315efb;
+
+}
+
+
+/* ============================================================
+   WEEK PREVIEW COLUMN TEXT
+   ============================================================ */
+
+.resident-week-preview-week,
+.resident-week-preview-responsible {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   WEEK PREVIEW STRONG
+   ============================================================ */
+
+.resident-week-preview-item strong {
+
+    display: block;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #34475f;
+
+    font-size: 10px;
+
+    font-weight: 750;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   WEEK PREVIEW SECONDARY TEXT
+   ============================================================ */
+
+.resident-week-preview-item span {
+
+    display: block;
+
+    min-width: 0;
+
+    margin-top: 3px;
+
+    overflow: hidden;
+
+    color: #8994a3;
+
+    font-size: 8px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   SELECTED WEEK CARD
+   ============================================================ */
+
+#cleaningSection
+.resident-selected-week-card {
+
+    padding: 20px;
+
+}
+
+
+/* ============================================================
+   SELECTED WEEK CARD TITLE
+   ============================================================ */
+
+#cleaningSection
+.resident-selected-week-card > h3 {
+
+    margin:
+            0 0 14px;
+
+    color: #263a52;
+
+    font-size: 15px;
+
+}
+
+
+/* ============================================================
+   SELECTED WEEK INFO
+   ============================================================ */
+
+#cleaningSection
+.resident-selected-week-info {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(
+                    0,
+                    1fr
+            )
+        );
+
+    gap: 9px;
+
+}
+
+
+/* ============================================================
+   SELECTED WEEK INFO ITEM
+   ============================================================ */
+
+#cleaningSection
+.resident-selected-week-info > div {
+
+    min-width: 0;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    background: #f7f9fb;
+
+}
+
+
+/* ============================================================
+   SELECTED WEEK LABEL
+   ============================================================ */
+
+#cleaningSection
+.resident-selected-week-info span {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #8a94a3;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+}
+
+
+/* ============================================================
+   SELECTED WEEK VALUE
+   ============================================================ */
+
+#cleaningSection
+.resident-selected-week-info strong {
+
+    display: block;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #34475f;
+
+    font-size: 10px;
+
+    font-weight: 750;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   RESPONSIVE CLEANING GRID
+   ============================================================ */
+
+@media (
+max-width: 1180px
+) {
+
+    #cleaningSection
+    .resident-modern-main-grid {
+
+        grid-template-columns:
+            minmax(
+                250px,
+                0.9fr
+            )
+            minmax(
+                0,
+                1.35fr
+            );
+
+    }
+
+
+    #cleaningSection
+    .resident-modern-right-column {
+
+        grid-column:
+                1 / -1;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(
+                        0,
+                        1fr
+                )
+            );
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE CLEANING
+   ============================================================ */
+
+@media (
+max-width: 760px
+) {
+
+    #residentSection
+    .resident-modern-property-card {
+
+        padding: 22px;
+
+    }
+
+
+    #residentNextCleaningCard {
+
+        padding: 18px;
+
+    }
+
+
+    #cleaningSection
+    .resident-modern-main-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    #cleaningSection
+    .resident-modern-right-column {
+
+        grid-column:
+                auto;
+
+        display: flex;
+
+    }
+
+
+    #cleaningSection
+    .resident-selected-week-info {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .resident-week-preview-item {
+
+        grid-template-columns:
+            1fr;
+
+        gap: 6px;
+
+    }
+
+}
+
+/* ============================================================
+   CLEANPLAN
+   RESIDENT DASHBOARD V2
+
+   DEL 3 / 4
+
+   TASKS
+   PERMISSIONS
+   PHOTOS PAGE
+   CAMERA
+   PHOTO GRID
+   SIGNING
+   ============================================================ */
+
+
+/* ============================================================
+   CLEANING TASK CARD
+   ============================================================ */
+
+#cleaningSection
+.resident-cleaning-task-card {
+
+    min-width: 0;
+
+    padding: 22px;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 3px 12px
+            rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+            );
+
+}
+
+
+/* ============================================================
+   TASK CARD HEADER
+   ============================================================ */
+
+#cleaningSection
+.resident-card-title {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 14px;
+
+    margin-bottom: 16px;
+
+}
+
+
+/* ============================================================
+   TASK CARD TITLE
+   ============================================================ */
+
+#cleaningSection
+.resident-card-title h3 {
+
+    margin:
+            0 0 5px;
+
+    color: #263a52;
+
+    font-size: 15px;
+
+    font-weight: 750;
+
+    line-height: 1.3;
+
+}
+
+
+/* ============================================================
+   TASK CARD DESCRIPTION
+   ============================================================ */
+
+#cleaningSection
+.resident-card-title p {
+
+    min-height: 0;
+
+    margin: 0;
+
+    color: #8490a0;
+
+    font-size: 10px;
+
+    line-height: 1.45;
+
+}
+
+
+/* ============================================================
+   TASK COUNT
+   ============================================================ */
+
+#cleaningTaskCount {
+
+    flex-shrink: 0;
+
+    min-width: 26px;
+
+    min-height: 23px;
+
+    padding:
+            4px 8px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 999px;
+
+    background: #eef3f7;
+
+    color: #617287;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK LIST
+   ============================================================ */
+
+#cleaningTaskList {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK ROW
+   ============================================================ */
+
+.resident-cleaning-task {
+
+    width: 100%;
+
+    min-width: 0;
+
+    padding:
+            11px 12px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    border:
+            1px solid #e3e8ee;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            box-shadow 0.15s ease;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK HOVER
+   ============================================================ */
+
+.resident-cleaning-task:hover {
+
+    border-color: #d1d9e2;
+
+    background: #fafbfd;
+
+}
+
+
+/* ============================================================
+   TASK CHECKBOX
+   ============================================================ */
+
+.resident-cleaning-checkbox {
+
+    width: 17px;
+
+    height: 17px;
+
+    margin:
+            2px 0 0;
+
+    flex-shrink: 0;
+
+    accent-color: #209447;
+
+    cursor: pointer;
+
+}
+
+
+/* ============================================================
+   DISABLED TASK CHECKBOX
+   ============================================================ */
+
+.resident-cleaning-checkbox:disabled {
+
+    cursor: not-allowed;
+
+    opacity: 0.55;
+
+}
+
+
+/* ============================================================
+   TASK CONTENT
+   ============================================================ */
+
+.resident-cleaning-task-content {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+
+/* ============================================================
+   TASK NAME
+   ============================================================ */
+
+.resident-cleaning-task-content strong {
+
+    display: block;
+
+    margin: 0;
+
+    color: #34475f;
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+    line-height: 1.4;
+
+}
+
+
+/* ============================================================
+   TASK DESCRIPTION
+   ============================================================ */
+
+.resident-cleaning-task-content span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #8590a0;
+
+    font-size: 9px;
+
+    line-height: 1.45;
+
+}
+
+
+/* ============================================================
+   CHECKED TASK
+   ============================================================ */
+
+.resident-cleaning-task:has(
+    .resident-cleaning-checkbox:checked
+) {
+
+    border-color: #d3ead9;
+
+    background: #f6fbf7;
+
+}
+
+
+/* ============================================================
+   NO TASK STATE
+   ============================================================ */
+
+#noCleaningTasksState {
+
+    padding:
+            18px 14px;
+
+    border-radius: 9px;
+
+    background: #f7f9fb;
+
+    color: #7b8796;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+
+    text-align: center;
+
+}
+
+
+/* ============================================================
+   TASK PERMISSION MESSAGE
+   ============================================================ */
+
+#taskPermissionMessage {
+
+    margin:
+            12px 0 0;
+
+    color: #7a8797;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   PERMISSION NOTICE
+   ============================================================ */
+
+#cleaningPermissionNotice {
+
+    margin-top: 14px;
+
+    padding:
+            11px 12px;
+
+    border:
+            1px solid #e2e7ed;
+
+    border-radius: 9px;
+
+    background: #f8fafc;
+
+}
+
+
+/* ============================================================
+   PERMISSION TEXT
+   ============================================================ */
+
+#cleaningPermissionText {
+
+    margin: 0;
+
+    color: #657386;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   PHOTOS PAGE
+   ============================================================ */
+
+#residentPhotosSection {
+
+    width: 100%;
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   DOCUMENTATION SECTION
+   ============================================================ */
+
+#residentDocumentationSection {
+
+    width: 100%;
+
+    max-width: 920px;
+
+    padding: 26px;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 3px 12px
+            rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+            );
+
+}
+
+
+/* ============================================================
+   DOCUMENTATION CARD TITLE
+   ============================================================ */
+
+#residentDocumentationSection
+.resident-card-title {
+
+    margin-bottom: 18px;
+
+}
+
+
+/* ============================================================
+   CAMERA BUTTON
+   ============================================================ */
+
+#cameraButton {
+
+    width: 100%;
+
+    min-height: 42px;
+
+    padding:
+            10px 14px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: #315efb;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            box-shadow 0.15s ease,
+            transform 0.15s ease,
+            opacity 0.15s ease;
+
+}
+
+
+/* ============================================================
+   CAMERA BUTTON HOVER
+   ============================================================ */
+
+#cameraButton:hover:not(:disabled) {
+
+    background: #244bd4;
+
+    box-shadow:
+            0 5px 14px
+            rgba(
+                    49,
+                    94,
+                    251,
+                    0.18
+            );
+
+    transform:
+            translateY(-1px);
+
+}
+
+
+/* ============================================================
+   CAMERA BUTTON DISABLED
+   ============================================================ */
+
+#cameraButton:disabled {
+
+    opacity: 0.48;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+
+}
+
+
+/* ============================================================
+   PHOTO PREVIEW GRID
+   ============================================================ */
+
+#photoPreviewGrid {
+
+    width: 100%;
+
+    margin-top: 16px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            4,
+            minmax(
+                    0,
+                    1fr
+            )
+        );
+
+    gap: 10px;
+
+}
+
+
+/* ============================================================
+   PHOTO PREVIEW ITEM
+   ============================================================ */
+
+.resident-photo-preview-item {
+
+    position: relative;
+
+    min-width: 0;
+
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 10px;
+
+    background: #f1f4f7;
+
+}
+
+
+/* ============================================================
+   PHOTO IMAGE
+   ============================================================ */
+
+.resident-photo-preview-item img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+}
+
+
+/* ============================================================
+   PHOTO UNAVAILABLE
+   ============================================================ */
+
+.resident-photo-preview-unavailable {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #eef2f6;
+
+    color: #9aa4b2;
+
+    font-size: 24px;
+
+}
+
+
+/* ============================================================
+   PHOTO DELETE BUTTON
+   ============================================================ */
+
+.resident-photo-delete-button {
+
+    position: absolute;
+
+    top: 6px;
+
+    right: 6px;
+
+    width: 26px;
+
+    height: 26px;
+
+    padding: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+            1px solid
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.80
+            );
+
+    border-radius: 50%;
+
+    background:
+            rgba(
+                    20,
+                    30,
+                    40,
+                    0.72
+            );
+
+    color: #ffffff;
+
+    font-size: 17px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    backdrop-filter:
+            blur(5px);
+
+    -webkit-backdrop-filter:
+            blur(5px);
+
+    transition:
+            background 0.15s ease,
+            transform 0.15s ease;
+
+}
+
+
+/* ============================================================
+   PHOTO DELETE HOVER
+   ============================================================ */
+
+.resident-photo-delete-button:hover {
+
+    background:
+            rgba(
+                    178,
+                    35,
+                    24,
+                    0.88
+            );
+
+    transform:
+            scale(1.05);
+
+}
+
+
+/* ============================================================
+   PHOTO COUNT
+   ============================================================ */
+
+#photoCount {
+
+    display: block;
+
+    margin-top: 12px;
+
+    color: #7c8797;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   CONFIRM CARD
+   ============================================================ */
+
+#cleaningSection
+.resident-confirm-card {
+
+    padding: 22px;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 3px 12px
+            rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+            );
+
+}
+
+
+/* ============================================================
+   CONFIRM INFO
+   ============================================================ */
+
+#cleaningSection
+.resident-confirm-info {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(
+                    0,
+                    1fr
+            )
+        );
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+
+}
+
+
+/* ============================================================
+   CONFIRM INFO BOX
+   ============================================================ */
+
+#cleaningSection
+.resident-confirm-info > div {
+
+    min-width: 0;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    background: #f7f9fb;
+
+}
+
+
+/* ============================================================
+   CONFIRM INFO LABEL
+   ============================================================ */
+
+#cleaningSection
+.resident-confirm-info span {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #8a94a3;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+}
+
+
+/* ============================================================
+   CONFIRM INFO VALUE
+   ============================================================ */
+
+#cleaningSection
+.resident-confirm-info strong {
+
+    display: block;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #34475f;
+
+    font-size: 10px;
+
+    font-weight: 750;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   CONFIRM CLEANING BUTTON
+   ============================================================ */
+
+#confirmCleaningButton {
+
+    width: 100%;
+
+    min-height: 42px;
+
+    padding:
+            10px 14px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: #209447;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            opacity 0.15s ease,
+            transform 0.15s ease,
+            box-shadow 0.15s ease;
+
+}
+
+
+/* ============================================================
+   CONFIRM BUTTON HOVER
+   ============================================================ */
+
+#confirmCleaningButton:hover:not(:disabled) {
+
+    background: #187b3a;
+
+    transform:
+            translateY(-1px);
+
+    box-shadow:
+            0 5px 14px
+            rgba(
+                    32,
+                    148,
+                    71,
+                    0.16
+            );
+
+}
+
+
+/* ============================================================
+   CONFIRM BUTTON DISABLED
+   ============================================================ */
+
+#confirmCleaningButton:disabled {
+
+    opacity: 0.46;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+
+}
+
+
+/* ============================================================
+   RESPONSIBLE ONLY MESSAGE
+   ============================================================ */
+
+#responsibleOnlyMessage {
+
+    min-height: 0;
+
+    margin:
+            11px 0 0;
+
+    color: #7b8796;
+
+    font-size: 10px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   CAMERA OVERLAY
+   ============================================================ */
+
+.resident-camera-overlay {
+
+    box-sizing: border-box;
+
+}
+
+
+/* ============================================================
+   CAMERA VIDEO
+   ============================================================ */
+
+.resident-camera-video {
+
+    box-shadow:
+            0 16px 50px
+            rgba(
+                    0,
+                    0,
+                    0,
+                    0.32
+            );
+
+}
+
+
+/* ============================================================
+   CAMERA ACTIONS
+   ============================================================ */
+
+.resident-camera-actions {
+
+    max-width: 720px;
+
+}
+
+
+/* ============================================================
+   CAMERA CANCEL BUTTON
+   ============================================================ */
+
+.resident-camera-cancel-button {
+
+    min-height: 42px;
+
+    padding:
+            10px 17px !important;
+
+    border-radius:
+            8px !important;
+
+    background:
+            #ffffff !important;
+
+    color:
+            #344054 !important;
+
+}
+
+
+/* ============================================================
+   CAMERA CAPTURE BUTTON
+   ============================================================ */
+
+.resident-camera-capture-button {
+
+    min-height: 42px;
+
+    padding:
+            10px 17px !important;
+
+    border-radius:
+            8px !important;
+
+    background:
+            #315efb !important;
+
+    color:
+            #ffffff !important;
+
+}
+
+
+/* ============================================================
+   TABLET PHOTOS
+   ============================================================ */
+
+@media (
+max-width: 900px
+) {
+
+    #photoPreviewGrid {
+
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(
+                        0,
+                        1fr
+                )
+            );
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE PHOTOS / TASKS
+   ============================================================ */
+
+@media (
+max-width: 620px
+) {
+
+    #residentDocumentationSection {
+
+        padding: 20px;
+
+    }
+
+
+    #photoPreviewGrid {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(
+                        0,
+                        1fr
+                )
+            );
+
+    }
+
+
+    #cleaningSection
+    .resident-confirm-info {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .resident-cleaning-task {
+
+        padding:
+                10px;
+
+    }
+
+}
+
+/* ============================================================
+   CLEANPLAN
+   RESIDENT DASHBOARD V2
+
+   DEL 4 / 4
+
+   HISTORY
+   RESPONSIVE LAYOUT
+   SIDEBAR / TOPBAR
+   FINAL VIEW POLISH
+   ============================================================ */
+
+
+/* ============================================================
+   HISTORY PAGE
+   ============================================================ */
+
+#cleaningHistorySection {
+
+    width: 100%;
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   HISTORY HEADING
+   ============================================================ */
+
+#cleaningHistorySection
+.resident-history-heading {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* ============================================================
+   HISTORY HEADING TITLE
+   ============================================================ */
+
+#cleaningHistorySection
+.resident-history-heading h2 {
+
+    margin:
+            0 0 6px;
+
+    color: #22334a;
+
+    font-size: 26px;
+
+    font-weight: 750;
+
+    line-height: 1.25;
+
+    letter-spacing: -0.45px;
+
+}
+
+
+/* ============================================================
+   HISTORY HEADING DESCRIPTION
+   ============================================================ */
+
+#cleaningHistorySection
+.resident-history-heading p {
+
+    max-width: 720px;
+
+    margin: 0;
+
+    color: #7b8796;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+
+}
+
+
+/* ============================================================
+   HISTORY CLOSE BUTTON
+   ============================================================ */
+
+#closeCleaningHistoryButton {
+
+    width: 36px;
+
+    height: 36px;
+
+    padding: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #667085;
+
+    font-family: inherit;
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            color 0.15s ease,
+            transform 0.15s ease;
+
+}
+
+
+/* ============================================================
+   HISTORY CLOSE HOVER
+   ============================================================ */
+
+#closeCleaningHistoryButton:hover {
+
+    border-color: #ccd5df;
+
+    background: #f6f8fa;
+
+    color: #344054;
+
+    transform:
+            translateY(-1px);
+
+}
+
+
+/* ============================================================
+   HISTORY MAIN CARD
+   ============================================================ */
+
+#cleaningHistorySection
+.resident-history-card {
+
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 22px;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 3px 12px
+            rgba(
+                    15,
+                    23,
+                    42,
+                    0.04
+            );
+
+}
+
+
+/* ============================================================
+   HISTORY LOADING
+   ============================================================ */
+
+#cleaningHistoryLoading {
+
+    padding:
+            24px 0;
+
+    text-align: center;
+
+}
+
+
+/* ============================================================
+   HISTORY LOADING TEXT
+   ============================================================ */
+
+#cleaningHistoryLoading p {
+
+    margin: 0;
+
+    color: #7b8796;
+
+    font-size: 11px;
+
+}
+
+
+/* ============================================================
+   HISTORY EMPTY
+   ============================================================ */
+
+#cleaningHistoryEmpty {
+
+    padding:
+            26px 18px;
+
+    border-radius: 10px;
+
+    background: #f7f9fb;
+
+    color: #7b8796;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+
+    text-align: center;
+
+}
+
+
+/* ============================================================
+   HISTORY LIST
+   ============================================================ */
+
+#cleaningHistoryList {
+
+    width: 100%;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+}
+
+
+/* ============================================================
+   HISTORY ITEM
+   ============================================================ */
+
+.resident-history-item {
+
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 18px;
+
+    border:
+            1px solid #e2e7ed;
+
+    border-radius: 11px;
+
+    background: #ffffff;
+
+}
+
+
+/* ============================================================
+   HISTORY ITEM HEADER
+   ============================================================ */
+
+.resident-history-item-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 14px;
+
+    margin-bottom: 15px;
+
+}
+
+
+/* ============================================================
+   HISTORY ITEM TITLE
+   ============================================================ */
+
+.resident-history-item-title {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   HISTORY ITEM TITLE H3
+   ============================================================ */
+
+.resident-history-item-title h3 {
+
+    margin:
+            0 0 4px;
+
+    color: #2c4058;
+
+    font-size: 14px;
+
+    font-weight: 750;
+
+    line-height: 1.3;
+
+}
+
+
+/* ============================================================
+   HISTORY ITEM DATE
+   ============================================================ */
+
+.resident-history-item-title span {
+
+    display: block;
+
+    color: #8994a3;
+
+    font-size: 9px;
+
+}
+
+
+/* ============================================================
+   HISTORY STATUS
+   ============================================================ */
+
+.resident-history-status {
+
+    min-height: 24px;
+
+    padding:
+            5px 9px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 999px;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    line-height: 1;
+
+}
+
+
+/* ============================================================
+   HISTORY STATUS COMPLETED
+   ============================================================ */
+
+.resident-history-status.completed {
+
+    background: #e5f6ea;
+
+    color: #218943;
+
+}
+
+
+/* ============================================================
+   HISTORY STATUS NOT COMPLETED
+   ============================================================ */
+
+.resident-history-status.not-completed {
+
+    background: #fbeaec;
+
+    color: #b42318;
+
+}
+
+
+/* ============================================================
+   HISTORY DETAILS
+   ============================================================ */
+
+.resident-history-details {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(
+                    0,
+                    1fr
+            )
+        );
+
+    gap: 9px;
+
+}
+
+
+/* ============================================================
+   HISTORY DETAIL
+   ============================================================ */
+
+.resident-history-detail {
+
+    min-width: 0;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    background: #f7f9fb;
+
+}
+
+
+/* ============================================================
+   HISTORY DETAIL LABEL
+   ============================================================ */
+
+.resident-history-detail span {
+
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #8a94a3;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+}
+
+
+/* ============================================================
+   HISTORY DETAIL VALUE
+   ============================================================ */
+
+.resident-history-detail strong {
+
+    display: block;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #34475f;
+
+    font-size: 10px;
+
+    font-weight: 750;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   HISTORY DOCUMENTATION
+   ============================================================ */
+
+.resident-history-documentation {
+
+    margin-top: 15px;
+
+    padding-top: 15px;
+
+    border-top:
+            1px solid #edf0f3;
+
+}
+
+
+/* ============================================================
+   HISTORY DOCUMENTATION TITLE
+   ============================================================ */
+
+.resident-history-documentation-title {
+
+    margin:
+            0 0 10px;
+
+    color: #34475f;
+
+    font-size: 11px;
+
+    font-weight: 750;
+
+}
+
+
+/* ============================================================
+   HISTORY DOCUMENTATION EMPTY
+   ============================================================ */
+
+.resident-history-documentation > p {
+
+    margin: 0;
+
+    color: #8994a3;
+
+    font-size: 10px;
+
+    line-height: 1.45;
+
+}
+
+
+/* ============================================================
+   HISTORY PHOTO GRID
+   ============================================================ */
+
+.resident-history-photo-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            5,
+            minmax(
+                    0,
+                    1fr
+            )
+        );
+
+    gap: 8px;
+
+}
+
+
+/* ============================================================
+   HISTORY PHOTO
+   ============================================================ */
+
+.resident-history-photo {
+
+    min-width: 0;
+
+    aspect-ratio: 1 / 1;
+
+    overflow: hidden;
+
+    display: block;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 9px;
+
+    background: #f1f4f7;
+
+}
+
+
+/* ============================================================
+   HISTORY PHOTO IMAGE
+   ============================================================ */
+
+.resident-history-photo img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+            transform 0.18s ease;
+
+}
+
+
+/* ============================================================
+   HISTORY PHOTO HOVER
+   ============================================================ */
+
+.resident-history-photo:hover img {
+
+    transform:
+            scale(1.025);
+
+}
+
+
+/* ============================================================
+   MAIN CONTENT TRANSITION
+   ============================================================ */
+
+#residentDashboardHome,
+#residentSection,
+#cleaningSection,
+#residentPhotosSection,
+#cleaningHistorySection {
+
+    animation:
+            resident-view-in
+            0.16s
+            ease-out;
+
+}
+
+
+/* ============================================================
+   VIEW ANIMATION
+   ============================================================ */
+
+@keyframes resident-view-in {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+                translateY(4px);
+
+    }
+
+
+    to {
+
+        opacity: 1;
+
+        transform:
+                translateY(0);
+
+    }
+
+}
+
+
+/* ============================================================
+   TOPBAR LANGUAGE SELECTOR
+   ============================================================ */
+
+.resident-main-header
+.language-selector {
+
+    flex-shrink: 0;
+
+}
+
+
+/* ============================================================
+   HEADER PROFILE SAFETY
+   ============================================================ */
+
+.resident-header-profile {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   HEADER NAME
+   ============================================================ */
+
+#residentName {
+
+    max-width: 190px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   SIDEBAR SAFETY
+   ============================================================ */
+
+.resident-sidebar {
+
+    overscroll-behavior: contain;
+
+}
+
+
+/* ============================================================
+   SIDEBAR LINKS SAFETY
+   ============================================================ */
+
+.resident-sidebar-link {
+
+    flex-shrink: 0;
+
+}
+
+
+/* ============================================================
+   SIDEBAR ACTIVE BUTTON
+   ============================================================ */
+
+.resident-sidebar-button.active {
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.11
+            );
+
+    color: #ffffff;
+
+}
+
+
+/* ============================================================
+   DESKTOP CONTENT WIDTH
+   ============================================================ */
+
+@media (
+min-width: 901px
+) {
+
+    .resident-dashboard-modern {
+
+        width:
+                min(
+                        1380px,
+                        calc(
+                                100% - 56px
+                        )
+                );
+
+    }
+
+}
+
+
+/* ============================================================
+   MEDIUM DESKTOP
+   ============================================================ */
+
+@media (
+max-width: 1180px
+) {
+
+    .resident-history-photo-grid {
+
+        grid-template-columns:
+            repeat(
+                4,
+                minmax(
+                        0,
+                        1fr
+                )
+            );
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE LAYOUT
+   ============================================================ */
+
+@media (
+max-width: 900px
+) {
+
+    .resident-main-area {
+
+        width: 100%;
+
+        margin-left: 0;
+
+        padding-top: 58px;
+
+    }
+
+
+    .resident-main-header {
+
+        left: 0;
+
+        min-height: 58px;
+
+        padding:
+                8px 14px;
+
+    }
+
+
+    .resident-mobile-menu-button {
+
+        display: inline-flex;
+
+    }
+
+
+    .resident-dashboard-modern {
+
+        width:
+                calc(
+                        100% - 28px
+                );
+
+        padding:
+                28px 0 50px;
+
+    }
+
+
+    .resident-sidebar {
+
+        width: 245px;
+
+        transform:
+                translateX(-100%);
+
+        transition:
+                transform 0.2s ease;
+
+    }
+
+
+    .resident-sidebar.open {
+
+        transform:
+                translateX(0);
+
+    }
+
+
+    .resident-history-details {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(
+                        0,
+                        1fr
+                )
+            );
+
+    }
+
+
+    .resident-history-photo-grid {
+
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(
+                        0,
+                        1fr
+                )
+            );
+
+    }
+
+}
+
+
+/* ============================================================
+   SMALL TABLET
+   ============================================================ */
+
+@media (
+max-width: 700px
+) {
+
+    .resident-modern-welcome {
+
+        margin-bottom: 22px;
+
+    }
+
+
+    .resident-modern-welcome h1 {
+
+        font-size: 25px;
+
+    }
+
+
+    .resident-modern-welcome-text {
+
+        font-size: 12px;
+
+    }
+
+
+    #cleaningHistorySection
+    .resident-history-heading {
+
+        gap: 12px;
+
+    }
+
+
+    #cleaningHistorySection
+    .resident-history-heading h2 {
+
+        font-size: 22px;
+
+    }
+
+
+    .resident-history-item {
+
+        padding: 15px;
+
+    }
+
+
+    .resident-history-details {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE PHONE
+   ============================================================ */
+
+@media (
+max-width: 520px
+) {
+
+    .resident-main-header {
+
+        gap: 8px;
+
+        padding:
+                7px 10px;
+
+    }
+
+
+    .resident-mobile-menu-button {
+
+        width: 36px;
+
+        height: 36px;
+
+    }
+
+
+    .resident-header-profile {
+
+        gap: 7px;
+
+    }
+
+
+    .resident-header-profile-text span {
+
+        display: none;
+
+    }
+
+
+    #residentName {
+
+        max-width: 105px;
+
+    }
+
+
+    .resident-header-avatar {
+
+        width: 32px;
+
+        height: 32px;
+
+    }
+
+
+    .resident-dashboard-modern {
+
+        width:
+                calc(
+                        100% - 20px
+                );
+
+        padding:
+                22px 0 42px;
+
+    }
+
+
+    .resident-modern-welcome h1 {
+
+        font-size: 23px;
+
+    }
+
+
+    .resident-history-item-header {
+
+        align-items: flex-start;
+
+    }
+
+
+    .resident-history-photo-grid {
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(
+                        0,
+                        1fr
+                )
+            );
+
+    }
+
+}
+
+
+/* ============================================================
+   VERY SMALL PHONE
+   ============================================================ */
+
+@media (
+max-width: 380px
+) {
+
+    #residentName {
+
+        max-width: 78px;
+
+    }
+
+
+    .resident-dashboard-modern {
+
+        width:
+                calc(
+                        100% - 16px
+                );
+
+    }
+
+
+    .resident-history-item {
+
+        padding: 13px;
+
+    }
+
+}
+

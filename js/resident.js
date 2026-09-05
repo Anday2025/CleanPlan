@@ -1,5 +1,5 @@
 // ============================================================
-// CLEANING APP
+// CLEANPLAN
 // RESIDENT DASHBOARD
 // ============================================================
 
@@ -13,210 +13,326 @@ const logoutButton =
         "logoutButton"
     );
 
+
 const residentName =
     document.getElementById(
         "residentName"
     );
+
+
+const residentInitial =
+    document.getElementById(
+        "residentInitial"
+    );
+
 
 const welcomeTitle =
     document.getElementById(
         "welcomeTitle"
     );
 
+
 const loadingSection =
     document.getElementById(
         "loadingSection"
     );
+
 
 const waitingSection =
     document.getElementById(
         "waitingSection"
     );
 
+
 const residentSection =
     document.getElementById(
         "residentSection"
     );
+
 
 const cleaningSection =
     document.getElementById(
         "cleaningSection"
     );
 
+
+const residentDashboardHome =
+    document.getElementById(
+        "residentDashboardHome"
+    );
+
+
+const residentPhotosSection =
+    document.getElementById(
+        "residentPhotosSection"
+    );
+
+
 const errorSection =
     document.getElementById(
         "errorSection"
     );
+
 
 const residentPageMessage =
     document.getElementById(
         "residentPageMessage"
     );
 
+
+// ============================================================
+// PROPERTY DOM ELEMENTS
+// ============================================================
+
 const propertyName =
     document.getElementById(
         "propertyName"
     );
+
 
 const propertyAddress =
     document.getElementById(
         "propertyAddress"
     );
 
+
 const floorName =
     document.getElementById(
         "floorName"
     );
+
+
+// ============================================================
+// CLEANING PLAN DOM ELEMENTS
+// ============================================================
 
 const cleaningPlanSubtitle =
     document.getElementById(
         "cleaningPlanSubtitle"
     );
 
+
 const noCleaningPlanState =
     document.getElementById(
         "noCleaningPlanState"
     );
+
 
 const cleaningPlanContent =
     document.getElementById(
         "cleaningPlanContent"
     );
 
+
+// ============================================================
+// CURRENT WEEK DOM ELEMENTS
+// ============================================================
+
 const currentWeekHeading =
     document.getElementById(
         "currentWeekHeading"
     );
+
 
 const currentWeekStatus =
     document.getElementById(
         "currentWeekStatus"
     );
 
+
 const currentWeekDate =
     document.getElementById(
         "currentWeekDate"
     );
+
 
 const currentWeekResponsible =
     document.getElementById(
         "currentWeekResponsible"
     );
 
+
 const currentWeekFloor =
     document.getElementById(
         "currentWeekFloor"
     );
+
+
+// ============================================================
+// NEW MODERN DASHBOARD SUMMARY
+// ============================================================
+
+const residentNextCleaningCard =
+    document.getElementById(
+        "residentNextCleaningCard"
+    );
+
+
+const residentNextCleaningDate =
+    document.getElementById(
+        "residentNextCleaningDate"
+    );
+
+
+const residentNextCleaningWeek =
+    document.getElementById(
+        "residentNextCleaningWeek"
+    );
+
+
+const residentNextCleaningFloor =
+    document.getElementById(
+        "residentNextCleaningFloor"
+    );
+
+
+// ============================================================
+// WEEK NAVIGATION DOM ELEMENTS
+// ============================================================
 
 const previousWeekButton =
     document.getElementById(
         "previousWeekButton"
     );
 
+
 const nextWeekButton =
     document.getElementById(
         "nextWeekButton"
     );
+
 
 const selectedWeekNumber =
     document.getElementById(
         "selectedWeekNumber"
     );
 
+
 const selectedWeekYear =
     document.getElementById(
         "selectedWeekYear"
     );
+
 
 const weekPreviewList =
     document.getElementById(
         "weekPreviewList"
     );
 
+
 const selectedWeekDate =
     document.getElementById(
         "selectedWeekDate"
     );
+
 
 const selectedWeekResponsible =
     document.getElementById(
         "selectedWeekResponsible"
     );
 
+
 const selectedWeekStatus =
     document.getElementById(
         "selectedWeekStatus"
     );
+
+
+// ============================================================
+// CLEANING TASK DOM ELEMENTS
+// ============================================================
 
 const cleaningTaskCount =
     document.getElementById(
         "cleaningTaskCount"
     );
 
+
 const noCleaningTasksState =
     document.getElementById(
         "noCleaningTasksState"
     );
+
 
 const cleaningTasksWrapper =
     document.getElementById(
         "cleaningTasksWrapper"
     );
 
+
 const cleaningTaskList =
     document.getElementById(
         "cleaningTaskList"
     );
+
 
 const taskPermissionMessage =
     document.getElementById(
         "taskPermissionMessage"
     );
 
+
 const cleaningPermissionNotice =
     document.getElementById(
         "cleaningPermissionNotice"
     );
+
 
 const cleaningPermissionText =
     document.getElementById(
         "cleaningPermissionText"
     );
 
+
+// ============================================================
+// CAMERA / DOCUMENTATION DOM ELEMENTS
+// ============================================================
+
 const cameraButton =
     document.getElementById(
         "cameraButton"
     );
+
 
 const photoPreviewGrid =
     document.getElementById(
         "photoPreviewGrid"
     );
 
+
 const photoCount =
     document.getElementById(
         "photoCount"
     );
+
+
+// ============================================================
+// SIGNING DOM ELEMENTS
+// ============================================================
 
 const signedByName =
     document.getElementById(
         "signedByName"
     );
 
+
 const confirmWeekNumber =
     document.getElementById(
         "confirmWeekNumber"
     );
+
 
 const confirmCleaningButton =
     document.getElementById(
         "confirmCleaningButton"
     );
 
+
 const responsibleOnlyMessage =
     document.getElementById(
         "responsibleOnlyMessage"
     );
+
 
 // ============================================================
 // CLEANING HISTORY DOM ELEMENTS
@@ -227,25 +343,30 @@ const cleaningHistoryButton =
         "cleaningHistoryButton"
     );
 
+
 const cleaningHistorySection =
     document.getElementById(
         "cleaningHistorySection"
     );
+
 
 const closeCleaningHistoryButton =
     document.getElementById(
         "closeCleaningHistoryButton"
     );
 
+
 const cleaningHistoryLoading =
     document.getElementById(
         "cleaningHistoryLoading"
     );
 
+
 const cleaningHistoryEmpty =
     document.getElementById(
         "cleaningHistoryEmpty"
     );
+
 
 const cleaningHistoryList =
     document.getElementById(
@@ -260,47 +381,62 @@ const cleaningHistoryList =
 let currentProfile =
     null;
 
+
 let currentResident =
     null;
+
 
 let currentCleaningPlan =
     null;
 
+
 let currentCleaningTasks =
     [];
+
 
 let currentCleaningMembers =
     [];
 
+
 let currentWeekAssignments =
     {};
+
 
 let currentCleaningCompletions =
     [];
 
+
 let currentCleaningDocumentation =
     [];
+
 
 let currentWeekFriday =
     null;
 
+
 let selectedFriday =
     null;
+
 
 let selectedResponsibleMember =
     null;
 
+
 let isSavingDocumentation =
     false;
+
 
 let isSavingTaskCompletion =
     false;
 
+
 let isSigningCleaning =
     false;
 
+
 let activeCameraStream =
     null;
+
 
 let activeCameraOverlay =
     null;
@@ -313,8 +449,10 @@ let activeCameraOverlay =
 let currentCleaningHistory =
     [];
 
+
 let isLoadingCleaningHistory =
     false;
+
 
 let hasLoadedCleaningHistory =
     false;
@@ -329,7 +467,7 @@ const MAX_PHOTOS =
 
 
 // ============================================================
-// TRANSLATION HELPERS
+// TRANSLATION HELPER
 // ============================================================
 
 function t(
@@ -352,8 +490,8 @@ function t(
 
 
     /*
-     * language.js should normally
-     * always be loaded before resident.js.
+     * language.js should normally always
+     * be loaded before resident.js.
      */
 
     return key;
@@ -454,6 +592,38 @@ function showError(
     }
 
 
+    if (residentDashboardHome) {
+
+        residentDashboardHome.hidden =
+            true;
+
+    }
+
+
+    if (residentPhotosSection) {
+
+        residentPhotosSection.hidden =
+            true;
+
+    }
+
+
+    if (cleaningHistorySection) {
+
+        cleaningHistorySection.hidden =
+            true;
+
+    }
+
+
+    if (residentNextCleaningCard) {
+
+        residentNextCleaningCard.hidden =
+            true;
+
+    }
+
+
     if (errorSection) {
 
         errorSection.hidden =
@@ -497,6 +667,30 @@ function hideContentSections() {
     if (cleaningSection) {
 
         cleaningSection.hidden =
+            true;
+
+    }
+
+
+    if (residentDashboardHome) {
+
+        residentDashboardHome.hidden =
+            true;
+
+    }
+
+
+    if (residentPhotosSection) {
+
+        residentPhotosSection.hidden =
+            true;
+
+    }
+
+
+    if (cleaningHistorySection) {
+
+        cleaningHistorySection.hidden =
             true;
 
     }
@@ -644,7 +838,7 @@ function normalizeDate(
 
 
 // ============================================================
-// FORMAT DATE
+// FORMAT DISPLAY DATE
 // ============================================================
 
 function formatDisplayDate(
@@ -1030,14 +1224,14 @@ function getCleaningWindowState() {
     }
 
 
-    const day =
-        today.getDay();
-
-
     /*
      * Monday-Wednesday:
      * cleaning is not available yet.
      */
+
+    const day =
+        today.getDay();
+
 
     if (
         day >=
@@ -1076,6 +1270,7 @@ function getCleaningWindowState() {
     return "deadline-passed";
 
 }
+
 
 // ============================================================
 // AUTHENTICATION / SESSION
@@ -1257,6 +1452,21 @@ async function checkResidentAccess() {
     }
 
 
+    if (residentInitial) {
+
+        residentInitial.textContent =
+            (
+                profile.full_name ||
+                ""
+            )
+                .trim()
+                .charAt(0)
+                .toUpperCase() ||
+            "B";
+
+    }
+
+
     if (welcomeTitle) {
 
         welcomeTitle.textContent =
@@ -1412,6 +1622,14 @@ async function loadResidentAssociation(
         }
 
 
+        if (residentNextCleaningCard) {
+
+            residentNextCleaningCard.hidden =
+                true;
+
+        }
+
+
         return {
 
             success:
@@ -1463,15 +1681,27 @@ function showResidentDashboard(
     }
 
 
+    /*
+     * Hide all resident sub-pages first.
+     *
+     * After login, only the dashboard menu
+     * should be visible.
+     */
+
     hideContentSections();
 
 
     const property =
         resident.properties;
 
+
     const floor =
         resident.floors;
 
+
+    // ========================================================
+    // PROPERTY VALUES
+    // ========================================================
 
     if (propertyName) {
 
@@ -1521,10 +1751,32 @@ function showResidentDashboard(
     }
 
 
+    if (residentNextCleaningFloor) {
+
+        residentNextCleaningFloor.textContent =
+            getFloorDisplayName(
+                floor
+            );
+
+    }
+
+
+    // ========================================================
+    // SHOW ONLY DASHBOARD HOME
+    // ========================================================
+
+    if (residentDashboardHome) {
+
+        residentDashboardHome.hidden =
+            false;
+
+    }
+
+
     if (residentSection) {
 
         residentSection.hidden =
-            false;
+            true;
 
     }
 
@@ -1532,7 +1784,31 @@ function showResidentDashboard(
     if (cleaningSection) {
 
         cleaningSection.hidden =
-            false;
+            true;
+
+    }
+
+
+    if (residentPhotosSection) {
+
+        residentPhotosSection.hidden =
+            true;
+
+    }
+
+
+    if (cleaningHistorySection) {
+
+        cleaningHistorySection.hidden =
+            true;
+
+    }
+
+
+    if (errorSection) {
+
+        errorSection.hidden =
+            true;
 
     }
 
@@ -1551,30 +1827,40 @@ function resetCleaningPlanDisplay() {
     currentCleaningPlan =
         null;
 
+
     currentCleaningTasks =
         [];
+
 
     currentCleaningMembers =
         [];
 
+
     currentWeekAssignments =
         {};
+
 
     currentCleaningCompletions =
         [];
 
+
     currentCleaningDocumentation =
         [];
 
+
     resetCleaningHistory();
 
+
     closeCleaningHistory();
+
 
     selectedResponsibleMember =
         null;
 
+
     currentWeekFriday =
         null;
+
 
     selectedFriday =
         null;
@@ -1592,6 +1878,38 @@ function resetCleaningPlanDisplay() {
 
         cleaningPlanContent.hidden =
             true;
+
+    }
+
+
+    if (residentNextCleaningCard) {
+
+        residentNextCleaningCard.hidden =
+            true;
+
+    }
+
+
+    if (residentNextCleaningDate) {
+
+        residentNextCleaningDate.textContent =
+            "-";
+
+    }
+
+
+    if (residentNextCleaningWeek) {
+
+        residentNextCleaningWeek.textContent =
+            "-";
+
+    }
+
+
+    if (residentNextCleaningFloor) {
+
+        residentNextCleaningFloor.textContent =
+            "-";
 
     }
 
@@ -1652,6 +1970,14 @@ async function loadCleaningPlan() {
                 t(
                     "noActiveCleaningPlan"
                 );
+
+        }
+
+
+        if (residentNextCleaningCard) {
+
+            residentNextCleaningCard.hidden =
+                true;
 
         }
 
@@ -1734,6 +2060,14 @@ async function loadCleaningPlan() {
         }
 
 
+        if (residentNextCleaningCard) {
+
+            residentNextCleaningCard.hidden =
+                true;
+
+        }
+
+
         return;
 
     }
@@ -1781,7 +2115,9 @@ async function loadCleaningPlan() {
 
     await loadCleaningTasks();
 
+
     await loadCleaningMembers();
+
 
     await loadWeekAssignments();
 
@@ -1835,27 +2171,27 @@ async function loadCleaningTasks() {
             )
             .select(
                 `
-            id,
-            plan_id,
-            task_id,
-            sort_order,
-
-            cleaning_tasks (
                 id,
-                property_id,
-                floor_id,
-                name,
-                description,
+                plan_id,
+                task_id,
                 sort_order,
-                is_active,
 
-                cleaning_task_translations (
-                    language_code,
+                cleaning_tasks (
+                    id,
+                    property_id,
+                    floor_id,
                     name,
-                    description
+                    description,
+                    sort_order,
+                    is_active,
+
+                    cleaning_task_translations (
+                        language_code,
+                        name,
+                        description
+                    )
                 )
-            )
-            `
+                `
             )
             .eq(
                 "plan_id",
@@ -1868,6 +2204,7 @@ async function loadCleaningTasks() {
                         true
                 }
             );
+
 
     if (error) {
 
@@ -1894,7 +2231,9 @@ async function loadCleaningTasks() {
             data ||
             []
         ).filter(
-            function (item) {
+            function (
+                item
+            ) {
 
                 return Boolean(
                     item.cleaning_tasks &&
@@ -1906,7 +2245,6 @@ async function loadCleaningTasks() {
         );
 
 }
-
 
 // ============================================================
 // LOAD CLEANING MEMBERS
@@ -1992,7 +2330,9 @@ async function loadCleaningMembers() {
             data ||
             []
         ).filter(
-            function (member) {
+            function (
+                member
+            ) {
 
                 return Boolean(
                     member.residents &&
@@ -2004,6 +2344,7 @@ async function loadCleaningMembers() {
         );
 
 }
+
 
 // ============================================================
 // LOAD WEEK ASSIGNMENTS
@@ -2083,9 +2424,13 @@ async function loadWeekAssignments() {
         data ||
         []
     ).forEach(
-        function (assignment) {
+        function (
+            assignment
+        ) {
 
-            if (!assignment.week_start) {
+            if (
+                !assignment.week_start
+            ) {
 
                 return;
 
@@ -2201,10 +2546,8 @@ async function ensureWeekAssignment(
 
 
     /*
-     * The RPC may return the created assignment
-     * directly, but reload from the database so
-     * the local state always has the same shape,
-     * including resident/profile and signing data.
+     * Reload assignments so the local object
+     * has full resident/profile information.
      */
 
     await loadWeekAssignments();
@@ -2242,9 +2585,7 @@ function getRotationMemberForFriday(
 
 
     /*
-     * Prefer the stored database assignment.
-     * This makes the database the authoritative
-     * source after an assignment has been created.
+     * Always prefer a stored database assignment.
      */
 
     const storedAssignment =
@@ -2260,7 +2601,9 @@ function getRotationMemberForFriday(
 
         const storedMember =
             currentCleaningMembers.find(
-                function (member) {
+                function (
+                    member
+                ) {
 
                     return (
                         member.resident_id ===
@@ -2279,9 +2622,9 @@ function getRotationMemberForFriday(
 
 
         /*
-         * If a former/inactive member still owns a
-         * historical assignment, preserve the
-         * assignment information when possible.
+         * A historical assignment can belong to
+         * a resident who is no longer active in
+         * the current rotation.
          */
 
         if (
@@ -2345,11 +2688,6 @@ function getRotationMemberForFriday(
             millisecondsPerWeek
         );
 
-
-    /*
-     * Make modulo work for weeks before
-     * the cleaning plan's start date too.
-     */
 
     const memberCount =
         currentCleaningMembers.length;
@@ -2464,7 +2802,9 @@ function getResponsibleMemberForFriday(
 
         const matchingMember =
             currentCleaningMembers.find(
-                function (member) {
+                function (
+                    member
+                ) {
 
                     return (
                         member.resident_id ===
@@ -2482,7 +2822,9 @@ function getResponsibleMemberForFriday(
         }
 
 
-        if (assignment.residents) {
+        if (
+            assignment.residents
+        ) {
 
             return {
 
@@ -2650,7 +2992,7 @@ function getAssignmentStatusKey(
 
 
     /*
-     * A future cleaning week.
+     * Future week.
      */
 
     if (
@@ -2665,7 +3007,7 @@ function getAssignmentStatusKey(
 
 
     /*
-     * Current cleaning week.
+     * Current week.
      */
 
     if (
@@ -2873,6 +3215,236 @@ function isSelectedWeekSigned() {
     );
 
 }
+
+
+// ============================================================
+// IS ASSIGNMENT COMPLETED
+// ============================================================
+
+function isAssignmentCompleted(
+    assignment
+) {
+
+    return Boolean(
+        assignment &&
+        (
+            assignment.signed_by ||
+            assignment.signed_at ||
+            assignment.status ===
+            "completed"
+        )
+    );
+
+}
+
+
+// ============================================================
+// FIND NEXT CLEANING FOR CURRENT RESIDENT
+// ============================================================
+
+function findNextCleaningForCurrentResident() {
+
+    if (
+        !currentCleaningPlan ||
+        !currentResident ||
+        currentCleaningMembers.length ===
+        0
+    ) {
+
+        return null;
+
+    }
+
+
+    /*
+     * Start with this week's Friday.
+     */
+
+    let startFriday =
+        getCurrentWeekFriday();
+
+
+    /*
+     * If the cleaning plan starts in the future,
+     * do not calculate weeks before the plan exists.
+     */
+
+    const planStart =
+        normalizeDate(
+            currentCleaningPlan.start_date
+        );
+
+
+    if (planStart) {
+
+        const planStartFriday =
+            getFridayForDate(
+                planStart
+            );
+
+
+        if (
+            startOfDay(
+                startFriday
+            ).getTime() <
+            startOfDay(
+                planStartFriday
+            ).getTime()
+        ) {
+
+            startFriday =
+                planStartFriday;
+
+        }
+
+    }
+
+
+    /*
+     * Search up to two years ahead.
+     *
+     * IMPORTANT:
+     * We DO NOT call ensureWeekAssignment()
+     * here. This is only a read/calculation.
+     */
+
+    for (
+        let offset = 0;
+        offset <= 104;
+        offset++
+    ) {
+
+        const friday =
+            addDays(
+                startFriday,
+                offset * 7
+            );
+
+
+        if (
+            !isCurrentResidentResponsible(
+                friday
+            )
+        ) {
+
+            continue;
+
+        }
+
+
+        const assignment =
+            getStoredAssignmentForFriday(
+                friday
+            );
+
+
+        /*
+         * If this assignment is already completed,
+         * continue to the resident's next turn.
+         */
+
+        if (
+            isAssignmentCompleted(
+                assignment
+            )
+        ) {
+
+            continue;
+
+        }
+
+
+        return friday;
+
+    }
+
+
+    return null;
+
+}
+
+
+// ============================================================
+// RENDER NEXT CLEANING CARD
+// ============================================================
+
+function renderNextCleaningCard() {
+
+    if (
+        !residentNextCleaningCard
+    ) {
+
+        return;
+
+    }
+
+
+    const friday =
+        findNextCleaningForCurrentResident();
+
+
+    if (!friday) {
+
+        residentNextCleaningCard.hidden =
+            true;
+
+        return;
+
+    }
+
+
+    const weekInfo =
+        getIsoWeekInfo(
+            friday
+        );
+
+
+    residentNextCleaningCard.hidden =
+        false;
+
+
+    if (
+        residentNextCleaningDate
+    ) {
+
+        residentNextCleaningDate.textContent =
+            formatDisplayDate(
+                friday
+            );
+
+    }
+
+
+    if (
+        residentNextCleaningWeek
+    ) {
+
+        residentNextCleaningWeek.textContent =
+            t(
+                "weekLabel",
+                {
+                    week:
+                    weekInfo.week
+                }
+            );
+
+    }
+
+
+    if (
+        residentNextCleaningFloor
+    ) {
+
+        residentNextCleaningFloor.textContent =
+            getFloorDisplayName(
+                currentResident
+                    ?.floors
+            );
+
+    }
+
+}
+
 
 // ============================================================
 // RENDER CURRENT WEEK CARD
@@ -3089,26 +3661,8 @@ function renderSelectedWeek() {
 
     if (signedByName) {
 
-        if (
-            assignment &&
-            (
-                assignment.signed_by ||
-                assignment.signed_at ||
-                assignment.status ===
-                "completed"
-            )
-        ) {
-
-            signedByName.textContent =
-                responsibleName;
-
-        }
-        else {
-
-            signedByName.textContent =
-                responsibleName;
-
-        }
+        signedByName.textContent =
+            responsibleName;
 
     }
 
@@ -3205,6 +3759,10 @@ function createWeekPreviewItem(
     }
 
 
+    // ========================================================
+    // WEEK COLUMN
+    // ========================================================
+
     const weekColumn =
         document.createElement(
             "div"
@@ -3252,6 +3810,10 @@ function createWeekPreviewItem(
         dateLabel
     );
 
+
+    // ========================================================
+    // RESPONSIBLE COLUMN
+    // ========================================================
 
     const responsibleColumn =
         document.createElement(
@@ -3305,6 +3867,10 @@ function createWeekPreviewItem(
         responsibleColumn
     );
 
+
+    // ========================================================
+    // SELECT WEEK
+    // ========================================================
 
     item.addEventListener(
         "click",
@@ -3373,11 +3939,11 @@ function renderWeekPreview() {
 
 
     /*
-     * Vis fem uker:
+     * Show five weeks:
      *
-     * - to uker før valgt uke
-     * - valgt uke
-     * - to uker etter valgt uke
+     * - two weeks before
+     * - selected week
+     * - two weeks after
      */
 
     for (
@@ -3519,9 +4085,8 @@ async function renderCleaningSchedule() {
 
 
     /*
-     * Sørg for at både denne uken og
-     * valgt uke har stabile assignments
-     * i databasen.
+     * Make sure current week and selected week
+     * both have stable database assignments.
      */
 
     if (currentWeekFriday) {
@@ -3538,9 +4103,29 @@ async function renderCleaningSchedule() {
     );
 
 
+    /*
+     * Current week card.
+     */
+
     renderCurrentWeekCard();
 
+
+    /*
+     * IMPORTANT:
+     * Next cleaning is calculated separately.
+     *
+     * This means:
+     * - current week is shown only if the logged-in
+     *   resident is actually responsible
+     * - already completed assignments are skipped
+     * - otherwise the next future turn is shown
+     */
+
+    renderNextCleaningCard();
+
+
     renderSelectedWeek();
+
 
     renderWeekPreview();
 
@@ -3563,6 +4148,7 @@ async function renderCleaningSchedule() {
     updateConfirmButtonState();
 
 }
+
 
 // ============================================================
 // LOAD CLEANING COMPLETIONS FOR SELECTED WEEK
@@ -3646,7 +4232,9 @@ function isTaskCompleted(
 ) {
 
     return currentCleaningCompletions.some(
-        function (completion) {
+        function (
+            completion
+        ) {
 
             return (
                 completion.task_id ===
@@ -3694,7 +4282,9 @@ function setTaskCheckboxesDisabled(
 
 
     checkboxes.forEach(
-        function (checkbox) {
+        function (
+            checkbox
+        ) {
 
             checkbox.disabled =
                 disabled;
@@ -3726,7 +4316,9 @@ function areAllTasksCompleted() {
 
 
     return checkboxes.every(
-        function (checkbox) {
+        function (
+            checkbox
+        ) {
 
             return (
                 checkbox.checked ===
@@ -3787,7 +4379,9 @@ async function saveTaskCompletion(
 
     updateCompletionControls();
 
+
     renderPhotoPreviews();
+
 
     updateConfirmButtonState();
 
@@ -3837,18 +4431,13 @@ async function saveTaskCompletion(
         return true;
 
     }
-    catch (error) {
+    catch (
+        error
+        ) {
 
         console.error(
             "SAVE TASK COMPLETION ERROR:",
             error
-        );
-
-
-        window.alert(
-            t(
-                "couldNotSaveTaskCompletion"
-            )
         );
 
 
@@ -3861,19 +4450,17 @@ async function saveTaskCompletion(
             false;
 
 
-        await renderCleaningTasks();
-
-
         updateCompletionControls();
 
+
         renderPhotoPreviews();
+
 
         updateConfirmButtonState();
 
     }
 
 }
-
 
 // ============================================================
 // DELETE TASK COMPLETION
@@ -3906,38 +4493,13 @@ async function deleteTaskCompletion(
     }
 
 
-    const completion =
-        currentCleaningCompletions.find(
-            function (item) {
-
-                return (
-                    item.task_id ===
-                    taskId
-                );
-
-            }
-        );
-
-
-    if (!completion) {
-
-        return true;
-
-    }
-
-
-    /*
-     * Only delete the completion belonging
-     * to this cleaning plan, task, week and
-     * current responsible resident.
-     */
-
     if (
-        completion.resident_id !==
-        currentResident.id
+        !isTaskCompleted(
+            taskId
+        )
     ) {
 
-        return false;
+        return true;
 
     }
 
@@ -3955,6 +4517,12 @@ async function deleteTaskCompletion(
 
     try {
 
+        const weekStart =
+            dateToIso(
+                selectedFriday
+            );
+
+
         const {
             error
         } =
@@ -3964,12 +4532,20 @@ async function deleteTaskCompletion(
                 )
                 .delete()
                 .eq(
-                    "id",
-                    completion.id
+                    "plan_id",
+                    currentCleaningPlan.id
+                )
+                .eq(
+                    "task_id",
+                    taskId
                 )
                 .eq(
                     "resident_id",
                     currentResident.id
+                )
+                .eq(
+                    "week_start",
+                    weekStart
                 );
 
 
@@ -3986,7 +4562,9 @@ async function deleteTaskCompletion(
         return true;
 
     }
-    catch (error) {
+    catch (
+        error
+        ) {
 
         console.error(
             "DELETE TASK COMPLETION ERROR:",
@@ -3994,9 +4572,12 @@ async function deleteTaskCompletion(
         );
 
 
+        await loadCleaningCompletionsForSelectedWeek();
+
+
         window.alert(
             t(
-                "couldNotSaveTaskCompletion"
+                "couldNotRemoveTaskCompletion"
             )
         );
 
@@ -4015,7 +4596,9 @@ async function deleteTaskCompletion(
 
         updateCompletionControls();
 
+
         renderPhotoPreviews();
+
 
         updateConfirmButtonState();
 
@@ -4048,8 +4631,8 @@ async function handleTaskCheckboxChange(
 
 
     /*
-     * Immediately lock the checkbox while
-     * the database operation is running.
+     * Lock immediately while
+     * the Supabase operation runs.
      */
 
     checkbox.disabled =
@@ -4079,9 +4662,8 @@ async function handleTaskCheckboxChange(
 
 
     /*
-     * If Supabase rejected the operation,
-     * restore the checkbox from the
-     * authoritative database state.
+     * Restore from database state
+     * if the operation failed.
      */
 
     if (!success) {
@@ -4096,11 +4678,10 @@ async function handleTaskCheckboxChange(
 
     updateCompletionControls();
 
+
     updateConfirmButtonState();
 
 }
-
-
 
 
 // ============================================================
@@ -4132,7 +4713,7 @@ function createCleaningTaskElement(
 
 
     // ========================================================
-    // FIND TRANSLATION
+    // AVAILABLE TRANSLATIONS
     // ========================================================
 
     const translations =
@@ -4143,9 +4724,15 @@ function createCleaningTaskElement(
             : [];
 
 
+    // ========================================================
+    // FIND SELECTED TRANSLATION
+    // ========================================================
+
     const selectedTranslation =
         translations.find(
-            function (translation) {
+            function (
+                translation
+            ) {
 
                 return (
                     translation.language_code ===
@@ -4159,8 +4746,8 @@ function createCleaningTaskElement(
     // ========================================================
     // DISPLAY VALUES
     //
-    // Translation is preferred.
-    // Original task text is the fallback.
+    // Translation preferred.
+    // Original Admin text is fallback.
     // ========================================================
 
     const displayName =
@@ -4260,7 +4847,7 @@ function createCleaningTaskElement(
 
 
     // ========================================================
-    // TASK DESCRIPTION
+    // DESCRIPTION
     // ========================================================
 
     if (displayDescription) {
@@ -4349,6 +4936,10 @@ async function renderCleaningTasks() {
     }
 
 
+    // ========================================================
+    // NO TASKS
+    // ========================================================
+
     if (
         taskCount ===
         0
@@ -4377,6 +4968,10 @@ async function renderCleaningTasks() {
     }
 
 
+    // ========================================================
+    // TASKS AVAILABLE
+    // ========================================================
+
     if (noCleaningTasksState) {
 
         noCleaningTasksState.hidden =
@@ -4394,7 +4989,9 @@ async function renderCleaningTasks() {
 
 
     currentCleaningTasks.forEach(
-        function (planItem) {
+        function (
+            planItem
+        ) {
 
             const taskElement =
                 createCleaningTaskElement(
@@ -4415,9 +5012,8 @@ async function renderCleaningTasks() {
 
 
     /*
-     * Permissions are applied after every
-     * render so a rerender cannot accidentally
-     * make locked checkboxes editable.
+     * Permissions must be applied
+     * after every rerender.
      */
 
     updateCompletionControls();
@@ -4435,9 +5031,9 @@ function updateCompletionControls() {
         getSelectedWeekAssignment();
 
 
-    /*
-     * No selected assignment.
-     */
+    // ========================================================
+    // NO ASSIGNMENT
+    // ========================================================
 
     if (!assignment) {
 
@@ -4491,11 +5087,13 @@ function updateCompletionControls() {
     }
 
 
-    /*
-     * Signed cleaning is permanently locked.
-     */
+    // ========================================================
+    // ALREADY SIGNED
+    // ========================================================
 
-    if (isSelectedWeekSigned()) {
+    if (
+        isSelectedWeekSigned()
+    ) {
 
         setTaskCheckboxesDisabled(
             true
@@ -4547,9 +5145,9 @@ function updateCompletionControls() {
     }
 
 
-    /*
-     * Another resident is responsible.
-     */
+    // ========================================================
+    // ANOTHER RESIDENT IS RESPONSIBLE
+    // ========================================================
 
     if (
         !isCurrentResidentResponsible(
@@ -4607,9 +5205,9 @@ function updateCompletionControls() {
     }
 
 
-    /*
-     * A different week is selected.
-     */
+    // ========================================================
+    // NOT CURRENT WEEK
+    // ========================================================
 
     if (
         !isSelectedCurrentWeek()
@@ -4669,9 +5267,9 @@ function updateCompletionControls() {
         getCleaningWindowState();
 
 
-    /*
-     * Monday-Wednesday.
-     */
+    // ========================================================
+    // MONDAY-WEDNESDAY
+    // ========================================================
 
     if (
         windowState ===
@@ -4728,9 +5326,9 @@ function updateCompletionControls() {
     }
 
 
-    /*
-     * Saturday-Sunday.
-     */
+    // ========================================================
+    // SATURDAY-SUNDAY
+    // ========================================================
 
     if (
         windowState ===
@@ -4787,9 +5385,9 @@ function updateCompletionControls() {
     }
 
 
-    /*
-     * A database operation is currently running.
-     */
+    // ========================================================
+    // OPERATION CURRENTLY RUNNING
+    // ========================================================
 
     if (
         isSavingTaskCompletion ||
@@ -4809,11 +5407,13 @@ function updateCompletionControls() {
     }
 
 
-    /*
-     * Responsible resident +
-     * current week +
-     * Thursday/Friday.
-     */
+    // ========================================================
+    // ALLOWED
+    //
+    // Responsible resident
+    // + current week
+    // + Thursday/Friday
+    // ========================================================
 
     setTaskCheckboxesDisabled(
         false
@@ -4861,6 +5461,7 @@ function updateCompletionControls() {
     updateConfirmButtonState();
 
 }
+
 
 // ============================================================
 // CLEANING DOCUMENTATION
@@ -4942,22 +5543,26 @@ async function loadCleaningDocumentationForSelectedWeek() {
 
 
     /*
-     * Bucketen er privat.
+     * Private bucket.
      *
-     * Opprett derfor en midlertidig signed URL
-     * for hvert dokumentasjonsbilde.
+     * Create temporary signed URL
+     * for each documentation image.
      */
 
     const documentationWithUrls =
         await Promise.all(
 
             documentation.map(
-
-                async function (item) {
+                async function (
+                    item
+                ) {
 
                     const {
-                        data: signedUrlData,
-                        error: signedUrlError
+                        data:
+                            signedUrlData,
+
+                        error:
+                            signedUrlError
                     } =
                         await supabaseClient
                             .storage
@@ -4970,7 +5575,9 @@ async function loadCleaningDocumentationForSelectedWeek() {
                             );
 
 
-                    if (signedUrlError) {
+                    if (
+                        signedUrlError
+                    ) {
 
                         console.error(
                             "CREATE DOCUMENTATION SIGNED URL ERROR:",
@@ -4996,9 +5603,7 @@ async function loadCleaningDocumentationForSelectedWeek() {
                     };
 
                 }
-
             )
-
         );
 
 
@@ -5009,7 +5614,7 @@ async function loadCleaningDocumentationForSelectedWeek() {
 
 
 // ============================================================
-// RESET DOCUMENTATION VIEW
+// RESET SELECTED PHOTOS
 // ============================================================
 
 function resetSelectedPhotos() {
@@ -5057,6 +5662,10 @@ function canManageDocumentation() {
     }
 
 
+    /*
+     * Only responsible resident.
+     */
+
     if (
         assignment.resident_id !==
         currentResident.id
@@ -5067,6 +5676,10 @@ function canManageDocumentation() {
     }
 
 
+    /*
+     * Signed cleaning is locked.
+     */
+
     if (
         isSelectedWeekSigned()
     ) {
@@ -5076,6 +5689,11 @@ function canManageDocumentation() {
     }
 
 
+    /*
+     * Same completion rules:
+     * current week + Thursday/Friday.
+     */
+
     if (
         !canCurrentUserComplete()
     ) {
@@ -5084,6 +5702,10 @@ function canManageDocumentation() {
 
     }
 
+
+    /*
+     * Lock during another operation.
+     */
 
     if (
         isSavingDocumentation ||
@@ -5177,7 +5799,9 @@ async function saveCameraDocumentation(
 
     renderPhotoPreviews();
 
+
     updateCompletionControls();
+
 
     updateConfirmButtonState();
 
@@ -5187,10 +5811,6 @@ async function saveCameraDocumentation(
 
 
     try {
-
-        // ----------------------------------------------------
-        // CREATE UNIQUE JPEG FILE NAME
-        // ----------------------------------------------------
 
         const uniqueId =
             (
@@ -5213,14 +5833,6 @@ async function saveCameraDocumentation(
             ".jpg";
 
 
-        /*
-         * Storage path:
-         *
-         * assignment-id/
-         * authenticated-profile-id/
-         * unique-image.jpg
-         */
-
         storagePath =
             assignment.id +
             "/" +
@@ -5229,12 +5841,9 @@ async function saveCameraDocumentation(
             fileName;
 
 
-        // ----------------------------------------------------
-        // SAVE CAMERA IMAGE IN PRIVATE STORAGE
-        // ----------------------------------------------------
-
         const {
-            error: uploadError
+            error:
+                uploadError
         } =
             await supabaseClient
                 .storage
@@ -5254,19 +5863,18 @@ async function saveCameraDocumentation(
                 );
 
 
-        if (uploadError) {
+        if (
+            uploadError
+        ) {
 
             throw uploadError;
 
         }
 
 
-        // ----------------------------------------------------
-        // SAVE IMAGE METADATA
-        // ----------------------------------------------------
-
         const {
-            error: metadataError
+            error:
+                metadataError
         } =
             await supabaseClient
                 .from(
@@ -5295,17 +5903,13 @@ async function saveCameraDocumentation(
                 );
 
 
-        if (metadataError) {
-
-            /*
-             * Storage succeeded but metadata failed.
-             *
-             * Remove the Storage object so we do not
-             * leave an orphaned camera image.
-             */
+        if (
+            metadataError
+        ) {
 
             const {
-                error: cleanupError
+                error:
+                    cleanupError
             } =
                 await supabaseClient
                     .storage
@@ -5319,7 +5923,9 @@ async function saveCameraDocumentation(
                     );
 
 
-            if (cleanupError) {
+            if (
+                cleanupError
+            ) {
 
                 console.error(
                     "DOCUMENTATION CLEANUP ERROR:",
@@ -5334,17 +5940,15 @@ async function saveCameraDocumentation(
         }
 
 
-        // ----------------------------------------------------
-        // RELOAD DOCUMENTATION
-        // ----------------------------------------------------
-
         await loadCleaningDocumentationForSelectedWeek();
 
 
         return true;
 
     }
-    catch (error) {
+    catch (
+        error
+        ) {
 
         console.error(
             "SAVE CAMERA DOCUMENTATION ERROR:",
@@ -5362,28 +5966,21 @@ async function saveCameraDocumentation(
     }
     finally {
 
-        /*
-         * Important:
-         *
-         * Set the saving state back to false BEFORE
-         * rendering. Otherwise the camera button may
-         * remain disabled after the first image.
-         */
-
         isSavingDocumentation =
             false;
 
 
         renderPhotoPreviews();
 
+
         updateCompletionControls();
+
 
         updateConfirmButtonState();
 
     }
 
 }
-
 
 // ============================================================
 // DELETE CLEANING DOCUMENTATION
@@ -5421,7 +6018,7 @@ async function deleteCleaningDocumentation(
 
     /*
      * Only the responsible resident may delete
-     * documentation from the selected assignment.
+     * documentation from this assignment.
      */
 
     if (
@@ -5435,8 +6032,7 @@ async function deleteCleaningDocumentation(
 
 
     /*
-     * A resident may only delete an image
-     * that they created themselves.
+     * Resident may only delete their own image.
      */
 
     if (
@@ -5450,7 +6046,7 @@ async function deleteCleaningDocumentation(
 
 
     /*
-     * No changes are allowed after signing.
+     * No modifications after signing.
      */
 
     if (
@@ -5463,8 +6059,8 @@ async function deleteCleaningDocumentation(
 
 
     /*
-     * Deletion follows the same completion
-     * window as adding documentation.
+     * Deletion follows the same
+     * Thursday-Friday completion window.
      */
 
     if (
@@ -5482,7 +6078,9 @@ async function deleteCleaningDocumentation(
 
     renderPhotoPreviews();
 
+
     updateCompletionControls();
+
 
     updateConfirmButtonState();
 
@@ -5490,15 +6088,12 @@ async function deleteCleaningDocumentation(
     try {
 
         /*
-         * Delete the database metadata first.
-         *
-         * This avoids leaving a database row that
-         * points to a Storage object that has already
-         * disappeared if the database deletion fails.
+         * Delete database metadata first.
          */
 
         const {
-            error: metadataDeleteError
+            error:
+                metadataDeleteError
         } =
             await supabaseClient
                 .from(
@@ -5515,7 +6110,9 @@ async function deleteCleaningDocumentation(
                 );
 
 
-        if (metadataDeleteError) {
+        if (
+            metadataDeleteError
+        ) {
 
             throw metadataDeleteError;
 
@@ -5523,12 +6120,12 @@ async function deleteCleaningDocumentation(
 
 
         /*
-         * Then remove the actual private
-         * Storage object.
+         * Then remove private Storage object.
          */
 
         const {
-            error: storageDeleteError
+            error:
+                storageDeleteError
         } =
             await supabaseClient
                 .storage
@@ -5542,16 +6139,9 @@ async function deleteCleaningDocumentation(
                 );
 
 
-        if (storageDeleteError) {
-
-            /*
-             * The metadata is already deleted.
-             * Log the Storage cleanup problem.
-             *
-             * The user should not be given permission
-             * to recreate/delete database metadata
-             * from the browser as compensation.
-             */
+        if (
+            storageDeleteError
+        ) {
 
             console.error(
                 "DELETE DOCUMENTATION STORAGE ERROR:",
@@ -5567,7 +6157,9 @@ async function deleteCleaningDocumentation(
         return true;
 
     }
-    catch (error) {
+    catch (
+        error
+        ) {
 
         console.error(
             "DELETE CLEANING DOCUMENTATION ERROR:",
@@ -5594,7 +6186,9 @@ async function deleteCleaningDocumentation(
 
         renderPhotoPreviews();
 
+
         updateCompletionControls();
+
 
         updateConfirmButtonState();
 
@@ -5621,6 +6215,10 @@ function createDocumentationImageElement(
     wrapper.className =
         "resident-photo-preview-item";
 
+
+    // ========================================================
+    // IMAGE
+    // ========================================================
 
     if (
         item &&
@@ -5675,6 +6273,10 @@ function createDocumentationImageElement(
     }
 
 
+    // ========================================================
+    // DELETE BUTTON
+    // ========================================================
+
     if (canDelete) {
 
         const deleteButton =
@@ -5705,7 +6307,9 @@ function createDocumentationImageElement(
 
         deleteButton.addEventListener(
             "click",
-            async function (event) {
+            async function (
+                event
+            ) {
 
                 event.preventDefault();
 
@@ -5756,9 +6360,9 @@ function renderPhotoPreviews() {
         [];
 
 
-    // --------------------------------------------------------
+    // ========================================================
     // PHOTO COUNT
-    // --------------------------------------------------------
+    // ========================================================
 
     if (photoCount) {
 
@@ -5772,9 +6376,9 @@ function renderPhotoPreviews() {
     }
 
 
-    // --------------------------------------------------------
-    // PREVIEW GRID
-    // --------------------------------------------------------
+    // ========================================================
+    // CLEAR GRID
+    // ========================================================
 
     if (photoPreviewGrid) {
 
@@ -5805,20 +6409,24 @@ function renderPhotoPreviews() {
         canManageDocumentation();
 
 
-    // --------------------------------------------------------
+    // ========================================================
     // RENDER EXISTING DOCUMENTATION
-    // --------------------------------------------------------
+    // ========================================================
 
     if (photoPreviewGrid) {
 
         documentation.forEach(
-            function (item) {
+            function (
+                item
+            ) {
 
                 /*
-                 * Same-floor residents may see the images
-                 * through Supabase RLS, but only the
-                 * responsible resident who created the
-                 * image may delete it before signing.
+                 * Same-floor residents may see images
+                 * through RLS.
+                 *
+                 * Only the responsible resident who
+                 * created the image may delete it
+                 * before signing.
                  */
 
                 const canDelete =
@@ -5848,9 +6456,9 @@ function renderPhotoPreviews() {
     }
 
 
-    // --------------------------------------------------------
+    // ========================================================
     // CAMERA BUTTON
-    // --------------------------------------------------------
+    // ========================================================
 
     if (cameraButton) {
 
@@ -5875,6 +6483,8 @@ function renderPhotoPreviews() {
     updateConfirmButtonState();
 
 }
+
+
 // ============================================================
 // DIRECT CAMERA
 // ============================================================
@@ -5891,7 +6501,9 @@ function stopDirectCamera() {
         activeCameraStream
             .getTracks()
             .forEach(
-                function (track) {
+                function (
+                    track
+                ) {
 
                     track.stop();
 
@@ -5946,9 +6558,9 @@ async function captureCameraFrame(
 
 
     /*
-     * Limit the longest side to 1920 px.
+     * Limit longest side to 1920 px.
      *
-     * This keeps documentation images
+     * This keeps documentation photos
      * reasonably small while preserving
      * enough detail.
      */
@@ -6035,10 +6647,14 @@ async function captureCameraFrame(
 
     const imageBlob =
         await new Promise(
-            function (resolve) {
+            function (
+                resolve
+            ) {
 
                 canvas.toBlob(
-                    function (blob) {
+                    function (
+                        blob
+                    ) {
 
                         resolve(
                             blob
@@ -6091,17 +6707,15 @@ async function openDirectCamera() {
             "Maks 10 bilder er tillatt."
         );
 
+
         return;
 
     }
 
 
     /*
-     * getUserMedia only works in a secure
-     * browser context.
-     *
-     * GitHub Pages uses HTTPS, so the
-     * deployed application supports this.
+     * getUserMedia requires secure context.
+     * GitHub Pages runs over HTTPS.
      */
 
     if (
@@ -6114,6 +6728,7 @@ async function openDirectCamera() {
             "Kamera er ikke tilgjengelig i denne nettleseren."
         );
 
+
         return;
 
     }
@@ -6121,7 +6736,7 @@ async function openDirectCamera() {
 
     /*
      * Make sure an old camera session
-     * cannot remain open.
+     * is not still open.
      */
 
     stopDirectCamera();
@@ -6129,14 +6744,15 @@ async function openDirectCamera() {
 
     try {
 
-        // ----------------------------------------------------
+        // ====================================================
         // REQUEST CAMERA
-        // ----------------------------------------------------
+        // ====================================================
 
         try {
 
             /*
-             * Prefer the rear/environment camera.
+             * Prefer rear/environment camera
+             * on mobile devices.
              */
 
             activeCameraStream =
@@ -6145,10 +6761,14 @@ async function openDirectCamera() {
                     .getUserMedia(
                         {
                             video: {
+
                                 facingMode: {
+
                                     ideal:
                                         "environment"
+
                                 }
+
                             },
 
                             audio:
@@ -6157,7 +6777,9 @@ async function openDirectCamera() {
                     );
 
         }
-        catch (preferredCameraError) {
+        catch (
+            preferredCameraError
+            ) {
 
             console.warn(
                 "REAR CAMERA REQUEST FAILED, TRYING DEFAULT CAMERA:",
@@ -6166,9 +6788,8 @@ async function openDirectCamera() {
 
 
             /*
-             * Some desktop browsers and devices
-             * do not understand or provide an
-             * environment-facing camera.
+             * Some browsers/devices do not
+             * provide an environment camera.
              *
              * Fall back to any available camera.
              */
@@ -6189,9 +6810,9 @@ async function openDirectCamera() {
         }
 
 
-        // ----------------------------------------------------
+        // ====================================================
         // CAMERA OVERLAY
-        // ----------------------------------------------------
+        // ====================================================
 
         const overlay =
             document.createElement(
@@ -6204,37 +6825,46 @@ async function openDirectCamera() {
 
 
         /*
-         * Keep the camera usable even if the
-         * stylesheet does not yet contain
-         * dedicated overlay classes.
+         * Inline fallback styling makes sure
+         * the camera works even if dedicated
+         * CSS is not loaded.
          */
 
         overlay.style.position =
             "fixed";
 
+
         overlay.style.inset =
             "0";
+
 
         overlay.style.zIndex =
             "99999";
 
+
         overlay.style.background =
             "#000";
+
 
         overlay.style.display =
             "flex";
 
+
         overlay.style.flexDirection =
             "column";
+
 
         overlay.style.alignItems =
             "center";
 
+
         overlay.style.justifyContent =
             "center";
 
+
         overlay.style.padding =
             "16px";
+
 
         overlay.style.boxSizing =
             "border-box";
@@ -6244,9 +6874,9 @@ async function openDirectCamera() {
             overlay;
 
 
-        // ----------------------------------------------------
+        // ====================================================
         // VIDEO PREVIEW
-        // ----------------------------------------------------
+        // ====================================================
 
         const video =
             document.createElement(
@@ -6277,25 +6907,30 @@ async function openDirectCamera() {
         video.style.width =
             "100%";
 
+
         video.style.maxWidth =
             "720px";
+
 
         video.style.maxHeight =
             "calc(100vh - 130px)";
 
+
         video.style.objectFit =
             "contain";
 
+
         video.style.background =
             "#000";
+
 
         video.style.borderRadius =
             "10px";
 
 
-        // ----------------------------------------------------
+        // ====================================================
         // BUTTON CONTAINER
-        // ----------------------------------------------------
+        // ====================================================
 
         const buttonContainer =
             document.createElement(
@@ -6310,25 +6945,30 @@ async function openDirectCamera() {
         buttonContainer.style.display =
             "flex";
 
+
         buttonContainer.style.alignItems =
             "center";
+
 
         buttonContainer.style.justifyContent =
             "center";
 
+
         buttonContainer.style.gap =
             "12px";
 
+
         buttonContainer.style.marginTop =
             "16px";
+
 
         buttonContainer.style.width =
             "100%";
 
 
-        // ----------------------------------------------------
+        // ====================================================
         // CANCEL BUTTON
-        // ----------------------------------------------------
+        // ====================================================
 
         const cancelButton =
             document.createElement(
@@ -6353,22 +6993,26 @@ async function openDirectCamera() {
         cancelButton.style.padding =
             "12px 18px";
 
+
         cancelButton.style.border =
             "none";
+
 
         cancelButton.style.borderRadius =
             "8px";
 
+
         cancelButton.style.cursor =
             "pointer";
+
 
         cancelButton.style.fontWeight =
             "600";
 
 
-        // ----------------------------------------------------
+        // ====================================================
         // CAPTURE BUTTON
-        // ----------------------------------------------------
+        // ====================================================
 
         const captureButton =
             document.createElement(
@@ -6394,22 +7038,25 @@ async function openDirectCamera() {
         captureButton.style.padding =
             "12px 18px";
 
+
         captureButton.style.border =
             "none";
+
 
         captureButton.style.borderRadius =
             "8px";
 
+
         captureButton.style.cursor =
             "pointer";
+
 
         captureButton.style.fontWeight =
             "700";
 
-
-        // ----------------------------------------------------
-        // CANCEL CAMERA
-        // ----------------------------------------------------
+        // ====================================================
+// CANCEL CAMERA
+// ====================================================
 
         cancelButton.addEventListener(
             "click",
@@ -6421,9 +7068,9 @@ async function openDirectCamera() {
         );
 
 
-        // ----------------------------------------------------
-        // CAPTURE IMAGE
-        // ----------------------------------------------------
+// ====================================================
+// CAPTURE IMAGE
+// ====================================================
 
         captureButton.addEventListener(
             "click",
@@ -6451,11 +7098,15 @@ async function openDirectCamera() {
 
                     stopDirectCamera();
 
+
                     renderPhotoPreviews();
+
 
                     updateCompletionControls();
 
+
                     updateConfirmButtonState();
+
 
                     return;
 
@@ -6477,6 +7128,7 @@ async function openDirectCamera() {
 
                     renderPhotoPreviews();
 
+
                     return;
 
                 }
@@ -6495,13 +7147,12 @@ async function openDirectCamera() {
                         video
                     );
 
+
                 /*
-                 * Close the camera after each
-                 * captured image.
+                 * Close camera after each image.
                  *
-                 * The resident can press
-                 * "Ta bilde" again to take
-                 * another documentation image.
+                 * Resident presses "Ta bilde"
+                 * again for another image.
                  */
 
                 stopDirectCamera();
@@ -6518,7 +7169,9 @@ async function openDirectCamera() {
 
                 renderPhotoPreviews();
 
+
                 updateCompletionControls();
+
 
                 updateConfirmButtonState();
 
@@ -6526,9 +7179,9 @@ async function openDirectCamera() {
         );
 
 
-        // ----------------------------------------------------
-        // ADD CAMERA ELEMENTS
-        // ----------------------------------------------------
+// ====================================================
+// ADD CAMERA ELEMENTS
+// ====================================================
 
         buttonContainer.appendChild(
             cancelButton
@@ -6556,14 +7209,16 @@ async function openDirectCamera() {
 
 
         /*
-         * Start video preview after the
-         * element is connected to the DOM.
+         * Start preview after the video element
+         * has been inserted into the DOM.
          */
 
         await video.play();
 
     }
-    catch (error) {
+    catch (
+        error
+        ) {
 
         console.error(
             "DIRECT CAMERA ERROR:",
@@ -6647,6 +7302,7 @@ window.addEventListener(
     }
 );
 
+
 // ============================================================
 // UPDATE CONFIRM BUTTON STATE
 // ============================================================
@@ -6681,8 +7337,7 @@ function updateConfirmButtonState() {
 
 
     /*
-     * A signed cleaning week can never
-     * be signed again.
+     * Already signed.
      */
 
     if (
@@ -6695,9 +7350,8 @@ function updateConfirmButtonState() {
 
 
     /*
-     * Only the responsible resident,
-     * during the current cleaning window,
-     * may sign.
+     * Only responsible resident
+     * during current cleaning window.
      */
 
     if (
@@ -6726,8 +7380,7 @@ function updateConfirmButtonState() {
 
 
     /*
-     * Every required cleaning task
-     * must be completed.
+     * All tasks must be completed.
      */
 
     if (
@@ -6740,8 +7393,7 @@ function updateConfirmButtonState() {
 
 
     /*
-     * At least one camera documentation
-     * image is required.
+     * At least one photo is required.
      */
 
     if (
@@ -6752,14 +7404,6 @@ function updateConfirmButtonState() {
 
     }
 
-
-    /*
-     * Everything required by the
-     * frontend is satisfied.
-     *
-     * The database RPC will perform
-     * the final authoritative checks.
-     */
 
     confirmCleaningButton.disabled =
         false;
@@ -6850,7 +7494,9 @@ async function signCleaningWeek() {
 
     updateCompletionControls();
 
+
     renderPhotoPreviews();
+
 
     updateConfirmButtonState();
 
@@ -6858,11 +7504,8 @@ async function signCleaningWeek() {
     try {
 
         /*
-         * Final signing is performed by the
-         * SECURITY DEFINER database function.
-         *
-         * The browser does not directly update
-         * signed_by, signed_at or status.
+         * Final signing is performed
+         * by the SECURITY DEFINER RPC.
          */
 
         const {
@@ -6886,8 +7529,7 @@ async function signCleaningWeek() {
 
 
         /*
-         * Reload authoritative database state
-         * after successful signing.
+         * Reload authoritative database state.
          */
 
         await loadWeekAssignments();
@@ -6900,16 +7542,26 @@ async function signCleaningWeek() {
 
 
         /*
-         * Render the complete selected week again.
-         *
-         * After signed_by / signed_at are loaded,
-         * tasks, camera and delete buttons become
-         * permanently locked.
+         * Update all current views.
          */
 
         renderCurrentWeekCard();
 
+
+        /*
+         * IMPORTANT:
+         * After signing, calculate the next
+         * cleaning assignment again.
+         *
+         * This makes the green card advance
+         * to the resident's next turn.
+         */
+
+        renderNextCleaningCard();
+
+
         renderSelectedWeek();
+
 
         renderWeekPreview();
 
@@ -6919,7 +7571,9 @@ async function signCleaningWeek() {
 
         updateCompletionControls();
 
+
         renderPhotoPreviews();
+
 
         updateConfirmButtonState();
 
@@ -6927,7 +7581,9 @@ async function signCleaningWeek() {
         return true;
 
     }
-    catch (error) {
+    catch (
+        error
+        ) {
 
         console.error(
             "SIGN CLEANING WEEK ERROR:",
@@ -6936,17 +7592,17 @@ async function signCleaningWeek() {
 
 
         /*
-         * Do not mark anything as signed locally.
-         *
-         * Reload the database assignment in case
-         * the RPC succeeded but the response was
-         * interrupted.
+         * Do not mark anything as
+         * signed locally.
          */
 
         await loadWeekAssignments();
 
 
         await loadCleaningDocumentationForSelectedWeek();
+
+
+        renderNextCleaningCard();
 
 
         window.alert(
@@ -6965,7 +7621,17 @@ async function signCleaningWeek() {
 
         renderCurrentWeekCard();
 
+
+        /*
+         * Recalculate again after state
+         * has been completely unlocked.
+         */
+
+        renderNextCleaningCard();
+
+
         renderSelectedWeek();
+
 
         renderWeekPreview();
 
@@ -6975,7 +7641,9 @@ async function signCleaningWeek() {
 
         updateCompletionControls();
 
+
         renderPhotoPreviews();
+
 
         updateConfirmButtonState();
 
@@ -7044,6 +7712,24 @@ function refreshProfileLanguage() {
 
         residentName.textContent =
             currentProfile.full_name;
+
+    }
+
+
+    if (
+        currentProfile &&
+        residentInitial
+    ) {
+
+        residentInitial.textContent =
+            (
+                currentProfile.full_name ||
+                ""
+            )
+                .trim()
+                .charAt(0)
+                .toUpperCase() ||
+            "B";
 
     }
 
@@ -7119,6 +7805,16 @@ function refreshPropertyLanguage() {
     }
 
 
+    if (residentNextCleaningFloor) {
+
+        residentNextCleaningFloor.textContent =
+            getFloorDisplayName(
+                floor
+            );
+
+    }
+
+
     if (cleaningPlanSubtitle) {
 
         if (currentCleaningPlan) {
@@ -7168,15 +7864,29 @@ function refreshCleaningLanguage() {
 
     renderCurrentWeekCard();
 
+
+    /*
+     * Update date/week text in
+     * next-cleaning card too.
+     */
+
+    renderNextCleaningCard();
+
+
     renderSelectedWeek();
+
 
     renderWeekPreview();
 
+
     renderCleaningTasks();
+
 
     updateCompletionControls();
 
+
     renderPhotoPreviews();
+
 
     updateConfirmButtonState();
 
@@ -7190,8 +7900,7 @@ function refreshCleaningLanguage() {
 function refreshResidentLanguage() {
 
     /*
-     * Translate all static HTML elements
-     * using data-i18n first.
+     * Translate all static HTML first.
      */
 
     if (
@@ -7208,18 +7917,24 @@ function refreshResidentLanguage() {
 
     refreshProfileLanguage();
 
+
     refreshPropertyLanguage();
+
 
     refreshCleaningLanguage();
 
 
-    if (hasLoadedCleaningHistory) {
+    if (
+        hasLoadedCleaningHistory
+    ) {
 
         renderCleaningHistory();
 
     }
 
 }
+
+
 // ============================================================
 // RESET CLEANING HISTORY
 // ============================================================
@@ -7229,8 +7944,10 @@ function resetCleaningHistory() {
     currentCleaningHistory =
         [];
 
+
     isLoadingCleaningHistory =
         false;
+
 
     hasLoadedCleaningHistory =
         false;
@@ -7318,7 +8035,6 @@ function formatCleaningHistorySignedAt(
 
 }
 
-
 // ============================================================
 // HISTORY ASSIGNMENT COMPLETED
 // ============================================================
@@ -7404,9 +8120,7 @@ async function addSignedUrlsToCleaningHistoryDocumentation(
                 };
 
             }
-
         )
-
     );
 
 }
@@ -7462,16 +8176,19 @@ async function loadCleaningHistory() {
         const currentFriday =
             getCurrentWeekFriday();
 
+
         const currentFridayIso =
             dateToIso(
                 currentFriday
             );
+
 
         const planStartDate =
             normalizeDate(
                 currentCleaningPlan
                     .start_date
             );
+
 
         const planStartFriday =
             planStartDate
@@ -7480,6 +8197,7 @@ async function loadCleaningHistory() {
                 )
                 : null;
 
+
         const planStartIso =
             planStartFriday
                 ? dateToIso(
@@ -7487,6 +8205,14 @@ async function loadCleaningHistory() {
                 )
                 : null;
 
+
+        /*
+         * History:
+         *
+         * - previous weeks only
+         * - never current week
+         * - never future weeks
+         */
 
         let assignmentQuery =
             supabaseClient
@@ -7527,6 +8253,11 @@ async function loadCleaningHistory() {
                 );
 
 
+        /*
+         * Do not show weeks before
+         * the cleaning plan started.
+         */
+
         if (planStartIso) {
 
             assignmentQuery =
@@ -7555,7 +8286,9 @@ async function loadCleaningHistory() {
                 );
 
 
-        if (assignmentError) {
+        if (
+            assignmentError
+        ) {
 
             throw assignmentError;
 
@@ -7575,15 +8308,22 @@ async function loadCleaningHistory() {
             currentCleaningHistory =
                 [];
 
+
             hasLoadedCleaningHistory =
                 true;
 
+
             renderCleaningHistory();
+
 
             return;
 
         }
 
+
+        // ====================================================
+        // LOAD SIGNER PROFILES
+        // ====================================================
 
         const signerIds =
             [
@@ -7638,7 +8378,9 @@ async function loadCleaningHistory() {
                     );
 
 
-            if (signerError) {
+            if (
+                signerError
+            ) {
 
                 console.warn(
                     "LOAD CLEANING HISTORY SIGNERS ERROR:",
@@ -7668,6 +8410,10 @@ async function loadCleaningHistory() {
 
         }
 
+
+        // ====================================================
+        // LOAD HISTORY DOCUMENTATION
+        // ====================================================
 
         const assignmentIds =
             assignments.map(
@@ -7726,7 +8472,9 @@ async function loadCleaningHistory() {
                     );
 
 
-            if (documentationError) {
+            if (
+                documentationError
+            ) {
 
                 throw documentationError;
 
@@ -7741,6 +8489,10 @@ async function loadCleaningHistory() {
 
         }
 
+
+        // ====================================================
+        // GROUP DOCUMENTATION BY ASSIGNMENT
+        // ====================================================
 
         const documentationMap =
             {};
@@ -7775,6 +8527,10 @@ async function loadCleaningHistory() {
         );
 
 
+        // ====================================================
+        // CREATE HISTORY STATE
+        // ====================================================
+
         currentCleaningHistory =
             assignments.map(
                 function (
@@ -7790,6 +8546,7 @@ async function loadCleaningHistory() {
                             "notAssigned"
                         );
 
+
                     const signerProfile =
                         assignment.signed_by
                             ? (
@@ -7799,6 +8556,7 @@ async function loadCleaningHistory() {
                                 null
                             )
                             : null;
+
 
                     const signerName =
                         signerProfile
@@ -7842,7 +8600,9 @@ async function loadCleaningHistory() {
         renderCleaningHistory();
 
     }
-    catch (error) {
+    catch (
+        error
+        ) {
 
         console.error(
             "LOAD CLEANING HISTORY ERROR:",
@@ -7852,6 +8612,7 @@ async function loadCleaningHistory() {
 
         currentCleaningHistory =
             [];
+
 
         hasLoadedCleaningHistory =
             false;
@@ -7905,6 +8666,7 @@ function createCleaningHistoryDetail(
             "div"
         );
 
+
     detail.className =
         "resident-history-detail";
 
@@ -7913,6 +8675,7 @@ function createCleaningHistoryDetail(
         document.createElement(
             "span"
         );
+
 
     detailLabel.textContent =
         label;
@@ -7923,6 +8686,7 @@ function createCleaningHistoryDetail(
             "strong"
         );
 
+
     detailValue.textContent =
         value ||
         "-";
@@ -7931,6 +8695,7 @@ function createCleaningHistoryDetail(
     detail.appendChild(
         detailLabel
     );
+
 
     detail.appendChild(
         detailValue
@@ -7966,14 +8731,18 @@ function createCleaningHistoryPhoto(
             "a"
         );
 
+
     link.className =
         "resident-history-photo";
+
 
     link.href =
         item.signedUrl;
 
+
     link.target =
         "_blank";
+
 
     link.rel =
         "noopener noreferrer";
@@ -7984,8 +8753,10 @@ function createCleaningHistoryPhoto(
             "img"
         );
 
+
     image.src =
         item.signedUrl;
+
 
     image.alt =
         t(
@@ -7996,6 +8767,7 @@ function createCleaningHistoryPhoto(
             index +
             1
         );
+
 
     image.loading =
         "lazy";
@@ -8032,10 +8804,12 @@ function createCleaningHistoryItem(
     const assignment =
         historyItem.assignment;
 
+
     const friday =
         normalizeDate(
             assignment.week_start
         );
+
 
     const weekInfo =
         friday
@@ -8050,6 +8824,7 @@ function createCleaningHistoryItem(
                     "-"
             };
 
+
     const completed =
         isCleaningHistoryCompleted(
             assignment
@@ -8061,14 +8836,20 @@ function createCleaningHistoryItem(
             "article"
         );
 
+
     item.className =
         "resident-history-item";
 
+
+    // ========================================================
+    // HEADER
+    // ========================================================
 
     const header =
         document.createElement(
             "div"
         );
+
 
     header.className =
         "resident-history-item-header";
@@ -8079,6 +8860,7 @@ function createCleaningHistoryItem(
             "div"
         );
 
+
     titleWrapper.className =
         "resident-history-item-title";
 
@@ -8087,6 +8869,7 @@ function createCleaningHistoryItem(
         document.createElement(
             "h3"
         );
+
 
     title.textContent =
         t(
@@ -8103,6 +8886,7 @@ function createCleaningHistoryItem(
             "span"
         );
 
+
     date.textContent =
         friday
             ? formatDisplayDate(
@@ -8115,6 +8899,7 @@ function createCleaningHistoryItem(
         title
     );
 
+
     titleWrapper.appendChild(
         date
     );
@@ -8125,6 +8910,7 @@ function createCleaningHistoryItem(
             "span"
         );
 
+
     status.className =
         "resident-history-status " +
         (
@@ -8132,6 +8918,7 @@ function createCleaningHistoryItem(
                 ? "completed"
                 : "not-completed"
         );
+
 
     status.textContent =
         completed
@@ -8147,15 +8934,21 @@ function createCleaningHistoryItem(
         titleWrapper
     );
 
+
     header.appendChild(
         status
     );
 
 
+    // ========================================================
+    // DETAILS
+    // ========================================================
+
     const details =
         document.createElement(
             "div"
         );
+
 
     details.className =
         "resident-history-details";
@@ -8170,6 +8963,7 @@ function createCleaningHistoryItem(
         )
     );
 
+
     details.appendChild(
         createCleaningHistoryDetail(
             t(
@@ -8180,6 +8974,7 @@ function createCleaningHistoryItem(
                 : "-"
         )
     );
+
 
     details.appendChild(
         createCleaningHistoryDetail(
@@ -8195,10 +8990,15 @@ function createCleaningHistoryItem(
     );
 
 
+    // ========================================================
+    // HISTORY DOCUMENTATION
+    // ========================================================
+
     const documentationSection =
         document.createElement(
             "div"
         );
+
 
     documentationSection.className =
         "resident-history-documentation";
@@ -8206,11 +9006,9 @@ function createCleaningHistoryItem(
 
     const documentationTitle =
         document.createElement(
-            "h4"
+            "strong"
         );
 
-    documentationTitle.className =
-        "resident-history-documentation-title";
 
     documentationTitle.textContent =
         t(
@@ -8223,38 +9021,66 @@ function createCleaningHistoryItem(
     );
 
 
-    const visibleDocumentation =
-        (
-            historyItem.documentation ||
-            []
-        ).filter(
-            function (
-                documentationItem
-            ) {
-
-                return Boolean(
-                    documentationItem
-                        .signedUrl
-                );
-
-            }
+    const documentationGrid =
+        document.createElement(
+            "div"
         );
 
 
+    documentationGrid.className =
+        "resident-history-photo-grid";
+
+
+    const documentation =
+        historyItem.documentation ||
+        [];
+
+
+    documentation.forEach(
+        function (
+            documentationItem,
+            index
+        ) {
+
+            const photo =
+                createCleaningHistoryPhoto(
+                    documentationItem,
+                    index
+                );
+
+
+            if (photo) {
+
+                documentationGrid.appendChild(
+                    photo
+                );
+
+            }
+
+        }
+    );
+
+
     if (
-        visibleDocumentation.length ===
+        documentationGrid.children.length ===
         0
     ) {
 
         const emptyDocumentation =
             document.createElement(
-                "p"
+                "span"
             );
+
+
+        emptyDocumentation.className =
+            "resident-history-no-photos";
+
 
         emptyDocumentation.textContent =
             t(
-                "cleaningHistoryNoDocumentation"
+                "noCleaningDocumentation"
             );
+
 
         documentationSection.appendChild(
             emptyDocumentation
@@ -8263,42 +9089,8 @@ function createCleaningHistoryItem(
     }
     else {
 
-        const photoGrid =
-            document.createElement(
-                "div"
-            );
-
-        photoGrid.className =
-            "resident-history-photo-grid";
-
-
-        visibleDocumentation.forEach(
-            function (
-                documentationItem,
-                index
-            ) {
-
-                const photo =
-                    createCleaningHistoryPhoto(
-                        documentationItem,
-                        index
-                    );
-
-
-                if (photo) {
-
-                    photoGrid.appendChild(
-                        photo
-                    );
-
-                }
-
-            }
-        );
-
-
         documentationSection.appendChild(
-            photoGrid
+            documentationGrid
         );
 
     }
@@ -8308,9 +9100,11 @@ function createCleaningHistoryItem(
         header
     );
 
+
     item.appendChild(
         details
     );
+
 
     item.appendChild(
         documentationSection
@@ -8320,7 +9114,6 @@ function createCleaningHistoryItem(
     return item;
 
 }
-
 
 // ============================================================
 // RENDER CLEANING HISTORY
@@ -8345,19 +9138,24 @@ function renderCleaningHistory() {
         0
     ) {
 
-        if (cleaningHistoryEmpty) {
+        if (
+            cleaningHistoryEmpty
+        ) {
 
             cleaningHistoryEmpty.hidden =
                 !hasLoadedCleaningHistory;
 
         }
 
+
         return;
 
     }
 
 
-    if (cleaningHistoryEmpty) {
+    if (
+        cleaningHistoryEmpty
+    ) {
 
         cleaningHistoryEmpty.hidden =
             true;
@@ -8396,18 +9194,88 @@ function renderCleaningHistory() {
 
 async function openCleaningHistory() {
 
-    if (!cleaningHistorySection) {
+    if (
+        !cleaningHistorySection
+    ) {
 
         return;
 
     }
 
 
-    cleaningHistorySection.hidden =
-        false;
+    /*
+     * Close camera before changing view.
+     */
+
+    stopDirectCamera();
 
 
-    if (cleaningHistoryButton) {
+    /*
+     * New resident dashboard uses separate views.
+     *
+     * resident.html exposes:
+     *
+     * window.showResidentView(...)
+     */
+
+    if (
+        typeof window.showResidentView ===
+        "function"
+    ) {
+
+        window.showResidentView(
+            "history"
+        );
+
+    }
+    else {
+
+        /*
+         * Fallback if the router has not
+         * initialized yet.
+         */
+
+        if (residentDashboardHome) {
+
+            residentDashboardHome.hidden =
+                true;
+
+        }
+
+
+        if (residentSection) {
+
+            residentSection.hidden =
+                true;
+
+        }
+
+
+        if (cleaningSection) {
+
+            cleaningSection.hidden =
+                true;
+
+        }
+
+
+        if (residentPhotosSection) {
+
+            residentPhotosSection.hidden =
+                true;
+
+        }
+
+
+        cleaningHistorySection.hidden =
+            false;
+
+    }
+
+
+    if (
+        cleaningHistoryButton
+    ) {
 
         cleaningHistoryButton.setAttribute(
             "aria-expanded",
@@ -8417,16 +9285,12 @@ async function openCleaningHistory() {
     }
 
 
-    cleaningHistorySection.scrollIntoView(
-        {
-            behavior:
-                "smooth",
-
-            block:
-                "start"
-        }
-    );
-
+    /*
+     * Always refresh history when opened.
+     *
+     * This ensures newly signed cleaning
+     * appears immediately.
+     */
 
     await loadCleaningHistory();
 
@@ -8439,23 +9303,59 @@ async function openCleaningHistory() {
 
 function closeCleaningHistory() {
 
-    if (!cleaningHistorySection) {
+    if (
+        !cleaningHistorySection
+    ) {
 
         return;
 
     }
 
 
-    cleaningHistorySection.hidden =
-        true;
+    stopDirectCamera();
 
 
-    if (cleaningHistoryButton) {
+    if (
+        cleaningHistoryButton
+    ) {
 
         cleaningHistoryButton.setAttribute(
             "aria-expanded",
             "false"
         );
+
+    }
+
+
+    /*
+     * Return to dashboard home.
+     */
+
+    if (
+        typeof window.showResidentView ===
+        "function"
+    ) {
+
+        window.showResidentView(
+            "dashboard"
+        );
+
+    }
+    else {
+
+        cleaningHistorySection.hidden =
+            true;
+
+
+        if (
+            residentDashboardHome &&
+            currentResident
+        ) {
+
+            residentDashboardHome.hidden =
+                false;
+
+        }
 
     }
 
@@ -8466,11 +9366,22 @@ function closeCleaningHistory() {
 // CLEANING HISTORY BUTTON
 // ============================================================
 
-if (cleaningHistoryButton) {
+if (
+    cleaningHistoryButton
+) {
 
     cleaningHistoryButton.addEventListener(
         "click",
-        async function () {
+        async function (
+            event
+        ) {
+
+            if (event) {
+
+                event.preventDefault();
+
+            }
+
 
             await openCleaningHistory();
 
@@ -8484,11 +9395,22 @@ if (cleaningHistoryButton) {
 // CLOSE CLEANING HISTORY BUTTON
 // ============================================================
 
-if (closeCleaningHistoryButton) {
+if (
+    closeCleaningHistoryButton
+) {
 
     closeCleaningHistoryButton.addEventListener(
         "click",
-        function () {
+        function (
+            event
+        ) {
+
+            if (event) {
+
+                event.preventDefault();
+
+            }
+
 
             closeCleaningHistory();
 
@@ -8511,6 +9433,7 @@ window.addEventListener(
     }
 );
 
+
 // ============================================================
 // INITIALIZE RESIDENT PAGE
 // ============================================================
@@ -8519,9 +9442,9 @@ async function initializeResidentPage() {
 
     try {
 
-        // ----------------------------------------------------
+        // ====================================================
         // INITIAL PAGE STATE
-        // ----------------------------------------------------
+        // ====================================================
 
         hideContentSections();
 
@@ -8534,9 +9457,19 @@ async function initializeResidentPage() {
         }
 
 
-        // ----------------------------------------------------
+        if (
+            residentNextCleaningCard
+        ) {
+
+            residentNextCleaningCard.hidden =
+                true;
+
+        }
+
+
+        // ====================================================
         // AUTHENTICATION + PROFILE
-        // ----------------------------------------------------
+        // ====================================================
 
         const access =
             await checkResidentAccess();
@@ -8549,9 +9482,9 @@ async function initializeResidentPage() {
         }
 
 
-        // ----------------------------------------------------
+        // ====================================================
         // RESIDENT / PROPERTY ASSOCIATION
-        // ----------------------------------------------------
+        // ====================================================
 
         const associationResult =
             await loadResidentAssociation(
@@ -8570,12 +9503,8 @@ async function initializeResidentPage() {
 
 
         /*
-         * Resident account exists, but the
-         * administrator has not yet connected
-         * it to a property/floor.
-         *
-         * loadResidentAssociation() already
-         * displays the waiting section.
+         * Resident exists but has not yet
+         * been assigned to a property/floor.
          */
 
         if (
@@ -8589,21 +9518,129 @@ async function initializeResidentPage() {
         }
 
 
-        // ----------------------------------------------------
+        // ====================================================
         // CLEANING PLAN
-        // ----------------------------------------------------
+        // ====================================================
 
         await loadCleaningPlan();
 
 
-        // ----------------------------------------------------
+        // ====================================================
         // APPLY CURRENT LANGUAGE
-        // ----------------------------------------------------
+        // ====================================================
 
         refreshResidentLanguage();
 
+
+        // ====================================================
+        // FINAL DASHBOARD VIEW
+        // ====================================================
+        //
+        // Very important:
+        //
+        // Loading the property, cleaning plan,
+        // assignments and photos must NOT make
+        // all sections visible.
+        //
+        // Resident must land on dashboard home.
+        // ====================================================
+
+        if (
+            typeof window.showResidentView ===
+            "function"
+        ) {
+
+            window.showResidentView(
+                "dashboard"
+            );
+
+        }
+        else {
+
+            if (loadingSection) {
+
+                loadingSection.hidden =
+                    true;
+
+            }
+
+
+            if (waitingSection) {
+
+                waitingSection.hidden =
+                    true;
+
+            }
+
+
+            if (residentDashboardHome) {
+
+                residentDashboardHome.hidden =
+                    false;
+
+            }
+
+
+            if (residentSection) {
+
+                residentSection.hidden =
+                    true;
+
+            }
+
+
+            if (cleaningSection) {
+
+                cleaningSection.hidden =
+                    true;
+
+            }
+
+
+            if (residentPhotosSection) {
+
+                residentPhotosSection.hidden =
+                    true;
+
+            }
+
+
+            if (cleaningHistorySection) {
+
+                cleaningHistorySection.hidden =
+                    true;
+
+            }
+
+
+            if (errorSection) {
+
+                errorSection.hidden =
+                    true;
+
+            }
+
+        }
+
+
+        /*
+         * Make sure next-cleaning information
+         * is calculated even though the
+         * Cleaning Plan page itself is hidden.
+         */
+
+        if (
+            currentCleaningPlan
+        ) {
+
+            renderNextCleaningCard();
+
+        }
+
     }
-    catch (error) {
+    catch (
+        error
+        ) {
 
         console.error(
             "INITIALIZE RESIDENT PAGE ERROR:",
@@ -8627,4 +9664,5 @@ async function initializeResidentPage() {
 // ============================================================
 
 initializeResidentPage();
+
 

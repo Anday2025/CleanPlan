@@ -3,10 +3,11 @@
 // LANGUAGE SYSTEM
 //
 // Interface languages:
-// - NO
-// - EN
+// - Norwegian (NO)
+// - English (EN)
 //
-// Dynamic cleaning-task translations are handled separately.
+// Dynamic cleaning-task translation is handled separately
+// through Supabase / Translation API.
 // ============================================================
 
 document.addEventListener(
@@ -15,60 +16,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // DOM ELEMENTS
-        // ========================================================
-
-        const languageButton =
-            document.getElementById(
-                "languageButton"
-            );
-
-        const languageModal =
-            document.getElementById(
-                "languageModal"
-            );
-
-        const languageSearchInput =
-            document.getElementById(
-                "languageSearchInput"
-            );
-
-        const clearLanguageSearchButton =
-            document.getElementById(
-                "clearLanguageSearchButton"
-            );
-
-        const languageList =
-            document.getElementById(
-                "languageList"
-            );
-
-        const languageResultText =
-            document.getElementById(
-                "languageResultText"
-            );
-
-        const languageSearchEmpty =
-            document.getElementById(
-                "languageSearchEmpty"
-            );
-
-        const selectedLanguageName =
-            document.getElementById(
-                "selectedLanguageName"
-            );
-
-        const languageSelector =
-            document.querySelector(
-                ".language-selector"
-            );
-
-
-        // ========================================================
-        // AVAILABLE LANGUAGES
-        //
-        // IMPORTANT:
-        // Only short codes are displayed in the interface.
+        // AVAILABLE INTERFACE LANGUAGES
         // ========================================================
 
         const languages = [
@@ -171,35 +119,17 @@ document.addEventListener(
 
 
                 // =================================================
-                // LANGUAGE SELECTOR
+                // LANGUAGE
                 // =================================================
 
-                languageSearchPlaceholder:
-                    "Søk...",
+                languageNorwegian:
+                    "Norsk",
 
-                languageSearchAriaLabel:
-                    "Søk etter språk",
+                languageEnglish:
+                    "Engelsk",
 
-                clearLanguageSearch:
-                    "Tøm søk",
-
-                availableLanguages:
-                    "Tilgjengelige språk",
-
-                loadingAvailableLanguages:
-                    "Laster språk...",
-
-                noLanguagesFound:
-                    "Ingen språk funnet",
-
-                tryAnotherSearch:
-                    "Prøv et annet søk.",
-
-                languageSingular:
-                    "språk",
-
-                languagePlural:
-                    "språk",
+                languageSelectorAria:
+                    "Velg språk",
 
 
                 // =================================================
@@ -608,9 +538,10 @@ document.addEventListener(
                 adminFloorDeleted:
                     "Etasjen ble slettet.",
 
+
                 // =================================================
-// RESIDENT PAGE
-// =================================================
+                // RESIDENT PAGE
+                // =================================================
 
                 residentPageTitle:
                     "CleanPlan - Min side",
@@ -1446,36 +1377,17 @@ document.addEventListener(
 
 
                 // =================================================
-                // LANGUAGE SELECTOR
+                // LANGUAGE
                 // =================================================
 
-                languageSearchPlaceholder:
-                    "Search...",
+                languageNorwegian:
+                    "Norwegian",
 
-                languageSearchAriaLabel:
-                    "Search languages",
+                languageEnglish:
+                    "English",
 
-                clearLanguageSearch:
-                    "Clear search",
-
-                availableLanguages:
-                    "Available languages",
-
-                loadingAvailableLanguages:
-                    "Loading languages...",
-
-                noLanguagesFound:
-                    "No languages found",
-
-                tryAnotherSearch:
-                    "Try another search.",
-
-                languageSingular:
-                    "language",
-
-                languagePlural:
-                    "languages",
-
+                languageSelectorAria:
+                    "Choose language",
 
                 // =================================================
                 // ADMIN / SUPERADMIN DASHBOARD
@@ -1589,9 +1501,10 @@ document.addEventListener(
                 adminOpenCleaningPlan:
                     "Open cleaning schedule",
 
+
                 // =================================================
-// ADMIN - PROPERTIES
-// =================================================
+                // ADMIN - PROPERTIES
+                // =================================================
 
                 adminPropertiesPageTitle:
                     "CleanPlan - Properties",
@@ -2202,7 +2115,6 @@ document.addEventListener(
                 errorOccurred:
                     "An error occurred.",
 
-
                 // =================================================
                 // CLEANING HISTORY
                 // =================================================
@@ -2641,14 +2553,14 @@ document.addEventListener(
 
                 adminUnknown:
                     "Unknown"
+
             }
 
         };
 
-
         // ========================================================
-        // CURRENT LANGUAGE
-        // ========================================================
+// CURRENT LANGUAGE
+// ========================================================
 
         let currentLanguageCode =
             localStorage.getItem(
@@ -2684,6 +2596,41 @@ document.addEventListener(
 
 
         // ========================================================
+        // SMALL LANGUAGE SWITCHER DOM
+        // ========================================================
+
+        const languageSwitcher =
+            document.getElementById(
+                "languageSwitcher"
+            );
+
+        const languageCurrentButton =
+            document.getElementById(
+                "languageCurrentButton"
+            );
+
+        const languageMenu =
+            document.getElementById(
+                "languageMenu"
+            );
+
+        const currentLanguageFlag =
+            document.getElementById(
+                "currentLanguageFlag"
+            );
+
+        const currentLanguageCodeElement =
+            document.getElementById(
+                "currentLanguageCode"
+            );
+
+        const languageOptions =
+            document.querySelectorAll(
+                ".language-option[data-language]"
+            );
+
+
+        // ========================================================
         // GET LANGUAGE BY CODE
         // ========================================================
 
@@ -2708,7 +2655,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // INTERPOLATE
+        // INTERPOLATE TRANSLATIONS
         // ========================================================
 
         function interpolate(
@@ -2717,9 +2664,17 @@ document.addEventListener(
         ) {
 
             if (
-                !params ||
                 typeof text !==
                 "string"
+            ) {
+
+                return text;
+
+            }
+
+
+            if (
+                !params
             ) {
 
                 return text;
@@ -3008,7 +2963,7 @@ document.addEventListener(
 
 
         // ========================================================
-        // UPDATE LANGUAGE BUTTON
+        // UPDATE SMALL LANGUAGE BUTTON
         // ========================================================
 
         function updateLanguageButton() {
@@ -3041,11 +2996,35 @@ document.addEventListener(
 
 
             if (
-                selectedLanguageName
+                currentLanguageFlag
             ) {
 
-                selectedLanguageName.textContent =
+                currentLanguageFlag.textContent =
+                    language.flag;
+
+            }
+
+
+            if (
+                currentLanguageCodeElement
+            ) {
+
+                currentLanguageCodeElement.textContent =
                     language.shortCode;
+
+            }
+
+
+            if (
+                languageCurrentButton
+            ) {
+
+                languageCurrentButton.setAttribute(
+                    "aria-label",
+                    getTranslation(
+                        "languageSelectorAria"
+                    )
+                );
 
             }
 
@@ -3057,249 +3036,37 @@ document.addEventListener(
 
 
         // ========================================================
-        // UPDATE LANGUAGE RESULT TEXT
+        // UPDATE ACTIVE LANGUAGE OPTION
         // ========================================================
 
-        function updateLanguageResultText(
-            count
-        ) {
+        function updateLanguageOptions() {
 
-            if (
-                !languageResultText
-            ) {
-
-                return;
-
-            }
-
-
-            languageResultText.textContent =
-                count ===
-                1
-                    ? count +
-                    " " +
-                    getTranslation(
-                        "languageSingular"
-                    )
-                    : count +
-                    " " +
-                    getTranslation(
-                        "languagePlural"
-                    );
-
-        }
-
-
-        // ========================================================
-        // RENDER LANGUAGES
-        // ========================================================
-
-        function renderLanguages() {
-
-            if (
-                !languageList
-            ) {
-
-                return;
-
-            }
-
-
-            const query =
-                languageSearchInput
-                    ? languageSearchInput
-                        .value
-                        .trim()
-                        .toLowerCase()
-                    : "";
-
-
-            const filteredLanguages =
-                languages.filter(
-                    function (
-                        language
-                    ) {
-
-                        const searchableText =
-                            language.shortCode
-                                .toLowerCase();
-
-
-                        return (
-                            !query ||
-                            searchableText.includes(
-                                query
-                            )
-                        );
-
-                    }
-                );
-
-
-            languageList.innerHTML =
-                "";
-
-
-            // ====================================================
-            // CLEAR SEARCH BUTTON
-            // ====================================================
-
-            if (
-                clearLanguageSearchButton
-            ) {
-
-                clearLanguageSearchButton.hidden =
-                    query.length ===
-                    0;
-
-            }
-
-
-            // ====================================================
-            // EMPTY STATE
-            // ====================================================
-
-            if (
-                languageSearchEmpty
-            ) {
-
-                languageSearchEmpty.hidden =
-                    filteredLanguages.length !==
-                    0;
-
-            }
-
-
-            updateLanguageResultText(
-                filteredLanguages.length
-            );
-
-
-            // ====================================================
-            // CREATE LANGUAGE OPTIONS
-            // ====================================================
-
-            filteredLanguages.forEach(
+            languageOptions.forEach(
                 function (
-                    language
+                    button
                 ) {
 
-                    const button =
-                        document.createElement(
-                            "button"
-                        );
+                    const code =
+                        button.dataset
+                            .language;
 
 
-                    button.type =
-                        "button";
+                    const isActive =
+                        code ===
+                        currentLanguageCode;
 
 
-                    button.className =
-                        "language-option";
-
-
-                    if (
-                        language.code ===
-                        currentLanguageCode
-                    ) {
-
-                        button.classList.add(
-                            "active"
-                        );
-
-                    }
-
-
-                    button.setAttribute(
-                        "role",
-                        "option"
+                    button.classList.toggle(
+                        "active",
+                        isActive
                     );
 
 
                     button.setAttribute(
                         "aria-selected",
-                        language.code ===
-                        currentLanguageCode
+                        isActive
                             ? "true"
                             : "false"
-                    );
-
-
-                    // =================================================
-                    // FLAG
-                    // =================================================
-
-                    const flag =
-                        document.createElement(
-                            "span"
-                        );
-
-
-                    flag.className =
-                        "language-option-flag";
-
-
-                    flag.textContent =
-                        language.flag;
-
-
-                    // =================================================
-                    // SHORT CODE ONLY
-                    // =================================================
-
-                    const label =
-                        document.createElement(
-                            "span"
-                        );
-
-
-                    label.className =
-                        "language-option-text";
-
-
-                    label.textContent =
-                        language.shortCode;
-
-
-                    // =================================================
-                    // APPEND
-                    // =================================================
-
-                    button.appendChild(
-                        flag
-                    );
-
-
-                    button.appendChild(
-                        label
-                    );
-
-
-                    // =================================================
-                    // SELECT
-                    // =================================================
-
-                    button.addEventListener(
-                        "click",
-                        function (
-                            event
-                        ) {
-
-                            event.preventDefault();
-
-                            event.stopPropagation();
-
-
-                            selectLanguage(
-                                language.code
-                            );
-
-                        }
-                    );
-
-
-                    languageList.appendChild(
-                        button
                     );
 
                 }
@@ -3309,13 +3076,13 @@ document.addEventListener(
 
 
         // ========================================================
-        // OPEN LANGUAGE MODAL
+        // OPEN LANGUAGE MENU
         // ========================================================
 
-        function openLanguageModal() {
+        function openLanguageMenu() {
 
             if (
-                !languageModal
+                !languageMenu
             ) {
 
                 return;
@@ -3323,51 +3090,32 @@ document.addEventListener(
             }
 
 
-            languageModal.hidden =
+            languageMenu.hidden =
                 false;
 
 
             if (
-                languageButton
+                languageCurrentButton
             ) {
 
-                languageButton.setAttribute(
+                languageCurrentButton.setAttribute(
                     "aria-expanded",
                     "true"
                 );
 
             }
 
-
-            renderLanguages();
-
-
-            setTimeout(
-                function () {
-
-                    if (
-                        languageSearchInput
-                    ) {
-
-                        languageSearchInput.focus();
-
-                    }
-
-                },
-                0
-            );
-
         }
 
 
         // ========================================================
-        // CLOSE LANGUAGE MODAL
+        // CLOSE LANGUAGE MENU
         // ========================================================
 
-        function closeLanguageModal() {
+        function closeLanguageMenu() {
 
             if (
-                !languageModal
+                !languageMenu
             ) {
 
                 return;
@@ -3375,15 +3123,15 @@ document.addEventListener(
             }
 
 
-            languageModal.hidden =
+            languageMenu.hidden =
                 true;
 
 
             if (
-                languageButton
+                languageCurrentButton
             ) {
 
-                languageButton.setAttribute(
+                languageCurrentButton.setAttribute(
                     "aria-expanded",
                     "false"
                 );
@@ -3394,13 +3142,13 @@ document.addEventListener(
 
 
         // ========================================================
-        // TOGGLE LANGUAGE MODAL
+        // TOGGLE LANGUAGE MENU
         // ========================================================
 
-        function toggleLanguageModal() {
+        function toggleLanguageMenu() {
 
             if (
-                !languageModal
+                !languageMenu
             ) {
 
                 return;
@@ -3409,14 +3157,14 @@ document.addEventListener(
 
 
             if (
-                languageModal.hidden
+                languageMenu.hidden
             ) {
 
-                openLanguageModal();
+                openLanguageMenu();
 
             } else {
 
-                closeLanguageModal();
+                closeLanguageMenu();
 
             }
 
@@ -3459,13 +3207,13 @@ document.addEventListener(
             updateLanguageButton();
 
 
+            updateLanguageOptions();
+
+
             translatePage();
 
 
-            renderLanguages();
-
-
-            closeLanguageModal();
+            closeLanguageMenu();
 
 
             // ====================================================
@@ -3488,14 +3236,14 @@ document.addEventListener(
 
 
         // ========================================================
-        // LANGUAGE BUTTON
+        // CURRENT LANGUAGE BUTTON
         // ========================================================
 
         if (
-            languageButton
+            languageCurrentButton
         ) {
 
-            languageButton.addEventListener(
+            languageCurrentButton.addEventListener(
                 "click",
                 function (
                     event
@@ -3506,7 +3254,7 @@ document.addEventListener(
                     event.stopPropagation();
 
 
-                    toggleLanguageModal();
+                    toggleLanguageMenu();
 
                 }
             );
@@ -3515,73 +3263,59 @@ document.addEventListener(
 
 
         // ========================================================
-        // SEARCH
+        // LANGUAGE OPTIONS
         // ========================================================
 
-        if (
-            languageSearchInput
-        ) {
+        languageOptions.forEach(
+            function (
+                button
+            ) {
 
-            languageSearchInput.addEventListener(
-                "input",
-                renderLanguages
-            );
-
-        }
-
-
-        // ========================================================
-        // CLEAR SEARCH
-        // ========================================================
-
-        if (
-            clearLanguageSearchButton
-        ) {
-
-            clearLanguageSearchButton.addEventListener(
-                "click",
-                function (
-                    event
-                ) {
-
-                    event.preventDefault();
-
-                    event.stopPropagation();
-
-
-                    if (
-                        !languageSearchInput
+                button.addEventListener(
+                    "click",
+                    function (
+                        event
                     ) {
 
-                        return;
+                        event.preventDefault();
+
+                        event.stopPropagation();
+
+
+                        const languageCode =
+                            button.dataset
+                                .language;
+
+
+                        if (
+                            !languageCode
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        selectLanguage(
+                            languageCode
+                        );
 
                     }
+                );
 
-
-                    languageSearchInput.value =
-                        "";
-
-
-                    renderLanguages();
-
-
-                    languageSearchInput.focus();
-
-                }
-            );
-
-        }
+            }
+        );
 
 
         // ========================================================
-        // DO NOT CLOSE WHEN CLICKING INSIDE SELECTOR
+        // DO NOT CLOSE WHEN CLICKING INSIDE LANGUAGE SWITCHER
         // ========================================================
 
         if (
-            languageSelector
+            languageSwitcher
         ) {
 
-            languageSelector.addEventListener(
+            languageSwitcher.addEventListener(
                 "click",
                 function (
                     event
@@ -3606,8 +3340,8 @@ document.addEventListener(
             ) {
 
                 if (
-                    languageSelector &&
-                    languageSelector.contains(
+                    languageSwitcher &&
+                    languageSwitcher.contains(
                         event.target
                     )
                 ) {
@@ -3617,7 +3351,7 @@ document.addEventListener(
                 }
 
 
-                closeLanguageModal();
+                closeLanguageMenu();
 
             }
         );
@@ -3638,7 +3372,7 @@ document.addEventListener(
                     "Escape"
                 ) {
 
-                    closeLanguageModal();
+                    closeLanguageMenu();
 
                 }
 
@@ -3654,7 +3388,7 @@ document.addEventListener(
 
 
             // ----------------------------------------------------
-            // CURRENT LANGUAGE
+            // GET CURRENT LANGUAGE
             // ----------------------------------------------------
 
             getLanguage:
@@ -3666,7 +3400,7 @@ document.addEventListener(
 
 
             // ----------------------------------------------------
-            // TRANSLATE KEY
+            // TRANSLATE
             // ----------------------------------------------------
 
             t:
@@ -3684,7 +3418,7 @@ document.addEventListener(
 
 
             // ----------------------------------------------------
-            // APPLY TRANSLATIONS
+            // APPLY PAGE TRANSLATIONS
             // ----------------------------------------------------
 
             applyTranslations:
@@ -3728,10 +3462,13 @@ document.addEventListener(
         updateLanguageButton();
 
 
+        updateLanguageOptions();
+
+
         translatePage();
 
 
-        renderLanguages();
+        closeLanguageMenu();
 
     }
 );

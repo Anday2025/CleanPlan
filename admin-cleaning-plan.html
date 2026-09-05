@@ -1,25 +1,27 @@
 <!DOCTYPE html>
+
 <html lang="no">
+
 
 <head>
 
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-  <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0"
-  >
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+    >
 
-  <title
-          data-i18n-title="adminCleaningPlanPageTitle"
-  >
-    CleanPlan - Rengjøringsplan
-  </title>
+    <title
+            data-i18n-title="adminCleaningPlanPageTitle"
+    >
+        CleanPlan - Rengjøringsplan
+    </title>
 
-  <link
-          rel="stylesheet"
-          href="css/style.css"
-  >
+    <link
+            rel="stylesheet"
+            href="css/style.css"
+    >
 
 </head>
 
@@ -45,938 +47,830 @@
 <div class="admin-app-layout">
 
 
-  <!-- =====================================================
-       SIDEBAR
-       ===================================================== -->
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
 
-  <aside
-          id="adminSidebar"
-          class="admin-sidebar"
-  >
+    <aside
+            id="adminSidebar"
+            class="admin-sidebar"
+    >
 
 
-    <!-- =================================================
-         BRAND
-         ================================================= -->
+        <!-- =================================================
+             BRAND
+             ================================================= -->
 
-    <div class="admin-sidebar-brand">
+        <div class="admin-sidebar-brand">
 
             <span class="admin-sidebar-logo">
                 🧹
             </span>
 
-      <span>
+            <span>
                 CleanPlan
             </span>
 
-    </div>
+        </div>
 
 
-    <!-- =================================================
-         ROLE LABEL
-         ================================================= -->
+        <!-- =================================================
+             ROLE LABEL
+             ================================================= -->
 
-    <div
-            class="admin-sidebar-section-label"
-            data-i18n="adminRoleLabel"
-    >
-      ADMIN
-    </div>
-
-
-    <!-- =================================================
-         NAVIGATION
-         ================================================= -->
-
-    <nav class="admin-sidebar-nav">
+        <div
+                class="admin-sidebar-section-label"
+                data-i18n="adminRoleLabel"
+        >
+            ADMIN
+        </div>
 
 
-      <!-- =============================================
-           DASHBOARD
-           ============================================= -->
+        <!-- =================================================
+             NAVIGATION
+             ================================================= -->
 
-      <a
-              href="admin.html"
-              class="admin-sidebar-link"
-      >
+        <nav class="admin-sidebar-nav">
+
+
+            <!-- DASHBOARD -->
+
+            <a
+                    href="admin.html"
+                    class="admin-sidebar-link"
+            >
 
                 <span class="admin-sidebar-icon">
                     ▦
                 </span>
 
-        <span data-i18n="adminDashboard">
+                <span data-i18n="adminDashboard">
                     Dashboard
                 </span>
 
-      </a>
+            </a>
 
 
-      <!-- =============================================
-           PROPERTIES
-           ============================================= -->
+            <!-- PROPERTIES -->
 
-      <a
-              href="properties.html"
-              class="admin-sidebar-link"
-      >
+            <a
+                    href="properties.html"
+                    class="admin-sidebar-link"
+            >
 
                 <span class="admin-sidebar-icon">
                     🏠
                 </span>
 
-        <span data-i18n="adminProperties">
+                <span data-i18n="adminProperties">
                     Boliger
                 </span>
 
-      </a>
+            </a>
 
 
-      <!-- =============================================
-           FLOORS
-           ============================================= -->
+            <!-- FLOORS -->
 
-      <a
-              href="properties.html"
-              class="admin-sidebar-link"
-      >
+            <a
+                    href="properties.html"
+                    class="admin-sidebar-link"
+            >
 
                 <span class="admin-sidebar-icon">
                     ▤
                 </span>
 
-        <span data-i18n="adminFloors">
+                <span data-i18n="adminFloors">
                     Etasjer
                 </span>
 
-      </a>
+            </a>
 
 
-      <!-- =============================================
-           RESIDENTS
-           ============================================= -->
+            <!-- RESIDENTS -->
 
-      <a
-              href="admin-residents.html"
-              class="admin-sidebar-link"
-      >
+            <a
+                    href="admin-residents.html"
+                    class="admin-sidebar-link"
+            >
 
                 <span class="admin-sidebar-icon">
                     👥
                 </span>
 
-        <span data-i18n="adminResidents">
+                <span data-i18n="adminResidents">
                     Beboere
                 </span>
 
-      </a>
+            </a>
 
 
-      <!-- =============================================
-           CLEANING PLAN
-           ============================================= -->
+            <!-- CLEANING PLAN -->
 
-      <a
-              href="admin-cleaning-plan.html"
-              class="admin-sidebar-link active"
-      >
+            <a
+                    href="admin-cleaning-plan.html"
+                    class="admin-sidebar-link active"
+            >
 
                 <span class="admin-sidebar-icon">
                     🧹
                 </span>
 
-        <span data-i18n="adminCleaningPlan">
+                <span data-i18n="adminCleaningPlan">
                     Rengjøringsplan
                 </span>
 
-      </a>
+            </a>
 
 
-      <!-- =============================================
-           USERS
-           ============================================= -->
+            <!-- USERS -->
 
-      <a
-              href="users.html"
-              class="admin-sidebar-link"
-      >
+            <a
+                    href="users.html"
+                    class="admin-sidebar-link"
+            >
 
                 <span class="admin-sidebar-icon">
                     👤
                 </span>
 
-        <span data-i18n="adminUsers">
+                <span data-i18n="adminUsers">
                     Brukere
                 </span>
 
-      </a>
+            </a>
 
 
-      <!-- =============================================
-           HISTORY
-           ============================================= -->
+            <!-- HISTORY -->
 
-      <button
-              type="button"
-              class="admin-sidebar-link"
-              id="historySidebarButton"
-      >
+            <button
+                    type="button"
+                    class="admin-sidebar-link"
+                    id="historySidebarButton"
+            >
 
                 <span class="admin-sidebar-icon">
                     ↺
                 </span>
 
-        <span data-i18n="adminHistory">
+                <span data-i18n="adminHistory">
                     Historikk
                 </span>
 
-      </button>
+            </button>
 
 
-      <!-- =============================================
-           SETTINGS
-           ============================================= -->
+            <!-- SETTINGS -->
 
-      <button
-              type="button"
-              class="admin-sidebar-link"
-              id="settingsSidebarButton"
-      >
+            <button
+                    type="button"
+                    class="admin-sidebar-link"
+                    id="settingsSidebarButton"
+            >
 
                 <span class="admin-sidebar-icon">
                     ⚙
                 </span>
 
-        <span data-i18n="adminSettings">
+                <span data-i18n="adminSettings">
                     Innstillinger
                 </span>
 
-      </button>
+            </button>
 
 
-    </nav>
+        </nav>
 
 
-    <!-- =================================================
-         SIDEBAR BOTTOM
-         ================================================= -->
+        <!-- =================================================
+             SIDEBAR BOTTOM
+             ================================================= -->
 
-    <div class="admin-sidebar-bottom">
+        <div class="admin-sidebar-bottom">
 
-      <button
-              id="logoutButton"
-              class="admin-sidebar-logout"
-              type="button"
-      >
+            <button
+                    id="logoutButton"
+                    class="admin-sidebar-logout"
+                    type="button"
+            >
 
                 <span>
                     ↪
                 </span>
 
-        <span data-i18n="adminLogout">
+                <span data-i18n="adminLogout">
                     Logg ut
                 </span>
 
-      </button>
+            </button>
 
-    </div>
-
-
-  </aside>
+        </div>
 
 
-  <!-- =====================================================
-       MAIN AREA
-       ===================================================== -->
-
-  <div class="admin-main-area">
+    </aside>
 
 
-    <!-- =================================================
-         TOP HEADER
-         ================================================= -->
+    <!-- =====================================================
+         MAIN AREA
+         ===================================================== -->
 
-    <header class="admin-main-header">
-
-
-      <!-- =============================================
-           MOBILE MENU
-           ============================================= -->
-
-      <div>
-
-        <button
-                id="mobileSidebarButton"
-                class="admin-mobile-menu-button"
-                type="button"
-                aria-label="Åpne meny"
-                data-i18n-aria-label="adminOpenMenu"
-        >
-          ☰
-        </button>
-
-      </div>
+    <div class="admin-main-area">
 
 
-      <!-- =============================================
-           PROFILE + LANGUAGE
-           ============================================= -->
+        <!-- =================================================
+             TOP HEADER
+             ================================================= -->
 
-      <div class="admin-header-profile">
+        <header class="admin-main-header">
 
 
-        <!-- =========================================
-             PROFILE TEXT
-             ========================================= -->
+            <!-- MOBILE MENU -->
 
-        <div class="admin-header-profile-text">
+            <div>
 
-          <strong id="adminName">
-            Administrator
-          </strong>
+                <button
+                        id="mobileSidebarButton"
+                        class="admin-mobile-menu-button"
+                        type="button"
+                        aria-label="Åpne meny"
+                        data-i18n-aria-label="adminOpenMenu"
+                >
+                    ☰
+                </button>
 
-          <span id="adminRole">
+            </div>
+
+
+            <!-- PROFILE + LANGUAGE -->
+
+            <div class="admin-header-profile">
+
+
+                <!-- PROFILE TEXT -->
+
+                <div class="admin-header-profile-text">
+
+                    <strong id="adminName">
+                        Administrator
+                    </strong>
+
+                    <span id="adminRole">
                         Admin
                     </span>
 
-        </div>
+                </div>
 
 
-        <!-- =========================================
-             LANGUAGE SELECTOR
-             ========================================= -->
+                <!-- =================================================
+                     SMALL LANGUAGE SWITCHER
+                     ================================================= -->
 
-        <div class="language-selector admin-language-selector">
+                <div
+                        class="language-switcher"
+                        id="languageSwitcher"
+                >
 
-
-          <button
-                  id="languageButton"
-                  class="language-button"
-                  type="button"
-                  aria-haspopup="listbox"
-                  aria-expanded="false"
-          >
+                    <button
+                            type="button"
+                            class="language-current"
+                            id="languageCurrentButton"
+                            aria-expanded="false"
+                            aria-haspopup="true"
+                            data-i18n-aria-label="languageSelectorAria"
+                    >
 
                         <span
-                                class="language-button-globe"
-                                aria-hidden="true"
+                                class="language-current-flag"
+                                id="currentLanguageFlag"
                         >
-                            🌐
+                            🇳🇴
                         </span>
 
-            <span id="selectedLanguageName">
+                        <span
+                                class="language-current-code"
+                                id="currentLanguageCode"
+                        >
                             NO
                         </span>
 
-            <span
-                    class="language-button-chevron"
-                    aria-hidden="true"
-            >
+                        <span class="language-current-arrow">
                             ▾
                         </span>
 
-          </button>
+                    </button>
 
 
-          <!-- =====================================
-               LANGUAGE MODAL
-               ===================================== -->
+                    <div
+                            class="language-menu"
+                            id="languageMenu"
+                            role="listbox"
+                            hidden
+                    >
 
-          <div
-                  id="languageModal"
-                  class="language-modal"
-                  hidden
-          >
+                        <button
+                                type="button"
+                                class="language-option"
+                                data-language="no"
+                                role="option"
+                                aria-selected="true"
+                        >
 
-
-            <!-- ================================
-                 SEARCH
-                 ================================ -->
-
-            <div class="language-search-wrapper">
-
-              <input
-                      id="languageSearchInput"
-                      class="language-search-input"
-                      type="search"
-                      placeholder="Søk etter språk..."
-                      aria-label="Søk etter språk"
-                      data-i18n-placeholder="languageSearchPlaceholder"
-                      data-i18n-aria-label="languageSearchAriaLabel"
-                      autocomplete="off"
-              >
-
-
-              <button
-                      id="clearLanguageSearchButton"
-                      class="language-search-clear"
-                      type="button"
-                      aria-label="Tøm søk"
-                      data-i18n-aria-label="clearLanguageSearch"
-                      hidden
-              >
-                ×
-              </button>
-
-            </div>
-
-
-            <!-- ================================
-                 RESULT TEXT
-                 ================================ -->
-
-            <div
-                    id="languageResultText"
-                    class="language-result-text"
-                    aria-live="polite"
-            >
-            </div>
-
-
-            <!-- ================================
-                 LANGUAGE LIST
-                 ================================ -->
-
-            <div
-                    id="languageList"
-                    class="language-list"
-                    role="listbox"
-                    aria-label="Tilgjengelige språk"
-                    data-i18n-aria-label="availableLanguages"
-            >
-
-              <p
-                      class="language-loading"
-                      data-i18n="loadingAvailableLanguages"
-              >
-                Laster tilgjengelige språk...
-              </p>
-
-            </div>
-
-
-            <!-- ================================
-                 EMPTY SEARCH
-                 ================================ -->
-
-            <div
-                    id="languageSearchEmpty"
-                    class="language-search-empty"
-                    hidden
-            >
-
-              <strong data-i18n="noLanguagesFound">
-                Ingen språk funnet
-              </strong>
-
-              <span data-i18n="tryAnotherSearch">
-                                Prøv et annet søk.
+                            <span class="language-option-flag">
+                                🇳🇴
                             </span>
 
-            </div>
+                            <span class="language-option-code">
+                                NO
+                            </span>
+
+                        </button>
 
 
-          </div>
+                        <button
+                                type="button"
+                                class="language-option"
+                                data-language="en"
+                                role="option"
+                                aria-selected="false"
+                        >
+
+                            <span class="language-option-flag">
+                                🇬🇧
+                            </span>
+
+                            <span class="language-option-code">
+                                EN
+                            </span>
+
+                        </button>
+
+                    </div>
 
 
-        </div>
+                </div>
 
 
-        <!-- =========================================
-             AVATAR
-             ========================================= -->
+                <!-- AVATAR -->
 
-        <div class="admin-profile-avatar">
+                <div class="admin-profile-avatar">
 
                     <span id="adminInitial">
                         A
                     </span>
 
-        </div>
+                </div>
 
 
-      </div>
+            </div>
 
 
-    </header>
+        </header>
 
 
-    <!-- =================================================
-         MAIN CONTENT
-         ================================================= -->
+        <!-- =================================================
+             MAIN CONTENT
+             ================================================= -->
 
-    <main class="admin-cleaning-dashboard-main">
-
-
-      <!-- =================================================
-           PAGE HEADER
-           ================================================= -->
-
-      <section class="admin-cleaning-dashboard-header">
+        <main class="admin-cleaning-dashboard-main">
 
 
-        <div>
+            <!-- =================================================
+                 PAGE HEADER
+                 ================================================= -->
 
-          <p
-                  class="admin-dashboard-eyebrow"
-                  data-i18n="adminAdministratorEyebrow"
-          >
-            ADMINISTRATOR
-          </p>
+            <section class="admin-cleaning-dashboard-header">
 
 
-          <h1 data-i18n="adminCleaningPlanAdminTitle">
-            Rengjøringsplan (Admin)
-          </h1>
+                <div>
+
+                    <p
+                            class="admin-dashboard-eyebrow"
+                            data-i18n="adminAdministratorEyebrow"
+                    >
+                        ADMINISTRATOR
+                    </p>
 
 
-          <p data-i18n="adminCleaningPlanPageDescription">
-            Lag og administrer oppgaver for rengjøringsplanen.
-          </p>
-
-        </div>
+                    <h1 data-i18n="adminCleaningPlanAdminTitle">
+                        Rengjøringsplan (Admin)
+                    </h1>
 
 
-        <button
-                id="backButton"
-                class="secondary-button"
-                type="button"
-        >
+                    <p data-i18n="adminCleaningPlanPageDescription">
+                        Lag og administrer oppgaver for rengjøringsplanen.
+                    </p>
+
+                </div>
+
+
+                <button
+                        id="backButton"
+                        class="secondary-button"
+                        type="button"
+                >
 
                     <span aria-hidden="true">
                         ←
                     </span>
 
-          <span data-i18n="adminDashboard">
+                    <span data-i18n="adminDashboard">
                         Dashboard
                     </span>
 
-        </button>
+                </button>
 
 
-      </section>
+            </section>
 
 
-      <!-- =================================================
-           PROPERTY / FLOOR / INFO
-           ================================================= -->
+            <!-- =================================================
+                 PROPERTY / FLOOR / INFO
+                 ================================================= -->
 
-      <section class="admin-cleaning-location-grid">
-
-
-        <!-- =========================================
-             PROPERTY
-             ========================================= -->
-
-        <div class="admin-cleaning-location-card">
-
-          <div class="form-group">
-
-            <label
-                    for="propertySelect"
-                    data-i18n="adminProperty"
-            >
-              Bolig
-            </label>
+            <section class="admin-cleaning-location-grid">
 
 
-            <select id="propertySelect">
+                <!-- PROPERTY -->
 
-              <option
-                      value=""
-                      data-i18n="adminSelectProperty"
-              >
-                Velg bolig
-              </option>
+                <div class="admin-cleaning-location-card">
 
-            </select>
+                    <div class="form-group">
 
-          </div>
-
-        </div>
+                        <label
+                                for="propertySelect"
+                                data-i18n="adminProperty"
+                        >
+                            Bolig
+                        </label>
 
 
-        <!-- =========================================
-             FLOOR
-             ========================================= -->
+                        <select id="propertySelect">
 
-        <div class="admin-cleaning-location-card">
+                            <option
+                                    value=""
+                                    data-i18n="adminSelectProperty"
+                            >
+                                Velg bolig
+                            </option>
 
-          <div class="form-group">
+                        </select>
 
-            <label
-                    for="floorSelect"
-                    data-i18n="adminFloor"
-            >
-              Etasje
-            </label>
+                    </div>
 
-
-            <select
-                    id="floorSelect"
-                    disabled
-            >
-
-              <option
-                      value=""
-                      data-i18n="adminSelectFloor"
-              >
-                Velg etasje
-              </option>
-
-            </select>
-
-          </div>
-
-        </div>
+                </div>
 
 
-        <!-- =========================================
-             INFO
-             ========================================= -->
+                <!-- FLOOR -->
 
-        <div class="admin-cleaning-info-box">
+                <div class="admin-cleaning-location-card">
+
+                    <div class="form-group">
+
+                        <label
+                                for="floorSelect"
+                                data-i18n="adminFloor"
+                        >
+                            Etasje
+                        </label>
+
+
+                        <select
+                                id="floorSelect"
+                                disabled
+                        >
+
+                            <option
+                                    value=""
+                                    data-i18n="adminSelectFloor"
+                            >
+                                Velg etasje
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- INFO -->
+
+                <div class="admin-cleaning-info-box">
 
                     <span class="admin-cleaning-info-icon">
                         i
                     </span>
 
-          <p data-i18n="adminCleaningTasksVisibilityInfo">
-            Oppgavene du lager her vises for alle beboere som bor på denne etasjen.
-          </p>
+                    <p data-i18n="adminCleaningTasksVisibilityInfo">
+                        Oppgavene du lager her vises for alle beboere som bor på denne etasjen.
+                    </p>
 
-        </div>
-
-
-      </section>
+                </div>
 
 
-      <!-- =================================================
-           TASK MANAGEMENT
-           ================================================= -->
-
-      <section
-              id="taskManagementSection"
-              class="admin-cleaning-workspace"
-              hidden
-      >
+            </section>
 
 
-        <!-- =================================================
-             LEFT - TASK FORM
-             ================================================= -->
+            <!-- =================================================
+                 TASK MANAGEMENT
+                 ================================================= -->
 
-        <div class="admin-cleaning-task-form-card">
-
-
-          <h2
-                  id="taskFormTitle"
-                  data-i18n="adminAddNewCleaningTask"
-          >
-            Legg til ny oppgave
-          </h2>
+            <section
+                    id="taskManagementSection"
+                    class="admin-cleaning-workspace"
+                    hidden
+            >
 
 
-          <form id="taskForm">
+                <!-- =================================================
+                     LEFT - TASK FORM
+                     ================================================= -->
+
+                <div class="admin-cleaning-task-form-card">
 
 
-            <!-- =========================================
-                 TASK NAME
-                 ========================================= -->
-
-            <div class="form-group">
-
-              <label
-                      for="taskName"
-                      data-i18n="adminTask"
-              >
-                Oppgave
-              </label>
+                    <h2
+                            id="taskFormTitle"
+                            data-i18n="adminAddNewCleaningTask"
+                    >
+                        Legg til ny oppgave
+                    </h2>
 
 
-              <input
-                      id="taskName"
-                      type="text"
-                      maxlength="200"
-                      placeholder="Skriv inn oppgaven her..."
-                      data-i18n-placeholder="adminTaskPlaceholder"
-                      required
-              >
-
-            </div>
+                    <form id="taskForm">
 
 
-            <!-- =========================================
-                 DESCRIPTION
-                 ========================================= -->
+                        <!-- TASK NAME -->
 
-            <div class="form-group admin-cleaning-description-group">
+                        <div class="form-group">
 
-              <label for="taskDescription">
+                            <label
+                                    for="taskName"
+                                    data-i18n="adminTask"
+                            >
+                                Oppgave
+                            </label>
+
+
+                            <input
+                                    id="taskName"
+                                    type="text"
+                                    maxlength="200"
+                                    placeholder="Skriv inn oppgaven her..."
+                                    data-i18n-placeholder="adminTaskPlaceholder"
+                                    required
+                            >
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="form-group admin-cleaning-description-group">
+
+                            <label for="taskDescription">
 
                                 <span data-i18n="adminDescription">
                                     Beskrivelse
                                 </span>
 
-                <span
-                        class="optional-label"
-                        data-i18n="adminOptional"
-                >
+                                <span
+                                        class="optional-label"
+                                        data-i18n="adminOptional"
+                                >
                                     (valgfritt)
                                 </span>
 
-              </label>
+                            </label>
 
 
-              <textarea
-                      id="taskDescription"
-                      rows="3"
-                      maxlength="1000"
-                      placeholder="Eventuell ekstra informasjon..."
-                      data-i18n-placeholder="adminTaskDescriptionPlaceholder"
-              ></textarea>
+                            <textarea
+                                    id="taskDescription"
+                                    rows="3"
+                                    maxlength="1000"
+                                    placeholder="Eventuell ekstra informasjon..."
+                                    data-i18n-placeholder="adminTaskDescriptionPlaceholder"
+                            ></textarea>
 
-            </div>
+                        </div>
 
+                        <!-- ORDER -->
 
-            <!-- =========================================
-                 ORDER
-                 ========================================= -->
+                        <div class="admin-cleaning-order-row">
 
-            <div class="admin-cleaning-order-row">
+                            <div class="form-group admin-cleaning-order-group">
 
-              <div class="form-group admin-cleaning-order-group">
-
-                <label
-                        for="taskOrder"
-                        data-i18n="adminOrder"
-                >
-                  Rekkefølge
-                </label>
+                                <label
+                                        for="taskOrder"
+                                        data-i18n="adminOrder"
+                                >
+                                    Rekkefølge
+                                </label>
 
 
-                <input
-                        id="taskOrder"
-                        type="number"
-                        min="1"
-                        value="1"
-                        required
-                >
+                                <input
+                                        id="taskOrder"
+                                        type="number"
+                                        min="1"
+                                        value="1"
+                                        required
+                                >
 
-              </div>
-
-
-              <small data-i18n="adminLowerNumbersFirst">
-                Lavere tall vises først.
-              </small>
+                            </div>
 
 
-            </div>
+                            <small data-i18n="adminLowerNumbersFirst">
+                                Lavere tall vises først.
+                            </small>
 
 
-            <!-- =========================================
-                 SAVE
-                 ========================================= -->
+                        </div>
 
-            <button
-                    id="saveTaskButton"
-                    class="admin-cleaning-add-button"
-                    type="submit"
-            >
+
+                        <!-- SAVE -->
+
+                        <button
+                                id="saveTaskButton"
+                                class="admin-cleaning-add-button"
+                                type="submit"
+                        >
 
                             <span aria-hidden="true">
                                 +
                             </span>
 
-              <span data-i18n="adminAddTask">
+                            <span data-i18n="adminAddTask">
                                 Legg til oppgave
                             </span>
 
-            </button>
+                        </button>
 
 
-            <!-- =========================================
-                 CANCEL EDIT
-                 ========================================= -->
+                        <!-- CANCEL EDIT -->
 
-            <button
-                    id="cancelEditButton"
-                    class="secondary-button admin-cleaning-cancel-button"
-                    type="button"
-                    hidden
-                    data-i18n="adminCancelEditing"
-            >
-              Avbryt redigering
-            </button>
+                        <button
+                                id="cancelEditButton"
+                                class="secondary-button admin-cleaning-cancel-button"
+                                type="button"
+                                hidden
+                                data-i18n="adminCancelEditing"
+                        >
+                            Avbryt redigering
+                        </button>
 
 
-          </form>
+                    </form>
 
 
-          <p
-                  id="taskMessage"
-                  class="message"
-                  aria-live="polite"
-          ></p>
+                    <p
+                            id="taskMessage"
+                            class="message"
+                            aria-live="polite"
+                    ></p>
 
 
-        </div>
+                </div>
 
 
-        <!-- =================================================
-             RIGHT - TASK LIST
-             ================================================= -->
+                <!-- =================================================
+                     RIGHT - TASK LIST
+                     ================================================= -->
 
-        <div class="admin-cleaning-task-list-card">
+                <div class="admin-cleaning-task-list-card">
 
 
-          <!-- =========================================
-               LIST HEADER
-               ========================================= -->
+                    <!-- LIST HEADER -->
 
-          <div class="admin-cleaning-task-list-header">
+                    <div class="admin-cleaning-task-list-header">
 
-            <div>
+                        <div>
 
-              <h2>
+                            <h2>
 
                                 <span data-i18n="adminCleaningTasks">
                                     Rengjøringsoppgaver
                                 </span>
 
-                (
-                <span id="taskCount">
+                                (
+                                <span id="taskCount">
                                     0
                                 </span>
-                )
+                                )
 
-              </h2>
-
-
-              <p id="selectedLocationText">
-                -
-              </p>
-
-            </div>
-
-          </div>
+                            </h2>
 
 
-          <!-- =========================================
-               EMPTY STATE
-               ========================================= -->
+                            <p id="selectedLocationText">
+                                -
+                            </p>
 
-          <div
-                  id="taskEmptyState"
-                  class="empty-state"
-          >
+                        </div>
 
-            <p data-i18n="adminNoTasksForFloor">
-              Ingen oppgaver er opprettet for denne etasjen ennå.
-            </p>
-
-          </div>
+                    </div>
 
 
-          <!-- =========================================
-               TABLE
-               ========================================= -->
+                    <!-- EMPTY STATE -->
 
-          <div
-                  id="taskTableWrapper"
-                  class="table-wrapper"
-                  hidden
-          >
+                    <div
+                            id="taskEmptyState"
+                            class="empty-state"
+                    >
 
-            <table class="cleaning-task-table admin-cleaning-modern-table">
+                        <p data-i18n="adminNoTasksForFloor">
+                            Ingen oppgaver er opprettet for denne etasjen ennå.
+                        </p>
 
-              <thead>
-
-              <tr>
+                    </div>
 
 
-                <!-- =========================
-                     DRAG HANDLE
-                     ========================= -->
+                    <!-- TABLE -->
 
-                <th class="admin-cleaning-drag-column">
-                  #
-                </th>
+                    <div
+                            id="taskTableWrapper"
+                            class="table-wrapper"
+                            hidden
+                    >
 
+                        <table class="cleaning-task-table admin-cleaning-modern-table">
 
-                <!-- =========================
-                     ORDER NUMBER
-                     ========================= -->
+                            <thead>
 
-                <th class="admin-cleaning-number-column">
-                  #
-                </th>
+                            <tr>
 
 
-                <!-- =========================
-                     TASK
-                     ========================= -->
+                                <!-- DRAG HANDLE -->
 
-                <th data-i18n="adminTask">
-                  Oppgave
-                </th>
+                                <th class="admin-cleaning-drag-column">
+                                    #
+                                </th>
 
 
-                <!-- =========================
-                     ACTIONS
-                     ========================= -->
+                                <!-- ORDER NUMBER -->
 
-                <th
-                        class="admin-cleaning-actions-column"
-                        data-i18n="adminActions"
-                >
-                  Handlinger
-                </th>
+                                <th class="admin-cleaning-number-column">
+                                    #
+                                </th>
 
 
-              </tr>
+                                <!-- TASK -->
 
-              </thead>
-
-
-              <tbody id="taskList">
-              </tbody>
+                                <th data-i18n="adminTask">
+                                    Oppgave
+                                </th>
 
 
-            </table>
+                                <!-- ACTIONS -->
 
-          </div>
+                                <th
+                                        class="admin-cleaning-actions-column"
+                                        data-i18n="adminActions"
+                                >
+                                    Handlinger
+                                </th>
 
 
-          <!-- =========================================
-               DRAG INFO
-               ========================================= -->
+                            </tr>
 
-          <div
-                  id="dragDropInfo"
-                  class="admin-cleaning-drag-info"
-          >
+                            </thead>
+
+
+                            <tbody id="taskList">
+                            </tbody>
+
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- DRAG INFO -->
+
+                    <div
+                            id="dragDropInfo"
+                            class="admin-cleaning-drag-info"
+                    >
 
                         <span class="admin-cleaning-drag-info-icon">
                             i
                         </span>
 
-            <span data-i18n="adminDragDropTaskInfo">
+                        <span data-i18n="adminDragDropTaskInfo">
                             Dra og slipp for å endre rekkefølgen på oppgavene.
                         </span>
 
-          </div>
+                    </div>
 
 
-        </div>
+                </div>
 
 
-      </section>
+            </section>
 
 
-    </main>
+        </main>
 
 
-  </div>
+    </div>
 
 
 </div>
@@ -1003,7 +897,7 @@
      Must load before admin-cleaning-plan.js
      ========================================================= -->
 
-<script src="js/language.js?v=11"></script>
+<script src="js/language.js?v=12"></script>
 
 
 <!-- =========================================================
@@ -1019,9 +913,9 @@
 
 <script>
 
-  document.addEventListener(
-          "DOMContentLoaded",
-          function () {
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
 
 
             // =================================================
@@ -1029,33 +923,33 @@
             // =================================================
 
             const mobileSidebarButton =
-                    document.getElementById(
-                            "mobileSidebarButton"
-                    );
+                document.getElementById(
+                    "mobileSidebarButton"
+                );
 
 
             const adminSidebar =
-                    document.getElementById(
-                            "adminSidebar"
-                    );
+                document.getElementById(
+                    "adminSidebar"
+                );
 
 
             const adminSidebarOverlay =
-                    document.getElementById(
-                            "adminSidebarOverlay"
-                    );
+                document.getElementById(
+                    "adminSidebarOverlay"
+                );
 
 
             const historySidebarButton =
-                    document.getElementById(
-                            "historySidebarButton"
-                    );
+                document.getElementById(
+                    "historySidebarButton"
+                );
 
 
             const settingsSidebarButton =
-                    document.getElementById(
-                            "settingsSidebarButton"
-                    );
+                document.getElementById(
+                    "settingsSidebarButton"
+                );
 
 
             // =================================================
@@ -1063,36 +957,36 @@
             // =================================================
 
             function adminTranslate(
-                    key,
-                    fallback
+                key,
+                fallback
             ) {
 
-              if (
-                      window.CleanPlanI18n &&
-                      typeof window.CleanPlanI18n.t ===
-                      "function"
-              ) {
+                if (
+                    window.CleanPlanI18n &&
+                    typeof window.CleanPlanI18n.t ===
+                    "function"
+                ) {
 
-                const translated =
+                    const translated =
                         window.CleanPlanI18n.t(
-                                key
+                            key
                         );
 
 
-                if (
+                    if (
                         translated &&
                         translated !==
                         key
-                ) {
+                    ) {
 
-                  return translated;
+                        return translated;
+
+                    }
 
                 }
 
-              }
 
-
-              return fallback;
+                return fallback;
 
             }
 
@@ -1103,29 +997,29 @@
 
             function openAdminSidebar() {
 
-              if (
-                      adminSidebar
-              ) {
+                if (
+                    adminSidebar
+                ) {
 
-                adminSidebar.classList.add(
+                    adminSidebar.classList.add(
                         "open"
-                );
+                    );
 
-              }
+                }
 
 
-              if (
-                      adminSidebarOverlay
-              ) {
+                if (
+                    adminSidebarOverlay
+                ) {
 
-                adminSidebarOverlay.hidden =
+                    adminSidebarOverlay.hidden =
                         false;
 
-                adminSidebarOverlay.classList.add(
+                    adminSidebarOverlay.classList.add(
                         "visible"
-                );
+                    );
 
-              }
+                }
 
             }
 
@@ -1136,29 +1030,29 @@
 
             function closeAdminSidebar() {
 
-              if (
-                      adminSidebar
-              ) {
+                if (
+                    adminSidebar
+                ) {
 
-                adminSidebar.classList.remove(
+                    adminSidebar.classList.remove(
                         "open"
-                );
+                    );
 
-              }
+                }
 
 
-              if (
-                      adminSidebarOverlay
-              ) {
+                if (
+                    adminSidebarOverlay
+                ) {
 
-                adminSidebarOverlay.classList.remove(
+                    adminSidebarOverlay.classList.remove(
                         "visible"
-                );
+                    );
 
-                adminSidebarOverlay.hidden =
+                    adminSidebarOverlay.hidden =
                         true;
 
-              }
+                }
 
             }
 
@@ -1168,30 +1062,30 @@
             // =================================================
 
             if (
-                    mobileSidebarButton
+                mobileSidebarButton
             ) {
 
-              mobileSidebarButton.addEventListener(
-                      "click",
-                      function () {
+                mobileSidebarButton.addEventListener(
+                    "click",
+                    function () {
 
                         if (
-                                adminSidebar &&
-                                adminSidebar.classList.contains(
-                                        "open"
-                                )
+                            adminSidebar &&
+                            adminSidebar.classList.contains(
+                                "open"
+                            )
                         ) {
 
-                          closeAdminSidebar();
+                            closeAdminSidebar();
 
                         } else {
 
-                          openAdminSidebar();
+                            openAdminSidebar();
 
                         }
 
-                      }
-              );
+                    }
+                );
 
             }
 
@@ -1201,38 +1095,37 @@
             // =================================================
 
             if (
-                    adminSidebarOverlay
+                adminSidebarOverlay
             ) {
 
-              adminSidebarOverlay.addEventListener(
-                      "click",
-                      closeAdminSidebar
-              );
+                adminSidebarOverlay.addEventListener(
+                    "click",
+                    closeAdminSidebar
+                );
 
             }
-
 
             // =================================================
             // HISTORY
             // =================================================
 
             if (
-                    historySidebarButton
+                historySidebarButton
             ) {
 
-              historySidebarButton.addEventListener(
-                      "click",
-                      function () {
+                historySidebarButton.addEventListener(
+                    "click",
+                    function () {
 
                         window.alert(
-                                adminTranslate(
-                                        "adminHistoryComingSoon",
-                                        "Historikk kommer i et senere steg."
-                                )
+                            adminTranslate(
+                                "adminHistoryComingSoon",
+                                "Historikk kommer i et senere steg."
+                            )
                         );
 
-                      }
-              );
+                    }
+                );
 
             }
 
@@ -1242,22 +1135,22 @@
             // =================================================
 
             if (
-                    settingsSidebarButton
+                settingsSidebarButton
             ) {
 
-              settingsSidebarButton.addEventListener(
-                      "click",
-                      function () {
+                settingsSidebarButton.addEventListener(
+                    "click",
+                    function () {
 
                         window.alert(
-                                adminTranslate(
-                                        "adminSettingsComingSoon",
-                                        "Innstillinger kommer i et senere steg."
-                                )
+                            adminTranslate(
+                                "adminSettingsComingSoon",
+                                "Innstillinger kommer i et senere steg."
+                            )
                         );
 
-                      }
-              );
+                    }
+                );
 
             }
 
@@ -1267,21 +1160,21 @@
             // =================================================
 
             document.addEventListener(
-                    "keydown",
-                    function (
-                            event
-                    ) {
+                "keydown",
+                function (
+                    event
+                ) {
 
-                      if (
-                              event.key ===
-                              "Escape"
-                      ) {
+                    if (
+                        event.key ===
+                        "Escape"
+                    ) {
 
                         closeAdminSidebar();
 
-                      }
-
                     }
+
+                }
             );
 
 
@@ -1290,28 +1183,29 @@
             // =================================================
 
             window.addEventListener(
-                    "resize",
-                    function () {
+                "resize",
+                function () {
 
-                      if (
-                              window.innerWidth >
-                              900
-                      ) {
+                    if (
+                        window.innerWidth >
+                        900
+                    ) {
 
                         closeAdminSidebar();
 
-                      }
-
                     }
+
+                }
             );
 
 
-          }
-  );
+        }
+    );
 
 </script>
 
 
 </body>
+
 
 </html>

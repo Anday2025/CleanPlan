@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html lang="no">
+
 
 <head>
 
@@ -91,9 +93,7 @@
         <nav class="admin-sidebar-nav">
 
 
-            <!-- =============================================
-                 DASHBOARD
-                 ============================================= -->
+            <!-- DASHBOARD -->
 
             <a
                     href="admin.html"
@@ -111,9 +111,7 @@
             </a>
 
 
-            <!-- =============================================
-                 PROPERTIES
-                 ============================================= -->
+            <!-- PROPERTIES -->
 
             <a
                     href="properties.html"
@@ -131,9 +129,7 @@
             </a>
 
 
-            <!-- =============================================
-                 FLOORS
-                 ============================================= -->
+            <!-- FLOORS -->
 
             <a
                     href="properties.html"
@@ -151,9 +147,7 @@
             </a>
 
 
-            <!-- =============================================
-                 RESIDENTS
-                 ============================================= -->
+            <!-- RESIDENTS -->
 
             <a
                     href="admin-residents.html"
@@ -171,9 +165,7 @@
             </a>
 
 
-            <!-- =============================================
-                 CLEANING PLAN
-                 ============================================= -->
+            <!-- CLEANING PLAN -->
 
             <a
                     href="admin-cleaning-plan.html"
@@ -191,9 +183,7 @@
             </a>
 
 
-            <!-- =============================================
-                 USERS
-                 ============================================= -->
+            <!-- USERS -->
 
             <a
                     href="users.html"
@@ -211,9 +201,7 @@
             </a>
 
 
-            <!-- =============================================
-                 HISTORY
-                 ============================================= -->
+            <!-- HISTORY -->
 
             <button
                     id="historyButton"
@@ -232,9 +220,7 @@
             </button>
 
 
-            <!-- =============================================
-                 SETTINGS
-                 ============================================= -->
+            <!-- SETTINGS -->
 
             <button
                     id="settingsButton"
@@ -298,9 +284,7 @@
         <header class="admin-top-header">
 
 
-            <!-- =============================================
-                 MOBILE MENU
-                 ============================================= -->
+            <!-- MOBILE MENU -->
 
             <button
                     id="adminMobileMenuButton"
@@ -313,16 +297,14 @@
             </button>
 
 
-            <!-- =============================================
+            <!-- =================================================
                  RIGHT SIDE
-                 ============================================= -->
+                 ================================================= -->
 
             <div class="admin-header-profile">
 
 
-                <!-- =========================================
-                     PROFILE
-                     ========================================= -->
+                <!-- PROFILE -->
 
                 <div class="admin-header-profile-text">
 
@@ -337,139 +319,88 @@
                 </div>
 
 
-                <!-- =========================================
-                     LANGUAGE SELECTOR
-                     ========================================= -->
+                <!-- =================================================
+                     SMALL LANGUAGE SWITCHER
+                     ================================================= -->
 
-                <div class="language-selector admin-language-selector">
-
+                <div
+                        class="language-switcher"
+                        id="languageSwitcher"
+                >
 
                     <button
-                            id="languageButton"
-                            class="language-button"
                             type="button"
-                            aria-haspopup="listbox"
+                            class="language-current"
+                            id="languageCurrentButton"
                             aria-expanded="false"
+                            aria-haspopup="true"
+                            data-i18n-aria-label="languageSelectorAria"
                     >
 
                         <span
-                                class="language-button-globe"
-                                aria-hidden="true"
+                                class="language-current-flag"
+                                id="currentLanguageFlag"
                         >
-                            🌐
-                        </span>
-
-                        <span id="selectedLanguageName">
-                            NO
+                            🇳🇴
                         </span>
 
                         <span
-                                class="language-button-chevron"
-                                aria-hidden="true"
+                                class="language-current-code"
+                                id="currentLanguageCode"
                         >
+                            NO
+                        </span>
+
+                        <span class="language-current-arrow">
                             ▾
                         </span>
 
                     </button>
 
 
-                    <!-- =====================================
-                         LANGUAGE MODAL
-                         ===================================== -->
-
                     <div
-                            id="languageModal"
-                            class="language-modal"
+                            class="language-menu"
+                            id="languageMenu"
+                            role="listbox"
                             hidden
                     >
 
-
-                        <!-- ================================
-                             SEARCH
-                             ================================ -->
-
-                        <div class="language-search-wrapper">
-
-                            <input
-                                    id="languageSearchInput"
-                                    class="language-search-input"
-                                    type="search"
-                                    placeholder="Søk etter språk..."
-                                    aria-label="Søk etter språk"
-                                    data-i18n-placeholder="languageSearchPlaceholder"
-                                    data-i18n-aria-label="languageSearchAriaLabel"
-                                    autocomplete="off"
-                            >
-
-
-                            <button
-                                    id="clearLanguageSearchButton"
-                                    class="language-search-clear"
-                                    type="button"
-                                    aria-label="Tøm søk"
-                                    data-i18n-aria-label="clearLanguageSearch"
-                                    hidden
-                            >
-                                ×
-                            </button>
-
-                        </div>
-
-
-                        <!-- ================================
-                             RESULT TEXT
-                             ================================ -->
-
-                        <div
-                                id="languageResultText"
-                                class="language-result-text"
-                                aria-live="polite"
-                        >
-                        </div>
-
-
-                        <!-- ================================
-                             LANGUAGE LIST
-                             ================================ -->
-
-                        <div
-                                id="languageList"
-                                class="language-list"
-                                role="listbox"
-                                aria-label="Tilgjengelige språk"
-                                data-i18n-aria-label="availableLanguages"
+                        <button
+                                type="button"
+                                class="language-option"
+                                data-language="no"
+                                role="option"
+                                aria-selected="true"
                         >
 
-                            <p
-                                    class="language-loading"
-                                    data-i18n="loadingAvailableLanguages"
-                            >
-                                Laster tilgjengelige språk...
-                            </p>
-
-                        </div>
-
-
-                        <!-- ================================
-                             EMPTY SEARCH
-                             ================================ -->
-
-                        <div
-                                id="languageSearchEmpty"
-                                class="language-search-empty"
-                                hidden
-                        >
-
-                            <strong data-i18n="noLanguagesFound">
-                                Ingen språk funnet
-                            </strong>
-
-                            <span data-i18n="tryAnotherSearch">
-                                Prøv et annet søk.
+                            <span class="language-option-flag">
+                                🇳🇴
                             </span>
 
-                        </div>
+                            <span class="language-option-code">
+                                NO
+                            </span>
 
+                        </button>
+
+
+                        <button
+                                type="button"
+                                class="language-option"
+                                data-language="en"
+                                role="option"
+                                aria-selected="false"
+                        >
+
+                            <span class="language-option-flag">
+                                🇬🇧
+                            </span>
+
+                            <span class="language-option-code">
+                                EN
+                            </span>
+
+                        </button>
 
                     </div>
 
@@ -477,12 +408,11 @@
                 </div>
 
 
-                <!-- =========================================
-                     AVATAR
-                     ========================================= -->
+                <!-- AVATAR -->
 
                 <div
                         class="admin-header-avatar"
+                        id="adminInitial"
                         aria-hidden="true"
                 >
                     A
@@ -502,11 +432,12 @@
         <main class="admin-content">
 
 
-            <!-- =============================================
+            <!-- =================================================
                  PAGE HEADER
-                 ============================================= -->
+                 ================================================= -->
 
             <section class="admin-page-header">
+
 
                 <p
                         class="admin-page-eyebrow"
@@ -529,21 +460,14 @@
                 </h1>
 
 
-                <!-- =========================================
-                     PROPERTY INFO
-                     Dynamic content from floors.js
-                     ========================================= -->
-
                 <p id="propertyInfo">
+
                     <span data-i18n="adminLoadingProperty">
                         Laster bolig...
                     </span>
+
                 </p>
 
-
-                <!-- =========================================
-                     BACK
-                     ========================================= -->
 
                 <button
                         id="backButton"
@@ -561,19 +485,20 @@
 
                 </button>
 
+
             </section>
 
 
-            <!-- =============================================
+            <!-- =================================================
                  FLOORS LAYOUT
-                 ============================================= -->
+                 ================================================= -->
 
             <div class="admin-properties-layout">
 
 
-                <!-- =========================================
+                <!-- =================================================
                      ADD FLOOR
-                     ========================================= -->
+                     ================================================= -->
 
                 <section class="dashboard-card">
 
@@ -599,9 +524,7 @@
                     <form id="floorForm">
 
 
-                        <!-- ================================
-                             FLOOR NUMBER
-                             ================================ -->
+                        <!-- FLOOR NUMBER -->
 
                         <div class="form-group">
 
@@ -625,9 +548,7 @@
                         </div>
 
 
-                        <!-- ================================
-                             FLOOR NAME
-                             ================================ -->
+                        <!-- FLOOR NAME -->
 
                         <div class="form-group">
 
@@ -651,10 +572,7 @@
 
                         </div>
 
-
-                        <!-- ================================
-                             SAVE FLOOR
-                             ================================ -->
+                        <!-- SAVE FLOOR -->
 
                         <button
                                 id="saveFloorButton"
@@ -673,9 +591,7 @@
                         </button>
 
 
-                        <!-- ================================
-                             MESSAGE
-                             ================================ -->
+                        <!-- MESSAGE -->
 
                         <p
                                 id="floorMessage"
@@ -690,9 +606,9 @@
                 </section>
 
 
-                <!-- =========================================
+                <!-- =================================================
                      FLOORS LIST
-                     ========================================= -->
+                     ================================================= -->
 
                 <section class="dashboard-card">
 
@@ -725,10 +641,10 @@
                     </div>
 
 
-                    <!-- =====================================
+                    <!-- =================================================
                          FLOOR LIST
                          Dynamic content from floors.js
-                         ===================================== -->
+                         ================================================= -->
 
                     <div id="floorList">
 
@@ -779,7 +695,7 @@
      language.js must load before floors.js
      ========================================================= -->
 
-<script src="js/language.js?v=11"></script>
+<script src="js/language.js?v=12"></script>
 
 
 <!-- =========================================================
@@ -975,7 +891,6 @@
 
             }
 
-
             // =================================================
             // HISTORY
             // =================================================
@@ -1077,5 +992,6 @@
 
 
 </body>
+
 
 </html>

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html lang="no">
+
 
 <head>
 
@@ -10,7 +12,9 @@
             content="width=device-width, initial-scale=1.0"
     >
 
-    <title>CleanPlan - Logg inn</title>
+    <title>
+        CleanPlan - Logg inn
+    </title>
 
     <link
             rel="stylesheet"
@@ -73,39 +77,50 @@
                     aria-controls="loginModal"
                     aria-expanded="false"
             >
+
                 <span data-i18n="login">
                     Logg inn
                 </span>
+
             </button>
 
 
             <!-- =================================================
-                 LANGUAGE SELECTOR
+                 SMALL LANGUAGE SWITCHER
                  ================================================= -->
 
-            <div class="language-selector">
+            <div
+                    class="language-switcher"
+                    id="languageSwitcher"
+            >
 
 
-                <!-- LANGUAGE BUTTON -->
+                <!-- CURRENT LANGUAGE -->
 
                 <button
                         type="button"
-                        class="language-button"
-                        id="languageButton"
-                        aria-haspopup="true"
-                        aria-controls="languageModal"
+                        class="language-current"
+                        id="languageCurrentButton"
                         aria-expanded="false"
+                        aria-haspopup="true"
+                        data-i18n-aria-label="languageSelectorAria"
                 >
 
-                    <span class="language-button-globe">
-                        🌐
+                    <span
+                            class="language-current-flag"
+                            id="currentLanguageFlag"
+                    >
+                        🇳🇴
                     </span>
 
-                    <span id="selectedLanguageName">
+                    <span
+                            class="language-current-code"
+                            id="currentLanguageCode"
+                    >
                         NO
                     </span>
 
-                    <span class="language-button-chevron">
+                    <span class="language-current-arrow">
                         ▾
                     </span>
 
@@ -113,130 +128,57 @@
 
 
                 <!-- =================================================
-                     LANGUAGE DROPDOWN
+                     LANGUAGE MENU
                      ================================================= -->
 
                 <div
-                        id="languageModal"
-                        class="language-modal"
+                        class="language-menu"
+                        id="languageMenu"
+                        role="listbox"
                         hidden
                 >
 
 
-                    <section class="language-modal-card">
+                    <!-- NORWEGIAN -->
+
+                    <button
+                            type="button"
+                            class="language-option"
+                            data-language="no"
+                            role="option"
+                            aria-selected="true"
+                    >
+
+                        <span class="language-option-flag">
+                            🇳🇴
+                        </span>
+
+                        <span class="language-option-code">
+                            NO
+                        </span>
+
+                    </button>
 
 
-                        <!-- =========================================
-                             SEARCH
-                             ========================================= -->
+                    <!-- ENGLISH -->
 
-                        <div class="language-search-wrapper">
+                    <button
+                            type="button"
+                            class="language-option"
+                            data-language="en"
+                            role="option"
+                            aria-selected="false"
+                    >
 
+                        <span class="language-option-flag">
+                            🇬🇧
+                        </span>
 
-                            <span class="language-search-icon">
-                                🔍
-                            </span>
+                        <span class="language-option-code">
+                            EN
+                        </span>
 
-
-                            <input
-                                    type="search"
-                                    id="languageSearchInput"
-                                    class="language-search-input"
-                                    placeholder="Søk etter språk..."
-                                    data-i18n-placeholder="languageSearchPlaceholder"
-                                    autocomplete="off"
-                                    aria-label="Søk etter språk"
-                                    data-i18n-aria-label="languageSearchAriaLabel"
-                            >
-
-
-                            <button
-                                    type="button"
-                                    id="clearLanguageSearchButton"
-                                    class="language-search-clear"
-                                    aria-label="Tøm søk"
-                                    data-i18n-aria-label="clearLanguageSearch"
-                                    hidden
-                            >
-                                ×
-                            </button>
-
-
-                        </div>
-
-
-                        <!-- =========================================
-                             LANGUAGE RESULT INFO
-                             ========================================= -->
-
-                        <div class="language-list-info">
-
-                            <span id="languageResultText">
-                                Laster språk...
-                            </span>
-
-                        </div>
-
-
-                        <!-- =========================================
-                             LANGUAGE LIST
-                             ========================================= -->
-
-                        <div
-                                id="languageList"
-                                class="language-list"
-                                role="listbox"
-                                aria-label="Tilgjengelige språk"
-                                data-i18n-aria-label="availableLanguages"
-                        >
-
-
-                            <div class="language-loading-state">
-
-                                <span class="language-loading-icon">
-                                    🌐
-                                </span>
-
-                                <p data-i18n="loadingAvailableLanguages">
-                                    Laster tilgjengelige språk...
-                                </p>
-
-                            </div>
-
-
-                        </div>
-
-
-                        <!-- =========================================
-                             EMPTY SEARCH
-                             ========================================= -->
-
-                        <div
-                                id="languageSearchEmpty"
-                                class="language-search-empty"
-                                hidden
-                        >
-
-
-                            <div class="language-search-empty-icon">
-                                🔎
-                            </div>
-
-
-                            <h3 data-i18n="noLanguagesFound">
-                                Ingen språk funnet
-                            </h3>
-
-
-                            <p data-i18n="tryAnotherSearch">
-                                Prøv et annet søk.
-                            </p>
-
-
-                        </div>
-
-
-                    </section>
+                    </button>
 
 
                 </div>
@@ -557,8 +499,8 @@
 
 
             <!-- =================================================
-                 LOGIN BUTTON
-                 ================================================= -->
+     LOGIN BUTTON
+     ================================================= -->
 
             <button
                     type="submit"
@@ -644,18 +586,18 @@
 
 
 <!-- ============================================================
+     LANGUAGE
+     Load before auth so translations are available immediately
+     ============================================================ -->
+
+<script src="js/language.js?v=12"></script>
+
+
+<!-- ============================================================
      AUTH
      ============================================================ -->
 
 <script src="js/auth.js?v=3"></script>
-
-
-<!-- ============================================================
-     LANGUAGE
-     ============================================================ -->
-
-
-<script src="js/language.js?v=11"></script>
 
 
 </body>

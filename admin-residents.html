@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html lang="no">
+
 
 <head>
 
@@ -91,9 +93,7 @@
         <nav class="admin-sidebar-nav">
 
 
-            <!-- =============================================
-                 DASHBOARD
-                 ============================================= -->
+            <!-- DASHBOARD -->
 
             <a
                     href="admin.html"
@@ -111,9 +111,7 @@
             </a>
 
 
-            <!-- =============================================
-                 PROPERTIES
-                 ============================================= -->
+            <!-- PROPERTIES -->
 
             <a
                     href="properties.html"
@@ -131,9 +129,7 @@
             </a>
 
 
-            <!-- =============================================
-                 FLOORS
-                 ============================================= -->
+            <!-- FLOORS -->
 
             <a
                     href="properties.html"
@@ -151,9 +147,7 @@
             </a>
 
 
-            <!-- =============================================
-                 RESIDENTS
-                 ============================================= -->
+            <!-- RESIDENTS -->
 
             <a
                     href="admin-residents.html"
@@ -171,9 +165,7 @@
             </a>
 
 
-            <!-- =============================================
-                 CLEANING PLAN
-                 ============================================= -->
+            <!-- CLEANING PLAN -->
 
             <a
                     href="admin-cleaning-plan.html"
@@ -191,9 +183,7 @@
             </a>
 
 
-            <!-- =============================================
-                 USERS
-                 ============================================= -->
+            <!-- USERS -->
 
             <a
                     href="users.html"
@@ -211,9 +201,7 @@
             </a>
 
 
-            <!-- =============================================
-                 HISTORY
-                 ============================================= -->
+            <!-- HISTORY -->
 
             <button
                     type="button"
@@ -232,9 +220,7 @@
             </button>
 
 
-            <!-- =============================================
-                 SETTINGS
-                 ============================================= -->
+            <!-- SETTINGS -->
 
             <button
                     type="button"
@@ -298,9 +284,7 @@
         <header class="admin-main-header">
 
 
-            <!-- =============================================
-                 MOBILE MENU
-                 ============================================= -->
+            <!-- MOBILE MENU -->
 
             <div>
 
@@ -317,16 +301,12 @@
             </div>
 
 
-            <!-- =============================================
-                 PROFILE + LANGUAGE
-                 ============================================= -->
+            <!-- PROFILE + LANGUAGE -->
 
             <div class="admin-header-profile">
 
 
-                <!-- =========================================
-                     PROFILE TEXT
-                     ========================================= -->
+                <!-- PROFILE TEXT -->
 
                 <div class="admin-header-profile-text">
 
@@ -341,139 +321,92 @@
                 </div>
 
 
-                <!-- =========================================
-                     LANGUAGE SELECTOR
-                     ========================================= -->
+                <!-- =================================================
+                     SMALL LANGUAGE SWITCHER
+                     ================================================= -->
 
-                <div class="language-selector admin-language-selector">
-
+                <div
+                        class="language-switcher"
+                        id="languageSwitcher"
+                >
 
                     <button
-                            id="languageButton"
-                            class="language-button"
                             type="button"
-                            aria-haspopup="listbox"
+                            class="language-current"
+                            id="languageCurrentButton"
                             aria-expanded="false"
+                            aria-haspopup="true"
+                            data-i18n-aria-label="languageSelectorAria"
                     >
 
                         <span
-                                class="language-button-globe"
-                                aria-hidden="true"
+                                class="language-current-flag"
+                                id="currentLanguageFlag"
                         >
-                            🌐
-                        </span>
-
-                        <span id="selectedLanguageName">
-                            NO
+                            🇳🇴
                         </span>
 
                         <span
-                                class="language-button-chevron"
-                                aria-hidden="true"
+                                class="language-current-code"
+                                id="currentLanguageCode"
                         >
+                            NO
+                        </span>
+
+                        <span class="language-current-arrow">
                             ▾
                         </span>
 
                     </button>
 
 
-                    <!-- =====================================
-                         LANGUAGE MODAL
-                         ===================================== -->
-
                     <div
-                            id="languageModal"
-                            class="language-modal"
+                            class="language-menu"
+                            id="languageMenu"
+                            role="listbox"
                             hidden
                     >
 
+                        <!-- NORWEGIAN -->
 
-                        <!-- ================================
-                             SEARCH
-                             ================================ -->
-
-                        <div class="language-search-wrapper">
-
-                            <input
-                                    id="languageSearchInput"
-                                    class="language-search-input"
-                                    type="search"
-                                    placeholder="Søk etter språk..."
-                                    aria-label="Søk etter språk"
-                                    data-i18n-placeholder="languageSearchPlaceholder"
-                                    data-i18n-aria-label="languageSearchAriaLabel"
-                                    autocomplete="off"
-                            >
-
-
-                            <button
-                                    id="clearLanguageSearchButton"
-                                    class="language-search-clear"
-                                    type="button"
-                                    aria-label="Tøm søk"
-                                    data-i18n-aria-label="clearLanguageSearch"
-                                    hidden
-                            >
-                                ×
-                            </button>
-
-                        </div>
-
-
-                        <!-- ================================
-                             RESULT TEXT
-                             ================================ -->
-
-                        <div
-                                id="languageResultText"
-                                class="language-result-text"
-                                aria-live="polite"
-                        >
-                        </div>
-
-
-                        <!-- ================================
-                             LANGUAGE LIST
-                             ================================ -->
-
-                        <div
-                                id="languageList"
-                                class="language-list"
-                                role="listbox"
-                                aria-label="Tilgjengelige språk"
-                                data-i18n-aria-label="availableLanguages"
+                        <button
+                                type="button"
+                                class="language-option"
+                                data-language="no"
+                                role="option"
+                                aria-selected="true"
                         >
 
-                            <p
-                                    class="language-loading"
-                                    data-i18n="loadingAvailableLanguages"
-                            >
-                                Laster tilgjengelige språk...
-                            </p>
-
-                        </div>
-
-
-                        <!-- ================================
-                             EMPTY SEARCH
-                             ================================ -->
-
-                        <div
-                                id="languageSearchEmpty"
-                                class="language-search-empty"
-                                hidden
-                        >
-
-                            <strong data-i18n="noLanguagesFound">
-                                Ingen språk funnet
-                            </strong>
-
-                            <span data-i18n="tryAnotherSearch">
-                                Prøv et annet søk.
+                            <span class="language-option-flag">
+                                🇳🇴
                             </span>
 
-                        </div>
+                            <span class="language-option-code">
+                                NO
+                            </span>
 
+                        </button>
+
+
+                        <!-- ENGLISH -->
+
+                        <button
+                                type="button"
+                                class="language-option"
+                                data-language="en"
+                                role="option"
+                                aria-selected="false"
+                        >
+
+                            <span class="language-option-flag">
+                                🇬🇧
+                            </span>
+
+                            <span class="language-option-code">
+                                EN
+                            </span>
+
+                        </button>
 
                     </div>
 
@@ -481,9 +414,7 @@
                 </div>
 
 
-                <!-- =========================================
-                     AVATAR
-                     ========================================= -->
+                <!-- PROFILE AVATAR -->
 
                 <div class="admin-profile-avatar">
 
@@ -597,9 +528,7 @@
                     <form id="residentForm">
 
 
-                        <!-- =========================================
-                             USER PROFILE
-                             ========================================= -->
+                        <!-- USER PROFILE -->
 
                         <div class="form-group admin-resident-form-group">
 
@@ -629,9 +558,7 @@
                         </div>
 
 
-                        <!-- =========================================
-                             PROPERTY
-                             ========================================= -->
+                        <!-- PROPERTY -->
 
                         <div class="form-group admin-resident-form-group">
 
@@ -661,9 +588,7 @@
                         </div>
 
 
-                        <!-- =========================================
-                             FLOOR
-                             ========================================= -->
+                        <!-- FLOOR -->
 
                         <div class="form-group admin-resident-form-group">
 
@@ -694,9 +619,7 @@
                         </div>
 
 
-                        <!-- =========================================
-                             SAVE
-                             ========================================= -->
+                        <!-- SAVE -->
 
                         <button
                                 type="submit"
@@ -727,10 +650,9 @@
 
                 </section>
 
-
                 <!-- =================================================
-                     RESIDENT LIST
-                     ================================================= -->
+     RESIDENT LIST
+     ================================================= -->
 
                 <section class="dashboard-card admin-resident-list-card">
 
@@ -972,7 +894,7 @@
      Must load before admin-residents.js
      ========================================================= -->
 
-<script src="js/language.js?v=11"></script>
+<script src="js/language.js?v=12"></script>
 
 
 <!-- =========================================================
@@ -1180,7 +1102,6 @@
 
             }
 
-
             // =================================================
             // HISTORY
             // =================================================
@@ -1282,5 +1203,6 @@
 
 
 </body>
+
 
 </html>
