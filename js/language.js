@@ -558,11 +558,37 @@ document.addEventListener(
                 residentCleaningEyebrow:
                     "RENGJØRINGSPLAN",
 
+                overview: "OVERSIKT",
+                residentDashboardTitle: "Min oversikt",
+
                 residentCleaningDescription:
                     "Se rengjøringsuker, oppgaver og hvem som er ansvarlig.",
 
                 residentDashboardDescription:
                     "Velg området du vil åpne.",
+
+
+                residentPropertyCardDescription:
+                    "Se registrert bolig, adresse og etasje.",
+
+                residentOpenProperty:
+                    "Åpne bolig",
+
+                residentCleaningCardDescription:
+                    "Se rengjøringsuker, oppgaver og hvem som er ansvarlig.",
+
+                residentOpenCleaning:
+                    "Åpne rengjøringsplan",
+
+                residentPhotosTitle:
+                    "Bilder",
+
+                residentPhotosDescription:
+                    "Dokumenter rengjøringen med bilder fra kameraet.",
+
+                residentOpenPhotos:
+                    "Åpne bilder",
+
 
                 residentLoadingDescription:
                     "Henter kontoen og rengjøringsplanen din.",
@@ -1824,11 +1850,36 @@ document.addEventListener(
                 residentCleaningEyebrow:
                     "CLEANING SCHEDULE",
 
+                overview: "OVERVIEW",
+                residentDashboardTitle: "My overview",
+
                 residentCleaningDescription:
                     "View cleaning weeks, tasks and who is responsible.",
 
                 residentDashboardDescription:
                     "Choose the section you want to open.",
+
+
+                residentPropertyCardDescription:
+                    "View your registered property, address and floor.",
+
+                residentOpenProperty:
+                    "Open property",
+
+                residentCleaningCardDescription:
+                    "View cleaning weeks, tasks and who is responsible.",
+
+                residentOpenCleaning:
+                    "Open cleaning schedule",
+
+                residentPhotosTitle:
+                    "Photos",
+
+                residentPhotosDescription:
+                    "Document cleaning with photos from your camera.",
+
+                residentOpenPhotos:
+                    "Open photos",
 
                 residentLoadingDescription:
                     "Loading your account and cleaning schedule.",
