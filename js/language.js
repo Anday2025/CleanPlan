@@ -555,6 +555,15 @@ document.addEventListener(
                 loading:
                     "Laster...",
 
+                residentCleaningEyebrow:
+                    "RENGJØRINGSPLAN",
+
+                residentCleaningDescription:
+                    "Se rengjøringsuker, oppgaver og hvem som er ansvarlig.",
+
+                residentDashboardDescription:
+                    "Velg området du vil åpne.",
+
                 residentLoadingDescription:
                     "Henter kontoen og rengjøringsplanen din.",
 
@@ -1811,6 +1820,15 @@ document.addEventListener(
 
                 loading:
                     "Loading...",
+
+                residentCleaningEyebrow:
+                    "CLEANING SCHEDULE",
+
+                residentCleaningDescription:
+                    "View cleaning weeks, tasks and who is responsible.",
+
+                residentDashboardDescription:
+                    "Choose the section you want to open.",
 
                 residentLoadingDescription:
                     "Loading your account and cleaning schedule.",
