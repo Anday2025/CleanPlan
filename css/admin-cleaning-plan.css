@@ -1,0 +1,1613 @@
+/* ============================================================
+   CLEANPLAN
+   ADMIN-CLEANING-PLAN.CSS
+
+   DEL 1
+
+   CLEANING PLAN
+   TASK MANAGEMENT
+   ============================================================ */
+
+
+/* ============================================================
+   CLEANING PLAN ADMIN CARD
+   ============================================================ */
+
+.admin-cleaning-plan-card {
+
+    width: 100%;
+
+    overflow: hidden;
+
+    border:
+            1px solid #e2e7ee;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 5px 18px
+            rgba(
+                    30,
+                    50,
+                    80,
+                    0.05
+            );
+
+}
+
+
+/* ============================================================
+   CLEANING PLAN HEADER
+   ============================================================ */
+
+.admin-cleaning-plan-header {
+
+    min-height: 78px;
+
+    padding:
+            18px 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+    border-bottom:
+            1px solid #e8ecf1;
+
+}
+
+
+.admin-cleaning-plan-header h2 {
+
+    margin:
+            0 0 4px;
+
+    color: #344054;
+
+    font-size: 14px;
+
+}
+
+
+.admin-cleaning-plan-header p {
+
+    min-height: 0;
+
+    margin: 0;
+
+    color: #8b95a5;
+
+    font-size: 9px;
+
+    line-height: 1.45;
+
+}
+
+
+/* ============================================================
+   CLEANING PLAN FORM
+   ============================================================ */
+
+.admin-cleaning-plan-form {
+
+    padding: 20px;
+
+    border-bottom:
+            1px solid #edf0f4;
+
+}
+
+
+/* ============================================================
+   CLEANING PLAN FORM GRID
+   ============================================================ */
+
+.admin-cleaning-plan-form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+            repeat(
+                    2,
+                    minmax(0, 1fr)
+            );
+
+    gap: 14px;
+
+}
+
+
+.admin-cleaning-plan-form-grid
+.form-group.full-width {
+
+    grid-column:
+            1 / -1;
+
+}
+
+
+/* ============================================================
+   CLEANING PLAN FORM ACTIONS
+   ============================================================ */
+
+.admin-cleaning-plan-form-actions {
+
+    margin-top: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK SECTION
+   ============================================================ */
+
+.admin-cleaning-task-section {
+
+    min-width: 0;
+
+    padding: 20px;
+
+    border-bottom:
+            1px solid #edf0f4;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK SECTION HEADER
+   ============================================================ */
+
+.admin-cleaning-task-section-header {
+
+    margin-bottom: 14px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 14px;
+
+}
+
+
+.admin-cleaning-task-section-header h3 {
+
+    margin:
+            0 0 4px;
+
+    color: #344054;
+
+    font-size: 12px;
+
+}
+
+
+.admin-cleaning-task-section-header p {
+
+    min-height: 0;
+
+    margin: 0;
+
+    color: #8b95a5;
+
+    font-size: 9px;
+
+    line-height: 1.45;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK TABLE WRAPPER
+   ============================================================ */
+
+.admin-cleaning-task-table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    border:
+            1px solid #e5e9ef;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK TABLE
+   ============================================================ */
+
+.admin-cleaning-task-table {
+
+    width: 100%;
+
+    min-width: 650px;
+
+    border-collapse: collapse;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK TABLE HEADER
+   ============================================================ */
+
+.admin-cleaning-task-table th {
+
+    padding:
+            10px 9px;
+
+    border-bottom:
+            1px solid #e3e7ed;
+
+    background: #f8fafc;
+
+    color: #7a8495;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.3px;
+
+    text-align: left;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK TABLE CELL
+   ============================================================ */
+
+.admin-cleaning-task-table td {
+
+    padding:
+            10px 9px;
+
+    border-bottom:
+            1px solid #edf0f4;
+
+    color: #4b5565;
+
+    font-size: 9px;
+
+    line-height: 1.45;
+
+    vertical-align: middle;
+
+}
+
+
+.admin-cleaning-task-table
+tbody
+tr:last-child
+td {
+
+    border-bottom: 0;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK ROW
+   ============================================================ */
+
+.admin-cleaning-task-row {
+
+    background: #ffffff;
+
+    transition:
+            background 0.15s ease;
+
+}
+
+
+.admin-cleaning-task-row:hover {
+
+    background: #fafbfd;
+
+}
+
+
+/* ============================================================
+   DRAGGING TASK ROW
+   ============================================================ */
+
+.admin-cleaning-task-row.dragging {
+
+    opacity: 0.55;
+
+    background: #f4f7fb;
+
+}
+
+
+/* ============================================================
+   DRAG HANDLE
+   ============================================================ */
+
+.admin-cleaning-task-drag-handle {
+
+    width: 28px;
+
+    min-width: 28px;
+
+    height: 28px;
+
+    padding: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+            1px solid #e1e6ec;
+
+    border-radius: 6px;
+
+    background: #ffffff;
+
+    color: #8b95a5;
+
+    font-size: 13px;
+
+    cursor: grab;
+
+    user-select: none;
+
+}
+
+
+.admin-cleaning-task-drag-handle:hover {
+
+    border-color: #d2dae4;
+
+    background: #f6f8fa;
+
+    color: #526275;
+
+}
+
+
+.admin-cleaning-task-drag-handle:active {
+
+    cursor: grabbing;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK ORDER
+   ============================================================ */
+
+.admin-cleaning-task-order {
+
+    width: 32px;
+
+    color: #8b95a5;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    text-align: center;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK NAME
+   ============================================================ */
+
+.admin-cleaning-task-name {
+
+    min-width: 180px;
+
+    color: #344054;
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK DESCRIPTION
+   ============================================================ */
+
+.admin-cleaning-task-description {
+
+    min-width: 220px;
+
+    color: #7d8798;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK ACTIONS
+   ============================================================ */
+
+.admin-cleaning-task-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    flex-wrap: wrap;
+
+    gap: 5px;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK EDIT BUTTON
+   ============================================================ */
+
+.admin-cleaning-task-edit {
+
+    border-color: #dce3eb;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK DELETE BUTTON
+   ============================================================ */
+
+.admin-cleaning-task-delete {
+
+    border-color: #edcaca;
+
+    color: #b42318;
+
+}
+
+
+.admin-cleaning-task-delete:hover {
+
+    border-color: #e0adad;
+
+    background: #fff5f5;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK FORM
+   ============================================================ */
+
+.admin-cleaning-task-form {
+
+    margin-top: 15px;
+
+    padding: 15px;
+
+    border:
+            1px solid #e5e9ef;
+
+    border-radius: 9px;
+
+    background: #fafbfd;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK FORM GRID
+   ============================================================ */
+
+.admin-cleaning-task-form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+            minmax(0, 1fr)
+            minmax(0, 1.5fr);
+
+    gap: 12px;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK FORM ACTIONS
+   ============================================================ */
+
+.admin-cleaning-task-form-actions {
+
+    margin-top: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+}
+
+
+/* ============================================================
+   CLEANING MEMBERS SECTION
+   ============================================================ */
+
+.admin-cleaning-members {
+
+    padding: 20px;
+
+    border-bottom:
+            1px solid #edf0f4;
+
+}
+
+
+/* ============================================================
+   CLEANPLAN
+   ADMIN-CLEANING-PLAN.CSS
+
+   DEL 2
+
+   CLEANING MEMBERS
+   CLEANING PREVIEW
+   ============================================================ */
+
+
+/* ============================================================
+   CLEANING MEMBERS HEADER
+   ============================================================ */
+
+.admin-cleaning-members-header {
+
+    margin-bottom: 14px;
+
+}
+
+
+.admin-cleaning-members-header h3 {
+
+    margin:
+            0 0 4px;
+
+    color: #344054;
+
+    font-size: 12px;
+
+}
+
+
+.admin-cleaning-members-header p {
+
+    min-height: 0;
+
+    margin: 0;
+
+    color: #8b95a5;
+
+    font-size: 9px;
+
+    line-height: 1.45;
+
+}
+
+
+/* ============================================================
+   CLEANING MEMBERS LIST
+   ============================================================ */
+
+.admin-cleaning-members-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+}
+
+
+/* ============================================================
+   CLEANING MEMBER ROW
+   ============================================================ */
+
+.admin-cleaning-member-row {
+
+    min-height: 46px;
+
+    padding:
+            8px 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    border:
+            1px solid #e5e9ef;
+
+    border-radius: 8px;
+
+    background: #fafbfd;
+
+}
+
+
+/* ============================================================
+   CLEANING MEMBER INFO
+   ============================================================ */
+
+.admin-cleaning-member-info {
+
+    min-width: 0;
+
+}
+
+
+.admin-cleaning-member-info strong {
+
+    display: block;
+
+    overflow: hidden;
+
+    color: #344054;
+
+    font-size: 10px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+.admin-cleaning-member-info span {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: #8b95a5;
+
+    font-size: 8px;
+
+}
+
+
+/* ============================================================
+   CLEANING MEMBER ORDER
+   ============================================================ */
+
+.admin-cleaning-member-order {
+
+    min-width: 28px;
+
+    min-height: 24px;
+
+    padding:
+            4px 7px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 6px;
+
+    background: #eef2f6;
+
+    color: #526275;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+}
+
+
+/* ============================================================
+   CLEANING PREVIEW
+   ============================================================ */
+
+.admin-cleaning-preview {
+
+    padding: 20px;
+
+}
+
+
+/* ============================================================
+   CLEANING PREVIEW HEADER
+   ============================================================ */
+
+.admin-cleaning-preview-header {
+
+    margin-bottom: 14px;
+
+}
+
+
+.admin-cleaning-preview-header h3 {
+
+    margin:
+            0 0 4px;
+
+    color: #344054;
+
+    font-size: 12px;
+
+}
+
+
+.admin-cleaning-preview-header p {
+
+    min-height: 0;
+
+    margin: 0;
+
+    color: #8b95a5;
+
+    font-size: 9px;
+
+    line-height: 1.45;
+
+}
+
+
+/* ============================================================
+   CLEANING PREVIEW LIST
+   ============================================================ */
+
+.admin-cleaning-preview-list {
+
+    display: grid;
+
+    grid-template-columns:
+            repeat(
+                    2,
+                    minmax(0, 1fr)
+            );
+
+    gap: 8px;
+
+}
+
+
+/* ============================================================
+   CLEANING PREVIEW ITEM
+   ============================================================ */
+
+.admin-cleaning-preview-item {
+
+    min-width: 0;
+
+    min-height: 54px;
+
+    padding:
+            9px 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    border:
+            1px solid #e5e9ef;
+
+    border-radius: 8px;
+
+    background: #fafbfd;
+
+}
+
+
+/* ============================================================
+   CLEANING PREVIEW WEEK
+   ============================================================ */
+
+.admin-cleaning-preview-week {
+
+    min-width: 0;
+
+}
+
+
+.admin-cleaning-preview-week strong {
+
+    display: block;
+
+    color: #344054;
+
+    font-size: 9px;
+
+}
+
+
+.admin-cleaning-preview-week span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #8b95a5;
+
+    font-size: 8px;
+
+}
+
+
+/* ============================================================
+   CLEANING PREVIEW RESPONSIBLE
+   ============================================================ */
+
+.admin-cleaning-preview-responsible {
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #526275;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    text-align: right;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ============================================================
+   CLEANPLAN
+   ADMIN-CLEANING-PLAN.CSS
+
+   DEL 3
+
+   TYPOGRAPHY OVERRIDES
+   TASK MANAGEMENT PAGE
+   RESPONSIVE LAYOUT
+   ============================================================ */
+
+
+/* ============================================================
+   CLEANING PLAN HEADER TYPOGRAPHY
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-cleaning-plan-header h2,
+.admin-body
+.admin-cleaning-plan-header h2 {
+
+    font-size: 24px;
+
+    line-height: 1.3;
+
+}
+
+
+.admin-dashboard-body
+.admin-cleaning-plan-header p,
+.admin-body
+.admin-cleaning-plan-header p {
+
+    font-size: 16px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   CLEANING PLAN SECTION TYPOGRAPHY
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-cleaning-task-section-header h3,
+.admin-dashboard-body
+.admin-cleaning-members-header h3,
+.admin-dashboard-body
+.admin-cleaning-preview-header h3,
+.admin-body
+.admin-cleaning-task-section-header h3,
+.admin-body
+.admin-cleaning-members-header h3,
+.admin-body
+.admin-cleaning-preview-header h3 {
+
+    font-size: 20px;
+
+}
+
+
+.admin-dashboard-body
+.admin-cleaning-task-section-header p,
+.admin-dashboard-body
+.admin-cleaning-members-header p,
+.admin-dashboard-body
+.admin-cleaning-preview-header p,
+.admin-body
+.admin-cleaning-task-section-header p,
+.admin-body
+.admin-cleaning-members-header p,
+.admin-body
+.admin-cleaning-preview-header p {
+
+    font-size: 15px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   CLEANING MEMBER TYPOGRAPHY
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-cleaning-member-info strong,
+.admin-body
+.admin-cleaning-member-info strong {
+
+    font-size: 16px;
+
+}
+
+
+.admin-dashboard-body
+.admin-cleaning-member-info span,
+.admin-body
+.admin-cleaning-member-info span {
+
+    font-size: 14px;
+
+}
+
+
+.admin-dashboard-body
+.admin-cleaning-member-order,
+.admin-dashboard-body
+.admin-cleaning-task-order,
+.admin-body
+.admin-cleaning-member-order,
+.admin-body
+.admin-cleaning-task-order {
+
+    font-size: 14px;
+
+}
+
+
+/* ============================================================
+   CLEANING PREVIEW TYPOGRAPHY
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-cleaning-preview-week strong,
+.admin-body
+.admin-cleaning-preview-week strong {
+
+    font-size: 16px;
+
+}
+
+
+.admin-dashboard-body
+.admin-cleaning-preview-week span,
+.admin-dashboard-body
+.admin-cleaning-preview-responsible,
+.admin-body
+.admin-cleaning-preview-week span,
+.admin-body
+.admin-cleaning-preview-responsible {
+
+    font-size: 14px;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK TABLE TYPOGRAPHY
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-cleaning-task-table,
+.admin-dashboard-body
+.cleaning-task-table,
+.admin-body
+.admin-cleaning-task-table {
+
+    font-size: 16px;
+
+}
+
+
+.admin-dashboard-body
+.admin-cleaning-task-table th,
+.admin-dashboard-body
+.cleaning-task-table th,
+.admin-body
+.admin-cleaning-task-table th {
+
+    padding: 12px;
+
+    font-size: 15px;
+
+}
+
+
+.admin-dashboard-body
+.admin-cleaning-task-table td,
+.admin-dashboard-body
+.cleaning-task-table td,
+.admin-body
+.admin-cleaning-task-table td {
+
+    padding: 12px;
+
+    font-size: 16px;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK MANAGEMENT TYPOGRAPHY
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-cleaning-location-card label,
+.admin-dashboard-body
+.admin-cleaning-info-box p {
+
+    font-size: 16px;
+
+}
+
+
+.admin-dashboard-body
+.admin-cleaning-task-form-card h2,
+.admin-dashboard-body
+.admin-cleaning-task-list-header h2 {
+
+    font-size: 24px;
+
+}
+
+
+.admin-dashboard-body
+.admin-cleaning-task-list-header p {
+
+    font-size: 16px;
+
+}
+
+
+.admin-dashboard-body
+.admin-cleaning-task-cell strong {
+
+    font-size: 17px;
+
+}
+
+
+.admin-dashboard-body
+.cleaning-task-description {
+
+    font-size: 15px;
+
+}
+
+
+.admin-dashboard-body
+.admin-cleaning-drag-info {
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   CLEANING PLAN MAIN CONTENT
+   ============================================================ */
+
+.admin-cleaning-dashboard-main {
+
+    width:
+            min(
+                    1500px,
+                    calc(100% - 64px)
+            );
+
+    max-width: 1500px;
+
+    margin:
+            0 auto;
+
+    padding:
+            32px 0 48px;
+
+}
+
+
+/* ============================================================
+   CLEANING PAGE HEADER
+   ============================================================ */
+
+.admin-cleaning-dashboard-header {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 24px;
+
+    margin-bottom: 28px;
+
+}
+
+
+.admin-cleaning-dashboard-header > div {
+
+    min-width: 0;
+
+}
+
+
+.admin-cleaning-dashboard-header h1 {
+
+    margin:
+            4px 0 8px;
+
+}
+
+
+.admin-cleaning-dashboard-header p {
+
+    margin: 0;
+
+}
+
+
+/* ============================================================
+   PROPERTY / FLOOR / INFO
+   ============================================================ */
+
+.admin-cleaning-location-grid {
+
+    display: grid;
+
+    grid-template-columns:
+            minmax(220px, 1fr)
+            minmax(220px, 1fr)
+            minmax(320px, 1.35fr);
+
+    gap: 18px;
+
+    margin-bottom: 24px;
+
+}
+
+
+.admin-cleaning-location-card,
+.admin-cleaning-info-box {
+
+    min-width: 0;
+
+    padding: 20px;
+
+    border:
+            1px solid #e1e6ee;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+}
+
+
+.admin-cleaning-info-box {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+}
+
+
+.admin-cleaning-info-box p {
+
+    margin: 0;
+
+}
+
+
+.admin-cleaning-info-icon {
+
+    width: 30px;
+
+    height: 30px;
+
+    min-width: 30px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #f2f5f9;
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   TASK MANAGEMENT WORKSPACE
+   ============================================================ */
+
+.admin-cleaning-workspace {
+
+    display: grid;
+
+    grid-template-columns:
+            minmax(330px, 0.8fr)
+            minmax(520px, 1.5fr);
+
+    gap: 24px;
+
+    align-items: start;
+
+}
+
+
+.admin-cleaning-task-form-card,
+.admin-cleaning-task-list-card {
+
+    min-width: 0;
+
+    padding: 24px;
+
+    border:
+            1px solid #e1e6ee;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+}
+
+
+.admin-cleaning-task-form-card h2 {
+
+    margin:
+            0 0 22px;
+
+}
+
+
+#taskForm {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+}
+
+
+/* ============================================================
+   TASK ORDER
+   ============================================================ */
+
+.admin-cleaning-order-row {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 16px;
+
+}
+
+
+.admin-cleaning-order-group {
+
+    width: 140px;
+
+    flex-shrink: 0;
+
+}
+
+
+.admin-cleaning-order-row small {
+
+    padding-bottom: 11px;
+
+}
+
+
+/* ============================================================
+   TASK LIST HEADER
+   ============================================================ */
+
+.admin-cleaning-task-list-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+
+}
+
+
+.admin-cleaning-task-list-header h2 {
+
+    margin:
+            0 0 4px;
+
+}
+
+
+.admin-cleaning-task-list-header p {
+
+    margin: 0;
+
+}
+
+
+/* ============================================================
+   CLEANING TASK TABLE
+   ============================================================ */
+
+.admin-cleaning-task-list-card
+.table-wrapper {
+
+    width: 100%;
+
+    max-width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+.cleaning-task-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+
+.cleaning-task-table th {
+
+    padding:
+            13px 12px;
+
+    text-align: left;
+
+    border-bottom:
+            1px solid #dfe5ec;
+
+}
+
+
+.cleaning-task-table td {
+
+    padding:
+            13px 12px;
+
+    vertical-align: middle;
+
+    border-bottom:
+            1px solid #edf0f4;
+
+}
+
+
+.admin-cleaning-drag-column {
+
+    width: 42px;
+
+}
+
+
+.admin-cleaning-number-column {
+
+    width: 50px;
+
+}
+
+
+.admin-cleaning-actions-column {
+
+    width: 190px;
+
+}
+
+
+.table-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    flex-wrap: nowrap;
+
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+    .admin-cleaning-location-grid {
+
+        grid-template-columns:
+                repeat(
+                        2,
+                        minmax(0, 1fr)
+                );
+
+    }
+
+
+    .admin-cleaning-info-box {
+
+        grid-column:
+                1 / -1;
+
+    }
+
+
+    .admin-cleaning-workspace {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .admin-cleaning-dashboard-main {
+
+        width:
+                calc(100% - 28px);
+
+        padding:
+                20px 0 36px;
+
+    }
+
+
+    .admin-cleaning-dashboard-header {
+
+        flex-direction: column;
+
+    }
+
+
+    .admin-cleaning-location-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .admin-cleaning-info-box {
+
+        grid-column: auto;
+
+    }
+
+
+    .admin-cleaning-task-form-card,
+    .admin-cleaning-task-list-card {
+
+        padding: 18px;
+
+    }
+
+
+    .admin-cleaning-order-row {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+
+    .admin-cleaning-order-group {
+
+        width: 100%;
+
+    }
+
+
+    .admin-cleaning-order-row small {
+
+        padding-bottom: 0;
+
+    }
+
+
+    .table-actions {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+}
+
+
+
+

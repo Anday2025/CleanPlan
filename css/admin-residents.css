@@ -1,0 +1,802 @@
+/* ============================================================
+   CLEANPLAN
+   ADMIN-RESIDENTS.CSS
+
+   DEL 1
+
+   RESIDENT LIST
+   SEARCH
+   RESIDENT ROWS
+   ============================================================ */
+
+
+/* ============================================================
+   ADMIN RESIDENT LIST CARD
+   ============================================================ */
+
+.admin-resident-list-card {
+
+    width: 100%;
+
+    margin-top: 24px;
+
+    overflow: hidden;
+
+    border:
+            1px solid #e2e7ee;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 5px 18px
+            rgba(
+                    30,
+                    50,
+                    80,
+                    0.05
+            );
+
+}
+
+
+/* ============================================================
+   ADMIN RESIDENT LIST HEADER
+   ============================================================ */
+
+.admin-resident-list-header {
+
+    min-height: 78px;
+
+    padding:
+            18px 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+}
+
+
+.admin-resident-list-heading {
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+
+.admin-resident-list-icon {
+
+    width: 38px;
+
+    height: 38px;
+
+    flex:
+            0 0 38px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+            1px solid #e3e8ee;
+
+    border-radius: 9px;
+
+    background: #f6f8fb;
+
+    font-size: 17px;
+
+}
+
+
+.admin-resident-list-title {
+
+    min-width: 0;
+
+}
+
+
+.admin-resident-title-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+}
+
+
+.admin-resident-list-title h2 {
+
+    margin: 0;
+
+    color: #344054;
+
+    font-size: 14px;
+
+}
+
+
+.admin-resident-list-title p {
+
+    min-height: 0;
+
+    margin:
+            4px 0 0;
+
+    color: #8b95a5;
+
+    font-size: 9px;
+
+    line-height: 1.4;
+
+}
+
+
+/* ============================================================
+   ADMIN RESIDENT COUNT
+   ============================================================ */
+
+.admin-resident-count {
+
+    min-width: 23px;
+
+    min-height: 20px;
+
+    padding:
+            3px 6px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 999px;
+
+    background: #edf2f7;
+
+    color: #526275;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+}
+
+
+/* ============================================================
+   ADMIN RESIDENT TOGGLE
+   ============================================================ */
+
+.admin-residents-toggle-button {
+
+    min-height: 34px;
+
+    padding:
+            7px 11px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #526275;
+
+    font-family: inherit;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+.admin-residents-toggle-button:hover {
+
+    background: #f6f8fa;
+
+}
+
+
+.admin-residents-toggle-icon {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 9px;
+
+    transition:
+            transform 0.15s ease;
+
+}
+
+
+.admin-residents-toggle-button[aria-expanded="true"]
+.admin-residents-toggle-icon {
+
+    transform:
+            rotate(180deg);
+
+}
+
+
+/* ============================================================
+   REGISTERED RESIDENTS CONTENT
+   ============================================================ */
+
+.admin-registered-residents-content {
+
+    padding:
+            0 20px 18px;
+
+    border-top:
+            1px solid #edf0f4;
+
+}
+
+
+.admin-registered-residents-content[hidden] {
+
+    display: none !important;
+
+}
+
+
+/* ============================================================
+   ADMIN RESIDENT SEARCH
+   ============================================================ */
+
+.admin-residents-search-row {
+
+    padding:
+            14px 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 14px;
+
+    border-bottom:
+            1px solid #edf0f4;
+
+}
+
+
+.admin-residents-search-field {
+
+    position: relative;
+
+    width:
+            min(
+                    390px,
+                    100%
+            );
+
+}
+
+
+.admin-residents-search-icon {
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 11px;
+
+    transform:
+            translateY(-50%);
+
+    color: #98a2b3;
+
+    font-size: 12px;
+
+    pointer-events: none;
+
+}
+
+
+.admin-residents-search-input {
+
+    width: 100%;
+
+    height: 36px;
+
+    padding:
+            0 34px 0 32px;
+
+    border:
+            1px solid #dfe5ec;
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #344054;
+
+    font-family: inherit;
+
+    font-size: 10px;
+
+}
+
+
+.admin-residents-search-input:focus {
+
+    border-color: #a9b7c7;
+
+    box-shadow:
+            0 0 0 3px
+            rgba(
+                    70,
+                    100,
+                    135,
+                    0.07
+            );
+
+}
+
+
+.admin-residents-search-clear {
+
+    position: absolute;
+
+    top: 50%;
+
+    right: 8px;
+
+    width: 21px;
+
+    height: 21px;
+
+    padding: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transform:
+            translateY(-50%);
+
+    border: 0;
+
+    border-radius: 5px;
+
+    background: transparent;
+
+    color: #98a2b3;
+
+    cursor: pointer;
+
+}
+
+
+.admin-residents-search-clear:hover {
+
+    background: #eef2f6;
+
+    color: #526275;
+
+}
+
+
+.admin-residents-search-clear[hidden] {
+
+    display: none !important;
+
+}
+
+
+.admin-residents-search-info {
+
+    flex-shrink: 0;
+
+    color: #8b95a5;
+
+    font-size: 9px;
+
+}
+
+
+/* ============================================================
+   ADMIN RESIDENT ROW
+   ============================================================ */
+
+.admin-resident-list-card
+.admin-resident-row {
+
+    min-height: 70px;
+
+    padding:
+            13px 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+    border-bottom:
+            1px solid #edf0f4;
+
+}
+
+
+.admin-resident-list-card
+.admin-resident-row:last-child {
+
+    border-bottom: 0;
+
+}
+
+
+#residentList
+.admin-resident-row[hidden] {
+
+    display: none !important;
+
+}
+
+
+/* ============================================================
+   ADMIN RESIDENT MAIN
+   ============================================================ */
+
+.admin-resident-main {
+
+    min-width: 0;
+
+    flex: 1;
+
+}
+
+
+.admin-resident-main h3 {
+
+    margin:
+            0 0 4px;
+
+    color: #344054;
+
+    font-size: 11px;
+
+}
+
+
+.admin-resident-main p {
+
+    min-height: 0;
+
+    margin: 0;
+
+    color: #8b95a5;
+
+    font-size: 9px;
+
+    line-height: 1.45;
+
+}
+
+
+/* ============================================================
+   GENERIC RESIDENT ITEM
+   ============================================================ */
+
+.resident-item {
+
+    padding:
+            18px 0;
+
+    border-bottom:
+            1px solid #e8ebf1;
+
+}
+
+
+.resident-item:last-child {
+
+    border-bottom: 0;
+
+}
+
+
+.resident-item h3 {
+
+    margin:
+            0 0 7px;
+
+    font-size: 17px;
+
+}
+
+
+.resident-item p {
+
+    min-height: 0;
+
+    margin:
+            4px 0;
+
+    color: #667085;
+
+    font-size: 14px;
+
+}
+
+
+/* ============================================================
+   ADMIN RESIDENT SEARCH EMPTY
+   ============================================================ */
+
+.admin-resident-search-empty {
+
+    padding:
+            30px 20px;
+
+    text-align: center;
+
+}
+
+
+.admin-resident-search-empty[hidden] {
+
+    display: none !important;
+
+}
+
+
+.admin-resident-search-empty-icon {
+
+    margin-bottom: 8px;
+
+    font-size: 25px;
+
+}
+
+
+.admin-resident-search-empty h3 {
+
+    margin:
+            0 0 5px;
+
+    color: #344054;
+
+    font-size: 13px;
+
+}
+
+
+.admin-resident-list-card
+.admin-resident-search-empty p {
+
+    min-height: 0;
+
+    margin: 0;
+
+    color: #8b95a5;
+
+    font-size: 10px;
+
+}
+
+
+/* ============================================================
+   RESIDENT SEARCH SAFETY
+   ============================================================ */
+
+.admin-residents-search-input {
+
+    box-sizing: border-box;
+
+}
+
+
+.admin-resident-main {
+
+    overflow-wrap: anywhere;
+
+}
+
+/* ============================================================
+   CLEANPLAN
+   ADMIN-RESIDENTS.CSS
+
+   DEL 2
+
+   FINAL TYPOGRAPHY OVERRIDES
+   ============================================================ */
+
+
+/* ============================================================
+   RESIDENT LIST HEADER
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-resident-list-title h2,
+.admin-body
+.admin-resident-list-title h2 {
+
+    font-size: 24px;
+
+    line-height: 1.3;
+
+}
+
+
+.admin-dashboard-body
+.admin-resident-list-title p,
+.admin-body
+.admin-resident-list-title p {
+
+    font-size: 16px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   RESIDENT SEARCH
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-residents-search-input,
+.admin-body
+.admin-residents-search-input {
+
+    min-height: 44px;
+
+    font-size: 16px;
+
+}
+
+
+.admin-dashboard-body
+.admin-residents-search-info,
+.admin-body
+.admin-residents-search-info {
+
+    font-size: 14px;
+
+}
+
+
+.admin-dashboard-body
+.admin-residents-search-icon,
+.admin-body
+.admin-residents-search-icon {
+
+    font-size: 16px;
+
+}
+
+
+/* ============================================================
+   RESIDENT CONTENT
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-resident-main h3,
+.admin-body
+.admin-resident-main h3 {
+
+    font-size: 18px;
+
+}
+
+
+.admin-dashboard-body
+.admin-resident-main p,
+.admin-body
+.admin-resident-main p {
+
+    font-size: 15px;
+
+    line-height: 1.5;
+
+}
+
+
+/* ============================================================
+   RESIDENT COUNT
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-resident-count,
+.admin-body
+.admin-resident-count {
+
+    font-size: 14px;
+
+}
+
+
+/* ============================================================
+   RESIDENT TOGGLE
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-residents-toggle-button,
+.admin-body
+.admin-residents-toggle-button {
+
+    font-size: 15px;
+
+}
+
+
+.admin-dashboard-body
+.admin-residents-toggle-icon,
+.admin-body
+.admin-residents-toggle-icon {
+
+    font-size: 14px;
+
+}
+
+
+/* ============================================================
+   RESIDENT SEARCH EMPTY STATE
+   ============================================================ */
+
+.admin-dashboard-body
+.admin-resident-search-empty h3,
+.admin-body
+.admin-resident-search-empty h3 {
+
+    font-size: 19px;
+
+}
+
+
+.admin-dashboard-body
+.admin-resident-search-empty p,
+.admin-body
+.admin-resident-search-empty p {
+
+    font-size: 15px;
+
+    line-height: 1.5;
+
+}
+
+

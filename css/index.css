@@ -1,0 +1,2128 @@
+/* ============================================================
+   CLEANPLAN
+   INDEX.CSS
+
+   DEL 1
+
+   LANDING PAGE
+   HEADER
+   HERO
+   BENEFITS
+   FEATURES
+   ============================================================ */
+
+
+/* ============================================================
+   LANDING BODY
+   ============================================================ */
+
+.landing-body {
+
+    margin: 0;
+
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+    background:
+            linear-gradient(
+                    90deg,
+                    rgba(242, 249, 255, 0.94) 0%,
+                    rgba(242, 249, 255, 0.86) 21%,
+                    rgba(242, 249, 255, 0.62) 38%,
+                    rgba(255, 255, 255, 0.20) 54%,
+                    rgba(255, 255, 255, 0.04) 100%
+            ),
+            url("../images/apartment-login.jpg")
+            center center / cover
+            no-repeat;
+
+    color: #11294a;
+
+}
+
+
+/* ============================================================
+   LANDING PAGE
+   ============================================================ */
+
+.landing-page {
+
+    position: relative;
+
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+}
+
+
+/* ============================================================
+   LANDING OVERLAY
+   ============================================================ */
+
+.landing-page::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+            linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.10) 0%,
+                    rgba(255, 255, 255, 0.04) 40%,
+                    rgba(255, 255, 255, 0) 70%
+            );
+
+}
+
+
+/* ============================================================
+   LANDING HEADER
+   ============================================================ */
+
+.landing-header {
+
+    position: relative;
+
+    z-index: 100;
+
+    width:
+            min(
+                    1450px,
+                    calc(100% - 90px)
+            );
+
+    min-height: 125px;
+
+    margin:
+            0 auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 28px;
+
+}
+
+
+/* ============================================================
+   LANDING BRAND
+   ============================================================ */
+
+.landing-brand {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    color: #12345a;
+
+    font-size: 22px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.4px;
+
+}
+
+
+.landing-brand-icon {
+
+    width: 34px;
+
+    height: 34px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    font-size: 24px;
+
+}
+
+
+/* ============================================================
+   LANDING HEADER ACTIONS
+   ============================================================ */
+
+.landing-header-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+}
+
+
+/* ============================================================
+   LANDING HEADER LOGIN BUTTON
+   ============================================================ */
+
+.landing-header-login-button {
+
+    box-sizing: border-box;
+
+    height: 40px;
+
+    min-height: 40px;
+
+    padding:
+            0 15px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+            1px solid
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.72
+            );
+
+    border-radius: 9px;
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.78
+            );
+
+    color: #173b63;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    box-shadow:
+            0 5px 16px
+            rgba(
+                    30,
+                    60,
+                    95,
+                    0.08
+            );
+
+    backdrop-filter: blur(10px);
+
+    -webkit-backdrop-filter: blur(10px);
+
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            transform 0.15s ease,
+            box-shadow 0.15s ease;
+
+}
+
+
+.landing-header-login-button:hover {
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.94
+            );
+
+    border-color:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.95
+            );
+
+    transform:
+            translateY(-1px);
+
+    box-shadow:
+            0 7px 20px
+            rgba(
+                    30,
+                    60,
+                    95,
+                    0.12
+            );
+
+}
+
+
+/* ============================================================
+   LANDING CONTENT
+   ============================================================ */
+
+.landing-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    width:
+            min(
+                    1450px,
+                    calc(100% - 90px)
+            );
+
+    margin:
+            0 auto;
+
+}
+
+
+.landing-content-without-login {
+
+    min-height:
+            calc(
+                    100vh - 125px
+            );
+
+    padding:
+            115px 0 130px;
+
+    display: flex;
+
+    align-items: flex-start;
+
+}
+
+
+/* ============================================================
+   LANDING INFO
+   ============================================================ */
+
+.landing-info {
+
+    width:
+            min(
+                    650px,
+                    100%
+            );
+
+}
+
+
+/* ============================================================
+   LANDING MAIN TITLE
+   ============================================================ */
+
+.landing-info h1 {
+
+    margin: 0;
+
+    max-width: 620px;
+
+    color: #112f51;
+
+    font-size:
+            clamp(
+                    43px,
+                    4.4vw,
+                    67px
+            );
+
+    font-weight: 800;
+
+    line-height: 1.05;
+
+    letter-spacing: -2.1px;
+
+}
+
+
+/* ============================================================
+   LANDING DESCRIPTION
+   ============================================================ */
+
+.landing-description {
+
+    width:
+            min(
+                    580px,
+                    100%
+            );
+
+    margin:
+            28px 0 0;
+
+    color: #486782;
+
+    font-size: 17px;
+
+    line-height: 1.65;
+
+}
+
+
+/* ============================================================
+   LANDING BENEFITS
+   ============================================================ */
+
+.landing-benefits {
+
+    margin-top: 22px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 5px;
+
+}
+
+
+/* ============================================================
+   BENEFIT ITEM
+   ============================================================ */
+
+.benefit-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #183957;
+
+    font-size: 15px;
+
+    font-weight: 500;
+
+    line-height: 1.4;
+
+}
+
+
+.benefit-check {
+
+    flex-shrink: 0;
+
+    color: #18783a;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+}
+
+
+/* ============================================================
+   LANDING FEATURE CARDS
+   ============================================================ */
+
+.landing-features {
+
+    margin-top: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+}
+
+
+.feature-card {
+
+    min-height: 38px;
+
+    padding:
+            8px 12px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    border:
+            1px solid
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.70
+            );
+
+    border-radius: 999px;
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.62
+            );
+
+    color: #294e70;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    box-shadow:
+            0 4px 14px
+            rgba(
+                    30,
+                    60,
+                    95,
+                    0.05
+            );
+
+    backdrop-filter: blur(8px);
+
+    -webkit-backdrop-filter: blur(8px);
+
+}
+
+
+.feature-icon {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    font-size: 14px;
+
+}
+
+
+.feature-label {
+
+    white-space: nowrap;
+
+}
+
+/* ============================================================
+   CLEANPLAN
+   INDEX.CSS
+
+   DEL 2
+
+   LANDING LOGIN MODAL
+   LOGIN FORM
+   FORGOT PASSWORD
+   ============================================================ */
+
+
+/* ============================================================
+   LANDING LOGIN MODAL
+   OUTER CONTAINER
+   ============================================================ */
+
+.landing-login-modal {
+
+    position: fixed;
+
+    z-index: 3000;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+}
+
+
+.landing-login-modal[hidden] {
+
+    display: none !important;
+
+}
+
+
+/* ============================================================
+   LANDING LOGIN MODAL BACKDROP
+   ============================================================ */
+
+.landing-login-modal-backdrop {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+            rgba(
+                    13,
+                    31,
+                    50,
+                    0.30
+            );
+
+    backdrop-filter:
+            blur(8px);
+
+    -webkit-backdrop-filter:
+            blur(8px);
+
+}
+
+
+/* ============================================================
+   LANDING LOGIN MODAL PANEL
+   ============================================================ */
+
+.landing-login-modal-panel {
+
+    position: relative;
+
+    z-index: 2;
+
+    width:
+            min(
+                    410px,
+                    100%
+            );
+
+    padding:
+            34px 32px 30px;
+
+    border:
+            1px solid
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.86
+            );
+
+    border-radius: 18px;
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.97
+            );
+
+    box-shadow:
+            0 28px 80px
+            rgba(
+                    15,
+                    35,
+                    60,
+                    0.24
+            );
+
+    backdrop-filter:
+            blur(14px);
+
+    -webkit-backdrop-filter:
+            blur(14px);
+
+}
+
+
+/* ============================================================
+   LOGIN MODAL CARD
+   ============================================================ */
+
+.landing-login-modal-card {
+
+    animation:
+            cleanplan-login-open
+            0.18s
+            ease-out;
+
+}
+
+
+/* ============================================================
+   LOGIN MODAL ANIMATION
+   ============================================================ */
+
+@keyframes cleanplan-login-open {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+                translateY(10px)
+                scale(0.985);
+
+    }
+
+
+    to {
+
+        opacity: 1;
+
+        transform:
+                translateY(0)
+                scale(1);
+
+    }
+
+}
+
+
+/* ============================================================
+   LOGIN MODAL CLOSE BUTTON
+   ============================================================ */
+
+.landing-login-modal-close {
+
+    position: absolute;
+
+    z-index: 3;
+
+    top: 14px;
+
+    right: 14px;
+
+    width: 34px;
+
+    height: 34px;
+
+    padding: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: #718096;
+
+    font-size: 24px;
+
+    font-weight: 400;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            color 0.15s ease,
+            transform 0.15s ease;
+
+}
+
+
+.landing-login-modal-close:hover {
+
+    background: #f1f4f8;
+
+    color: #172f50;
+
+    transform: rotate(4deg);
+
+}
+
+
+/* ============================================================
+   LOGIN MODAL TITLE
+   ============================================================ */
+
+.landing-login-modal-card h2 {
+
+    margin:
+            0 0 28px;
+
+    padding:
+            0 36px;
+
+    color: #112b4e;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    line-height: 1.25;
+
+    letter-spacing: -0.5px;
+
+    text-align: center;
+
+}
+
+
+/* ============================================================
+   LOGIN FORM
+   ============================================================ */
+
+#loginForm {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+}
+
+
+/* ============================================================
+   LANDING FORM GROUP
+   ============================================================ */
+
+.landing-form-group {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+}
+
+
+.landing-form-group label {
+
+    color: #344054;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+/* ============================================================
+   LANDING INPUT WRAPPER
+   ============================================================ */
+
+.landing-input-wrapper {
+
+    position: relative;
+
+    width: 100%;
+
+}
+
+
+.landing-input-icon {
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 12px;
+
+    z-index: 2;
+
+    transform:
+            translateY(-50%);
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #8190a2;
+
+    font-size: 13px;
+
+    pointer-events: none;
+
+}
+
+
+/* ============================================================
+   LANDING INPUT
+   ============================================================ */
+
+.landing-input-wrapper input {
+
+    width: 100%;
+
+    height: 44px;
+
+    padding:
+            0 13px 0 38px;
+
+    border:
+            1px solid #d9e0e8;
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #172033;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    transition:
+            border-color 0.15s ease,
+            box-shadow 0.15s ease,
+            background 0.15s ease;
+
+}
+
+
+.landing-input-wrapper input::placeholder {
+
+    color: #9aa4b2;
+
+}
+
+
+.landing-input-wrapper input:focus {
+
+    border-color: #5b86b3;
+
+    background: #ffffff;
+
+    box-shadow:
+            0 0 0 3px
+            rgba(
+                    72,
+                    116,
+                    161,
+                    0.10
+            );
+
+}
+
+
+/* ============================================================
+   LOGIN SUBMIT BUTTON
+   ============================================================ */
+
+.landing-login-button {
+
+    width: 100%;
+
+    min-height: 44px;
+
+    margin-top: 2px;
+
+    padding:
+            10px 15px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border:
+            1px solid
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.85
+            );
+
+    border-radius: 8px;
+
+    background:
+            linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #f4f8fb
+            );
+
+    color: #21496c;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    cursor: pointer;
+
+    box-shadow:
+            0 5px 16px
+            rgba(
+                    31,
+                    73,
+                    108,
+                    0.10
+            );
+
+    transition:
+            transform 0.15s ease,
+            box-shadow 0.15s ease,
+            background 0.15s ease,
+            opacity 0.15s ease;
+
+}
+
+
+.landing-login-button:hover {
+
+    transform:
+            translateY(-1px);
+
+    background: #ffffff;
+
+    box-shadow:
+            0 7px 20px
+            rgba(
+                    31,
+                    73,
+                    108,
+                    0.14
+            );
+
+}
+
+
+.landing-login-button:disabled {
+
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+}
+
+
+/* ============================================================
+   LOGIN DIVIDER
+   ============================================================ */
+
+.login-divider {
+
+    margin:
+            22px 0 16px;
+
+    display: grid;
+
+    grid-template-columns:
+            minmax(0, 1fr)
+            auto
+            minmax(0, 1fr);
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.login-divider > span:not(.login-divider-text) {
+
+    height: 1px;
+
+    background: #e1e6ed;
+
+}
+
+
+.login-divider-text {
+
+    color: #909aaa;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+}
+
+
+/* ============================================================
+   LANDING FORGOT PASSWORD
+   ============================================================ */
+
+.landing-forgot-button {
+
+    width: 100%;
+
+    min-height: 38px;
+
+    padding:
+            8px 10px;
+
+    border:
+            1px solid #e0e6ed;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #476b8e;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            color 0.15s ease;
+
+}
+
+
+.landing-forgot-button:hover {
+
+    background: #f7f9fc;
+
+    border-color: #d4dce5;
+
+    color: #294e70;
+
+}
+
+
+/* ============================================================
+   LOGIN MESSAGE
+   ============================================================ */
+
+#loginMessage {
+
+    min-height: 18px;
+
+    margin:
+            12px 0 0;
+
+    color: #667085;
+
+    font-size: 11px;
+
+    line-height: 1.45;
+
+}
+
+
+#loginMessage:empty {
+
+    display: none;
+
+}
+
+
+/* ============================================================
+   LOGIN MODAL BODY LOCK
+   ============================================================ */
+
+body.login-modal-open {
+
+    overflow: hidden;
+
+}
+
+
+/* ============================================================
+   CLEANPLAN
+   INDEX.CSS
+
+   DEL 3
+
+   RESPONSIVE LANDING PAGE
+   ============================================================ */
+
+
+/* ============================================================
+   LARGE DESKTOP
+   <= 1280px
+   ============================================================ */
+
+@media (max-width: 1280px) {
+
+    .landing-header {
+
+        width:
+                min(
+                        1180px,
+                        calc(100% - 56px)
+                );
+
+    }
+
+
+    .landing-content {
+
+        width:
+                min(
+                        1180px,
+                        calc(100% - 56px)
+                );
+
+    }
+
+
+    .landing-content-without-login {
+
+        padding:
+                95px 0 110px;
+
+    }
+
+
+    .landing-info {
+
+        width:
+                min(
+                        610px,
+                        100%
+                );
+
+    }
+
+
+    .landing-info h1 {
+
+        font-size:
+                clamp(
+                        41px,
+                        4.5vw,
+                        60px
+                );
+
+    }
+
+}
+
+
+/* ============================================================
+   SMALL DESKTOP / LARGE TABLET
+   <= 1100px
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+    .landing-content-without-login {
+
+        padding-top: 75px;
+
+    }
+
+
+    .landing-info {
+
+        width:
+                min(
+                        590px,
+                        100%
+                );
+
+    }
+
+
+    .landing-info h1 {
+
+        font-size:
+                clamp(
+                        39px,
+                        5vw,
+                        55px
+                );
+
+    }
+
+}
+
+
+/* ============================================================
+   TABLET
+   <= 900px
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .landing-header {
+
+        width:
+                calc(
+                        100% - 36px
+                );
+
+        min-height: 94px;
+
+    }
+
+
+    .landing-header-actions {
+
+        gap: 7px;
+
+    }
+
+
+    .landing-content {
+
+        width:
+                calc(
+                        100% - 36px
+                );
+
+    }
+
+
+    .landing-content-without-login {
+
+        min-height:
+                calc(
+                        100vh - 94px
+                );
+
+        padding:
+                65px 0 90px;
+
+    }
+
+
+    .landing-info {
+
+        width:
+                min(
+                        600px,
+                        100%
+                );
+
+    }
+
+
+    .landing-info h1 {
+
+        font-size:
+                clamp(
+                        38px,
+                        7vw,
+                        52px
+                );
+
+        letter-spacing: -1.6px;
+
+    }
+
+
+    .landing-benefits {
+
+        max-width: 560px;
+
+    }
+
+
+    .landing-features {
+
+        max-width: 600px;
+
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+   <= 700px
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .landing-header {
+
+        width:
+                calc(
+                        100% - 28px
+                );
+
+        min-height: 82px;
+
+        gap: 12px;
+
+    }
+
+
+    .landing-brand {
+
+        min-width: 0;
+
+    }
+
+
+    .landing-brand-text {
+
+        min-width: 0;
+
+    }
+
+
+    .landing-brand-text strong {
+
+        font-size: 14px;
+
+    }
+
+
+    .landing-brand-text span {
+
+        font-size: 8px;
+
+    }
+
+
+    .landing-header-actions {
+
+        gap: 5px;
+
+    }
+
+
+    .landing-header-login-button {
+
+        height: 38px;
+
+        min-height: 38px;
+
+        padding:
+                0 11px;
+
+        font-size: 10px;
+
+    }
+
+
+    .landing-content {
+
+        width:
+                calc(
+                        100% - 28px
+                );
+
+    }
+
+
+    .landing-content-without-login {
+
+        min-height:
+                calc(
+                        100vh - 82px
+                );
+
+        padding:
+                50px 0 70px;
+
+    }
+
+
+    .landing-info h1 {
+
+        max-width: 520px;
+
+        font-size:
+                clamp(
+                        34px,
+                        10vw,
+                        47px
+                );
+
+        letter-spacing: -1.4px;
+
+    }
+
+
+    .landing-description {
+
+        max-width: 520px;
+
+    }
+
+
+    .landing-benefits {
+
+        max-width: 520px;
+
+    }
+
+
+    .landing-features {
+
+        max-width: 520px;
+
+        grid-template-columns:
+                repeat(
+                        2,
+                        minmax(0, 1fr)
+                );
+
+    }
+
+
+    .landing-login-modal {
+
+        padding: 14px;
+
+    }
+
+
+    .landing-login-card {
+
+        width: 100%;
+
+        padding:
+                27px 22px;
+
+        border-radius: 15px;
+
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+   <= 520px
+   ============================================================ */
+
+@media (max-width: 520px) {
+
+    .landing-header {
+
+        width:
+                calc(
+                        100% - 20px
+                );
+
+        min-height: 74px;
+
+    }
+
+
+    .landing-brand-text span {
+
+        display: none;
+
+    }
+
+
+    .landing-header-login-button {
+
+        height: 35px;
+
+        min-height: 35px;
+
+        padding:
+                0 9px;
+
+        font-size: 9px;
+
+    }
+
+
+    .landing-content {
+
+        width:
+                calc(
+                        100% - 24px
+                );
+
+    }
+
+
+    .landing-content-without-login {
+
+        min-height:
+                calc(
+                        100vh - 74px
+                );
+
+        padding:
+                38px 0 55px;
+
+    }
+
+
+    .landing-info h1 {
+
+        font-size:
+                clamp(
+                        31px,
+                        11vw,
+                        42px
+                );
+
+        line-height: 1.07;
+
+        letter-spacing: -1.2px;
+
+    }
+
+
+    .landing-description {
+
+        font-size: 12px;
+
+    }
+
+
+    .landing-benefits {
+
+        gap: 8px;
+
+    }
+
+
+    .benefit-item {
+
+        align-items: flex-start;
+
+    }
+
+
+    .landing-features {
+
+        grid-template-columns:
+                1fr;
+
+    }
+
+
+    .landing-login-card {
+
+        padding:
+                25px 18px;
+
+    }
+
+
+    .landing-login-modal-close {
+
+        top: 10px;
+
+        right: 10px;
+
+    }
+
+}
+
+
+/* ============================================================
+   VERY SMALL MOBILE
+   <= 390px
+   ============================================================ */
+
+@media (max-width: 390px) {
+
+    .landing-header {
+
+        width:
+                calc(
+                        100% - 16px
+                );
+
+        gap: 7px;
+
+    }
+
+
+    .landing-brand-text strong {
+
+        font-size: 12px;
+
+    }
+
+
+    .landing-header-actions {
+
+        gap: 4px;
+
+    }
+
+
+    .landing-header-login-button {
+
+        padding:
+                0 7px;
+
+    }
+
+}
+
+
+/* ============================================================
+   SHORT VIEWPORT HEIGHT
+   ============================================================ */
+
+@media (max-height: 650px) and (min-width: 701px) {
+
+    .landing-content-without-login {
+
+        padding-top: 45px;
+
+        padding-bottom: 60px;
+
+    }
+
+
+    .landing-login-card {
+
+        max-height:
+                calc(
+                        100vh - 28px
+                );
+
+        overflow-y: auto;
+
+    }
+
+}
+
+
+/* ============================================================
+   CLEANPLAN
+   INDEX.CSS
+
+   DEL 4
+
+   LANDING FINAL SAFETY
+   FINAL OVERRIDES
+   ============================================================ */
+
+
+/* ============================================================
+   LANDING PAGE LAYER SAFETY
+   ============================================================ */
+
+.landing-page {
+
+    position: relative;
+
+    isolation: isolate;
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    overflow-x: hidden;
+
+}
+
+
+/* ============================================================
+   LANDING BACKGROUND
+   ============================================================ */
+
+.landing-overlay {
+
+    position: absolute;
+
+    z-index: 0;
+
+    inset: 0;
+
+    pointer-events: none;
+
+}
+
+
+/* ============================================================
+   LANDING HEADER
+   ============================================================ */
+
+.landing-header {
+
+    position: relative;
+
+    z-index: 100;
+
+}
+
+
+/* ============================================================
+   LANDING CONTENT
+   ============================================================ */
+
+.landing-content {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+/* ============================================================
+   LANDING CONTENT WITHOUT INLINE LOGIN
+   ============================================================ */
+
+.landing-content-without-login {
+
+    display: flex;
+
+    align-items: flex-start;
+
+}
+
+
+/* ============================================================
+   LANDING INFO SAFETY
+   ============================================================ */
+
+.landing-info {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   LANDING TITLE SAFETY
+   ============================================================ */
+
+.landing-info h1 {
+
+    overflow-wrap: normal;
+
+    word-break: normal;
+
+}
+
+
+/* ============================================================
+   LANDING BENEFITS
+   ============================================================ */
+
+.landing-benefits {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   LANDING BENEFIT ITEM
+   ============================================================ */
+
+.benefit-item {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   BENEFIT CHECK
+   ============================================================ */
+
+.benefit-check {
+
+    flex-shrink: 0;
+
+}
+
+
+/* ============================================================
+   LANDING FEATURES
+   ============================================================ */
+
+.landing-features {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   LANDING FEATURE CARD
+   ============================================================ */
+
+.feature-card {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   LANDING HEADER LOGIN BUTTON
+   ============================================================ */
+
+.landing-header-login-button {
+
+    box-sizing: border-box;
+
+    width: auto;
+
+    height: 40px;
+
+    min-height: 40px;
+
+    margin: 0;
+
+    padding:
+            0 15px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border:
+            1px solid
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.72
+            );
+
+    border-radius: 9px;
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.78
+            );
+
+    color: #173b63;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    white-space: nowrap;
+
+    box-shadow:
+            0 5px 16px
+            rgba(
+                    30,
+                    60,
+                    95,
+                    0.08
+            );
+
+    backdrop-filter:
+            blur(10px);
+
+    -webkit-backdrop-filter:
+            blur(10px);
+
+}
+
+
+/* ============================================================
+   LANDING HEADER LOGIN HOVER
+   ============================================================ */
+
+.landing-header-login-button:hover {
+
+    background:
+            rgba(
+                    255,
+                    255,
+                    255,
+                    0.96
+            );
+
+}
+
+
+/* ============================================================
+   LANDING LOGIN MODAL
+   ============================================================ */
+
+.landing-login-modal {
+
+    position: fixed;
+
+    z-index: 5000;
+
+    inset: 0;
+
+}
+
+
+.landing-login-modal[hidden] {
+
+    display: none !important;
+
+}
+
+
+/* ============================================================
+   LANDING LOGIN MODAL BACKDROP
+   ============================================================ */
+
+.landing-login-modal-backdrop {
+
+    position: absolute;
+
+    z-index: 0;
+
+    inset: 0;
+
+}
+
+
+/* ============================================================
+   LANDING LOGIN CARD
+   ============================================================ */
+
+.landing-login-card,
+.landing-login-modal-card {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+/* ============================================================
+   LANDING LOGIN SUBMIT BUTTON
+   ============================================================ */
+
+.landing-login-card
+.landing-login-button {
+
+    width: 100%;
+
+}
+
+
+/* ============================================================
+   LOGIN INPUT SAFETY
+   ============================================================ */
+
+.landing-input-wrapper {
+
+    position: relative;
+
+    width: 100%;
+
+    min-width: 0;
+
+}
+
+
+.landing-input-wrapper input {
+
+    width: 100%;
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   LOGIN DIVIDER SAFETY
+   ============================================================ */
+
+.login-divider {
+
+    width: 100%;
+
+}
+
+
+/* ============================================================
+   MOBILE FINAL OVERRIDES
+   <= 700px
+   ============================================================ */
+
+@media (max-width: 700px) {
+
+    .landing-header {
+
+        max-width: 100%;
+
+    }
+
+}
+
+
+/* ============================================================
+   SMALL MOBILE FINAL OVERRIDES
+   <= 520px
+   ============================================================ */
+
+@media (max-width: 520px) {
+
+    .landing-login-modal {
+
+        padding: 10px;
+
+    }
+
+
+    .landing-login-card,
+    .landing-login-modal-card {
+
+        max-width: 100%;
+
+        max-height:
+                calc(
+                        100vh - 20px
+                );
+
+        overflow-y: auto;
+
+    }
+
+}
+
+
+
