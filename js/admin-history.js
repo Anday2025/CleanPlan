@@ -3,6 +3,7 @@
 
 // ============================================================
 // CLEANPLAN - ADMIN HISTORY
+// PART 1 OF 2
 // ============================================================
 
 
@@ -30,19 +31,230 @@ const historyResults =
 
 
 // ============================================================
-// HELPERS
+// STATE
 // ============================================================
 
-function showHistoryMessage(message) {
+let historyAssignments = [];
+let historyResidentNames = new Map();
+let historyDocsByAssignment = new Map();
 
-    historyMessage.textContent = message;
+let historyMessageKey = "historyInitialMessage";
+let historyMessageFallback =
+    "Loggen blir tilgjengelig når datatilkoblingen er ferdig.";
+let historyMessageValues = {};
+
+let historyRequestId = 0;
+
+
+// ============================================================
+// TRANSLATIONS
+// ============================================================
+
+function historyTranslate(key, fallback = "", values = {}) {
+
+    const i18n = window.CleanPlanI18n;
+
+    let result = fallback || key;
+
+    if (
+        i18n &&
+        typeof i18n.t === "function"
+    ) {
+
+        const translated = i18n.t(key);
+
+        if (
+            typeof translated === "string" &&
+            translated !== key
+        ) {
+
+            result = translated;
+
+        }
+
+    }
+
+    for (const [name, value] of Object.entries(values)) {
+
+        result = result.replaceAll(
+            `{${name}}`,
+            String(value)
+        );
+
+    }
+
+    return result;
 
 }
 
 
+function historyIsEnglish() {
+
+    return (
+        window.CleanPlanI18n?.getLanguage?.() === "en"
+    );
+
+}
+
+
+function historyLocale() {
+
+    return historyIsEnglish()
+        ? "en-GB"
+        : "nb-NO";
+
+}
+
+
+
+function formatHistoryDate(dateValue, includeTime = false) {
+
+    if (!dateValue) {
+        return "";
+    }
+
+    const date = new Date(
+        /^\d{4}-\d{2}-\d{2}$/.test(dateValue)
+            ? `${dateValue}T12:00:00`
+            : dateValue
+    );
+
+    if (Number.isNaN(date.getTime())) {
+        return dateValue;
+    }
+
+    const day = String(
+        date.getDate()
+    ).padStart(2, "0");
+
+    const month = String(
+        date.getMonth() + 1
+    ).padStart(2, "0");
+
+    const year = date.getFullYear();
+
+    let formattedDate =
+        `${day}.${month}.${year}`;
+
+    if (includeTime) {
+
+        const hours = String(
+            date.getHours()
+        ).padStart(2, "0");
+
+        const minutes = String(
+            date.getMinutes()
+        ).padStart(2, "0");
+
+        const seconds = String(
+            date.getSeconds()
+        ).padStart(2, "0");
+
+        formattedDate +=
+            `, ${hours}:${minutes}:${seconds}`;
+
+    }
+
+    return formattedDate;
+
+}
+
+
+
+function historyText(
+    key,
+    norwegianFallback,
+    englishFallback,
+    values = {}
+) {
+
+    return historyTranslate(
+        key,
+        historyIsEnglish()
+            ? englishFallback
+            : norwegianFallback,
+        values
+    );
+
+}
+
+
+// ============================================================
+// MESSAGES
+// ============================================================
+
+function showHistoryMessage(message) {
+
+    if (historyMessage) {
+        historyMessage.textContent = message;
+    }
+
+}
+
+
+function showHistoryTranslatedMessage(
+    key,
+    norwegianFallback,
+    englishFallback,
+    values = {}
+) {
+
+    historyMessageKey = key;
+
+    historyMessageFallback = historyIsEnglish()
+        ? englishFallback
+        : norwegianFallback;
+
+    historyMessageValues = {
+        ...values,
+        norwegianFallback,
+        englishFallback
+    };
+
+    showHistoryMessage(
+        historyText(
+            key,
+            norwegianFallback,
+            englishFallback,
+            values
+        )
+    );
+
+}
+
+
+function refreshHistoryMessage() {
+
+    if (!historyMessageKey) {
+        return;
+    }
+
+    const {
+        norwegianFallback,
+        englishFallback,
+        ...values
+    } = historyMessageValues;
+
+    showHistoryMessage(
+        historyText(
+            historyMessageKey,
+            norwegianFallback || historyMessageFallback,
+            englishFallback || historyMessageFallback,
+            values
+        )
+    );
+
+}
+
+
+// ============================================================
+// SELECT OPTIONS
+// ============================================================
+
 function addSelectOption(select, value, label) {
 
-    const option = document.createElement("option");
+    const option =
+        document.createElement("option");
 
     option.value = value;
     option.textContent = label;
@@ -52,34 +264,110 @@ function addSelectOption(select, value, label) {
 }
 
 
+function updateHistorySelectLabels() {
+
+    const propertyPlaceholder =
+        historyPropertySelect.querySelector(
+            'option[value=""]'
+        );
+
+    if (propertyPlaceholder) {
+
+        propertyPlaceholder.textContent =
+            historyText(
+                "historySelectProperty",
+                "Velg bolig",
+                "Select property"
+            );
+
+    }
+
+    const floorPlaceholder =
+        historyFloorSelect.querySelector(
+            'option[value=""]'
+        );
+
+    if (floorPlaceholder) {
+
+        floorPlaceholder.textContent =
+            historyText(
+                "historyAllFloors",
+                "Alle etasjer",
+                "All floors"
+            );
+
+    }
+
+}
+
+
+// ============================================================
+// STATUS
+// ============================================================
+
 function getHistoryStatus(status) {
 
-    const translations = {
+    const statusKeys = {
+        pending: "historyPending",
+        completed: "historyCompleted",
+        skipped: "historySkipped",
+        cancelled: "historyCancelled"
+    };
+
+    const norwegianStatuses = {
         pending: "Venter",
         completed: "Fullført",
         skipped: "Hoppet over",
         cancelled: "Avbrutt"
     };
 
-    return translations[status] || status || "Ukjent";
+    const englishStatuses = {
+        pending: "Pending",
+        completed: "Completed",
+        skipped: "Skipped",
+        cancelled: "Cancelled"
+    };
+
+    const key = statusKeys[status];
+
+    if (!key) {
+
+        return status || historyText(
+            "adminUnknown",
+            "Ukjent",
+            "Unknown"
+        );
+
+    }
+
+    return historyText(
+        key,
+        norwegianStatuses[status],
+        englishStatuses[status]
+    );
 
 }
 
 
 // ============================================================
-// LOAD AUTHORIZED FLOORS
+// LOAD FLOORS
 // ============================================================
 
 async function loadHistoryFloors() {
 
-    const propertyId = historyPropertySelect.value;
+    const propertyId =
+        historyPropertySelect.value;
 
     historyFloorSelect.replaceChildren();
 
     addSelectOption(
         historyFloorSelect,
         "",
-        "Alle etasjer"
+        historyText(
+            "historyAllFloors",
+            "Alle etasjer",
+            "All floors"
+        )
     );
 
     historyFloorSelect.disabled = true;
@@ -88,16 +376,24 @@ async function loadHistoryFloors() {
         return;
     }
 
-    const { data, error } = await supabaseClient
-        .from("floors")
-        .select("id, name, floor_number")
-        .eq("property_id", propertyId)
-        .order("floor_number", { ascending: true });
+    const { data, error } =
+        await supabaseClient
+            .from("floors")
+            .select("id, name, floor_number")
+            .eq("property_id", propertyId)
+            .order("floor_number", {
+                ascending: true
+            });
 
     if (error) {
 
-        showHistoryMessage(
-            "Kunne ikke hente etasjer: " + error.message
+        showHistoryTranslatedMessage(
+            "historyFloorsError",
+            "Kunne ikke hente etasjer: {error}",
+            "Could not load floors: {error}",
+            {
+                error: error.message
+            }
         );
 
         return;
@@ -106,10 +402,15 @@ async function loadHistoryFloors() {
 
     for (const floor of data || []) {
 
+        const fallbackName =
+            historyIsEnglish()
+                ? `Floor ${floor.floor_number}`
+                : `Etasje ${floor.floor_number}`;
+
         addSelectOption(
             historyFloorSelect,
             floor.id,
-            floor.name || `Etasje ${floor.floor_number}`
+            floor.name || fallbackName
         );
 
     }
@@ -120,20 +421,28 @@ async function loadHistoryFloors() {
 
 
 // ============================================================
-// LOAD AUTHORIZED PROPERTIES
+// LOAD PROPERTIES
 // ============================================================
 
 async function loadHistoryProperties() {
 
-    const { data, error } = await supabaseClient
-        .from("properties")
-        .select("id, name, address")
-        .order("name", { ascending: true });
+    const { data, error } =
+        await supabaseClient
+            .from("properties")
+            .select("id, name, address")
+            .order("name", {
+                ascending: true
+            });
 
     if (error) {
 
-        showHistoryMessage(
-            "Kunne ikke hente boliger: " + error.message
+        showHistoryTranslatedMessage(
+            "historyPropertiesError",
+            "Kunne ikke hente boliger: {error}",
+            "Could not load properties: {error}",
+            {
+                error: error.message
+            }
         );
 
         return;
@@ -145,7 +454,11 @@ async function loadHistoryProperties() {
     addSelectOption(
         historyPropertySelect,
         "",
-        "Velg bolig"
+        historyText(
+            "historySelectProperty",
+            "Velg bolig",
+            "Select property"
+        )
     );
 
     for (const property of data || []) {
@@ -153,15 +466,23 @@ async function loadHistoryProperties() {
         addSelectOption(
             historyPropertySelect,
             property.id,
-            property.name || property.address || "Bolig"
+            property.name ||
+            property.address ||
+            historyText(
+                "historyPropertyLabel",
+                "Bolig",
+                "Property"
+            )
         );
 
     }
 
     if (!data || data.length === 0) {
 
-        showHistoryMessage(
-            "Ingen boliger er tilgjengelige for denne kontoen."
+        showHistoryTranslatedMessage(
+            "historyNoProperties",
+            "Ingen boliger er tilgjengelige for denne kontoen.",
+            "No properties are available for this account."
         );
 
         return;
@@ -171,8 +492,10 @@ async function loadHistoryProperties() {
     historyPropertySelect.disabled = false;
     historySearchButton.disabled = false;
 
-    showHistoryMessage(
-        "Velg bolig og etasje for å søke."
+    showHistoryTranslatedMessage(
+        "historySearchPrompt",
+        "Velg bolig og etasje for å søke.",
+        "Select a property and floor to search."
     );
 
 }
@@ -184,48 +507,73 @@ async function loadHistoryProperties() {
 
 async function initializeAdminHistory() {
 
-    const { data: authData, error: authError } =
-        await supabaseClient.auth.getUser();
+    try {
 
-    const user = authData?.user;
+        const {
+            data: authData,
+            error: authError
+        } = await supabaseClient.auth.getUser();
 
-    if (authError || !user) {
+        const user = authData?.user;
 
-        window.location.replace("index.html");
+        if (authError || !user) {
 
-        return;
+            window.location.replace("index.html");
+            return;
 
-    }
+        }
 
-    const { data: profile, error: profileError } =
-        await supabaseClient
+        const {
+            data: profile,
+            error: profileError
+        } = await supabaseClient
             .from("profiles")
             .select("role, is_active")
             .eq("id", user.id)
             .single();
 
-    if (
-        profileError ||
-        !profile ||
-        !profile.is_active ||
-        !["admin", "superadmin"].includes(profile.role)
-    ) {
+        if (
+            profileError ||
+            !profile ||
+            !profile.is_active ||
+            !["admin", "superadmin"].includes(profile.role)
+        ) {
 
-        showHistoryMessage(
-            "Du har ikke tilgang til denne siden."
+            showHistoryTranslatedMessage(
+                "historyAccessDenied",
+                "Du har ikke tilgang til denne siden.",
+                "You do not have access to this page."
+            );
+
+            return;
+
+        }
+
+        await loadHistoryProperties();
+
+    } catch (error) {
+
+        console.error(
+            "Could not initialize admin history:",
+            error
         );
 
-        return;
+        showHistoryTranslatedMessage(
+            "historyInitializationError",
+            "Kunne ikke laste historikksiden: {error}",
+            "Could not load the history page: {error}",
+            {
+                error: error.message
+            }
+        );
 
     }
-
-    await loadHistoryProperties();
 
 }
 
 
 // ============================================================
-// LOAD RESIDENT NAMES
+// RESIDENT NAMES
 // ============================================================
 
 async function loadHistoryResidentNames(assignments) {
@@ -244,11 +592,13 @@ async function loadHistoryResidentNames(assignments) {
         return residentNames;
     }
 
-    const { data: residents, error: residentsError } =
-        await supabaseClient
-            .from("residents")
-            .select("id, profile_id")
-            .in("id", residentIds);
+    const {
+        data: residents,
+        error: residentsError
+    } = await supabaseClient
+        .from("residents")
+        .select("id, profile_id")
+        .in("id", residentIds);
 
     if (residentsError) {
         throw residentsError;
@@ -266,11 +616,13 @@ async function loadHistoryResidentNames(assignments) {
 
     if (profileIds.length > 0) {
 
-        const { data: profiles, error: profilesError } =
-            await supabaseClient
-                .from("profiles")
-                .select("id, full_name")
-                .in("id", profileIds);
+        const {
+            data: profiles,
+            error: profilesError
+        } = await supabaseClient
+            .from("profiles")
+            .select("id, full_name")
+            .in("id", profileIds);
 
         if (profilesError) {
             throw profilesError;
@@ -291,8 +643,7 @@ async function loadHistoryResidentNames(assignments) {
 
         residentNames.set(
             resident.id,
-            profileNames.get(resident.profile_id) ||
-            "Ukjent beboer"
+            profileNames.get(resident.profile_id) || ""
         );
 
     }
@@ -303,59 +654,309 @@ async function loadHistoryResidentNames(assignments) {
 
 
 // ============================================================
+// RENDER HISTORY ENTRIES
+// ============================================================
+
+function renderHistoryEntries() {
+
+    historyResults.replaceChildren();
+
+    for (const assignment of historyAssignments) {
+
+        const article =
+            document.createElement("article");
+
+        article.className = "history-entry";
+
+
+        // ----------------------------------------------------
+        // WEEK
+        // ----------------------------------------------------
+
+        const heading =
+            document.createElement("h3");
+
+        heading.textContent =
+            historyText(
+                "historyCleaning",
+                "Rengjøring",
+                "Cleaning"
+            ) + " – " + formatHistoryDate(assignment.week_start);
+
+        article.appendChild(heading);
+
+
+        // ----------------------------------------------------
+        // RESIDENT
+        // ----------------------------------------------------
+
+        const resident =
+            document.createElement("p");
+
+        let residentName =
+            historyText(
+                "historyNotAssigned",
+                "Ikke tildelt",
+                "Not assigned"
+            );
+
+        if (assignment.resident_id) {
+
+            residentName =
+                historyResidentNames.get(
+                    assignment.resident_id
+                ) ||
+                historyText(
+                    "historyUnknownResident",
+                    "Ukjent beboer",
+                    "Unknown resident"
+                );
+
+        }
+
+        resident.textContent =
+            historyText(
+                "historyResponsibleResident",
+                "Ansvarlig beboer",
+                "Responsible resident"
+            ) + ": " + residentName;
+
+        article.appendChild(resident);
+
+
+        // ----------------------------------------------------
+        // STATUS
+        // ----------------------------------------------------
+
+        const status =
+            document.createElement("p");
+
+        status.textContent =
+            historyText(
+                "historyStatus",
+                "Status",
+                "Status"
+            ) + ": " +
+            getHistoryStatus(assignment.status);
+
+        article.appendChild(status);
+
+
+        // ----------------------------------------------------
+        // SIGNATURE
+        // ----------------------------------------------------
+
+        const signature =
+            document.createElement("p");
+
+        if (assignment.signed_at) {
+
+            const signedDate =
+                formatHistoryDate(
+                    assignment.signed_at,
+                    true
+                );
+
+            signature.textContent =
+                historyText(
+                    "historySigned",
+                    "Signert",
+                    "Signed"
+                ) + ": " + signedDate;
+
+        } else {
+
+            signature.textContent =
+                historyText(
+                    "historyNotSigned",
+                    "Ikke signert",
+                    "Not signed"
+                );
+
+        }
+
+        article.appendChild(signature);
+
+
+        // ----------------------------------------------------
+        // DOCUMENTATION
+        // ----------------------------------------------------
+
+        const docs =
+            historyDocsByAssignment.get(
+                assignment.id
+            ) || [];
+
+        const docHeading =
+            document.createElement("p");
+
+        docHeading.textContent =
+            historyText(
+                "historyDocumentationImages",
+                "Dokumentasjonsbilder",
+                "Documentation photos"
+            ) + ": " + docs.length;
+
+        article.appendChild(docHeading);
+
+
+        // ----------------------------------------------------
+        // IMAGE GALLERY
+        // ----------------------------------------------------
+
+        if (docs.length > 0) {
+
+            const gallery =
+                document.createElement("div");
+
+            gallery.className =
+                "history-image-gallery";
+
+            article.appendChild(gallery);
+
+            for (const doc of docs) {
+
+                if (!doc.signedUrl) {
+                    continue;
+                }
+
+                const image =
+                    document.createElement("img");
+
+                image.className =
+                    "history-image";
+
+                image.alt =
+                    doc.file_name ||
+                    historyText(
+                        "historyDocumentationImage",
+                        "Dokumentasjonsbilde",
+                        "Documentation photo"
+                    );
+
+                image.loading = "lazy";
+
+                image.src = doc.signedUrl;
+
+                image.addEventListener(
+                    "click",
+                    function () {
+
+                        const images =
+                            Array.from(
+                                gallery.querySelectorAll(
+                                    ".history-image"
+                                )
+                            );
+
+                        const imageUrls =
+                            images.map(img => img.src);
+
+                        const selectedIndex =
+                            images.indexOf(image);
+
+                        openHistoryImage(
+                            imageUrls,
+                            selectedIndex
+                        );
+
+                    }
+                );
+
+                gallery.appendChild(image);
+
+            }
+
+        }
+
+        historyResults.appendChild(article);
+
+    }
+
+}
+
+
+// ============================================================
 // LOAD CLEANING HISTORY
 // ============================================================
 
 async function loadCleaningHistory() {
 
-    const propertyId = historyPropertySelect.value;
-    const floorId = historyFloorSelect.value;
+    const propertyId =
+        historyPropertySelect.value;
+
+    const floorId =
+        historyFloorSelect.value;
 
     if (!propertyId) {
 
-        showHistoryMessage("Velg en bolig først.");
+        showHistoryTranslatedMessage(
+            "historySelectPropertyFirst",
+            "Velg en bolig først.",
+            "Select a property first."
+        );
 
         return;
 
     }
 
+    const requestId = ++historyRequestId;
+
     historySearchButton.disabled = true;
 
     historyResults.replaceChildren();
 
-    showHistoryMessage(
-        "Henter rengjøringshistorikk ..."
+    historyAssignments = [];
+    historyResidentNames = new Map();
+    historyDocsByAssignment = new Map();
+
+    showHistoryTranslatedMessage(
+        "historyLoading",
+        "Henter rengjøringshistorikk ...",
+        "Loading cleaning history ..."
     );
 
     try {
 
-        // ====================================================
+        // ----------------------------------------------------
         // CLEANING PLANS
-        // ====================================================
+        // ----------------------------------------------------
 
-        let plansQuery = supabaseClient
-            .from("cleaning_plans")
-            .select("id, floor_id")
-            .eq("property_id", propertyId);
+        let plansQuery =
+            supabaseClient
+                .from("cleaning_plans")
+                .select("id, floor_id")
+                .eq("property_id", propertyId);
 
         if (floorId) {
 
             plansQuery =
-                plansQuery.eq("floor_id", floorId);
+                plansQuery.eq(
+                    "floor_id",
+                    floorId
+                );
 
         }
 
-        const { data: plans, error: plansError } =
-            await plansQuery;
+        const {
+            data: plans,
+            error: plansError
+        } = await plansQuery;
 
         if (plansError) {
             throw plansError;
         }
 
+        if (requestId !== historyRequestId) {
+            return;
+        }
+
         if (!plans || plans.length === 0) {
 
-            showHistoryMessage(
-                "Ingen rengjøringsplaner funnet."
+            showHistoryTranslatedMessage(
+                "historyNoPlans",
+                "Ingen rengjøringsplaner funnet.",
+                "No cleaning schedules found."
             );
 
             return;
@@ -366,9 +967,9 @@ async function loadCleaningHistory() {
             plans.map(plan => plan.id);
 
 
-        // ====================================================
-        // CLEANING ASSIGNMENTS
-        // ====================================================
+        // ----------------------------------------------------
+        // ASSIGNMENTS
+        // ----------------------------------------------------
 
         const {
             data: assignments,
@@ -389,10 +990,19 @@ async function loadCleaningHistory() {
             throw assignmentError;
         }
 
-        if (!assignments || assignments.length === 0) {
+        if (requestId !== historyRequestId) {
+            return;
+        }
 
-            showHistoryMessage(
-                "Ingen rengjøringshistorikk funnet."
+        if (
+            !assignments ||
+            assignments.length === 0
+        ) {
+
+            showHistoryTranslatedMessage(
+                "historyNoEntries",
+                "Ingen rengjøringshistorikk funnet.",
+                "No cleaning history found."
             );
 
             return;
@@ -400,16 +1010,18 @@ async function loadCleaningHistory() {
         }
 
 
-        // ====================================================
+        // ----------------------------------------------------
         // RESIDENT NAMES
-        // ====================================================
+        // ----------------------------------------------------
 
         let residentNames = new Map();
 
         try {
 
             residentNames =
-                await loadHistoryResidentNames(assignments);
+                await loadHistoryResidentNames(
+                    assignments
+                );
 
         } catch (residentError) {
 
@@ -418,15 +1030,19 @@ async function loadCleaningHistory() {
                 residentError
             );
 
-            // Continue showing history even if
+            // History remains visible even when
             // profile access is restricted by RLS.
 
         }
 
+        if (requestId !== historyRequestId) {
+            return;
+        }
 
-        // ====================================================
+
+        // ----------------------------------------------------
         // DOCUMENTATION
-        // ====================================================
+        // ----------------------------------------------------
 
         const assignmentIds =
             assignments.map(item => item.id);
@@ -440,10 +1056,17 @@ async function loadCleaningHistory() {
                 "id, assignment_id, storage_path, " +
                 "file_name, created_at"
             )
-            .in("assignment_id", assignmentIds);
+            .in(
+                "assignment_id",
+                assignmentIds
+            );
 
         if (documentationError) {
             throw documentationError;
+        }
+
+        if (requestId !== historyRequestId) {
+            return;
         }
 
         const docsByAssignment = new Map();
@@ -461,213 +1084,113 @@ async function loadCleaningHistory() {
 
             docsByAssignment
                 .get(doc.assignment_id)
-                .push(doc);
+                .push({
+                    ...doc,
+                    signedUrl: null
+                });
 
         }
 
 
-        // ====================================================
-        // RENDER HISTORY
-        // ====================================================
+        // ----------------------------------------------------
+        // SIGNED IMAGE URLS
+        // ----------------------------------------------------
 
-        for (const assignment of assignments) {
+        for (const docs of docsByAssignment.values()) {
 
-            const article =
-                document.createElement("article");
+            for (const doc of docs) {
 
-            article.className = "history-entry";
+                if (!doc.storage_path) {
+                    continue;
+                }
 
-
-            // WEEK
-
-            const heading =
-                document.createElement("h3");
-
-            heading.textContent =
-                "Rengjøring – " + assignment.week_start;
-
-            article.appendChild(heading);
-
-
-            // RESIDENT
-
-            const resident =
-                document.createElement("p");
-
-            let residentName = "Ikke tildelt";
-
-            if (assignment.resident_id) {
-
-                residentName =
-                    residentNames.get(
-                        assignment.resident_id
-                    ) || "Ukjent beboer";
-
-            }
-
-            resident.textContent =
-                "Ansvarlig beboer: " + residentName;
-
-            article.appendChild(resident);
-
-
-            // STATUS
-
-            const status =
-                document.createElement("p");
-
-            status.textContent =
-                "Status: " +
-                getHistoryStatus(assignment.status);
-
-            article.appendChild(status);
-
-
-            // SIGNATURE
-
-            const signature =
-                document.createElement("p");
-
-            signature.textContent =
-                assignment.signed_at
-                    ? "Signert: " +
-                    new Date(
-                        assignment.signed_at
-                    ).toLocaleString("nb-NO")
-                    : "Ikke signert";
-
-            article.appendChild(signature);
-
-
-            // DOCUMENTATION
-
-            const docs =
-                docsByAssignment.get(
-                    assignment.id
-                ) || [];
-
-            const docHeading =
-                document.createElement("p");
-
-            docHeading.textContent =
-                "Dokumentasjonsbilder: " +
-                docs.length;
-
-            article.appendChild(docHeading);
-
-
-
-            // ====================================================
-            // DOCUMENTATION IMAGE GALLERY
-            // ====================================================
-
-            if (docs.length > 0) {
-
-                const gallery =
-                    document.createElement("div");
-
-                gallery.className = "history-image-gallery";
-
-                article.appendChild(gallery);
-
-                for (const doc of docs) {
-
-                    if (!doc.storage_path) {
-                        continue;
-                    }
-
-                    const image =
-                        document.createElement("img");
-
-                    image.className = "history-image";
-
-                    image.alt =
-                        doc.file_name ||
-                        "Dokumentasjonsbilde";
-
-                    image.loading = "lazy";
-
-                    // Show images directly from Supabase Storage.
-
-                    const { data, error } =
-                        await supabaseClient
-                            .storage
-                            .from("cleaning-documentation")
-                            .createSignedUrl(
-                                doc.storage_path,
-                                3600
-                            );
-
-                    if (error || !data?.signedUrl) {
-
-                        console.error(
-                            "Could not load documentation image:",
-                            error
-                        );
-
-                        continue;
-                    }
-
-                    image.src = data.signedUrl;
-
-
-                    // OPEN FULL-SIZE IMAGE ON CLICK
-
-                    image.addEventListener(
-                        "click",
-                        function () {
-
-                            const images = Array.from(
-                                gallery.querySelectorAll(".history-image")
-                            );
-
-                            const imageUrls = images.map(img => img.src);
-
-                            const selectedIndex = images.indexOf(image);
-
-                            openHistoryImage(imageUrls, selectedIndex);
-
-                        }
+                const {
+                    data,
+                    error
+                } = await supabaseClient
+                    .storage
+                    .from("cleaning-documentation")
+                    .createSignedUrl(
+                        doc.storage_path,
+                        3600
                     );
 
+                if (requestId !== historyRequestId) {
+                    return;
+                }
 
-                    gallery.appendChild(image);
+                if (error || !data?.signedUrl) {
+
+                    console.error(
+                        "Could not load documentation image:",
+                        error
+                    );
+
+                    continue;
 
                 }
 
+                doc.signedUrl = data.signedUrl;
+
             }
-
-
-            historyResults.appendChild(article);
 
         }
 
 
-        // ====================================================
-        // RESULT MESSAGE
-        // ====================================================
+        // ----------------------------------------------------
+        // SAVE DATA FOR LANGUAGE SWITCHING
+        // ----------------------------------------------------
 
-        showHistoryMessage(
-            "Viser " +
-            assignments.length +
-            " loggoppføringer."
+        historyAssignments = assignments;
+
+        historyResidentNames = residentNames;
+
+        historyDocsByAssignment =
+            docsByAssignment;
+
+
+        // ----------------------------------------------------
+        // RENDER
+        // ----------------------------------------------------
+
+        renderHistoryEntries();
+
+        showHistoryTranslatedMessage(
+            "historyShowingEntries",
+            "Viser {count} loggoppføringer.",
+            "Showing {count} history entries.",
+            {
+                count: assignments.length
+            }
         );
 
     } catch (error) {
+
+        if (requestId !== historyRequestId) {
+            return;
+        }
 
         console.error(
             "History error:",
             error
         );
 
-        showHistoryMessage(
-            "Kunne ikke hente loggen: " +
-            error.message
+        showHistoryTranslatedMessage(
+            "historyLoadError",
+            "Kunne ikke hente loggen: {error}",
+            "Could not load history: {error}",
+            {
+                error: error.message
+            }
         );
 
     } finally {
 
-        historySearchButton.disabled = false;
+        if (requestId === historyRequestId) {
+
+            historySearchButton.disabled = false;
+
+        }
 
     }
 
@@ -675,89 +1198,269 @@ async function loadCleaningHistory() {
 
 
 // ============================================================
-// FULL-SIZE IMAGE VIEWER WITH NAVIGATION
+// CLEANPLAN - ADMIN HISTORY
+// PART 2 OF 2
+// ============================================================
+
+
+// ============================================================
+// FULL-SIZE IMAGE VIEWER
 // ============================================================
 
 function openHistoryImage(imageUrls, startIndex = 0) {
 
-    if (!imageUrls || imageUrls.length === 0) {
+    if (
+        !Array.isArray(imageUrls) ||
+        imageUrls.length === 0
+    ) {
         return;
     }
 
-    let currentIndex = startIndex;
+    let currentIndex = Math.max(
+        0,
+        Math.min(startIndex, imageUrls.length - 1)
+    );
 
-    const overlay = document.createElement("div");
-    overlay.className = "history-image-overlay";
-    overlay.setAttribute("role", "dialog");
-    overlay.setAttribute("aria-modal", "true");
-    overlay.setAttribute("aria-label", "Dokumentasjonsbilder");
 
-    const fullImage = document.createElement("img");
-    fullImage.className = "history-full-image";
-    fullImage.alt = "Dokumentasjonsbilde";
+    // ========================================================
+    // OVERLAY
+    // ========================================================
 
-    const closeButton = document.createElement("button");
+    const overlay =
+        document.createElement("div");
+
+    overlay.className =
+        "history-image-overlay";
+
+    overlay.setAttribute(
+        "role",
+        "dialog"
+    );
+
+    overlay.setAttribute(
+        "aria-modal",
+        "true"
+    );
+
+    overlay.setAttribute(
+        "aria-label",
+        historyText(
+            "historyDocumentationImages",
+            "Dokumentasjonsbilder",
+            "Documentation photos"
+        )
+    );
+
+
+    // ========================================================
+    // FULL-SIZE IMAGE
+    // ========================================================
+
+    const fullImage =
+        document.createElement("img");
+
+    fullImage.className =
+        "history-full-image";
+
+
+    // ========================================================
+    // CLOSE BUTTON
+    // ========================================================
+
+    const closeButton =
+        document.createElement("button");
+
     closeButton.type = "button";
-    closeButton.className = "history-image-close";
-    closeButton.textContent = "×";
-    closeButton.setAttribute("aria-label", "Lukk bilde");
 
-    const previousButton = document.createElement("button");
+    closeButton.className =
+        "history-image-close";
+
+    closeButton.textContent = "×";
+
+    closeButton.setAttribute(
+        "aria-label",
+        historyText(
+            "historyCloseImage",
+            "Lukk bilde",
+            "Close image"
+        )
+    );
+
+
+    // ========================================================
+    // PREVIOUS BUTTON
+    // ========================================================
+
+    const previousButton =
+        document.createElement("button");
+
     previousButton.type = "button";
+
     previousButton.className =
         "history-image-nav history-image-prev";
+
     previousButton.textContent = "‹";
+
     previousButton.setAttribute(
         "aria-label",
-        "Forrige bilde"
+        historyText(
+            "historyPreviousImage",
+            "Forrige bilde",
+            "Previous image"
+        )
     );
 
-    const nextButton = document.createElement("button");
+
+    // ========================================================
+    // NEXT BUTTON
+    // ========================================================
+
+    const nextButton =
+        document.createElement("button");
+
     nextButton.type = "button";
+
     nextButton.className =
         "history-image-nav history-image-next";
+
     nextButton.textContent = "›";
+
     nextButton.setAttribute(
         "aria-label",
-        "Neste bilde"
+        historyText(
+            "historyNextImage",
+            "Neste bilde",
+            "Next image"
+        )
     );
 
-    const counter = document.createElement("div");
-    counter.className = "history-image-counter";
+
+    // ========================================================
+    // IMAGE COUNTER
+    // ========================================================
+
+    const counter =
+        document.createElement("div");
+
+    counter.className =
+        "history-image-counter";
+
+
+    // ========================================================
+    // SHOW SELECTED IMAGE
+    // ========================================================
 
     function showImage() {
 
-        fullImage.src = imageUrls[currentIndex];
+        fullImage.src =
+            imageUrls[currentIndex];
 
         fullImage.alt =
-            `Dokumentasjonsbilde ${currentIndex + 1}`;
+            historyText(
+                "historyDocumentationImage",
+                "Dokumentasjonsbilde",
+                "Documentation photo"
+            ) + " " + (currentIndex + 1);
 
         counter.textContent =
             `${currentIndex + 1} / ${imageUrls.length}`;
 
-        previousButton.disabled = currentIndex === 0;
+        previousButton.disabled =
+            currentIndex === 0;
+
         nextButton.disabled =
             currentIndex === imageUrls.length - 1;
 
     }
 
+
+    // ========================================================
+    // PREVIOUS IMAGE
+    // ========================================================
+
     function previousImage() {
 
         if (currentIndex > 0) {
+
             currentIndex--;
+
             showImage();
+
         }
 
     }
+
+
+    // ========================================================
+    // NEXT IMAGE
+    // ========================================================
 
     function nextImage() {
 
-        if (currentIndex < imageUrls.length - 1) {
+        if (
+            currentIndex <
+            imageUrls.length - 1
+        ) {
+
             currentIndex++;
+
             showImage();
+
         }
 
     }
+
+
+    // ========================================================
+    // UPDATE MODAL LANGUAGE
+    // ========================================================
+
+    function updateModalLanguage() {
+
+        overlay.setAttribute(
+            "aria-label",
+            historyText(
+                "historyDocumentationImages",
+                "Dokumentasjonsbilder",
+                "Documentation photos"
+            )
+        );
+
+        closeButton.setAttribute(
+            "aria-label",
+            historyText(
+                "historyCloseImage",
+                "Lukk bilde",
+                "Close image"
+            )
+        );
+
+        previousButton.setAttribute(
+            "aria-label",
+            historyText(
+                "historyPreviousImage",
+                "Forrige bilde",
+                "Previous image"
+            )
+        );
+
+        nextButton.setAttribute(
+            "aria-label",
+            historyText(
+                "historyNextImage",
+                "Neste bilde",
+                "Next image"
+            )
+        );
+
+        showImage();
+
+    }
+
+
+    // ========================================================
+    // CLOSE MODAL
+    // ========================================================
 
     function closeImage() {
 
@@ -766,25 +1469,52 @@ function openHistoryImage(imageUrls, startIndex = 0) {
             handleKeydown
         );
 
+        window.removeEventListener(
+            "cleanplan:languagechange",
+            updateModalLanguage
+        );
+
         overlay.remove();
 
     }
 
+
+    // ========================================================
+    // KEYBOARD NAVIGATION
+    // ========================================================
+
     function handleKeydown(event) {
 
         if (event.key === "Escape") {
+
             closeImage();
+
+            return;
+
         }
 
         if (event.key === "ArrowLeft") {
+
+            event.preventDefault();
+
             previousImage();
+
         }
 
         if (event.key === "ArrowRight") {
+
+            event.preventDefault();
+
             nextImage();
+
         }
 
     }
+
+
+    // ========================================================
+    // BUTTON EVENTS
+    // ========================================================
 
     closeButton.addEventListener(
         "click",
@@ -801,69 +1531,225 @@ function openHistoryImage(imageUrls, startIndex = 0) {
         nextImage
     );
 
+
+    // ========================================================
+    // CLOSE WHEN CLICKING OUTSIDE IMAGE
+    // ========================================================
+
     overlay.addEventListener(
         "click",
         function (event) {
 
             if (event.target === overlay) {
+
                 closeImage();
+
             }
 
         }
     );
+
+
+    // ========================================================
+    // LANGUAGE CHANGE
+    // ========================================================
+
+    window.addEventListener(
+        "cleanplan:languagechange",
+        updateModalLanguage
+    );
+
+
+    // ========================================================
+    // KEYBOARD EVENT
+    // ========================================================
 
     document.addEventListener(
         "keydown",
         handleKeydown
     );
 
+
+    // ========================================================
+    // ADD ELEMENTS
+    // ========================================================
+
     overlay.appendChild(closeButton);
+
     overlay.appendChild(previousButton);
+
     overlay.appendChild(fullImage);
+
     overlay.appendChild(nextButton);
+
     overlay.appendChild(counter);
 
     document.body.appendChild(overlay);
 
+
+    // ========================================================
+    // INITIAL IMAGE
+    // ========================================================
+
     showImage();
+
+    closeButton.focus();
 
 }
 
 
-
-
 // ============================================================
-// EVENTS
+// LANGUAGE CHANGE - REFRESH HISTORY
 // ============================================================
 
-historyPropertySelect.addEventListener(
-    "change",
-    async function () {
+window.addEventListener(
+    "cleanplan:languagechange",
+    function () {
 
-        historyResults.replaceChildren();
+        // Update property and floor placeholder labels.
 
-        await loadHistoryFloors();
+        updateHistorySelectLabels();
+
+
+        // Update the message using the selected language.
+
+        refreshHistoryMessage();
+
+
+        // Re-render existing history entries.
+        // No new Supabase request is necessary.
+
+        if (historyAssignments.length > 0) {
+
+            renderHistoryEntries();
+
+        }
 
     }
 );
 
 
-historyFilterForm.addEventListener(
-    "submit",
-    async function (event) {
+// ============================================================
+// PROPERTY CHANGE
+// ============================================================
 
-        event.preventDefault();
+if (historyPropertySelect) {
 
-        await loadCleaningHistory();
+    historyPropertySelect.addEventListener(
+        "change",
+        async function () {
 
-    }
-);
+            // Invalidate any previous history request.
+
+            historyRequestId++;
+
+
+            // Clear previous results.
+
+            historyAssignments = [];
+
+            historyResidentNames = new Map();
+
+            historyDocsByAssignment = new Map();
+
+            historyResults.replaceChildren();
+
+
+            // Load floors for selected property.
+
+            await loadHistoryFloors();
+
+
+            // Show search instructions unless loading failed.
+
+            if (
+                historyPropertySelect.value &&
+                !historyFloorSelect.disabled
+            ) {
+
+                showHistoryTranslatedMessage(
+                    "historySearchPrompt",
+                    "Velg bolig og etasje for å søke.",
+                    "Select a property and floor to search."
+                );
+
+            } else if (!historyPropertySelect.value) {
+
+                showHistoryTranslatedMessage(
+                    "historySelectPropertyFirst",
+                    "Velg en bolig først.",
+                    "Select a property first."
+                );
+
+            }
+
+            historySearchButton.disabled =
+                !historyPropertySelect.value;
+
+        }
+    );
+
+}
 
 
 // ============================================================
-// START
+// FLOOR CHANGE
 // ============================================================
 
+if (historyFloorSelect) {
+
+    historyFloorSelect.addEventListener(
+        "change",
+        function () {
+
+            // Invalidate any pending history request.
+
+            historyRequestId++;
+
+
+            // Clear results for previous floor.
+
+            historyAssignments = [];
+
+            historyResidentNames = new Map();
+
+            historyDocsByAssignment = new Map();
+
+            historyResults.replaceChildren();
+
+
+            // Prompt the user to search again.
+
+            showHistoryTranslatedMessage(
+                "historySearchPrompt",
+                "Velg bolig og etasje for å søke.",
+                "Select a property and floor to search."
+            );
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// SEARCH FORM
+// ============================================================
+
+if (historyFilterForm) {
+
+    historyFilterForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+            await loadCleaningHistory();
+
+        }
+    );
+
+}
 
 
 // ============================================================
@@ -883,13 +1769,23 @@ if (historyLogoutButton) {
                 await supabaseClient.auth.signOut();
 
             if (error) {
-                showHistoryMessage(
-                    "Kunne ikke logge ut: " + error.message
+
+                showHistoryTranslatedMessage(
+                    "historyLogoutError",
+                    "Kunne ikke logge ut: {error}",
+                    "Could not log out: {error}",
+                    {
+                        error: error.message
+                    }
                 );
+
                 return;
+
             }
 
-            window.location.replace("index.html");
+            window.location.replace(
+                "index.html"
+            );
 
         }
     );
@@ -902,7 +1798,9 @@ if (historyLogoutButton) {
 // ============================================================
 
 const historySettingsButton =
-    document.getElementById("settingsSidebarButton");
+    document.getElementById(
+        "settingsSidebarButton"
+    );
 
 if (historySettingsButton) {
 
@@ -911,7 +1809,11 @@ if (historySettingsButton) {
         function () {
 
             window.alert(
-                "Innstillinger kommer i et senere steg."
+                historyText(
+                    "adminSettingsComingSoon",
+                    "Innstillinger kommer i et senere steg.",
+                    "Settings are coming in a later update."
+                )
             );
 
         }
@@ -920,4 +1822,9 @@ if (historySettingsButton) {
 }
 
 
+// ============================================================
+// INITIALIZE ADMIN HISTORY
+// ============================================================
+
 initializeAdminHistory();
+

@@ -1,3 +1,4 @@
+
 // ============================================================
 // CLEANPLAN
 // LANGUAGE SYSTEM
@@ -163,6 +164,90 @@ document.addEventListener(
                 adminHistory:
                     "Historikk",
 
+
+                // =================================================
+                // ADMIN HISTORY PAGE
+                // =================================================
+
+                historyBack:
+                    "← Tilbake til oversikt",
+
+                historyPageTitle:
+                    "Logg og dokumentasjon",
+
+                historyPageDescription:
+                    "Søk etter rengjøringshistorikk i boliger og etasjer du har tilgang til.",
+
+                historyPropertyLabel:
+                    "Bolig",
+
+                historyFloorLabel:
+                    "Etasje",
+
+                historySearchButton:
+                    "Søk i logg",
+
+                historyLoadingProperties:
+                    "Laster boliger …",
+
+                historyInitialMessage:
+                    "Loggen blir tilgjengelig når datatilkoblingen er ferdig.",
+
+                historySelectProperty:
+                    "Velg bolig",
+
+                historyAllFloors:
+                    "Alle etasjer",
+
+                historySelectPropertyFirst:
+                    "Velg en bolig først.",
+
+                historyResponsibleResident:
+                    "Ansvarlig beboer",
+
+                historyNotAssigned:
+                    "Ikke tildelt",
+
+                historyUnknownResident:
+                    "Ukjent beboer",
+
+                historyStatus:
+                    "Status",
+
+                historyPending:
+                    "Venter",
+
+                historyCompleted:
+                    "Fullført",
+
+                historySkipped:
+                    "Hoppet over",
+
+                historyCancelled:
+                    "Avbrutt",
+
+                historySigned:
+                    "Signert",
+
+                historyNotSigned:
+                    "Ikke signert",
+
+                historyDocumentationImages:
+                    "Dokumentasjonsbilder",
+
+                historyNoPlans:
+                    "Ingen rengjøringsplaner funnet.",
+
+                historyNoEntries:
+                    "Ingen rengjøringshistorikk funnet.",
+
+                historyLoading:
+                    "Henter rengjøringshistorikk ...",
+
+                historySearchPrompt:
+                    "Velg bolig og etasje for å søke.",
+
+
                 adminSettings:
                     "Innstillinger",
 
@@ -171,6 +256,8 @@ document.addEventListener(
 
                 adminOpenMenu:
                     "Åpne meny",
+
+
 
                 adminAdministratorEyebrow:
                     "ADMINISTRATOR",
@@ -429,6 +516,7 @@ document.addEventListener(
                     "Boligen ble lagret.",
 
 
+
                 // =================================================
                 // ADMIN - FLOORS
                 // =================================================
@@ -558,8 +646,11 @@ document.addEventListener(
                 residentCleaningEyebrow:
                     "RENGJØRINGSPLAN",
 
-                overview: "OVERSIKT",
-                residentDashboardTitle: "Min oversikt",
+                overview:
+                    "OVERSIKT",
+
+                residentDashboardTitle:
+                    "Min oversikt",
 
                 residentCleaningDescription:
                     "Se rengjøringsuker, oppgaver og hvem som er ansvarlig.",
@@ -579,7 +670,6 @@ document.addEventListener(
                 residentPhotoCount:
                     "Bilder",
 
-
                 residentNextCleaningLabel:
                     "Neste rengjøring",
 
@@ -589,7 +679,8 @@ document.addEventListener(
                 residentOpenProperty:
                     "Åpne bolig",
 
-                residentPropertyEyebrow: "MIN BOLIG",
+                residentPropertyEyebrow:
+                    "MIN BOLIG",
 
                 residentCleaningCardDescription:
                     "Se rengjøringsuker, oppgaver og hvem som er ansvarlig.",
@@ -605,7 +696,6 @@ document.addEventListener(
 
                 residentOpenPhotos:
                     "Åpne bilder",
-
 
                 residentLoadingDescription:
                     "Henter kontoen og rengjøringsplanen din.",
@@ -1350,8 +1440,6 @@ document.addEventListener(
                 adminUnknown:
                     "Ukjent"
 
-
-
             },
 
 
@@ -1443,6 +1531,7 @@ document.addEventListener(
                 languageSelectorAria:
                     "Choose language",
 
+
                 // =================================================
                 // ADMIN / SUPERADMIN DASHBOARD
                 // =================================================
@@ -1473,6 +1562,90 @@ document.addEventListener(
 
                 adminHistory:
                     "History",
+
+
+                // =================================================
+                // ADMIN HISTORY PAGE - ENGLISH
+                // =================================================
+
+                historyBack:
+                    "← Back to dashboard",
+
+                historyPageTitle:
+                    "History and documentation",
+
+                historyPageDescription:
+                    "Search cleaning history for properties and floors you have access to.",
+
+                historyPropertyLabel:
+                    "Property",
+
+                historyFloorLabel:
+                    "Floor",
+
+                historySearchButton:
+                    "Search history",
+
+                historyLoadingProperties:
+                    "Loading properties …",
+
+                historyInitialMessage:
+                    "The log will be available once the data connection is ready.",
+
+                historySelectProperty:
+                    "Select property",
+
+                historyAllFloors:
+                    "All floors",
+
+                historySelectPropertyFirst:
+                    "Select a property first.",
+
+                historyResponsibleResident:
+                    "Responsible resident",
+
+                historyNotAssigned:
+                    "Not assigned",
+
+                historyUnknownResident:
+                    "Unknown resident",
+
+                historyStatus:
+                    "Status",
+
+                historyPending:
+                    "Pending",
+
+                historyCompleted:
+                    "Completed",
+
+                historySkipped:
+                    "Skipped",
+
+                historyCancelled:
+                    "Cancelled",
+
+                historySigned:
+                    "Signed",
+
+                historyNotSigned:
+                    "Not signed",
+
+                historyDocumentationImages:
+                    "Documentation photos",
+
+                historyNoPlans:
+                    "No cleaning schedules found.",
+
+                historyNoEntries:
+                    "No cleaning history found.",
+
+                historyLoading:
+                    "Loading cleaning history ...",
+
+                historySearchPrompt:
+                    "Select a property and floor to search.",
+
 
                 adminSettings:
                     "Settings",
@@ -1556,6 +1729,7 @@ document.addEventListener(
                     "Open cleaning schedule",
 
 
+
                 // =================================================
                 // ADMIN - PROPERTIES
                 // =================================================
@@ -1591,7 +1765,7 @@ document.addEventListener(
                     "Save property",
 
                 adminPropertiesAccessDescription:
-                    "Properties you have access to manage.",
+                    "Properties you have permission to manage.",
 
                 adminShowProperties:
                     "Show properties",
@@ -1603,7 +1777,7 @@ document.addEventListener(
                     "Search by property name or address...",
 
                 adminPropertySearchAria:
-                    "Search properties",
+                    "Search for property",
 
                 adminLoadingProperties:
                     "Loading properties...",
@@ -1621,10 +1795,10 @@ document.addEventListener(
                     "{count} properties found",
 
                 adminHistoryComingSoon:
-                    "History will be added in a later step.",
+                    "History is coming in a later update.",
 
                 adminSettingsComingSoon:
-                    "Settings will be added in a later step.",
+                    "Settings are coming in a later update.",
 
 
                 // =================================================
@@ -1635,7 +1809,7 @@ document.addEventListener(
                     "Deactivated properties",
 
                 adminDeactivatedPropertiesDescription:
-                    "Deactivated properties can be restored for up to 2 months.",
+                    "Deactivated properties can be restored within 2 months.",
 
                 adminAuditCreatedBy:
                     "Created by",
@@ -1653,10 +1827,10 @@ document.addEventListener(
                     "Permanently deleted by",
 
                 adminCouldNotLoadHistory:
-                    "Could not load the history.",
+                    "Could not load history.",
 
                 adminNoActivityRegistered:
-                    "No activity registered.",
+                    "No activity recorded.",
 
                 adminActivityHistory:
                     "Activity / history",
@@ -1686,7 +1860,7 @@ document.addEventListener(
                     "Deactivate property",
 
                 adminConfirmDeactivateProperty:
-                    "Do you want to deactivate the property \"{name}\"?\n\nThe property will not be deleted immediately. It can be restored for 2 months before permanent deletion.",
+                    "Do you want to deactivate the property \"{name}\"?\n\nThe property will not be deleted immediately. It can be restored within 2 months before permanent deletion.",
 
                 adminDeactivating:
                     "Deactivating...",
@@ -1769,7 +1943,7 @@ document.addEventListener(
                     "Floor name",
 
                 adminFloorNamePlaceholder:
-                    "For example 1st floor",
+                    "For example First floor",
 
                 adminSaveFloor:
                     "Save floor",
@@ -1811,7 +1985,7 @@ document.addEventListener(
                     "Enter a valid floor number.",
 
                 adminEnterFloorName:
-                    "Enter a name for the floor.",
+                    "Enter a floor name.",
 
                 adminUpdating:
                     "Updating...",
@@ -1855,7 +2029,7 @@ document.addEventListener(
                 // =================================================
 
                 residentPageTitle:
-                    "CleanPlan - My page",
+                    "CleanPlan - My Page",
 
                 residentRole:
                     "RESIDENT",
@@ -1869,8 +2043,11 @@ document.addEventListener(
                 residentCleaningEyebrow:
                     "CLEANING SCHEDULE",
 
-                overview: "OVERVIEW",
-                residentDashboardTitle: "My overview",
+                overview:
+                    "OVERVIEW",
+
+                residentDashboardTitle:
+                    "My overview",
 
                 residentCleaningDescription:
                     "View cleaning weeks, tasks and who is responsible.",
@@ -1878,6 +2055,20 @@ document.addEventListener(
                 residentDashboardDescription:
                     "Choose the section you want to open.",
 
+                residentPhotosEyebrow:
+                    "PHOTOS",
+
+                residentPhotosHeading:
+                    "📷 Photos",
+
+                residentPhotosPageDescription:
+                    "Document completed cleaning using your camera.",
+
+                residentPhotoCount:
+                    "Photos",
+
+                residentNextCleaningLabel:
+                    "Next cleaning",
 
                 residentPropertyCardDescription:
                     "View your registered property, address and floor.",
@@ -1885,20 +2076,8 @@ document.addEventListener(
                 residentOpenProperty:
                     "Open property",
 
-                residentPhotosEyebrow:
-                    "PHOTOS",
-
-                residentPhotosHeading:
-                    "📷 Photos",
-
-                residentNextCleaningLabel:
-                    "Next cleaning",
-
-                residentPhotosPageDescription:
-                    "Document completed cleaning with your camera.",
-
-                residentPhotoCount:
-                    "Photos",
+                residentPropertyEyebrow:
+                    "MY PROPERTY",
 
                 residentCleaningCardDescription:
                     "View cleaning weeks, tasks and who is responsible.",
@@ -1921,19 +2100,17 @@ document.addEventListener(
                 propertyAssociation:
                     "Property assignment",
 
-                residentPropertyEyebrow: "MY PROPERTY",
-
                 accountActive:
                     "Your account is active.",
 
                 notAssignedProperty:
-                    "You are not assigned to a property yet",
+                    "You have not been assigned to a property yet",
 
                 notAssignedPropertyDescription:
                     "Your account has been created and is ready to use, but an administrator has not yet assigned you to a property and floor.",
 
                 contactAdministratorProperty:
-                    "Contact an administrator if you believe your property assignment should already have been registered.",
+                    "Contact your administrator if you believe your property assignment should already have been registered.",
 
                 myProperty:
                     "My property",
@@ -1998,7 +2175,7 @@ document.addEventListener(
                     "Document the work",
 
                 documentWorkDescription:
-                    "Take new photos with the camera after the cleaning has been completed.",
+                    "Take new photos with your camera after cleaning is completed.",
 
                 takePhoto:
                     "Take photo",
@@ -2039,7 +2216,7 @@ document.addEventListener(
                     "Confirm and sign",
 
                 confirmAndSignDescription:
-                    "Confirm when all tasks have been completed and the documentation has been added.",
+                    "Confirm when all tasks have been completed and documentation has been added.",
 
                 signedBy:
                     "Signed by",
@@ -2048,7 +2225,7 @@ document.addEventListener(
                     "Week",
 
                 confirmCleaningCompleted:
-                    "Confirm and sign cleaning completed",
+                    "Confirm and sign completed cleaning",
 
                 couldNotLoadPage:
                     "Could not load the page",
@@ -2076,19 +2253,17 @@ document.addEventListener(
                 floorNumber:
                     "Floor {floor}",
 
-
-
                 couldNotFetchPropertyAssociation:
-                    "Could not load your property assignment.",
+                    "Could not retrieve your property assignment.",
 
                 couldNotFetchCleaningPlan:
-                    "Could not load the cleaning schedule.",
+                    "Could not retrieve the cleaning schedule.",
 
                 couldNotFetchCleaningTasks:
-                    "Could not load the cleaning tasks.",
+                    "Could not retrieve the cleaning tasks.",
 
                 couldNotFetchCleaningRotation:
-                    "Could not load the cleaning rotation.",
+                    "Could not retrieve the cleaning rotation.",
 
                 noActiveCleaningPlan:
                     "No active cleaning schedule has been created yet.",
@@ -2100,7 +2275,7 @@ document.addEventListener(
                     "Scheduled",
 
                 planned:
-                    "Scheduled",
+                    "Planned",
 
                 previousWeekStatus:
                     "Previous week",
@@ -2145,7 +2320,7 @@ document.addEventListener(
                     "Cleaning task",
 
                 tasksCreatedByAdministrator:
-                    "The tasks were created by the administrator.",
+                    "The tasks were created by an administrator.",
 
                 tasksVisibleOnlyResponsibleCanComplete:
                     "You can view the tasks, but only the resident responsible for this week can complete them.",
@@ -2166,13 +2341,13 @@ document.addEventListener(
                     "This is not the active cleaning week.",
 
                 tasksOnlyCurrentWeek:
-                    "Tasks can only be completed during the current cleaning week.",
+                    "Tasks can only be completed during the current week.",
 
                 onlyCurrentWeekCanBeCompleted:
                     "Only the current cleaning week can be completed.",
 
                 selectCurrentWeekToClean:
-                    "🔒 Select the current week to complete the cleaning.",
+                    "🔒 Select the current week to complete cleaning.",
 
                 cleaningAvailableThursday:
                     "Cleaning becomes available on Thursday.",
@@ -2184,19 +2359,19 @@ document.addEventListener(
                     "🔒 Not available yet. Cleaning can be registered on Thursday or Friday.",
 
                 confirmationOpensThursday:
-                    "🔒 Confirmation opens on Thursday.",
+                    "🔒 Confirmation becomes available on Thursday.",
 
                 deadlineExpiredForWeek:
-                    "The deadline for this week has passed.",
+                    "The deadline for this week has expired.",
 
                 cleaningCannotBeRegistered:
                     "Cleaning can no longer be registered for this week.",
 
                 deadlineExpiredLocked:
-                    "🔒 The deadline has passed.",
+                    "🔒 The deadline has expired.",
 
                 responsibleThisWeekCheckTasks:
-                    "You are responsible this week. Check off each task as it is completed.",
+                    "You are responsible this week. Check off each task as you complete it.",
 
                 responsibleForThisWeek:
                     "You are responsible for this week.",
@@ -2222,12 +2397,13 @@ document.addEventListener(
                 errorOccurred:
                     "An error occurred.",
 
+
                 // =================================================
                 // CLEANING HISTORY
                 // =================================================
 
                 cleaningHistory:
-                    "Log",
+                    "History",
 
                 cleaningHistoryEyebrow:
                     "History",
@@ -2274,13 +2450,13 @@ document.addEventListener(
                     "CleanPlan - Residents",
 
                 adminResidentsPageDescription:
-                    "Manage residents and their property and floor assignments.",
+                    "Manage residents and their assignments to properties and floors.",
 
                 adminAddResident:
                     "Add resident",
 
                 adminAddResidentDescription:
-                    "Connect an existing user profile to a property and floor.",
+                    "Assign an existing user profile to a property and floor.",
 
                 adminResidentProfile:
                     "User profile",
@@ -2310,7 +2486,7 @@ document.addEventListener(
                     "Registered residents",
 
                 adminResidentsAccessDescription:
-                    "Residents you have access to manage.",
+                    "Residents you have permission to manage.",
 
                 adminShowResidents:
                     "Show residents",
@@ -2322,7 +2498,7 @@ document.addEventListener(
                     "Search by name, email, property or floor...",
 
                 adminResidentSearchAria:
-                    "Search residents",
+                    "Search for resident",
 
                 adminResidentSingularFound:
                     "{count} resident found",
@@ -2379,7 +2555,7 @@ document.addEventListener(
                     "You do not have permission to create this resident.",
 
                 adminCouldNotCreateResident:
-                    "Could not create resident.",
+                    "Could not create the resident.",
 
                 adminResidentCreated:
                     "The resident was created.",
@@ -2390,16 +2566,16 @@ document.addEventListener(
                 // =================================================
 
                 adminCleaningPlanPageTitle:
-                    "CleanPlan - Cleaning Plan",
+                    "CleanPlan - Cleaning Schedule",
 
                 adminCleaningPlanAdminTitle:
-                    "Cleaning Plan (Admin)",
+                    "Cleaning Schedule (Admin)",
 
                 adminCleaningPlanPageDescription:
-                    "Create and manage tasks for the cleaning plan.",
+                    "Create and manage tasks for the cleaning schedule.",
 
                 adminCleaningTasksVisibilityInfo:
-                    "The tasks you create here are shown to all residents who live on this floor.",
+                    "The tasks you create here are visible to all residents living on this floor.",
 
                 adminAddNewCleaningTask:
                     "Add new task",
@@ -2423,7 +2599,7 @@ document.addEventListener(
                     "Order",
 
                 adminLowerNumbersFirst:
-                    "Lower numbers are shown first.",
+                    "Lower numbers appear first.",
 
                 adminAddTask:
                     "Add task",
@@ -2441,19 +2617,19 @@ document.addEventListener(
                     "No tasks have been created for this floor yet.",
 
                 adminDragDropTaskInfo:
-                    "Drag and drop to change the order of the tasks.",
+                    "Drag and drop to change the order of tasks.",
 
                 adminDragToReorder:
-                    "Drag to change the order",
+                    "Drag to reorder",
 
                 adminDragTaskAria:
                     "Drag the task to change its order",
 
                 adminCouldNotLoadCleaningPlan:
-                    "Could not load the cleaning plan.",
+                    "Could not load the cleaning schedule.",
 
                 adminCouldNotCreateCleaningPlan:
-                    "Could not create the cleaning plan.",
+                    "Could not create the cleaning schedule.",
 
                 adminCouldNotLoadTasks:
                     "Could not load the tasks.",
@@ -2507,7 +2683,7 @@ document.addEventListener(
                     "Could not create the task.",
 
                 adminCouldNotConnectTaskToPlan:
-                    "Could not connect the task to the cleaning plan.",
+                    "Could not connect the task to the cleaning schedule.",
 
                 adminTaskCreatedTranslationFailed:
                     "The task was created, but its translation could not be saved.",
@@ -2566,7 +2742,7 @@ document.addEventListener(
                     "Create user",
 
                 adminCreateUserDescription:
-                    "Create a new user for CleanPlan. The user receives a secure email link to set their own password.",
+                    "Create a new user for CleanPlan. The user will receive a secure email link to set their own password.",
 
                 adminNameLabel:
                     "Name",
@@ -2596,7 +2772,7 @@ document.addEventListener(
                     "Search by name, email, role or status...",
 
                 adminUserSearchAria:
-                    "Search users",
+                    "Search for user",
 
                 adminUserSingularFound:
                     "{count} user found",
@@ -2635,10 +2811,10 @@ document.addEventListener(
                     "Creating user...",
 
                 adminCouldNotCreateUser:
-                    "Could not create user.",
+                    "Could not create the user.",
 
                 adminUserCreatedPasswordLinkSent:
-                    "The user was created. A secure password setup link has been sent to the email address.",
+                    "The user was created. A secure password setup link has been sent to their email address.",
 
                 adminCreateUserUnexpectedError:
                     "An error occurred while creating the user.",
@@ -2665,152 +2841,45 @@ document.addEventListener(
 
         };
 
+
         // ========================================================
-// CURRENT LANGUAGE
-// ========================================================
+        // LANGUAGE STORAGE
+        // ========================================================
 
-        let currentLanguageCode =
-            localStorage.getItem(
-                "cleaningAppLanguage"
-            ) || "no";
+        const LANGUAGE_STORAGE_KEY =
+            "cleanplan_language";
 
 
-        if (
-            !languages.some(
-                function (
-                    language
-                ) {
+        // ========================================================
+        // GET SAVED LANGUAGE
+        // ========================================================
 
-                    return (
-                        language.code ===
-                        currentLanguageCode
-                    );
+        function getSavedLanguage() {
 
-                }
-            )
-        ) {
+            const savedLanguage =
+                localStorage.getItem(
+                    LANGUAGE_STORAGE_KEY
+                );
 
-            currentLanguageCode =
-                "no";
+            const supportedLanguage =
+                languages.some(
+                    language =>
+                        language.code === savedLanguage
+                );
 
-
-            localStorage.setItem(
-                "cleaningAppLanguage",
-                "no"
-            );
+            return supportedLanguage
+                ? savedLanguage
+                : "no";
 
         }
 
 
         // ========================================================
-        // SMALL LANGUAGE SWITCHER DOM
+        // CURRENT LANGUAGE
         // ========================================================
 
-        const languageSwitcher =
-            document.getElementById(
-                "languageSwitcher"
-            );
-
-        const languageCurrentButton =
-            document.getElementById(
-                "languageCurrentButton"
-            );
-
-        const languageMenu =
-            document.getElementById(
-                "languageMenu"
-            );
-
-        const currentLanguageFlag =
-            document.getElementById(
-                "currentLanguageFlag"
-            );
-
-        const currentLanguageCodeElement =
-            document.getElementById(
-                "currentLanguageCode"
-            );
-
-        const languageOptions =
-            document.querySelectorAll(
-                ".language-option[data-language]"
-            );
-
-
-        // ========================================================
-        // GET LANGUAGE BY CODE
-        // ========================================================
-
-        function getLanguageByCode(
-            code
-        ) {
-
-            return languages.find(
-                function (
-                    language
-                ) {
-
-                    return (
-                        language.code ===
-                        code
-                    );
-
-                }
-            );
-
-        }
-
-
-        // ========================================================
-        // INTERPOLATE TRANSLATIONS
-        // ========================================================
-
-        function interpolate(
-            text,
-            params
-        ) {
-
-            if (
-                typeof text !==
-                "string"
-            ) {
-
-                return text;
-
-            }
-
-
-            if (
-                !params
-            ) {
-
-                return text;
-
-            }
-
-
-            return text.replace(
-                /\{(\w+)\}/g,
-                function (
-                    match,
-                    key
-                ) {
-
-                    return Object.prototype
-                        .hasOwnProperty
-                        .call(
-                            params,
-                            key
-                        )
-                        ? String(
-                            params[key]
-                        )
-                        : match;
-
-                }
-            );
-
-        }
+        let currentLanguage =
+            getSavedLanguage();
 
 
         // ========================================================
@@ -2819,521 +2888,206 @@ document.addEventListener(
 
         function getTranslation(
             key,
-            params
+            replacements = {}
         ) {
 
-            const currentTranslations =
-                translations[
-                    currentLanguageCode
-                    ];
-
-
-            const fallbackTranslations =
+            const languageDictionary =
+                translations[currentLanguage] ||
                 translations.no;
 
+            const norwegianDictionary =
+                translations.no;
 
-            let value;
-
+            let translatedText =
+                languageDictionary[key] ??
+                norwegianDictionary[key] ??
+                key;
 
             if (
-                currentTranslations &&
-                Object.prototype
-                    .hasOwnProperty
-                    .call(
-                        currentTranslations,
-                        key
-                    )
+                typeof translatedText !== "string"
             ) {
 
-                value =
-                    currentTranslations[
-                        key
-                        ];
-
-            } else if (
-                fallbackTranslations &&
-                Object.prototype
-                    .hasOwnProperty
-                    .call(
-                        fallbackTranslations,
-                        key
-                    )
-            ) {
-
-                value =
-                    fallbackTranslations[
-                        key
-                        ];
-
-            } else {
-
-                value =
-                    key;
+                return translatedText;
 
             }
 
+            for (
+                const [placeholder, value]
+                of Object.entries(replacements)
+                ) {
 
-            return interpolate(
-                value,
-                params
-            );
+                translatedText =
+                    translatedText.replaceAll(
+                        `{${placeholder}}`,
+                        String(value)
+                    );
+
+            }
+
+            return translatedText;
 
         }
 
 
         // ========================================================
-        // TRANSLATE PAGE
+        // GET CURRENT LANGUAGE
         // ========================================================
 
-        function translatePage() {
+        function getLanguage() {
+
+            return currentLanguage;
+
+        }
 
 
-            // ====================================================
-            // TEXT CONTENT
-            // ====================================================
+        // ========================================================
+        // APPLY TEXT TRANSLATIONS
+        // ========================================================
 
-            document
-                .querySelectorAll(
+        function applyTranslations() {
+
+            const elements =
+                document.querySelectorAll(
                     "[data-i18n]"
-                )
-                .forEach(
-                    function (
-                        element
-                    ) {
+                );
 
-                        const key =
-                            element.dataset
-                                .i18n;
+            elements.forEach(
+                function (element) {
 
+                    const translationKey =
+                        element.getAttribute(
+                            "data-i18n"
+                        );
 
-                        if (
-                            key
-                        ) {
+                    if (!translationKey) {
 
-                            element.textContent =
-                                getTranslation(
-                                    key
-                                );
-
-                        }
+                        return;
 
                     }
-                );
 
-
-            // ====================================================
-            // PLACEHOLDERS
-            // ====================================================
-
-            document
-                .querySelectorAll(
-                    "[data-i18n-placeholder]"
-                )
-                .forEach(
-                    function (
-                        element
-                    ) {
-
-                        const key =
-                            element.dataset
-                                .i18nPlaceholder;
-
-
-                        if (
-                            key
-                        ) {
-
-                            element.setAttribute(
-                                "placeholder",
-                                getTranslation(
-                                    key
-                                )
-                            );
-
-                        }
-
-                    }
-                );
-
-
-            // ====================================================
-            // ARIA LABELS
-            // ====================================================
-
-            document
-                .querySelectorAll(
-                    "[data-i18n-aria-label]"
-                )
-                .forEach(
-                    function (
-                        element
-                    ) {
-
-                        const key =
-                            element.dataset
-                                .i18nAriaLabel;
-
-
-                        if (
-                            key
-                        ) {
-
-                            element.setAttribute(
-                                "aria-label",
-                                getTranslation(
-                                    key
-                                )
-                            );
-
-                        }
-
-                    }
-                );
-
-
-            // ====================================================
-            // TITLE ATTRIBUTES
-            // ====================================================
-
-            document
-                .querySelectorAll(
-                    "[data-i18n-title]"
-                )
-                .forEach(
-                    function (
-                        element
-                    ) {
-
-                        const key =
-                            element.dataset
-                                .i18nTitle;
-
-
-                        if (
-                            key
-                        ) {
-
-                            element.setAttribute(
-                                "title",
-                                getTranslation(
-                                    key
-                                )
-                            );
-
-                        }
-
-                    }
-                );
-
-
-            // ====================================================
-            // DOCUMENT TITLE
-            // ====================================================
-
-            const titleElement =
-                document.querySelector(
-                    "title[data-i18n-title]"
-                );
-
-
-            if (
-                titleElement
-            ) {
-
-                const titleKey =
-                    titleElement.dataset
-                        .i18nTitle;
-
-
-                if (
-                    titleKey
-                ) {
-
-                    document.title =
+                    element.textContent =
                         getTranslation(
-                            titleKey
+                            translationKey
                         );
 
                 }
-
-            }
-
-
-            // ====================================================
-            // HTML LANGUAGE
-            // ====================================================
-
-            document.documentElement.lang =
-                currentLanguageCode;
-
-        }
+            );
 
 
-        // ========================================================
-        // UPDATE SMALL LANGUAGE BUTTON
-        // ========================================================
+            // ================================================
+            // PLACEHOLDER TRANSLATIONS
+            // ================================================
 
-        function updateLanguageButton() {
-
-            const language =
-                getLanguageByCode(
-                    currentLanguageCode
+            const placeholderElements =
+                document.querySelectorAll(
+                    "[data-i18n-placeholder]"
                 );
 
+            placeholderElements.forEach(
+                function (element) {
 
-            if (
-                !language
-            ) {
+                    const translationKey =
+                        element.getAttribute(
+                            "data-i18n-placeholder"
+                        );
 
-                currentLanguageCode =
-                    "no";
+                    if (!translationKey) {
 
+                        return;
 
-                localStorage.setItem(
-                    "cleaningAppLanguage",
-                    "no"
-                );
+                    }
 
-
-                updateLanguageButton();
-
-                return;
-
-            }
-
-
-            if (
-                currentLanguageFlag
-            ) {
-
-                currentLanguageFlag.textContent =
-                    language.flag;
-
-            }
-
-
-            if (
-                currentLanguageCodeElement
-            ) {
-
-                currentLanguageCodeElement.textContent =
-                    language.shortCode;
-
-            }
-
-
-            if (
-                languageCurrentButton
-            ) {
-
-                languageCurrentButton.setAttribute(
-                    "aria-label",
-                    getTranslation(
-                        "languageSelectorAria"
-                    )
-                );
-
-            }
-
-
-            document.documentElement.lang =
-                language.code;
-
-        }
-
-
-        // ========================================================
-        // UPDATE ACTIVE LANGUAGE OPTION
-        // ========================================================
-
-        function updateLanguageOptions() {
-
-            languageOptions.forEach(
-                function (
-                    button
-                ) {
-
-                    const code =
-                        button.dataset
-                            .language;
-
-
-                    const isActive =
-                        code ===
-                        currentLanguageCode;
-
-
-                    button.classList.toggle(
-                        "active",
-                        isActive
-                    );
-
-
-                    button.setAttribute(
-                        "aria-selected",
-                        isActive
-                            ? "true"
-                            : "false"
+                    element.setAttribute(
+                        "placeholder",
+                        getTranslation(
+                            translationKey
+                        )
                     );
 
                 }
             );
 
-        }
 
+            // ================================================
+            // ARIA LABEL TRANSLATIONS
+            // ================================================
 
-        // ========================================================
-        // OPEN LANGUAGE MENU
-        // ========================================================
-
-        function openLanguageMenu() {
-
-            if (
-                !languageMenu
-            ) {
-
-                return;
-
-            }
-
-
-            languageMenu.hidden =
-                false;
-
-
-            if (
-                languageCurrentButton
-            ) {
-
-                languageCurrentButton.setAttribute(
-                    "aria-expanded",
-                    "true"
+            const ariaElements =
+                document.querySelectorAll(
+                    "[data-i18n-aria-label]"
                 );
 
-            }
+            ariaElements.forEach(
+                function (element) {
 
-        }
+                    const translationKey =
+                        element.getAttribute(
+                            "data-i18n-aria-label"
+                        );
 
+                    if (!translationKey) {
 
-        // ========================================================
-        // CLOSE LANGUAGE MENU
-        // ========================================================
+                        return;
 
-        function closeLanguageMenu() {
+                    }
 
-            if (
-                !languageMenu
-            ) {
+                    element.setAttribute(
+                        "aria-label",
+                        getTranslation(
+                            translationKey
+                        )
+                    );
 
-                return;
-
-            }
-
-
-            languageMenu.hidden =
-                true;
-
-
-            if (
-                languageCurrentButton
-            ) {
-
-                languageCurrentButton.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-            }
-
-        }
-
-
-        // ========================================================
-        // TOGGLE LANGUAGE MENU
-        // ========================================================
-
-        function toggleLanguageMenu() {
-
-            if (
-                !languageMenu
-            ) {
-
-                return;
-
-            }
-
-
-            if (
-                languageMenu.hidden
-            ) {
-
-                openLanguageMenu();
-
-            } else {
-
-                closeLanguageMenu();
-
-            }
-
-        }
-
-
-        // ========================================================
-        // SELECT LANGUAGE
-        // ========================================================
-
-        function selectLanguage(
-            languageCode
-        ) {
-
-            const language =
-                getLanguageByCode(
-                    languageCode
-                );
-
-
-            if (
-                !language
-            ) {
-
-                return;
-
-            }
-
-
-            currentLanguageCode =
-                language.code;
-
-
-            localStorage.setItem(
-                "cleaningAppLanguage",
-                currentLanguageCode
+                }
             );
 
 
-            updateLanguageButton();
+            // ================================================
+            // DOCUMENT LANGUAGE
+            // ================================================
+
+            document.documentElement.lang =
+                currentLanguage;
+
+        }
 
 
-            updateLanguageOptions();
+        // ========================================================
+        // SET LANGUAGE
+        // ========================================================
 
+        function setLanguage(
+            languageCode
+        ) {
 
-            translatePage();
+            const isSupported =
+                languages.some(
+                    language =>
+                        language.code === languageCode
+                );
 
+            if (!isSupported) {
 
-            closeLanguageMenu();
+                return;
 
+            }
 
-            // ====================================================
-            // NOTIFY PAGE-SPECIFIC JAVASCRIPT
-            // ====================================================
+            currentLanguage =
+                languageCode;
+
+            localStorage.setItem(
+                LANGUAGE_STORAGE_KEY,
+                languageCode
+            );
+
+            applyTranslations();
 
             window.dispatchEvent(
                 new CustomEvent(
                     "cleanplan:languagechange",
                     {
                         detail: {
-                            language:
-                            currentLanguageCode
+                            language: languageCode
                         }
                     }
                 )
@@ -3343,92 +3097,247 @@ document.addEventListener(
 
 
         // ========================================================
-        // CURRENT LANGUAGE BUTTON
+        // LANGUAGE SELECTOR
         // ========================================================
 
-        if (
-            languageCurrentButton
-        ) {
+        function initializeLanguageSelector() {
 
-            languageCurrentButton.addEventListener(
-                "click",
-                function (
-                    event
-                ) {
+            const languageSwitcher =
+                document.getElementById(
+                    "languageSwitcher"
+                );
 
-                    event.preventDefault();
+            const currentButton =
+                document.getElementById(
+                    "languageCurrentButton"
+                );
 
-                    event.stopPropagation();
+            const languageMenu =
+                document.getElementById(
+                    "languageMenu"
+                );
+
+            const currentFlag =
+                document.getElementById(
+                    "currentLanguageFlag"
+                );
+
+            const currentCode =
+                document.getElementById(
+                    "currentLanguageCode"
+                );
 
 
-                    toggleLanguageMenu();
+            // ====================================================
+            // UPDATE CURRENT LANGUAGE DISPLAY
+            // ====================================================
+
+            function updateCurrentLanguage() {
+
+                const selectedLanguage =
+                    languages.find(
+                        language =>
+                            language.code === currentLanguage
+                    );
+
+                if (!selectedLanguage) {
+                    return;
+                }
+
+                if (currentFlag) {
+
+                    currentFlag.textContent =
+                        selectedLanguage.flag;
 
                 }
-            );
 
-        }
+                if (currentCode) {
 
+                    currentCode.textContent =
+                        selectedLanguage.shortCode;
 
-        // ========================================================
-        // LANGUAGE OPTIONS
-        // ========================================================
+                }
 
-        languageOptions.forEach(
-            function (
-                button
-            ) {
+                document.querySelectorAll(
+                    ".language-option"
+                ).forEach(
+                    function (option) {
 
-                button.addEventListener(
-                    "click",
-                    function (
-                        event
-                    ) {
-
-                        event.preventDefault();
-
-                        event.stopPropagation();
-
-
-                        const languageCode =
-                            button.dataset
-                                .language;
-
-
-                        if (
-                            !languageCode
-                        ) {
-
-                            return;
-
-                        }
-
-
-                        selectLanguage(
-                            languageCode
+                        option.setAttribute(
+                            "aria-selected",
+                            String(
+                                option.dataset.language ===
+                                currentLanguage
+                            )
                         );
 
                     }
                 );
 
             }
-        );
+
+
+            // ====================================================
+            // CUSTOM LANGUAGE MENU
+            // ====================================================
+
+            if (
+                languageSwitcher &&
+                currentButton &&
+                languageMenu
+            ) {
+
+                function closeLanguageMenu() {
+
+                    languageMenu.hidden = true;
+
+                    currentButton.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }
+
+
+                currentButton.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.stopPropagation();
+
+                        const shouldOpen =
+                            languageMenu.hidden;
+
+                        languageMenu.hidden =
+                            !shouldOpen;
+
+                        currentButton.setAttribute(
+                            "aria-expanded",
+                            String(shouldOpen)
+                        );
+
+                    }
+                );
+
+
+                languageMenu.querySelectorAll(
+                    ".language-option"
+                ).forEach(
+                    function (option) {
+
+                        option.addEventListener(
+                            "click",
+                            function () {
+
+                                const languageCode =
+                                    option.dataset.language;
+
+                                setLanguage(languageCode);
+
+                                updateCurrentLanguage();
+
+                                closeLanguageMenu();
+
+                            }
+                        );
+
+                    }
+                );
+
+
+                document.addEventListener(
+                    "click",
+                    function (event) {
+
+                        if (
+                            !languageSwitcher.contains(
+                                event.target
+                            )
+                        ) {
+
+                            closeLanguageMenu();
+
+                        }
+
+                    }
+                );
+
+
+                document.addEventListener(
+                    "keydown",
+                    function (event) {
+
+                        if (event.key === "Escape") {
+
+                            closeLanguageMenu();
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            // ====================================================
+            // STANDARD SELECT ELEMENTS
+            // ====================================================
+
+            document.querySelectorAll(
+                "#languageSelect, [data-language-select]"
+            ).forEach(
+                function (selector) {
+
+                    selector.value =
+                        currentLanguage;
+
+                    selector.addEventListener(
+                        "change",
+                        function () {
+
+                            setLanguage(
+                                selector.value
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+            // ====================================================
+            // REFRESH WHEN LANGUAGE CHANGES
+            // ====================================================
+
+            window.addEventListener(
+                "cleanplan:languagechange",
+                updateCurrentLanguage
+            );
+
+
+            updateCurrentLanguage();
+
+        }
+
 
 
         // ========================================================
-        // DO NOT CLOSE WHEN CLICKING INSIDE LANGUAGE SWITCHER
+        // UPDATE LANGUAGE SELECTORS
         // ========================================================
 
-        if (
-            languageSwitcher
-        ) {
+        function updateLanguageSelectors() {
 
-            languageSwitcher.addEventListener(
-                "click",
-                function (
-                    event
-                ) {
+            const languageSelectors =
+                document.querySelectorAll(
+                    "#languageSelect, [data-language-select]"
+                );
 
-                    event.stopPropagation();
+            languageSelectors.forEach(
+                function (selector) {
+
+                    selector.value =
+                        currentLanguage;
 
                 }
             );
@@ -3437,145 +3346,64 @@ document.addEventListener(
 
 
         // ========================================================
-        // CLICK OUTSIDE
+        // SYNC LANGUAGE SELECTORS
         // ========================================================
 
-        document.addEventListener(
-            "click",
-            function (
-                event
-            ) {
+        window.addEventListener(
+            "cleanplan:languagechange",
+            function () {
 
-                if (
-                    languageSwitcher &&
-                    languageSwitcher.contains(
-                        event.target
-                    )
-                ) {
-
-                    return;
-
-                }
-
-
-                closeLanguageMenu();
+                updateLanguageSelectors();
 
             }
         );
 
 
         // ========================================================
-        // ESCAPE
-        // ========================================================
-
-        document.addEventListener(
-            "keydown",
-            function (
-                event
-            ) {
-
-                if (
-                    event.key ===
-                    "Escape"
-                ) {
-
-                    closeLanguageMenu();
-
-                }
-
-            }
-        );
-
-
-        // ========================================================
-        // PUBLIC API
+        // EXPOSE TRANSLATION FUNCTIONS
         // ========================================================
 
         window.CleanPlanI18n = {
 
+            t: getTranslation,
 
-            // ----------------------------------------------------
-            // GET CURRENT LANGUAGE
-            // ----------------------------------------------------
+            getLanguage: getLanguage,
 
-            getLanguage:
-                function () {
+            setLanguage: setLanguage,
 
-                    return currentLanguageCode;
+            applyTranslations: applyTranslations,
 
-                },
-
-
-            // ----------------------------------------------------
-            // TRANSLATE
-            // ----------------------------------------------------
-
-            t:
-                function (
-                    key,
-                    params
-                ) {
-
-                    return getTranslation(
-                        key,
-                        params
-                    );
-
-                },
-
-
-            // ----------------------------------------------------
-            // APPLY PAGE TRANSLATIONS
-            // ----------------------------------------------------
-
-            applyTranslations:
-                function () {
-
-                    translatePage();
-
-                },
-
-
-            // ----------------------------------------------------
-            // SET LANGUAGE
-            // ----------------------------------------------------
-
-            setLanguage:
-                function (
-                    languageCode
-                ) {
-
-                    selectLanguage(
-                        languageCode
-                    );
-
-                }
+            languages: languages
 
         };
 
 
         // ========================================================
-        // BACKWARD COMPATIBILITY
+        // INITIALIZE LANGUAGE SYSTEM
         // ========================================================
 
-        window.cleanPlanLanguage =
-            window.CleanPlanI18n;
+        initializeLanguageSelector();
+
+        applyTranslations();
 
 
         // ========================================================
-        // INITIALIZE
+        // LANGUAGE SYSTEM READY
         // ========================================================
 
-        updateLanguageButton();
+        window.dispatchEvent(
+            new CustomEvent(
+                "cleanplan:languageReady",
+                {
+                    detail: {
+                        language: currentLanguage
+                    }
+                }
+            )
+        );
 
-
-        updateLanguageOptions();
-
-
-        translatePage();
-
-
-        closeLanguageMenu();
 
     }
 );
+
+

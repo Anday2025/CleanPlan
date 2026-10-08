@@ -884,6 +884,26 @@
             "historySidebarButton"
         );
 
+
+    // ============================================================
+    // SIDEBAR - HISTORY
+    // ============================================================
+
+    if (historySidebarButton) {
+
+        historySidebarButton.addEventListener(
+            "click",
+            function () {
+
+                window.location.href =
+                    "admin-history.html";
+
+            }
+        );
+
+    }
+
+
     const settingsSidebarButton =
         document.getElementById(
             "settingsSidebarButton"
