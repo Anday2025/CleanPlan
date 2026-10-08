@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>CleanPlan - Logg og dokumentasjon</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin-cleaning-plan.css">
+  <link rel="stylesheet" href="css/admin-history.css">
+
+</head>
+
+<body class="admin-dashboard-body">
+
+<div class="admin-app-layout">
+
+
+  <!-- =========================================================
+       SIDEBAR
+       ========================================================= -->
+
+  <aside class="admin-sidebar">
+
+    <!-- BRAND -->
+
+    <div class="admin-sidebar-brand">
+
+        <span class="admin-sidebar-logo">
+            🧹
+        </span>
+
+      <span>CleanPlan</span>
+
+    </div>
+
+
+    <!-- ROLE -->
+
+    <div
+            class="admin-sidebar-section-label"
+            data-i18n="adminRoleLabel"
+    >
+      ADMIN
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="admin-sidebar-nav">
+
+      <!-- DASHBOARD -->
+
+      <a
+              href="admin.html"
+              class="admin-sidebar-link"
+      >
+        <span class="admin-sidebar-icon">▦</span>
+        <span data-i18n="adminDashboard">Dashboard</span>
+      </a>
+
+
+      <!-- PROPERTIES -->
+
+      <a
+              href="properties.html"
+              class="admin-sidebar-link"
+      >
+        <span class="admin-sidebar-icon">🏠</span>
+        <span data-i18n="adminProperties">Boliger</span>
+      </a>
+
+
+      <!-- FLOORS -->
+
+      <a
+              href="properties.html"
+              class="admin-sidebar-link"
+      >
+        <span class="admin-sidebar-icon">▤</span>
+        <span data-i18n="adminFloors">Etasjer</span>
+      </a>
+
+
+      <!-- RESIDENTS -->
+
+      <a
+              href="admin-residents.html"
+              class="admin-sidebar-link"
+      >
+        <span class="admin-sidebar-icon">👥</span>
+        <span data-i18n="adminResidents">Beboere</span>
+      </a>
+
+
+      <!-- CLEANING PLAN -->
+
+      <a
+              href="admin-cleaning-plan.html"
+              class="admin-sidebar-link"
+      >
+        <span class="admin-sidebar-icon">🧹</span>
+        <span data-i18n="adminCleaningPlan">
+                Rengjøringsplan
+            </span>
+      </a>
+
+
+      <!-- USERS -->
+
+      <a
+              href="users.html"
+              class="admin-sidebar-link"
+      >
+        <span class="admin-sidebar-icon">👤</span>
+        <span data-i18n="adminUsers">Brukere</span>
+      </a>
+
+
+      <!-- HISTORY -->
+
+      <a
+              href="admin-history.html"
+              class="admin-sidebar-link active"
+              aria-current="page"
+      >
+        <span class="admin-sidebar-icon">↺</span>
+        <span data-i18n="adminHistory">Historikk</span>
+      </a>
+
+
+      <!-- SETTINGS -->
+
+      <button
+              id="settingsSidebarButton"
+              class="admin-sidebar-link"
+              type="button"
+      >
+        <span class="admin-sidebar-icon">⚙</span>
+        <span data-i18n="adminSettings">
+                Innstillinger
+            </span>
+      </button>
+
+    </nav>
+
+
+    <!-- LOGOUT -->
+
+    <div class="admin-sidebar-footer">
+
+      <button
+              id="sidebarLogoutButton"
+              class="admin-sidebar-link admin-sidebar-logout"
+              type="button"
+      >
+        <span class="admin-sidebar-icon">↪</span>
+        <span data-i18n="logout">Logg ut</span>
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN CONTENT -->
+
+  <main class="admin-main">
+
+    <header class="admin-topbar">
+      <a href="admin.html">← Tilbake til oversikt</a>
+    </header>
+
+    <section class="admin-content">
+
+      <h1>Logg og dokumentasjon</h1>
+
+      <p>
+        Søk etter rengjøringshistorikk i boliger
+        og etasjer du har tilgang til.
+      </p>
+
+      <!-- FILTER -->
+
+      <form id="historyFilterForm">
+
+        <label for="historyPropertySelect">
+          Bolig
+        </label>
+
+        <select
+                id="historyPropertySelect"
+                required
+                disabled
+        >
+          <option value="">
+            Laster boliger …
+          </option>
+        </select>
+
+        <label for="historyFloorSelect">
+          Etasje
+        </label>
+
+        <select
+                id="historyFloorSelect"
+                disabled
+        >
+          <option value="">
+            Alle etasjer
+          </option>
+        </select>
+
+        <button
+                id="historySearchButton"
+                type="submit"
+                disabled
+        >
+          Søk i logg
+        </button>
+
+      </form>
+
+      <!-- RESULTS -->
+
+      <p id="historyMessage" role="status">
+        Loggen blir tilgjengelig når
+        datatilkoblingen er ferdig.
+      </p>
+
+      <section
+              id="historyResults"
+              aria-live="polite"
+      ></section>
+
+    </section>
+
+  </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/language.js?v=12"></script>
+
+<script src="js/admin-history.js?v=1"></script>
+
+</body>
+</html>

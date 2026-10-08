@@ -1066,6 +1066,7 @@ if (usersSidebarButton) {
 }
 
 
+
 // ============================================================
 // HISTORY
 // ============================================================
@@ -1076,19 +1077,14 @@ if (historySidebarButton) {
         "click",
         function () {
 
-            /*
-             * Do not navigate to a page that does not
-             * exist yet.
-             */
-
-            window.alert(
-                "Historikk kommer i et senere steg."
-            );
+            window.location.href =
+                "admin-history.html";
 
         }
     );
 
 }
+
 
 
 // ============================================================
