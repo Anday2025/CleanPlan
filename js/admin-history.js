@@ -528,7 +528,7 @@ async function initializeAdminHistory() {
             error: profileError
         } = await supabaseClient
             .from("profiles")
-            .select("role, is_active")
+            .select("full_name, email, role, is_active")
             .eq("id", user.id)
             .single();
 
@@ -548,6 +548,49 @@ async function initializeAdminHistory() {
             return;
 
         }
+
+
+// ============================================================
+// HEADER PROFILE
+// ============================================================
+
+        const adminName =
+            document.getElementById("adminName");
+
+        const adminRole =
+            document.getElementById("adminRole");
+
+        const adminInitial =
+            document.getElementById("adminInitial");
+
+        if (adminName) {
+
+            adminName.textContent =
+                profile.full_name || "Administrator";
+
+        }
+
+        if (adminRole) {
+
+            adminRole.textContent =
+                profile.role === "superadmin"
+                    ? "Superadmin"
+                    : "Admin";
+
+        }
+
+        if (adminInitial) {
+
+            const initialSource =
+                profile.full_name ||
+                profile.email ||
+                "A";
+
+            adminInitial.textContent =
+                initialSource.trim().charAt(0).toUpperCase();
+
+        }
+
 
         await loadHistoryProperties();
 

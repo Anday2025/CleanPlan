@@ -242,130 +242,155 @@
   <main class="admin-main">
 
 
-    <!-- =====================================================
-         TOP HEADER WITH LANGUAGE SWITCHER
-         ===================================================== -->
+      <!-- =====================================================
+           TOP HEADER WITH PROFILE AND LANGUAGE SWITCHER
+           ===================================================== -->
 
-    <header class="admin-main-header">
+      <header class="admin-main-header">
 
+          <!-- BACK BUTTON -->
 
-      <!-- BACK BUTTON -->
+          <div>
 
-      <div>
-
-        <a
-                href="admin.html"
-                data-i18n="historyBack"
-        >
-          ← Tilbake til oversikt
-        </a>
-
-      </div>
-
-
-      <!-- LANGUAGE SWITCHER -->
-
-      <div class="admin-header-profile">
-
-        <div
-                class="language-switcher"
-                id="languageSwitcher"
-        >
-
-
-          <!-- CURRENT LANGUAGE -->
-
-          <button
-                  type="button"
-                  class="language-current"
-                  id="languageCurrentButton"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                  data-i18n-aria-label="languageSelectorAria"
-          >
-
-                        <span
-                                class="language-current-flag"
-                                id="currentLanguageFlag"
-                        >
-                            🇳🇴
-                        </span>
-
-            <span
-                    class="language-current-code"
-                    id="currentLanguageCode"
-            >
-                            NO
-                        </span>
-
-            <span class="language-current-arrow">
-                            ▾
-                        </span>
-
-          </button>
-
-
-          <!-- LANGUAGE MENU -->
-
-          <div
-                  class="language-menu"
-                  id="languageMenu"
-                  role="listbox"
-                  hidden
-          >
-
-
-            <!-- NORWEGIAN -->
-
-            <button
-                    type="button"
-                    class="language-option"
-                    data-language="no"
-                    role="option"
-                    aria-selected="true"
-            >
-
-                            <span class="language-option-flag">
-                                🇳🇴
-                            </span>
-
-              <span class="language-option-code">
-                                NO
-                            </span>
-
-            </button>
-
-
-            <!-- ENGLISH -->
-
-            <button
-                    type="button"
-                    class="language-option"
-                    data-language="en"
-                    role="option"
-                    aria-selected="false"
-            >
-
-                            <span class="language-option-flag">
-                                🇬🇧
-                            </span>
-
-              <span class="language-option-code">
-                                EN
-                            </span>
-
-            </button>
-
+              <a
+                      href="admin.html"
+                      data-i18n="historyBack"
+              >
+                  ← Tilbake til oversikt
+              </a>
 
           </div>
 
 
-        </div>
+          <!-- PROFILE + LANGUAGE SWITCHER -->
 
-      </div>
+          <div class="admin-header-profile">
 
 
-    </header>
+              <!-- PROFILE TEXT -->
+
+              <div class="admin-header-profile-text">
+
+                  <strong id="adminName">
+                      Administrator
+                  </strong>
+
+                  <span id="adminRole">
+                Admin
+            </span>
+
+              </div>
+
+
+              <!-- LANGUAGE SWITCHER -->
+
+              <div
+                      class="language-switcher"
+                      id="languageSwitcher"
+              >
+
+                  <!-- CURRENT LANGUAGE -->
+
+                  <button
+                          type="button"
+                          class="language-current"
+                          id="languageCurrentButton"
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          data-i18n-aria-label="languageSelectorAria"
+                  >
+
+                <span
+                        class="language-current-flag"
+                        id="currentLanguageFlag"
+                >
+                    🇳🇴
+                </span>
+
+                      <span
+                              class="language-current-code"
+                              id="currentLanguageCode"
+                      >
+                    NO
+                </span>
+
+                      <span class="language-current-arrow">
+                    ▾
+                </span>
+
+                  </button>
+
+
+                  <!-- LANGUAGE MENU -->
+
+                  <div
+                          class="language-menu"
+                          id="languageMenu"
+                          role="listbox"
+                          hidden
+                  >
+
+                      <!-- NORWEGIAN -->
+
+                      <button
+                              type="button"
+                              class="language-option"
+                              data-language="no"
+                              role="option"
+                              aria-selected="true"
+                      >
+
+                    <span class="language-option-flag">
+                        🇳🇴
+                    </span>
+
+                          <span class="language-option-code">
+                        NO
+                    </span>
+
+                      </button>
+
+
+                      <!-- ENGLISH -->
+
+                      <button
+                              type="button"
+                              class="language-option"
+                              data-language="en"
+                              role="option"
+                              aria-selected="false"
+                      >
+
+                    <span class="language-option-flag">
+                        🇬🇧
+                    </span>
+
+                          <span class="language-option-code">
+                        EN
+                    </span>
+
+                      </button>
+
+                  </div>
+
+              </div>
+
+
+              <!-- PROFILE AVATAR -->
+
+              <div class="admin-profile-avatar">
+
+            <span id="adminInitial">
+                A
+            </span>
+
+              </div>
+
+
+          </div>
+
+      </header>
+
 
 
 
