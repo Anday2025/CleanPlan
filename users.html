@@ -1094,24 +1094,19 @@
 
             }
 
+
             // =================================================
             // HISTORY
             // =================================================
 
-            if (
-                historySidebarButton
-            ) {
+            if (historySidebarButton) {
 
                 historySidebarButton.addEventListener(
                     "click",
                     function () {
 
-                        window.alert(
-                            adminTranslate(
-                                "adminHistoryComingSoon",
-                                "Historikk kommer i et senere steg."
-                            )
-                        );
+                        window.location.href =
+                            "admin-history.html";
 
                     }
                 );
