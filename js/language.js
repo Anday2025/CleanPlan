@@ -580,6 +580,9 @@ document.addEventListener(
                     "Bilder",
 
 
+                residentNextCleaningLabel:
+                    "Neste rengjøring",
+
                 residentPropertyCardDescription:
                     "Se registrert bolig, adresse og etasje.",
 
@@ -1887,6 +1890,9 @@ document.addEventListener(
 
                 residentPhotosHeading:
                     "📷 Photos",
+
+                residentNextCleaningLabel:
+                    "Next cleaning",
 
                 residentPhotosPageDescription:
                     "Document completed cleaning with your camera.",
