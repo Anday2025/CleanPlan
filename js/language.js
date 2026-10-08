@@ -567,6 +567,18 @@ document.addEventListener(
                 residentDashboardDescription:
                     "Velg området du vil åpne.",
 
+                residentPhotosEyebrow:
+                    "BILDER",
+
+                residentPhotosHeading:
+                    "📷 Bilder",
+
+                residentPhotosPageDescription:
+                    "Dokumenter utført rengjøring med kameraet.",
+
+                residentPhotoCount:
+                    "Bilder",
+
 
                 residentPropertyCardDescription:
                     "Se registrert bolig, adresse og etasje.",
@@ -1865,6 +1877,18 @@ document.addEventListener(
 
                 residentOpenProperty:
                     "Open property",
+
+                residentPhotosEyebrow:
+                    "PHOTOS",
+
+                residentPhotosHeading:
+                    "📷 Photos",
+
+                residentPhotosPageDescription:
+                    "Document completed cleaning with your camera.",
+
+                residentPhotoCount:
+                    "Photos",
 
                 residentCleaningCardDescription:
                     "View cleaning weeks, tasks and who is responsible.",

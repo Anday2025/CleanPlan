@@ -6366,8 +6366,17 @@ function renderPhotoPreviews() {
 
     if (photoCount) {
 
+        const currentLanguage =
+            localStorage.getItem("cleanplan_language") || "no";
+
+        const photoLabel =
+            currentLanguage === "en"
+                ? "Photos"
+                : "Bilder";
+
         photoCount.textContent =
-            "Bilder (" +
+            photoLabel +
+            " (" +
             documentation.length +
             "/" +
             MAX_PHOTOS +
@@ -9075,10 +9084,11 @@ function createCleaningHistoryItem(
         emptyDocumentation.className =
             "resident-history-no-photos";
 
+        emptyDocumentation.style.marginLeft = "8px";
 
         emptyDocumentation.textContent =
             t(
-                "noCleaningDocumentation"
+                "cleaningHistoryNoDocumentation"
             );
 
 
