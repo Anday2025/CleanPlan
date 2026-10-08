@@ -586,6 +586,8 @@ document.addEventListener(
                 residentOpenProperty:
                     "Åpne bolig",
 
+                residentPropertyEyebrow: "MIN BOLIG",
+
                 residentCleaningCardDescription:
                     "Se rengjøringsuker, oppgaver og hvem som er ansvarlig.",
 
@@ -1345,6 +1347,8 @@ document.addEventListener(
                 adminUnknown:
                     "Ukjent"
 
+
+
             },
 
 
@@ -1911,6 +1915,8 @@ document.addEventListener(
                 propertyAssociation:
                     "Property assignment",
 
+                residentPropertyEyebrow: "MY PROPERTY",
+
                 accountActive:
                     "Your account is active.",
 
@@ -2063,6 +2069,8 @@ document.addEventListener(
 
                 floorNumber:
                     "Floor {floor}",
+
+
 
                 couldNotFetchPropertyAssociation:
                     "Could not load your property assignment.",
