@@ -8720,74 +8720,203 @@ function createCleaningHistoryDetail(
 // CREATE CLEANING HISTORY PHOTO
 // ============================================================
 
-function createCleaningHistoryPhoto(
-    item,
-    index
-) {
+function createCleaningHistoryPhoto(item, index) {
 
-    if (
-        !item ||
-        !item.signedUrl
-    ) {
-
+    if (!item || !item.signedUrl) {
         return null;
+    }
+
+    const link = document.createElement("a");
+
+    link.className = "resident-history-photo";
+    link.href = item.signedUrl;
+
+    const image = document.createElement("img");
+
+    image.src = item.signedUrl;
+
+    image.alt =
+        t("cleaningDocumentationPhoto") +
+        " " +
+        String(index + 1);
+
+    image.loading = "lazy";
+
+    link.appendChild(image);
+
+    // Open the photo in a large gallery modal
+    link.addEventListener("click", function (event) {
+
+        event.preventDefault();
+
+        const gallery = link.parentElement;
+
+        if (!gallery) {
+            return;
+        }
+
+        const photos = Array.from(
+            gallery.querySelectorAll(
+                ".resident-history-photo"
+            )
+        );
+
+        const imageUrls = photos.map(
+            photo => photo.href
+        );
+
+        const selectedIndex = photos.indexOf(link);
+
+        openResidentHistoryPhotoModal(
+            imageUrls,
+            selectedIndex
+        );
+
+    });
+
+    return link;
+
+}
+
+
+// ============================================================
+// RESIDENT HISTORY PHOTO MODAL
+// ============================================================
+
+function openResidentHistoryPhotoModal(imageUrls, startIndex = 0) {
+
+    if (!imageUrls || imageUrls.length === 0) {
+        return;
+    }
+
+    let currentIndex = Math.max(
+        0,
+        Math.min(startIndex, imageUrls.length - 1)
+    );
+
+    const overlay = document.createElement("div");
+
+    overlay.className = "resident-history-photo-modal";
+
+    const image = document.createElement("img");
+
+    image.className = "resident-history-photo-modal-image";
+
+    const closeButton = document.createElement("button");
+    closeButton.type = "button";
+    closeButton.className = "resident-history-modal-close";
+    closeButton.textContent = "×";
+    closeButton.setAttribute("aria-label", "Close");
+
+    const previousButton = document.createElement("button");
+    previousButton.type = "button";
+    previousButton.className = "resident-history-modal-prev";
+    previousButton.textContent = "❮";
+    previousButton.setAttribute("aria-label", "Previous image");
+
+    const nextButton = document.createElement("button");
+    nextButton.type = "button";
+    nextButton.className = "resident-history-modal-next";
+    nextButton.textContent = "❯";
+    nextButton.setAttribute("aria-label", "Next image");
+
+    const counter = document.createElement("div");
+    counter.className = "resident-history-modal-counter";
+
+
+    function updateImage() {
+
+        image.src = imageUrls[currentIndex];
+
+        counter.textContent =
+            (currentIndex + 1) +
+            " / " +
+            imageUrls.length;
+
+        previousButton.disabled = currentIndex === 0;
+
+        nextButton.disabled =
+            currentIndex === imageUrls.length - 1;
 
     }
 
 
-    const link =
-        document.createElement(
-            "a"
-        );
+
+    function previousImage() {
+
+        if (currentIndex <= 0) {
+            return;
+        }
+
+        currentIndex--;
+
+        updateImage();
+
+    }
 
 
-    link.className =
-        "resident-history-photo";
+
+    function nextImage() {
+
+        if (currentIndex >= imageUrls.length - 1) {
+            return;
+        }
+
+        currentIndex++;
+
+        updateImage();
+
+    }
 
 
-    link.href =
-        item.signedUrl;
+    function closeModal() {
 
+        document.removeEventListener("keydown", handleKeydown);
+        overlay.remove();
 
-    link.target =
-        "_blank";
+    }
 
+    function handleKeydown(event) {
 
-    link.rel =
-        "noopener noreferrer";
+        if (event.key === "Escape") {
+            closeModal();
+        }
 
+        if (event.key === "ArrowLeft") {
+            previousImage();
+        }
 
-    const image =
-        document.createElement(
-            "img"
-        );
+        if (event.key === "ArrowRight") {
+            nextImage();
+        }
 
+    }
 
-    image.src =
-        item.signedUrl;
+    closeButton.addEventListener("click", closeModal);
+    previousButton.addEventListener("click", previousImage);
+    nextButton.addEventListener("click", nextImage);
 
+    overlay.addEventListener("click", function (event) {
 
-    image.alt =
-        t(
-            "cleaningDocumentationPhoto"
-        ) +
-        " " +
-        String(
-            index +
-            1
-        );
+        if (event.target === overlay) {
+            closeModal();
+        }
 
+    });
 
-    image.loading =
-        "lazy";
-
-
-    link.appendChild(
-        image
+    overlay.append(
+        image,
+        closeButton,
+        previousButton,
+        nextButton,
+        counter
     );
 
+    document.body.appendChild(overlay);
 
-    return link;
+    document.addEventListener("keydown", handleKeydown);
+
+    updateImage();
 
 }
 
@@ -8796,334 +8925,209 @@ function createCleaningHistoryPhoto(
 // CREATE CLEANING HISTORY ITEM
 // ============================================================
 
-function createCleaningHistoryItem(
-    historyItem
-) {
+function createCleaningHistoryItem(historyItem) {
 
-    if (
-        !historyItem ||
-        !historyItem.assignment
-    ) {
-
+    if (!historyItem || !historyItem.assignment) {
         return null;
-
     }
 
-
-    const assignment =
-        historyItem.assignment;
-
-
-    const friday =
-        normalizeDate(
-            assignment.week_start
-        );
-
-
-    const weekInfo =
-        friday
-            ? getIsoWeekInfo(
-                friday
-            )
-            : {
-                week:
-                    "-",
-
-                year:
-                    "-"
-            };
-
+    const assignment = historyItem.assignment;
 
     const completed =
-        isCleaningHistoryCompleted(
-            assignment
-        );
+        isCleaningHistoryCompleted(assignment);
 
+    const isEnglish =
+        window.CleanPlanI18n?.getLanguage?.() === "en";
 
-    const item =
-        document.createElement(
-            "article"
-        );
-
-
-    item.className =
-        "resident-history-item";
+    const translate = (no, en) =>
+        isEnglish ? en : no;
 
 
     // ========================================================
-    // HEADER
+    // DATE FORMAT: DD.MM.YYYY
     // ========================================================
 
-    const header =
-        document.createElement(
-            "div"
+    function formatHistoryDate(value, includeTime = false) {
+
+        if (!value) {
+            return "-";
+        }
+
+        const date = new Date(
+            /^\d{4}-\d{2}-\d{2}$/.test(value)
+                ? `${value}T12:00:00`
+                : value
         );
 
+        if (Number.isNaN(date.getTime())) {
+            return "-";
+        }
 
-    header.className =
-        "resident-history-item-header";
+        const pad = number =>
+            String(number).padStart(2, "0");
 
+        let result =
+            `${pad(date.getDate())}.` +
+            `${pad(date.getMonth() + 1)}.` +
+            `${date.getFullYear()}`;
 
-    const titleWrapper =
-        document.createElement(
-            "div"
-        );
+        if (includeTime) {
+            result +=
+                `, ${pad(date.getHours())}:` +
+                `${pad(date.getMinutes())}:` +
+                `${pad(date.getSeconds())}`;
+        }
 
-
-    titleWrapper.className =
-        "resident-history-item-title";
-
-
-    const title =
-        document.createElement(
-            "h3"
-        );
-
-
-    title.textContent =
-        t(
-            "cleaningHistoryWeek"
-        ) +
-        " " +
-        String(
-            weekInfo.week
-        );
+        return result;
+    }
 
 
-    const date =
-        document.createElement(
-            "span"
-        );
+    // ========================================================
+    // CARD
+    // ========================================================
+
+    const article = document.createElement("article");
+
+    article.className =
+        "resident-history-item resident-history-admin-style";
 
 
-    date.textContent =
-        friday
-            ? formatDisplayDate(
-                friday
-            )
-            : "-";
+    // ========================================================
+    // HEADING
+    // ========================================================
+
+    const heading = document.createElement("h3");
+
+    heading.className = "resident-history-admin-title";
+
+    heading.textContent =
+        translate("Rengjøring", "Cleaning") +
+        " – " +
+        formatHistoryDate(assignment.week_start);
+
+    article.appendChild(heading);
 
 
-    titleWrapper.appendChild(
-        title
+    // ========================================================
+    // HELPER: TEXT ROW
+    // ========================================================
+
+    function addRow(label, value) {
+
+        const paragraph = document.createElement("p");
+
+        paragraph.className = "resident-history-admin-row";
+
+        paragraph.textContent =
+            label + ": " + (value || "-");
+
+        article.appendChild(paragraph);
+
+        return paragraph;
+    }
+
+
+    // ========================================================
+    // RESPONSIBLE RESIDENT
+    // ========================================================
+
+    addRow(
+        translate("Ansvarlig beboer", "Responsible resident"),
+        historyItem.responsibleName ||
+        translate("Ikke tildelt", "Not assigned")
     );
 
 
-    titleWrapper.appendChild(
-        date
-    );
+    // ========================================================
+    // STATUS
+    // ========================================================
 
-
-    const status =
-        document.createElement(
-            "span"
-        );
-
-
-    status.className =
-        "resident-history-status " +
-        (
-            completed
-                ? "completed"
-                : "not-completed"
-        );
-
-
-    status.textContent =
+    addRow(
+        translate("Status", "Status"),
         completed
-            ? t(
-                "completed"
+            ? translate("Fullført", "Completed")
+            : translate("Venter", "Pending")
+    );
+
+
+    // ========================================================
+    // SIGNATURE
+    // ========================================================
+
+    if (assignment.signed_at) {
+
+        addRow(
+            translate("Signert", "Signed"),
+            formatHistoryDate(
+                assignment.signed_at,
+                true
             )
-            : t(
-                "notCompleted"
-            );
+        );
 
+    } else {
 
-    header.appendChild(
-        titleWrapper
-    );
+        const unsigned = document.createElement("p");
 
+        unsigned.className = "resident-history-admin-row";
 
-    header.appendChild(
-        status
-    );
+        unsigned.textContent =
+            translate("Ikke signert", "Not signed");
+
+        article.appendChild(unsigned);
+    }
 
 
     // ========================================================
-    // DETAILS
+    // DOCUMENTATION
     // ========================================================
-
-    const details =
-        document.createElement(
-            "div"
-        );
-
-
-    details.className =
-        "resident-history-details";
-
-
-    details.appendChild(
-        createCleaningHistoryDetail(
-            t(
-                "cleaningHistoryResponsible"
-            ),
-            historyItem.responsibleName
-        )
-    );
-
-
-    details.appendChild(
-        createCleaningHistoryDetail(
-            t(
-                "cleaningHistorySignedBy"
-            ),
-            completed
-                ? historyItem.signerName
-                : "-"
-        )
-    );
-
-
-    details.appendChild(
-        createCleaningHistoryDetail(
-            t(
-                "cleaningHistorySignedAt"
-            ),
-            completed
-                ? formatCleaningHistorySignedAt(
-                    assignment.signed_at
-                )
-                : "-"
-        )
-    );
-
-
-    // ========================================================
-    // HISTORY DOCUMENTATION
-    // ========================================================
-
-    const documentationSection =
-        document.createElement(
-            "div"
-        );
-
-
-    documentationSection.className =
-        "resident-history-documentation";
-
-
-    const documentationTitle =
-        document.createElement(
-            "strong"
-        );
-
-
-    documentationTitle.textContent =
-        t(
-            "cleaningHistoryDocumentation"
-        );
-
-
-    documentationSection.appendChild(
-        documentationTitle
-    );
-
-
-    const documentationGrid =
-        document.createElement(
-            "div"
-        );
-
-
-    documentationGrid.className =
-        "resident-history-photo-grid";
-
 
     const documentation =
-        historyItem.documentation ||
-        [];
+        historyItem.documentation || [];
+
+    addRow(
+        translate(
+            "Dokumentasjonsbilder",
+            "Documentation photos"
+        ),
+        String(documentation.length)
+    );
 
 
-    documentation.forEach(
-        function (
-            documentationItem,
-            index
-        ) {
+    // ========================================================
+    // PHOTO GALLERY
+    // ========================================================
 
-            const photo =
-                createCleaningHistoryPhoto(
-                    documentationItem,
-                    index
-                );
+    if (documentation.length > 0) {
 
+        const gallery = document.createElement("div");
 
-            if (photo) {
+        gallery.className =
+            "resident-history-photo-grid resident-history-admin-gallery";
 
-                documentationGrid.appendChild(
-                    photo
-                );
+        documentation.forEach(
+            function (documentationItem, index) {
+
+                const photo =
+                    createCleaningHistoryPhoto(
+                        documentationItem,
+                        index
+                    );
+
+                if (photo) {
+                    gallery.appendChild(photo);
+                }
 
             }
-
-        }
-    );
-
-
-    if (
-        documentationGrid.children.length ===
-        0
-    ) {
-
-        const emptyDocumentation =
-            document.createElement(
-                "span"
-            );
-
-
-        emptyDocumentation.className =
-            "resident-history-no-photos";
-
-        emptyDocumentation.style.marginLeft = "8px";
-
-        emptyDocumentation.textContent =
-            t(
-                "cleaningHistoryNoDocumentation"
-            );
-
-
-        documentationSection.appendChild(
-            emptyDocumentation
         );
 
-    }
-    else {
-
-        documentationSection.appendChild(
-            documentationGrid
-        );
-
+        article.appendChild(gallery);
     }
 
 
-    item.appendChild(
-        header
-    );
-
-
-    item.appendChild(
-        details
-    );
-
-
-    item.appendChild(
-        documentationSection
-    );
-
-
-    return item;
-
+    return article;
 }
+
+
 
 // ============================================================
 // RENDER CLEANING HISTORY
