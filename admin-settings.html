@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>CleanPlan - Innstillinger</title>
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/admin-settings.css">
+</head>
+
+<body class="admin-dashboard-body">
+
+<div class="admin-app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+
+    <div class="admin-sidebar-brand">
+      <span class="admin-sidebar-logo">🧹</span>
+      <span>CleanPlan</span>
+    </div>
+
+    <div class="admin-sidebar-section-label"
+         data-i18n="adminRoleLabel">
+      ADMIN
+    </div>
+
+    <nav class="admin-sidebar-nav">
+
+      <a href="admin.html" class="admin-sidebar-link">
+        <span class="admin-sidebar-icon">▦</span>
+        <span data-i18n="adminDashboard">Dashboard</span>
+      </a>
+
+      <a href="properties.html" class="admin-sidebar-link">
+        <span class="admin-sidebar-icon">🏠</span>
+        <span data-i18n="adminProperties">Boliger</span>
+      </a>
+
+      <a href="floors.html" class="admin-sidebar-link">
+        <span class="admin-sidebar-icon">▤</span>
+        <span data-i18n="adminFloors">Etasjer</span>
+      </a>
+
+      <a href="admin-residents.html" class="admin-sidebar-link">
+        <span class="admin-sidebar-icon">👥</span>
+        <span data-i18n="adminResidents">Beboere</span>
+      </a>
+
+      <a href="admin-cleaning-plan.html" class="admin-sidebar-link">
+        <span class="admin-sidebar-icon">🧹</span>
+        <span data-i18n="adminCleaningPlan">Rengjøringsplan</span>
+      </a>
+
+      <a href="users.html" class="admin-sidebar-link">
+        <span class="admin-sidebar-icon">👤</span>
+        <span data-i18n="adminUsers">Brukere</span>
+      </a>
+
+      <a href="admin-history.html" class="admin-sidebar-link">
+        <span class="admin-sidebar-icon">↺</span>
+        <span data-i18n="adminHistory">Historikk</span>
+      </a>
+
+      <a href="admin-settings.html"
+         class="admin-sidebar-link active"
+         aria-current="page">
+        <span class="admin-sidebar-icon">⚙</span>
+        <span data-i18n="adminSettings">Innstillinger</span>
+      </a>
+
+    </nav>
+
+    <div class="admin-sidebar-bottom">
+      <button id="sidebarLogoutButton"
+              class="admin-sidebar-logout"
+              type="button">
+        <span>↪</span>
+        <span data-i18n="adminLogout">Logg ut</span>
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- MAIN AREA -->
+  <div class="admin-main-area">
+
+    <header class="admin-main-header">
+
+      <div>
+        <button id="mobileSidebarButton"
+                class="admin-mobile-menu-button"
+                type="button"
+                aria-label="Åpne meny">
+          ☰
+        </button>
+
+        <a href="admin.html"
+           data-i18n="settingsBack">
+          ← Tilbake til oversikt
+        </a>
+      </div>
+
+      <div class="admin-header-profile">
+
+        <div class="admin-header-profile-text">
+          <strong id="adminName">Administrator</strong>
+          <span id="adminRole">Admin</span>
+        </div>
+
+        <div class="language-switcher"
+             id="languageSwitcher">
+
+          <button type="button"
+                  class="language-current"
+                  id="languageCurrentButton"
+                  aria-expanded="false"
+                  aria-haspopup="true">
+
+                        <span class="language-current-flag"
+                              id="currentLanguageFlag">🇳🇴</span>
+
+            <span class="language-current-code"
+                  id="currentLanguageCode">NO</span>
+
+            <span class="language-current-arrow">▾</span>
+          </button>
+
+          <div class="language-menu"
+               id="languageMenu"
+               role="listbox"
+               hidden>
+
+            <button type="button"
+                    class="language-option"
+                    data-language="no"
+                    role="option"
+                    aria-selected="true">
+              🇳🇴 NO
+            </button>
+
+            <button type="button"
+                    class="language-option"
+                    data-language="en"
+                    role="option"
+                    aria-selected="false">
+              🇬🇧 EN
+            </button>
+
+          </div>
+        </div>
+
+        <div class="admin-profile-avatar">
+          <span id="adminInitial">A</span>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- SETTINGS CONTENT -->
+    <main class="admin-content">
+
+      <h1 data-i18n="cleaningSettingsTitle">
+        Rengjøringsinnstillinger
+      </h1>
+
+      <p data-i18n="cleaningSettingsDescription">
+        Velg bolig og etasje for å administrere
+        rengjøringsdag og tidsfrist.
+      </p>
+
+      <section class="cleaning-settings-card">
+
+        <form id="cleaningSettingsForm">
+
+          <div class="settings-field">
+            <label for="settingsPropertySelect"
+                   data-i18n="settingsProperty">
+              Velg bolig
+            </label>
+
+            <select id="settingsPropertySelect"
+                    required
+                    disabled>
+              <option value="">
+                Laster boliger...
+              </option>
+            </select>
+          </div>
+
+          <div class="settings-field">
+            <label for="settingsFloorSelect"
+                   data-i18n="settingsFloor">
+              Velg etasje
+            </label>
+
+            <select id="settingsFloorSelect"
+                    required
+                    disabled>
+              <option value="">
+                Velg bolig først
+              </option>
+            </select>
+          </div>
+
+          <div class="settings-field">
+            <label for="settingsCleaningDay"
+                   data-i18n="settingsCleaningDay">
+              Rengjøringsdag
+            </label>
+
+            <select id="settingsCleaningDay" required>
+              <option value="1">Mandag</option>
+              <option value="2">Tirsdag</option>
+              <option value="3">Onsdag</option>
+              <option value="4">Torsdag</option>
+              <option value="5" selected>Fredag</option>
+              <option value="6">Lørdag</option>
+              <option value="0">Søndag</option>
+            </select>
+          </div>
+
+          <div class="settings-field">
+            <label for="settingsDeadlineTime"
+                   data-i18n="settingsDeadline">
+              Frist
+            </label>
+
+            <input id="settingsDeadlineTime"
+                   type="time"
+                   value="18:00"
+                   required>
+          </div>
+
+          <div class="settings-checkbox">
+            <label>
+              <input id="settingsAllowEarly"
+                     type="checkbox">
+
+              <span data-i18n="settingsAllowEarly">
+                                Tillat rengjøring én dag tidligere
+                            </span>
+            </label>
+          </div>
+
+          <button id="saveCleaningSettingsButton"
+                  type="submit"
+                  disabled
+                  data-i18n="settingsSave">
+            Lagre innstillinger
+          </button>
+
+          <p id="cleaningSettingsMessage"
+             role="status"
+             aria-live="polite">
+          </p>
+
+        </form>
+
+      </section>
+
+    </main>
+
+  </div>
+
+</div>
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- CONFIG -->
+<script src="js/config.js"></script>
+
+<!-- LANGUAGE -->
+<script src="js/language.js?v=13"></script>
+
+<!-- SETTINGS LOGIC -->
+<script src="js/admin-settings.js"></script>
+
+</body>
+</html>

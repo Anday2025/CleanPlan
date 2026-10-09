@@ -774,13 +774,30 @@ function renderHistoryEntries() {
         const status =
             document.createElement("p");
 
+
+        const cleaningDeadline = new Date(
+            assignment.week_start + "T18:00:00"
+        );
+
+        const isNotCompleted =
+            assignment.status === "pending" &&
+            !assignment.signed_at &&
+            new Date() > cleaningDeadline;
+
         status.textContent =
             historyText(
                 "historyStatus",
                 "Status",
                 "Status"
             ) + ": " +
-            getHistoryStatus(assignment.status);
+            (
+                isNotCompleted
+                    ? (historyIsEnglish()
+                        ? "Not completed"
+                        : "Ikke utført")
+                    : getHistoryStatus(assignment.status)
+            );
+
 
         article.appendChild(status);
 
@@ -1033,13 +1050,33 @@ async function loadCleaningHistory() {
             throw assignmentError;
         }
 
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const pastAssignments = (assignments || []).filter(
+            assignment => {
+
+                if (!assignment.week_start) {
+                    return false;
+                }
+
+                const cleaningDate = new Date(
+                    assignment.week_start + "T00:00:00"
+                );
+
+                return cleaningDate < today;
+
+            }
+        );
+
+
         if (requestId !== historyRequestId) {
             return;
         }
 
+
         if (
-            !assignments ||
-            assignments.length === 0
+            pastAssignments.length === 0
         ) {
 
             showHistoryTranslatedMessage(
@@ -1053,6 +1090,7 @@ async function loadCleaningHistory() {
         }
 
 
+
         // ----------------------------------------------------
         // RESIDENT NAMES
         // ----------------------------------------------------
@@ -1063,7 +1101,7 @@ async function loadCleaningHistory() {
 
             residentNames =
                 await loadHistoryResidentNames(
-                    assignments
+                    pastAssignments
                 );
 
         } catch (residentError) {
@@ -1088,7 +1126,7 @@ async function loadCleaningHistory() {
         // ----------------------------------------------------
 
         const assignmentIds =
-            assignments.map(item => item.id);
+            pastAssignments.map(item => item.id);
 
         const {
             data: documentation,
@@ -1184,7 +1222,7 @@ async function loadCleaningHistory() {
         // SAVE DATA FOR LANGUAGE SWITCHING
         // ----------------------------------------------------
 
-        historyAssignments = assignments;
+        historyAssignments = pastAssignments;
 
         historyResidentNames = residentNames;
 
@@ -1203,7 +1241,7 @@ async function loadCleaningHistory() {
             "Viser {count} loggoppføringer.",
             "Showing {count} history entries.",
             {
-                count: assignments.length
+                count: pastAssignments.length
             }
         );
 

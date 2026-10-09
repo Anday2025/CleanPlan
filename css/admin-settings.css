@@ -1,0 +1,143 @@
+
+/* ============================================================
+   CLEANPLAN - ADMIN SETTINGS
+   ============================================================ */
+
+
+/* SETTINGS CARD */
+
+.cleaning-settings-card {
+    max-width: 720px;
+    margin-top: 24px;
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+}
+
+
+/* FORM */
+
+#cleaningSettingsForm {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+
+/* FORM FIELDS */
+
+.settings-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settings-field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+}
+
+.settings-field select,
+.settings-field input[type="time"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #0f172a;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.settings-field select:focus,
+.settings-field input[type="time"]:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.settings-field select:disabled {
+    background: #f1f5f9;
+    color: #64748b;
+    cursor: not-allowed;
+}
+
+
+/* CHECKBOX */
+
+.settings-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #334155;
+}
+
+.settings-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #2563eb;
+    cursor: pointer;
+}
+
+
+/* SAVE BUTTON */
+
+#saveCleaningSettingsButton {
+    width: fit-content;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+#saveCleaningSettingsButton:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+#saveCleaningSettingsButton:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+
+/* STATUS MESSAGE */
+
+#cleaningSettingsMessage {
+    margin: 0;
+    font-size: 14px;
+    color: #475569;
+}
+
+#cleaningSettingsMessage[data-status="success"] {
+    color: #15803d;
+}
+
+#cleaningSettingsMessage[data-status="error"] {
+    color: #dc2626;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+
+    .cleaning-settings-card {
+        padding: 18px;
+        margin-top: 18px;
+    }
+
+    #saveCleaningSettingsButton {
+        width: 100%;
+    }
+
+}

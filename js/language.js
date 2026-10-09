@@ -119,6 +119,17 @@ document.addEventListener(
                     "Lukk innlogging",
 
 
+                settingsBack: "← Tilbake til oversikt",
+                cleaningSettingsTitle: "Rengjøringsinnstillinger",
+                cleaningSettingsDescription: "Velg bolig og etasje for å administrere rengjøringsdag og tidsfrist.",
+                settingsProperty: "Velg bolig",
+                settingsFloor: "Velg etasje",
+                settingsCleaningDay: "Rengjøringsdag",
+                settingsDeadline: "Frist",
+                settingsAllowEarly: "Tillat rengjøring én dag tidligere",
+                settingsSave: "Lagre innstillinger",
+
+
                 // =================================================
                 // LANGUAGE
                 // =================================================
@@ -1563,6 +1574,16 @@ document.addEventListener(
                 adminHistory:
                     "History",
 
+
+                settingsBack: "← Back to dashboard",
+                cleaningSettingsTitle: "Cleaning settings",
+                cleaningSettingsDescription: "Select a property and floor to manage cleaning days and deadlines.",
+                settingsProperty: "Select property",
+                settingsFloor: "Select floor",
+                settingsCleaningDay: "Cleaning day",
+                settingsDeadline: "Deadline",
+                settingsAllowEarly: "Allow cleaning one day earlier",
+                settingsSave: "Save settings",
 
                 // =================================================
                 // ADMIN HISTORY PAGE - ENGLISH

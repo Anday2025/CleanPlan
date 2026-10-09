@@ -78,6 +78,25 @@ const settingsSidebarButton =
         "settingsSidebarButton"
     );
 
+
+// ============================================================
+// SETTINGS NAVIGATION
+// ============================================================
+
+if (settingsSidebarButton) {
+
+    settingsSidebarButton.addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                "admin-settings.html";
+
+        }
+    );
+
+}
+
 const sidebarLogoutButton =
     document.getElementById(
         "sidebarLogoutButton"
@@ -1087,29 +1106,6 @@ if (historySidebarButton) {
 
 
 
-// ============================================================
-// SETTINGS
-// ============================================================
-
-if (settingsSidebarButton) {
-
-    settingsSidebarButton.addEventListener(
-        "click",
-        function () {
-
-            /*
-             * Do not navigate to a page that does not
-             * exist yet.
-             */
-
-            window.alert(
-                "Innstillinger kommer i et senere steg."
-            );
-
-        }
-    );
-
-}
 
 
 // ============================================================
