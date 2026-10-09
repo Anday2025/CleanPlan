@@ -58,8 +58,13 @@ function settingsText(no, en) {
 }
 
 function showSettingsMessage(no, en, status = "") {
-    settingsMessage.textContent = settingsText(no, en);
+
+    settingsMessage.dataset.no = no;
+    settingsMessage.dataset.en = en;
     settingsMessage.dataset.status = status;
+
+    settingsMessage.textContent =
+        settingsText(no, en);
 }
 
 function settingsOption(select, value, label) {
@@ -188,10 +193,23 @@ function refreshSettingsLanguage() {
 
     }
 
+
+// Update existing status message when language changes.
+    if (settingsMessage.dataset.no !== undefined &&
+        settingsMessage.dataset.en !== undefined) {
+
+        settingsMessage.textContent = settingsText(
+            settingsMessage.dataset.no,
+            settingsMessage.dataset.en
+        );
+    }
+
+
+
 }
 
 window.addEventListener(
-    "languageChanged",
+    "cleanplan:languagechange",
     refreshSettingsLanguage
 );
 
@@ -208,10 +226,6 @@ document.addEventListener(
     applySettingsTranslations
 );
 
-setTimeout(
-    applySettingsTranslations,
-    100
-);
 
 
 // ============================================================
