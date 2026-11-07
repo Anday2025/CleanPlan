@@ -1,3 +1,28 @@
 .idea/
 *.iml
 .DS_Store
+node_modules/
+.env
+.env.*
+test-results/
+playwright-report/
+tests/.runtime/
+
+# Local IDE launch settings, test journals and integrity evidence
+/.run/
+# Private TLS material and local credential stores
+*.key
+*.pem
+*.p12
+*.pfx
+*.p8
+.pgpass
+.pg_service.conf
+# Local database copies (SQL source/test drafts remain versioned)
+*.dump
+*.backup
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.db
