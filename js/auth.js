@@ -264,6 +264,10 @@ document.addEventListener(
 async function redirectByRole(
     userId
 ) {
+    if (window.cleanPlanOnboarding?.enabled()) {
+        await window.cleanPlanOnboarding.afterLogin();
+        return;
+    }
 
     const {
         data: profile,
@@ -284,14 +288,10 @@ async function redirectByRole(
 
 
     if (
-        error ||
-        !profile
+        error
     ) {
 
-        console.error(
-            "PROFILE ERROR:",
-            error
-        );
+        console.error("PROFILE ERROR: detaljer skjult");
 
 
         await supabaseClient
@@ -310,7 +310,15 @@ async function redirectByRole(
     }
 
 
-    if (!profile.is_active) {
+    if (!profile || Array.isArray(profile) || typeof profile !== 'object' ||
+        profile.id !== userId || typeof profile.is_active !== 'boolean' ||
+        typeof profile.role !== 'string') {
+        await supabaseClient.auth.signOut();
+        showMessage('Ugyldig svarformat for brukerprofilen. Tilgang er avvist.', 'error');
+        return;
+    }
+
+    if (profile.is_active === false) {
 
         await supabaseClient
             .auth
@@ -443,14 +451,11 @@ if (loginForm) {
 
             if (error) {
 
-                console.error(
-                    "LOGIN ERROR:",
-                    error
-                );
+                console.error("LOGIN ERROR: detaljer skjult");
 
 
                 showMessage(
-                    "Feil e-post eller passord.",
+                    error.code === "email_not_confirmed" ? "Bekreft e-postadressen din før innlogging." : "Feil e-post eller passord.",
                     "error"
                 );
 
@@ -503,6 +508,11 @@ if (loginForm) {
             await redirectByRole(
                 data.user.id
             );
+            // Permit a deliberate retry if profile/bootstrap failed before navigation.
+            if (loginButton) {
+                loginButton.disabled = false;
+                loginButton.textContent = "LOGG INN";
+            }
 
         }
     );
@@ -580,10 +590,7 @@ if (forgotPasswordButton) {
 
             if (error) {
 
-                console.error(
-                    "RESET PASSWORD ERROR:",
-                    error
-                );
+                console.error("RESET PASSWORD ERROR: detaljer skjult");
 
 
                 showMessage(
@@ -635,10 +642,7 @@ async function checkExistingSession() {
 
     if (error) {
 
-        console.error(
-            "SESSION ERROR:",
-            error
-        );
+        console.error("SESSION ERROR: detaljer skjult");
 
 
         return;
@@ -664,4 +668,8 @@ async function checkExistingSession() {
 // START
 // ============================================================
 
-checkExistingSession();
+if (window.cleanPlanOnboarding?.enabled()) {
+    window.cleanPlanOnboarding.startLogin();
+} else {
+    checkExistingSession();
+}
